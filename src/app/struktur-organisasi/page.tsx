@@ -9,6 +9,8 @@ interface OrganizationMember {
   nickname: string | null
   position: string
   division: string | null
+  divisionDesc: string | null
+  bio: string | null
   photo: string | null
   level: number
   parentId: string | null
@@ -431,6 +433,16 @@ export default function StrukturOrganisasiPage() {
                             <p className="text-zinc-600 text-[10px] mt-0.5">
                               {getLevelLabel(member.level)}
                             </p>
+                            {member.bio && (
+                              <p className="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-3">
+                                {member.bio}
+                              </p>
+                            )}
+                            {member.divisionDesc && (
+                              <p className="text-zinc-600 text-[10px] mt-1 italic">
+                                {member.divisionDesc}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -470,6 +482,11 @@ export default function StrukturOrganisasiPage() {
                               <p className="text-red-400 text-[10px] font-medium mt-0.5 truncate">
                                 {member.position}
                               </p>
+                              {member.bio && (
+                                <p className="text-zinc-500 text-[10px] mt-1 line-clamp-2 leading-relaxed">
+                                  {member.bio}
+                                </p>
+                              )}
                             </div>
                           </div>
                         </div>
