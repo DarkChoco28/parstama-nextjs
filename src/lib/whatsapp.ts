@@ -73,7 +73,7 @@ export function buildStatusWhatsApp(
 
   const footer =
     `Jika ada pertanyaan, silakan hubungi admin:\n` +
-    `📞 0819-3278-1179\n\n` +
+    `📞 0814-5914-800\n\n` +
     `Hormat kami,\n` +
     `Admin PMR PARSTAMA 🏥`
 

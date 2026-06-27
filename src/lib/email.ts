@@ -98,7 +98,7 @@ export function buildStatusEmail(
               <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Email:</strong> ${email}</p>
             </div>
             <p style="color:rgba(255,255,255,.5);font-size:12px;margin:20px 0 0;line-height:1.6">
-              Jika ada pertanyaan, silakan hubungi admin via WhatsApp di <a href="https://wa.me/6281932781179" style="color:#DC2626;text-decoration:none">0819-3278-1179</a>.
+              Jika ada pertanyaan, silakan hubungi admin via WhatsApp di <a href="https://wa.me/628145914800" style="color:#DC2626;text-decoration:none">0814-5914-800</a>.
             </p>
             <p style="color:rgba(255,255,255,.3);font-size:11px;margin:24px 0 0;text-align:center">
               Hormat kami,<br>Admin PMR PARSTAMA

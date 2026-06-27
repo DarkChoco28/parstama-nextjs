@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
 import { sendWhatsApp, buildStatusWhatsApp } from "@/lib/whatsapp"
 
-const PANITIA_WHATSAPP = "6281932781179"
+const PANITIA_WHATSAPP = "628145914800"
 
 export async function GET(request: NextRequest) {
   const auth = await requireAdmin()
