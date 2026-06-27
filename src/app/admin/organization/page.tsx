@@ -13,6 +13,7 @@ interface OrgMember {
   division?: string
   divisionDesc?: string
   bio?: string
+  photo?: string
   level: number
   parentId?: string
   sortOrder: number
@@ -20,7 +21,7 @@ interface OrgMember {
   isVisible: boolean
 }
 
-const defaultForm = { name: "", nickname: "", position: "", division: "", divisionDesc: "", bio: "", level: 0, parentId: "", sortOrder: 0, period: "", isVisible: true }
+const defaultForm = { name: "", nickname: "", position: "", division: "", divisionDesc: "", bio: "", photo: "", level: 0, parentId: "", sortOrder: 0, period: "", isVisible: true }
 
 export default function AdminOrganization() {
   const { data: session, status } = useSession()
@@ -51,7 +52,7 @@ export default function AdminOrganization() {
   useEffect(() => { if (status === "authenticated") fetchMembers() }, [status, fetchMembers])
 
   const openAdd = () => { setEditingMember(null); setForm(defaultForm); setShowForm(true) }
-  const openEdit = (m: OrgMember) => { setEditingMember(m); setForm({ name: m.name, nickname: m.nickname || "", position: m.position, division: m.division || "", divisionDesc: m.divisionDesc || "", bio: m.bio || "", level: m.level, parentId: m.parentId || "", sortOrder: m.sortOrder, period: m.period || "", isVisible: m.isVisible }); setShowForm(true) }
+  const openEdit = (m: OrgMember) => { setEditingMember(m); setForm({ name: m.name, nickname: m.nickname || "", position: m.position, division: m.division || "", divisionDesc: m.divisionDesc || "", bio: m.bio || "", photo: m.photo || "", level: m.level, parentId: m.parentId || "", sortOrder: m.sortOrder, period: m.period || "", isVisible: m.isVisible }); setShowForm(true) }
   const closeForm = () => { setShowForm(false); setEditingMember(null); setForm(defaultForm) }
 
   const handleSave = async () => {
@@ -264,6 +265,16 @@ export default function AdminOrganization() {
               <div className="org-form-group">
                 <label className="org-label">Bio / Deskripsi Diri</label>
                 <textarea value={form.bio} onChange={e => setForm({ ...form, bio: e.target.value })} className="admin-input" rows={3} placeholder="Cerita singkat tentang anggota ini..." style={{ resize: "vertical" }} />
+              </div>
+              <div className="org-form-group">
+                <label className="org-label">Foto (URL)</label>
+                <input type="url" value={form.photo} onChange={e => setForm({ ...form, photo: e.target.value })} className="admin-input" placeholder="https://example.com/foto.jpg" />
+                {form.photo && (
+                  <div style={{ marginTop: 8, width: 64, height: 64, borderRadius: "50%", overflow: "hidden", border: "2px solid rgba(255,255,255,0.1)" }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={form.photo} alt="preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  </div>
+                )}
               </div>
               <div className="org-form-row">
                 <div className="org-form-group" style={{ flex: 1 }}>
