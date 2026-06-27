@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
+import { sendWhatsApp, buildStatusWhatsApp } from "@/lib/whatsapp"
 
 const PANITIA_WHATSAPP = "6281932781179"
 
@@ -82,6 +83,58 @@ export async function GET(request: NextRequest) {
     console.error("Error generating WhatsApp link:", error)
     return NextResponse.json(
       { error: "Terjadi kesalahan saat generate link WhatsApp" },
+      { status: 500 }
+    )
+  }
+}
+
+export async function POST(request: NextRequest) {
+  const auth = await requireAdmin()
+  if (auth.error) return auth.error
+
+  try {
+    const body = await request.json()
+    const { registrationId, status } = body
+
+    if (!registrationId) {
+      return NextResponse.json({ error: "registrationId wajib diisi" }, { status: 400 })
+    }
+
+    const reg = await prisma.registration.findUnique({
+      where: { id: registrationId },
+    })
+
+    if (!reg) {
+      return NextResponse.json({ error: "Pendaftaran tidak ditemukan" }, { status: 404 })
+    }
+
+    if (!reg.whatsapp) {
+      return NextResponse.json({ error: "Nomor WhatsApp tidak tersedia" }, { status: 400 })
+    }
+
+    const regStatus = (status || reg.status) as "accepted" | "rejected" | "pending"
+    const message = buildStatusWhatsApp(
+      reg.fullName,
+      reg.class,
+      reg.major,
+      reg.whatsapp,
+      reg.email || "",
+      regStatus
+    )
+
+    await sendWhatsApp({
+      target: reg.whatsapp,
+      message,
+    })
+
+    return NextResponse.json({
+      success: true,
+      message: `WhatsApp notif terkirim ke ${reg.fullName} (${reg.whatsapp})`,
+    })
+  } catch (error: any) {
+    console.error("Error sending WhatsApp:", error)
+    return NextResponse.json(
+      { error: error?.message || "Gagal mengirim WhatsApp" },
       { status: 500 }
     )
   }

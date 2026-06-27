@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
 import { sendEmail, buildStatusEmail } from "@/lib/email"
+import { sendWhatsApp, buildStatusWhatsApp } from "@/lib/whatsapp"
 
 export async function GET(
   request: NextRequest,
@@ -82,7 +83,40 @@ export async function PUT(
       }
     }
 
-    return NextResponse.json({ ...registration, _emailStatus: emailStatus, _emailError: emailError })
+    // Auto-send WhatsApp when status changes to accepted or rejected
+    let waStatus = "skip"
+    let waError = null
+    if (
+      registration.whatsapp &&
+      oldReg.status !== status &&
+      (status === "accepted" || status === "rejected")
+    ) {
+      try {
+        const message = buildStatusWhatsApp(
+          registration.fullName,
+          registration.class,
+          registration.major,
+          registration.whatsapp,
+          registration.email || "",
+          status as "accepted" | "rejected"
+        )
+        await sendWhatsApp({ target: registration.whatsapp, message })
+        waStatus = "sent"
+        console.log(`WA notif terkirim ke ${registration.fullName} (${status})`)
+      } catch (err: any) {
+        waStatus = "failed"
+        waError = err?.message || "Gagal mengirim WhatsApp"
+        console.error("Gagal kirim WA notif:", waError)
+      }
+    }
+
+    return NextResponse.json({
+      ...registration,
+      _emailStatus: emailStatus,
+      _emailError: emailError,
+      _waStatus: waStatus,
+      _waError: waError,
+    })
   } catch (error) {
     console.error("Error updating registration:", error)
     return NextResponse.json(

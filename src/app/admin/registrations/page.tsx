@@ -28,6 +28,7 @@ export default function AdminRegistrations() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
   const [emailSending, setEmailSending] = useState<string | null>(null)
+  const [waSending, setWaSending] = useState<string | null>(null)
 
   useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
   useEffect(() => {
@@ -65,11 +66,13 @@ export default function AdminRegistrations() {
       const r = await fetch(`/api/admin/registrations/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: s }) })
       const d = await r.json()
       if (r.ok) {
-        if (d._emailStatus === "sent") {
-          alert(`Status diubah ke "${s === "accepted" ? "Diterima" : "Ditolak"}"\n\nEmail notif berhasil dikirim ke ${d.email}`)
-        } else if (d._emailStatus === "failed") {
-          alert(`Status diubah ke "${s === "accepted" ? "Diterima" : "Ditolak"}"\n\nGagal kirim email: ${d._emailError}`)
-        }
+        const statusLabel = s === "accepted" ? "Diterima" : "Ditolak"
+        let msg = `Status diubah ke "${statusLabel}"\n`
+        if (d._emailStatus === "sent") msg += `\nEmail notif dikirim ke ${d.email}`
+        else if (d._emailStatus === "failed") msg += `\nGagal kirim email: ${d._emailError}`
+        if (d._waStatus === "sent") msg += `\nWA notif dikirim ke ${d.whatsapp}`
+        else if (d._waStatus === "failed") msg += `\nGagal kirim WA: ${d._waError}`
+        alert(msg)
         fetchRegistrations()
       }
     } catch (e) { console.error(e) }
@@ -103,6 +106,21 @@ export default function AdminRegistrations() {
       else alert(d.error || "Gagal mengirim email")
     } catch (e) { console.error(e); alert("Gagal mengirim email") }
     finally { setEmailSending(null) }
+  }
+
+  const sendWaNotif = async (registrationId: string) => {
+    setWaSending(registrationId)
+    try {
+      const r = await fetch("/api/admin/notifications/whatsapp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ registrationId }),
+      })
+      const d = await r.json()
+      if (r.ok) alert("WhatsApp berhasil dikirim!")
+      else alert(d.error || "Gagal mengirim WhatsApp")
+    } catch (e) { console.error(e); alert("Gagal mengirim WhatsApp") }
+    finally { setWaSending(null) }
   }
 
   const getFilteredExportUrl = (type: "excel" | "pdf") => {
@@ -282,6 +300,9 @@ export default function AdminRegistrations() {
                       {emailSending === r.id ? "..." : "Email"}
                     </button>
                   )}
+                  <button onClick={() => sendWaNotif(r.id)} disabled={waSending === r.id} className="admin-btn-wa-sm">
+                    {waSending === r.id ? "..." : "WA"}
+                  </button>
                   <button onClick={() => deleteRegistration(r.id)} className="admin-btn-danger-sm">Hapus</button>
                 </div>
               </div>
@@ -324,6 +345,9 @@ export default function AdminRegistrations() {
                             {emailSending === r.id ? "..." : "Email"}
                           </button>
                         )}
+                        <button onClick={() => sendWaNotif(r.id)} disabled={waSending === r.id} className="admin-btn-wa-sm">
+                          {waSending === r.id ? "..." : "WA"}
+                        </button>
                         <button onClick={() => deleteRegistration(r.id)} className="admin-btn-danger-sm">Hapus</button>
                       </div>
                     </td>
@@ -358,6 +382,9 @@ export default function AdminRegistrations() {
                     {emailSending === detailData.id ? "..." : "Kirim Email"}
                   </button>
                 )}
+                <button onClick={() => sendWaNotif(detailData.id)} disabled={waSending === detailData.id} className="admin-btn-wa-sm">
+                  {waSending === detailData.id ? "..." : "Kirim WA"}
+                </button>
                 <button onClick={() => setDetailData(null)} className="reg-modal-close">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
                 </button>
@@ -496,6 +523,9 @@ const adminCss = `
 .admin-btn-email-sm{padding:6px 12px;background:rgba(168,85,247,.15);color:#A855F7;border:1px solid rgba(168,85,247,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
 .admin-btn-email-sm:disabled{opacity:.5;cursor:not-allowed}
 .admin-btn-email-sm:active{transform:scale(.95)}
+.admin-btn-wa-sm{padding:6px 12px;background:rgba(37,211,102,.15);color:#25D366;border:1px solid rgba(37,211,102,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-btn-wa-sm:disabled{opacity:.5;cursor:not-allowed}
+.admin-btn-wa-sm:active{transform:scale(.95)}
 .admin-page-btn{padding:8px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.6);font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit}
 .admin-page-btn:disabled{opacity:.3;cursor:not-allowed}
 .admin-page-btn:not(:disabled):active{background:rgba(255,255,255,.1)}
@@ -602,7 +632,7 @@ const adminCss = `
   .reg-mobile-field span:last-child{color:rgba(255,255,255,.8);text-align:right;word-break:break-word;font-weight:500}
   .reg-mobile-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .reg-mobile-actions .admin-select-sm{flex:1;padding:10px 12px;font-size:12px;border-radius:10px}
-  .reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm{flex:1;padding:10px 12px;font-size:12px;text-align:center;border-radius:10px}
+  .reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm,.reg-mobile-actions .admin-btn-wa-sm{flex:1;padding:10px 12px;font-size:12px;text-align:center;border-radius:10px}
   .reg-filter-row{flex-direction:column;align-items:stretch}
   .reg-filter-row .admin-select{width:100%;padding:12px;font-size:13px}
   .reg-advanced-row{flex-direction:column;align-items:stretch}
@@ -647,7 +677,7 @@ const adminCss = `
   .reg-mobile-name{font-size:14px}
   .reg-mobile-fields{padding:10px}
   .reg-mobile-field{font-size:12px}
-  .reg-mobile-actions .admin-select-sm,.reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm{padding:9px 10px;font-size:11px}
+  .reg-mobile-actions .admin-select-sm,.reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm,.reg-mobile-actions .admin-btn-wa-sm{padding:9px 10px;font-size:11px}
   .reg-badge{font-size:10px;padding:3px 10px}
   .reg-page-btns button{padding:10px;font-size:12px}
 }
