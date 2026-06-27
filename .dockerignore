@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.env
+.env.*
+!.env.production
+*.md
+Dockerfile
+docker-compose.yml
+.vercel
+coverage

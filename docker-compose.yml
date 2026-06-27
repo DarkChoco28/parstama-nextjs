@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - app-data:/app/data
+    environment:
+      - DATABASE_URL=file:./data/prod.db
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=parstama-pmr-production-secret-2026
+    restart: unless-stopped
+
+volumes:
+  app-data:
