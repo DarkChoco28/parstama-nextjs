@@ -1,17 +1,3 @@
-import nodemailer from "nodemailer"
-
-export function createTransporter() {
-  return nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.BREVO_LOGIN,
-      pass: process.env.BREVO_SMTP_KEY,
-    },
-  })
-}
-
 interface SendEmailOptions {
   to: string
   subject: string
@@ -19,19 +5,33 @@ interface SendEmailOptions {
 }
 
 export async function sendEmail({ to, subject, html }: SendEmailOptions) {
-  if (!process.env.BREVO_LOGIN || !process.env.BREVO_SMTP_KEY) {
-    throw new Error("Brevo SMTP credentials belum dikonfigurasi")
+  const apiKey = process.env.BREVO_API_KEY
+  const senderEmail = process.env.BREVO_SENDER_EMAIL
+
+  if (!apiKey || !senderEmail) {
+    throw new Error("Brevo API credentials belum dikonfigurasi")
   }
 
-  const transporter = createTransporter()
-  const result = await transporter.sendMail({
-    from: `"PMR PARSTAMA" <${process.env.BREVO_LOGIN}>`,
-    to,
-    subject,
-    html,
+  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": apiKey,
+    },
+    body: JSON.stringify({
+      sender: { email: senderEmail, name: "PMR PARSTAMA" },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html,
+    }),
   })
 
-  return result
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.message || `Brevo API error: ${res.status}`)
+  }
+
+  return { messageId: `brevo-${Date.now()}` }
 }
 
 export function buildStatusEmail(

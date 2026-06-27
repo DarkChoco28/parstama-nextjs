@@ -3,11 +3,11 @@ import { sendEmail } from "@/lib/email"
 
 export async function GET(request: NextRequest) {
   try {
-    if (!process.env.BREVO_LOGIN || !process.env.BREVO_SMTP_KEY) {
+    if (!process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
       return NextResponse.json({
-        error: "Brevo SMTP belum dikonfigurasi",
-        hasLogin: !!process.env.BREVO_LOGIN,
-        hasKey: !!process.env.BREVO_SMTP_KEY,
+        error: "Brevo API belum dikonfigurasi",
+        hasApiKey: !!process.env.BREVO_API_KEY,
+        hasSender: !!process.env.BREVO_SENDER_EMAIL,
       })
     }
 
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       html: `
         <div style="font-family:sans-serif;padding:20px">
           <h2 style="color:#DC2626">PMR PARSTAMA</h2>
-          <p>Email test berhasil dari Vercel!</p>
+          <p>Email test berhasil dari Vercel via Brevo API!</p>
           <p style="color:#666;font-size:12px">Waktu: ${new Date().toLocaleString("id-ID")}</p>
         </div>
       `,
