@@ -86,7 +86,7 @@ export async function GET(request: NextRequest) {
     if (endDate) filterParts.push(`Sampai: ${endDate}`)
     const filterText = filterParts.length > 0 ? `Filter: ${filterParts.join(", ")}` : "Semua Data"
 
-    const titleText = "DATA PENDAFTARAN PMR PARSTAMA"
+    const titleText = "DATA PENDAFTARAN PARSTAMA"
     const subtitleText = `Export: ${new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })} | Total: ${registrations.length} pendaftar | ${filterText}`
 
     const rows: any[][] = []

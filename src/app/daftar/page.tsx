@@ -125,8 +125,8 @@ export default function DaftarPage() {
         <div className="daftar-nav-inner">
           <Link href="/" className="daftar-nav-logo">
             <div className="daftar-nav-logo-wrap"><img src="/smkn_logo.png" alt="SMKN" className="daftar-nav-logo-img" /></div>
-            <div className="daftar-nav-logo-wrap"><img src="/parstama_logo.png" alt="PMR" className="daftar-nav-logo-img" /></div>
-            <span className="daftar-nav-brand">PMR PARSTAMA</span>
+            <div className="daftar-nav-logo-wrap"><img src="/parstama_logo.png" alt="PARSTAMA" className="daftar-nav-logo-img" /></div>
+            <span className="daftar-nav-brand">PARSTAMA</span>
           </Link>
           <div className="daftar-nav-links-desktop">
             <Link href="/" className="daftar-nav-link">← Beranda</Link>
@@ -290,7 +290,7 @@ export default function DaftarPage() {
               <div className="section-heading">Motivasi</div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Alasan Bergabung dengan PMR PARSTAMA <span className="req">*</span></label>
+                  <label>Alasan Bergabung dengan PARSTAMA <span className="req">*</span></label>
                   <textarea name="motivation" value={formData.motivation} onChange={handleInputChange} placeholder="Ceritakan alasan Anda ingin bergabung, pengalaman yang diharapkan, dan kontribusi yang ingin diberikan..." style={{ minHeight: 180 }} className={fieldErrors.motivation ? "error" : ""} />
                   <span className={`error-msg${fieldErrors.motivation ? " show" : ""}`}>Kolom motivasi wajib diisi (minimal 20 karakter).</span>
                   <span className="char-hint" style={{ color: formData.motivation.length >= 20 ? "#EF4444" : "#555" }}>{formData.motivation.length} karakter{formData.motivation.length < 20 ? " (min. 20)" : " ok"}</span>
@@ -327,7 +327,7 @@ export default function DaftarPage() {
                 </div>
                 <label className="flex items-start gap-3 cursor-pointer" style={{ fontSize: "14.4px", color: "#E0E0E0", marginBottom: 24 }}>
                   <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, accentColor: "#DC2626" }} />
-                  <span>Saya menyatakan bahwa data yang saya isi adalah <strong style={{ color: "#3B82F6" }}>benar dan dapat dipertanggungjawabkan</strong>, sudah mendapatkan <strong style={{ color: "#fff" }}>izin dari orang tua / wali</strong>, serta bersedia mengikuti seluruh proses seleksi PMR PARSTAMA.</span>
+                  <span>Saya menyatakan bahwa data yang saya isi adalah <strong style={{ color: "#3B82F6" }}>benar dan dapat dipertanggungjawabkan</strong>, sudah mendapatkan <strong style={{ color: "#fff" }}>izin dari orang tua / wali</strong>, serta bersedia mengikuti seluruh proses seleksi PARSTAMA.</span>
                 </label>
                 <span className={`error-msg${fieldErrors.agree ? " show" : ""}`} style={{ marginBottom: 16 }}>Anda harus menyetujui pernyataan dan persetujuan orang tua / wali di atas.</span>
                 <div className="form-nav">

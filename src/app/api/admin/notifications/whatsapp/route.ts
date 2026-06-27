@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
       }
 
       const message = encodeURIComponent(
-        `Halo Admin PMR PARSTAMA! 🏥\n\nAda pendaftar baru:\n\n` +
+        `Halo Admin PARSTAMA! 🏥\n\nAda pendaftar baru:\n\n` +
         `👤 *${reg.fullName}* (${reg.nickname || "-"})\n` +
         `📱 WA: ${reg.whatsapp}\n` +
         `📧 Email: ${reg.email || "-"}\n` +
@@ -61,14 +61,14 @@ export async function GET(request: NextRequest) {
 
       const broadcastMessage = encodeURIComponent(
         `Assalamu'alaikum Wr. Wb. 🙏\n\n` +
-        `Kepada Yth. Anggota PMR PARSTAMA\n\n` +
+        `Kepada Yth. Anggota PARSTAMA\n\n` +
         `Dengan ini kami informasikan bahwa:\n` +
         `Total pendaftar: *${registrations.length} orang*\n` +
         `Status: ${status ? status.toUpperCase() : "SEMUA STATUS"}\n\n` +
         `Silakan cek dashboard untuk informasi lebih lanjut.\n\n` +
         `Terima kasih.\n` +
         `Hormat kami,\n` +
-        `Admin PMR PARSTAMA`
+        `Admin PARSTAMA`
       )
 
       return NextResponse.json({

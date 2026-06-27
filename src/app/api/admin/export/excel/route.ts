@@ -40,7 +40,7 @@ export async function GET() {
     ]
 
     // ── Build data array ──
-    const titleText = "DATA PENDAFTARAN PMR PARSTAMA"
+    const titleText = "DATA PENDAFTARAN PARSTAMA"
     const subtitleText = `Export: ${new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })} | Total: ${registrations.length} pendaftar`
 
     // Row 1: title, Row 2: subtitle, Row 3: headers, Row 4+: data

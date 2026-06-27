@@ -15,10 +15,10 @@ export async function GET(request: NextRequest) {
 
     await sendEmail({
       to,
-      subject: "Test Notifikasi PMR PARSTAMA",
+      subject: "Test Notifikasi PARSTAMA",
       html: `
         <div style="font-family:sans-serif;padding:20px">
-          <h2 style="color:#DC2626">PMR PARSTAMA</h2>
+          <h2 style="color:#DC2626">PARSTAMA</h2>
           <p>Email test berhasil dari Vercel via Brevo API!</p>
           <p style="color:#666;font-size:12px">Waktu: ${new Date().toLocaleString("id-ID")}</p>
         </div>

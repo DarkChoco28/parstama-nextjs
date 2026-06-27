@@ -76,7 +76,7 @@ export async function POST() {
       update: { isAdmin: true, password: hashedPassword },
       create: {
         email: "admin@parstama.id",
-        name: "Admin PMR PARSTAMA",
+        name: "Admin PARSTAMA",
         password: hashedPassword,
         isAdmin: true,
         emailVerifiedAt: new Date(),

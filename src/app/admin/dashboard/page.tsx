@@ -107,7 +107,7 @@ export default function AdminDashboard() {
           <div className="admin-nav-left">
             <div className="admin-logos">
               <div className="admin-logo-wrap"><img src="/smkn_logo.png" alt="SMKN" className="admin-logo" /></div>
-              <div className="admin-logo-wrap"><img src="/parstama_logo.png" alt="PMR" className="admin-logo" /></div>
+              <div className="admin-logo-wrap"><img src="/parstama_logo.png" alt="PARSTAMA" className="admin-logo" /></div>
             </div>
             <div className="admin-nav-title">
               <span className="admin-brand">Admin Dashboard</span>
@@ -156,7 +156,7 @@ export default function AdminDashboard() {
       <main className="admin-main">
         <div className="admin-header">
           <h2 className="admin-title">Statistik Pendaftaran</h2>
-          <p className="admin-subtitle">Ringkasan data pendaftaran PMR PARSTAMA</p>
+          <p className="admin-subtitle">Ringkasan data pendaftaran PARSTAMA</p>
         </div>
 
         {/* Stats Cards */}

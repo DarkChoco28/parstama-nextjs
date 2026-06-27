@@ -232,7 +232,7 @@ export default function LoginPage() {
                 />
                 <img
                   src="/parstama_logo.png"
-                  alt="PMR"
+                  alt="PARSTAMA"
                   style={{
                     width: "48px",
                     height: "48px",
@@ -259,7 +259,7 @@ export default function LoginPage() {
               Login Admin
             </h1>
             <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px", marginTop: "8px", marginBottom: 0 }}>
-              PMR PARSTAMA &mdash; SMA Negeri
+              PARSTAMA &mdash; SMA Negeri
             </p>
           </div>
 

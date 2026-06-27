@@ -11,7 +11,7 @@ interface Message {
 }
 
 const quickQuestions = [
-  { label: "📋 Cara daftar", message: "Bagaimana cara mendaftar PMR PARSTAMA?" },
+  { label: "📋 Cara daftar", message: "Bagaimana cara mendaftar PARSTAMA?" },
   { label: "🏥 PPGD", message: "Apa itu PPGD?" },
   { label: "💉 Pertolongan luka", message: "Bagaimana cara menangani luka berdarah?" },
   { label: "💰 Biaya", message: "Berapa biaya pendaftaran?" },
@@ -30,7 +30,7 @@ export default function ChatPage() {
     {
       id: "welcome",
       role: "assistant",
-      content: "Halo! 👋 Selamat datang di AI Assistant PMR PARSTAMA.\n\nAku bisa membantu kamu dengan:\n• 📋 Pertanyaan seputar pendaftaran\n• 🏥 Informasi medis & pertolongan pertama\n• ❓ Tanya apa aja tentang PMR\n\nSilakan ketik pertanyaanmu di bawah!",
+      content: "Halo! 👋 Selamat datang di AI Assistant PARSTAMA.\n\nAku bisa membantu kamu dengan:\n• 📋 Pertanyaan seputar pendaftaran\n• 🏥 Informasi medis & pertolongan pertama\n• ❓ Tanya apa aja tentang PARSTAMA\n\nSilakan ketik pertanyaanmu di bawah!",
       timestamp: new Date(),
     },
   ])
@@ -120,7 +120,7 @@ export default function ChatPage() {
             <h1 className="text-white font-bold text-sm sm:text-base leading-tight" style={{ fontFamily: "Sansita, Georgia, serif" }}>
               AI Assistant
             </h1>
-            <p className="text-zinc-500 text-xs truncate">PMR PARSTAMA</p>
+            <p className="text-zinc-500 text-xs truncate">PARSTAMA</p>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
@@ -244,7 +244,7 @@ export default function ChatPage() {
             </button>
           </div>
           <p className="text-zinc-600 text-[10px] text-center mt-2">
-            AI Assistant PMR PARSTAMA — Untuk informasi medis darurat, selalu hubungi 119 🚑
+            AI Assistant PARSTAMA — Untuk informasi medis darurat, selalu hubungi 119 🚑
           </p>
         </div>
       </div>

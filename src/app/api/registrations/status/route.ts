@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 
     const statusMessages: Record<string, string> = {
       accepted:
-        "Selamat, pendaftaran Anda dinyatakan diterima. Silakan pantau informasi lanjutan dari panitia PMR PARSTAMA.",
+        "Selamat, pendaftaran Anda dinyatakan diterima. Silakan pantau informasi lanjutan dari panitia PARSTAMA.",
       rejected:
         "Pendaftaran Anda saat ini dinyatakan belum lolos. Jika membutuhkan klarifikasi, silakan hubungi panitia.",
       pending:

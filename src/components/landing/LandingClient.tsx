@@ -101,10 +101,10 @@ export default function LandingClient() {
           </div>
           <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
             <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
-            <img src="/parstama_logo.png" alt="PMR" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
           </div>
           <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-            PMR PARSTAMA
+            PARSTAMA
           </span>
         </Link>
         <nav className="hidden sm:flex items-center gap-8 relative z-[1]">
@@ -178,7 +178,7 @@ export default function LandingClient() {
           <h1 className="reveal text-[clamp(2rem,6vw,4.5rem)] font-display font-extrabold leading-[1.1] text-white mb-4 sm:mb-5 tracking-tight">
             Bergabunglah Bersama{" "}
             <span className="bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent whitespace-nowrap">
-              PMR PARSTAMA
+              PARSTAMA
             </span>
           </h1>
           <p className="reveal text-sm sm:text-lg text-zinc-400 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
@@ -286,7 +286,7 @@ export default function LandingClient() {
                 { title: "Pendaftaran Online", desc: "Isi formulir pendaftaran melalui website ini." },
                 { title: "Seleksi Administrasi", desc: "Tim panitia memeriksa berkas pendaftar." },
                 { title: "Wawancara & Tes", desc: "Tes tertulis, fisik, dan wawancara motivasi." },
-                { title: "Pengumuman Hasil", desc: "Hasil seleksi diumumkan melalui website dan medsos PMR." },
+                { title: "Pengumuman Hasil", desc: "Hasil seleksi diumumkan melalui website dan medsos PARSTAMA." },
               ].map((t, i) => (
                 <div key={i} className="reveal-right relative mb-6 sm:mb-8 last:mb-0 group" style={{ transitionDelay: `${0.1 + i * 0.15}s` }}>
                   <div className="absolute left-[-2rem] sm:left-[-2.25rem] top-1 w-3.5 h-3.5 rounded-full bg-red-600 border-2 border-[#141415] transition-all duration-300 group-hover:scale-150 group-hover:shadow-[0_0_0_8px_rgba(220,38,38,0.3)]" style={{ animation: "timelineDotPulse 2s ease-in-out infinite", animationDelay: `${i * 0.5}s` }} />
@@ -338,10 +338,10 @@ export default function LandingClient() {
               </div>
               <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
                 <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
-                <img src="/parstama_logo.png" alt="PMR" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+                <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
               </div>
               <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                PMR PARSTAMA
+                PARSTAMA
               </span>
             </Link>
             <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">Palang Merah Remaja atau PARSTAMA adalah organisasi kepemudaan yang berfokus pada kemanusiaan, pertolongan pertama, dan pengembangan karakter siswa.</p>
@@ -399,7 +399,7 @@ export default function LandingClient() {
           </div>
         </div>
         <div className="text-center text-xs text-zinc-600 pt-6 sm:pt-8 border-t border-white/[0.06]">
-          &copy; {new Date().getFullYear()} <span className="text-red-400 font-semibold">PMR PARSTAMA</span> — SMKN 1 Singosari
+          &copy; {new Date().getFullYear()} <span className="text-red-400 font-semibold">PARSTAMA</span> — SMKN 1 Singosari
           <p className="mt-2 text-zinc-500">Made with ❤️ by tim PARSTAMA</p>
         </div>
       </footer>

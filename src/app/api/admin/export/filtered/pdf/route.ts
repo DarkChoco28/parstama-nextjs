@@ -86,7 +86,7 @@ export async function GET(request: NextRequest) {
       doc.setTextColor(255, 255, 255)
       doc.setFontSize(8)
       doc.setFont("helvetica", "bold")
-      doc.text("PMR PARSTAMA", x + cardW / 2, y + 6.5, { align: "center" })
+      doc.text("PARSTAMA", x + cardW / 2, y + 6.5, { align: "center" })
 
       // Photo placeholder
       doc.setFillColor(230, 230, 230)

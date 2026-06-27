@@ -19,7 +19,7 @@ export async function sendEmail({ to, subject, html }: SendEmailOptions) {
       "api-key": apiKey,
     },
     body: JSON.stringify({
-      sender: { email: senderEmail, name: "PMR PARSTAMA" },
+      sender: { email: senderEmail, name: "PARSTAMA" },
       to: [{ email: to }],
       subject,
       htmlContent: html,
@@ -45,12 +45,12 @@ export function buildStatusEmail(
   const statusText = status === "accepted" ? "DITERIMA" : status === "rejected" ? "DITOLAK" : "MENUNGGU"
   const statusColor = status === "accepted" ? "#34D399" : status === "rejected" ? "#EF4444" : "#FCD34D"
 
-  const subject = `Status Pendaftaran PMR PARSTAMA - ${statusText}`
+  const subject = `Status Pendaftaran PARSTAMA - ${statusText}`
 
   const extraMessage =
     status === "accepted"
       ? `<p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
-          Selamat! Anda telah <strong style="color:#34D399">DITERIMA</strong> sebagai anggota PMR PARSTAMA. Silakan hubungi admin untuk informasi lebih lanjut.
+          Selamat! Anda telah <strong style="color:#34D399">DITERIMA</strong> sebagai anggota PARSTAMA. Silakan hubungi admin untuk informasi lebih lanjut.
         </p>`
       : status === "rejected"
       ? `<p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
@@ -71,7 +71,7 @@ export function buildStatusEmail(
       <div style="max-width:600px;margin:0 auto;padding:20px">
         <div style="background:rgba(20,20,22,.9);border-radius:16px;border:1px solid rgba(220,38,38,.2);overflow:hidden">
           <div style="background:linear-gradient(135deg,#DC2626,#EF4444);padding:24px;text-align:center">
-            <h1 style="color:#fff;margin:0;font-size:20px">PMR PARSTAMA</h1>
+            <h1 style="color:#fff;margin:0;font-size:20px">PARSTAMA</h1>
             <p style="color:rgba(255,255,255,.8);margin:8px 0 0;font-size:13px">SMKN - Status Pendaftaran</p>
           </div>
           <div style="padding:24px">
@@ -82,7 +82,7 @@ export function buildStatusEmail(
               Halo <strong style="color:#fff">${fullName}</strong>,
             </p>
             <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
-              Status pendaftaran Anda di PMR PARSTAMA adalah:
+              Status pendaftaran Anda di PARSTAMA adalah:
             </p>
             <div style="text-align:center;margin:20px 0">
               <span style="display:inline-block;padding:12px 32px;background:${statusColor}20;color:${statusColor};border:1px solid ${statusColor}50;border-radius:8px;font-size:16px;font-weight:700">
@@ -101,7 +101,7 @@ export function buildStatusEmail(
               Jika ada pertanyaan, silakan hubungi admin via WhatsApp di <a href="https://wa.me/6281459145800" style="color:#DC2626;text-decoration:none">0814-5914-5800</a>.
             </p>
             <p style="color:rgba(255,255,255,.3);font-size:11px;margin:24px 0 0;text-align:center">
-              Hormat kami,<br>Admin PMR PARSTAMA
+              Hormat kami,<br>Admin PARSTAMA
             </p>
           </div>
         </div>

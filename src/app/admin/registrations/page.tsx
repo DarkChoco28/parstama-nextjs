@@ -173,7 +173,7 @@ export default function AdminRegistrations() {
             <div className="admin-divider" />
             <div className="admin-logos">
               <div className="admin-logo-wrap"><img src="/smkn_logo.png" alt="SMKN" className="admin-logo" /></div>
-              <div className="admin-logo-wrap"><img src="/parstama_logo.png" alt="PMR" className="admin-logo" /></div>
+              <div className="admin-logo-wrap"><img src="/parstama_logo.png" alt="PARSTAMA" className="admin-logo" /></div>
             </div>
             <div className="admin-nav-title">
               <span className="admin-brand">Pendaftaran</span>

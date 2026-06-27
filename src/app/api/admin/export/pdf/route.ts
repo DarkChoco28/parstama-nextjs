@@ -41,7 +41,7 @@ function drawCard(doc: jsPDF, reg: any, x: number, y: number) {
   doc.setFont("helvetica", "bold")
   doc.setFontSize(7)
   doc.setTextColor(...white)
-  doc.text("PMR PARSTAMA", x + cardW / 2, y + 5.5, { align: "center" })
+  doc.text("PARSTAMA", x + cardW / 2, y + 5.5, { align: "center" })
   doc.setFontSize(4.5)
   doc.setFont("helvetica", "normal")
   doc.text("SMA NEGERI", x + cardW / 2, y + 9.5, { align: "center" })

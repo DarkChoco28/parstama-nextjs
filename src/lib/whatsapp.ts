@@ -49,12 +49,12 @@ export function buildStatusWhatsApp(
   const baseMessage =
     `Assalamu'alaikum Wr. Wb.\n\n` +
     `Halo *${fullName}* 👋\n\n` +
-    `Kami dari PMR PARSTAMA SMKN ingin memberitahukan bahwa pendaftaran Anda telah :\n\n` +
+    `Kami dari PARSTAMA SMKN ingin memberitahukan bahwa pendaftaran Anda telah :\n\n` +
     `*${emoji} Status: ${statusText}*\n\n`
 
   const extraMessage =
     status === "accepted"
-      ? `Selamat! Anda telah *DITERIMA* sebagai anggota PMR PARSTAMA. 🎉\n` +
+      ? `Selamat! Anda telah *DITERIMA* sebagai anggota PARSTAMA. 🎉\n` +
         `Silakan hubungi admin untuk informasi lebih lanjut.\n\n`
       : status === "rejected"
       ? `Mohon maaf, pendaftaran Anda belum dapat diterima saat ini.\n` +
@@ -75,7 +75,7 @@ export function buildStatusWhatsApp(
     `Jika ada pertanyaan, silakan hubungi admin:\n` +
     `📞 0814-5914-5800\n\n` +
     `Hormat kami,\n` +
-    `Admin PMR PARSTAMA 🏥`
+    `Admin PARSTAMA 🏥`
 
   return baseMessage + extraMessage + dataSection + footer
 }

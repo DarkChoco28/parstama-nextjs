@@ -8,15 +8,15 @@ interface KnowledgeEntry {
 const knowledgeBase: KnowledgeEntry[] = [
   {
     patterns: ["cara daftar", "gimana cara daftar", "bagaimana cara daftar", "mau daftar", "ingin daftar", "daftar pmr", "pendaftaran pmr", "form pendaftaran", "formulir pendaftaran", "gabung pmr", "join pmr", "masuk pmr", "cara mendaftar", "gimana cara mendaftar", "bagaimana cara mendaftar", "mau mendaftar", "ingin mendaftar", "mendaftar pmr"],
-    response: "Untuk mendaftar PMR PARSTAMA:\n\n1️⃣ Buka halaman utama, klik **\"Daftar Sekarang\"**\n2️⃣ Isi **Data Diri** — nama, jenis kelamin, tempat/tanggal lahir, agama\n3️⃣ Isi **Kontak & Sekolah** — alamat, WhatsApp, email, kelas, jurusan\n4️⃣ Isi **Motivasi** — riwayat organisasi & motivasi bergabung\n5️⃣ **Konfirmasi** — centang persetujuan orang tua, kirim\n\nSemua online, gratis, dan simpel! 📱",
+    response: "Untuk mendaftar PARSTAMA:\n\n1️⃣ Buka halaman utama, klik **\"Daftar Sekarang\"**\n2️⃣ Isi **Data Diri** — nama, jenis kelamin, tempat/tanggal lahir, agama\n3️⃣ Isi **Kontak & Sekolah** — alamat, WhatsApp, email, kelas, jurusan\n4️⃣ Isi **Motivasi** — riwayat organisasi & motivasi bergabung\n5️⃣ **Konfirmasi** — centang persetujuan orang tua, kirim\n\nSemua online, gratis, dan simpel! 📱",
   },
   {
     patterns: ["syarat daftar", "persyaratan", "ketentuan daftar", "apa saja syarat", "syarat pendaftaran", "ketentuan pendaftaran"],
-    response: "Syarat daftar PMR PARSTAMA:\n\n✅ Siswa aktif **SMKN 1 Singosari**\n✅ Punya semangat kepedulian & jiwa sukarela\n✅ Bersedia ikut seluruh rangkaian seleksi\n✅ Mendapat **izin orang tua/wali**\n✅ Punya minat dan tujuan yang jelas\n\nKalau sudah cocok, langsung daftar! 💪",
+    response: "Syarat daftar PARSTAMA:\n\n✅ Siswa aktif **SMKN 1 Singosari**\n✅ Punya semangat kepedulian & jiwa sukarela\n✅ Bersedia ikut seluruh rangkaian seleksi\n✅ Mendapat **izin orang tua/wali**\n✅ Punya minat dan tujuan yang jelas\n\nKalau sudah cocok, langsung daftar! 💪",
   },
   {
     patterns: ["biaya daftar", "berapa biaya", "daftar berapa", "bayar daftar", "uang pendaftaran", "gratis atau tidak", "dipungut biaya", "mahal ga", "mahal gak", "bayar ga", "bayar gak"],
-    response: "Pendaftaran PMR PARSTAMA **GRATIS** alias tidak dipungut biaya apapun! 🎉\n\nYang perlu disiapkan:\n• Data diri lengkap\n• Nomor WhatsApp aktif\n• Izin orang tua\n\nHati-hati kalau ada yang minta bayaran — itu bukan panitia kami!",
+    response: "Pendaftaran PARSTAMA **GRATIS** alias tidak dipungut biaya apapun! 🎉\n\nYang perlu disiapkan:\n• Data diri lengkap\n• Nomor WhatsApp aktif\n• Izin orang tua\n\nHati-hati kalau ada yang minta bayaran — itu bukan panitia kami!",
   },
   {
     patterns: ["cek status", "status daftar", "status pendaftaran", "hasil daftar", "sudah daftar", "uda daftar", "sudah mendaftar", "uda mendaftar"],
@@ -24,27 +24,27 @@ const knowledgeBase: KnowledgeEntry[] = [
   },
   {
     patterns: ["diterima", "ditolak", "pending", "status pending", "status diterima", "status ditolak"],
-    response: "Penjelasan status pendaftaran:\n\n🟡 **Pending** — pendaftaranmu sedang diverifikasi oleh panitia. Sabar ya!\n🟢 **Diterima** — kamu diterima di PMR PARSTAMA! 🎉\n🔴 **Ditolak** — belum beruntung, bisa coba lagi tahun depan\n\nUntuk info lebih lanjut, hubungi panitia: **WA 0814-5914-5800**",
+    response: "Penjelasan status pendaftaran:\n\n🟡 **Pending** — pendaftaranmu sedang diverifikasi oleh panitia. Sabar ya!\n🟢 **Diterima** — kamu diterima di PARSTAMA! 🎉\n🔴 **Ditolak** — belum beruntung, bisa coba lagi tahun depan\n\nUntuk info lebih lanjut, hubungi panitia: **WA 0814-5914-5800**",
   },
   {
     patterns: ["timeline", "jadwal daftar", "kapan daftar", "kapan dibuka", "waktu pendaftaran", "seleksi", "pengumuman", "jadwal seleksi"],
-    response: "Timeline PMR PARSTAMA:\n\n📅 **Pendaftaran** — dibuka setiap tahun ajaran baru\n📅 **Seleksi** — tes tertulis + wawancara\n📅 **Pengumuman** — via WhatsApp & website\n📅 **Pelatihan** — dimulai setelah pengumuman\n\nPantau terus website ini untuk info terbaru! 📢",
+    response: "Timeline PARSTAMA:\n\n📅 **Pendaftaran** — dibuka setiap tahun ajaran baru\n📅 **Seleksi** — tes tertulis + wawancara\n📅 **Pengumuman** — via WhatsApp & website\n📅 **Pelatihan** — dimulai setelah pengumuman\n\nPantau terus website ini untuk info terbaru! 📢",
   },
   {
     patterns: ["kontak panitia", "hubungi panitia", "nomor wa panitia", "no hp panitia", "whatsapp panitia", "nomor telepon panitia", "kontak pmr"],
-    response: "Kontak panitia PMR PARSTAMA:\n\n📱 **WhatsApp**: 0814-5914-5800\n🏫 **Sekolah**: SMKN 1 Singosari\n\nJam aktif: **Senin–Jumat, 08.00–16.00 WIB**\n\nLangsung chat aja, fast respon! 😊",
+    response: "Kontak panitia PARSTAMA:\n\n📱 **WhatsApp**: 0814-5914-5800\n🏫 **Sekolah**: SMKN 1 Singosari\n\nJam aktif: **Senin–Jumat, 08.00–16.00 WIB**\n\nLangsung chat aja, fast respon! 😊",
   },
   {
-    patterns: ["tentang pmr", "apa itu pmr", "pmr parstama", "pmr itu apa", "kenapa pmr", "kegiatan pmr", "tentang parstama", "parstama itu apa"],
-    response: "**PMR PARSTAMA** adalah ekstrakurikuler Palang Merah Remaja di SMKN 1 Singosari.\n\nKegiatan kami:\n🎯 Pelatihan **PPGD** (Pertolongan Pertama Gawat Darurat)\n🤝 Bakti sosial & donor darah\n🏆 Kompetisi PMR kecamatan/kota/nasional\n📚 Pengembangan diri & kepemimpinan\n🎖️ Sertifikasi resmi dari **PMI**\n\nBukan sekadar organisasi — kami keluarga! ❤️",
+    patterns: ["tentang pmr", "apa itu pmr", "parstama", "pmr itu apa", "tentang parstama", "parstama itu apa", "kegiatan parstama"],
+    response: "**PARSTAMA** adalah ekstrakurikuler Palang Merah Remaja di SMKN 1 Singosari.\n\nKegiatan kami:\n🎯 Pelatihan **PPGD** (Pertolongan Pertama Gawat Darurat)\n🤝 Bakti sosial & donor darah\n🏆 Kompetisi PMR kecamatan/kota/nasional\n📚 Pengembangan diri & kepemimpinan\n🎖️ Sertifikasi resmi dari **PMI**\n\nBukan sekadar organisasi — kami keluarga! ❤️",
   },
   {
     patterns: ["jumlah anggota", "berapa anggota", "anggota aktif", "member pmr", "berapa member"],
-    response: "PMR PARSTAMA punya **100+ anggota aktif** dari berbagai jurusan di SMKN 1 Singosari.\n\nTertarik gabung? Yuk daftar sekarang! 🤝",
+    response: "PARSTAMA punya **100+ anggota aktif** dari berbagai jurusan di SMKN 1 Singosari.\n\nTertarik gabung? Yuk daftar sekarang! 🤝",
   },
   {
     patterns: ["lokasi", "alamat sekolah", "dimana smkn", "alamat smkn", "lokasi pmr", "lokasi parstama", "alamat parstama"],
-    response: "Lokasi PMR PARSTAMA:\n\n🏫 **SMKN 1 Singosari**\n📍 Singosari, Malang, Jawa Timur\n\nDatang langsung aja, atau hubungi panitia: **WA 0814-5914-5800** 📱",
+    response: "Lokasi PARSTAMA:\n\n🏫 **SMKN 1 Singosari**\n📍 Singosari, Malang, Jawa Timur\n\nDatang langsung aja, atau hubungi panitia: **WA 0814-5914-5800** 📱",
   },
   {
     patterns: ["ppgd", "pertolongan pertama gawat darurat", "pertolongan pertama", "first aid", "penanganan darurat", "gawat darurat"],
@@ -84,7 +84,7 @@ const knowledgeBase: KnowledgeEntry[] = [
   },
   {
     patterns: ["donor darah", "donor", "donor plasma"],
-    response: "**Donor Darah** di PMR PARSTAMA:\n\nKegiatan rutin bekerja sama dengan **PMI**.\n\n**Syarat donor:**\n✅ Usia 17–65 tahun\n✅ Berat badan ≥ 45 kg\n✅ Tekanan darah normal\n\nInfo jadwal: **WA 0814-5914-5800** 📱",
+    response: "**Donor Darah** di PARSTAMA:\n\nKegiatan rutin bekerja sama dengan **PMI**.\n\n**Syarat donor:**\n✅ Usia 17–65 tahun\n✅ Berat badan ≥ 45 kg\n✅ Tekanan darah normal\n\nInfo jadwal: **WA 0814-5914-5800** 📱",
   },
   {
     patterns: ["darurat", "nomor darurat", "emergency", "nomor telepon darurat", "nomor penting"],
@@ -92,11 +92,11 @@ const knowledgeBase: KnowledgeEntry[] = [
   },
   {
     patterns: ["hai", "halo", "hello", "hi", "hey", "permisi", "assalamualaikum", "selamat pagi", "selamat siang", "selamat sore", "selamat malam"],
-    response: "**Halo!** 👋 Selamat datang di AI Assistant **PMR PARSTAMA**.\n\nAku bisa bantu:\n📋 **Pendaftaran** — cara daftar, syarat, biaya\n🏥 **Medis** — PPGD, luka, patah tulang, RJP, dll\n❓ **Tanya apa aja** tentang PMR\n\nKetik pertanyaanmu! 💬",
+    response: "**Halo!** 👋 Selamat datang di AI Assistant **PARSTAMA**.\n\nAku bisa bantu:\n📋 **Pendaftaran** — cara daftar, syarat, biaya\n🏥 **Medis** — PPGD, luka, patah tulang, RJP, dll\n❓ **Tanya apa aja** tentang PARSTAMA\n\nKetik pertanyaanmu! 💬",
   },
   {
     patterns: ["siapa kamu", "kamu siapa", "nama kamu", "apa ini", "kamu siapa"],
-    response: "Aku **AI Assistant PMR PARSTAMA** 🤖\n\nAku bantu jawab pertanyaan tentang:\n• **Pendaftaran PMR**\n• **Penanganan medis darurat**\n• **Pengetahuan kesehatan**\n\nUntuk darurat, hubungi **119**! 🏥",
+    response: "Aku **AI Assistant PARSTAMA** 🤖\n\nAku bantu jawab pertanyaan tentang:\n• **Pendaftaran PARSTAMA**\n• **Penanganan medis darurat**\n• **Pengetahuan kesehatan**\n\nUntuk darurat, hubungi **119**! 🏥",
   },
   {
     patterns: ["terima kasih", "thanks", "makasih", "thx", "sip", "ok mantap"],
@@ -134,18 +134,18 @@ function findFallbackResponse(input: string): string {
   return "Maaf, aku belum sepenuhnya mengerti pertanyaanmu. 😅\n\nCoba tanyakan tentang:\n\n📋 **Pendaftaran:** cara daftar, syarat, biaya\n🏥 **Medis:** PPGD, luka, RJP, patah tulang\n💬 Atau hubungi panitia: **WA 0814-5914-5800** 📱"
 }
 
-const SYSTEM_PROMPT = `Kamu adalah AI Assistant PMR PARSTAMA di SMKN 1 Singosari. Nama kamu PARSTAMA AI.
+const SYSTEM_PROMPT = `Kamu adalah AI Assistant PARSTAMA di SMKN 1 Singosari. Nama kamu PARSTAMA AI.
 
 Kamu bisa menjawab SEMUA pertanyaan dengan bebas — tidak ada batasan topik. Kamu adalah AI yang open, informatif, dan serbaguna.
 
-Tentang PMR PARSTAMA:
+Tentang PARSTAMA:
 - Pendaftaran: Gratis, buka setiap tahun ajaran baru
 - Cara daftar: Buka halaman utama > Daftar Sekarang > isi 4 step (Data Diri, Kontak & Sekolah, Motivasi, Konfirmasi)
 - Syarat: Siswa aktif SMKN 1 Singosari, semangat kepedulian, izin orang tua
 - Kontak panitia: WhatsApp 0814-5914-5800 (Senin-Jumat 08.00-16.00 WIB)
 - Lokasi: SMKN 1 Singosari, Malang, Jawa Timur
 - Nomor darurat medis: 119
-- Kegiatan: PPGD, donor darah, bakti sosial, kompetisi PMR
+- Kegiatan: PPGD, donor darah, bakti sosial, kompetisi PARSTAMA
 - Pembuat website: Dafiq
 
 ATURAN:
@@ -156,7 +156,7 @@ ATURAN:
 - Bersikaplah seperti teman yang suka bantu, bukan robot kaku
 - Gunakan emoji yang sesuai
 - Jika tidak tahu jawaban yang akurat, akui dengan jujur dan sarankan sumber yang tepat
-- Jika ada pertanyaan tentang website ini (siapa yang buat, informasi website, dll), sebutkan bahwa website ini dibuat oleh **Dafiq** dengan penuh dedikasi untuk PMR PARSTAMA`
+- Jika ada pertanyaan tentang website ini (siapa yang buat, informasi website, dll), sebutkan bahwa website ini dibuat oleh **Dafiq** dengan penuh dedikasi untuk PARSTAMA`
 
 export async function POST(request: NextRequest) {
   try {
