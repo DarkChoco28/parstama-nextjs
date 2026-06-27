@@ -11,7 +11,7 @@ const knowledgeBase: KnowledgeEntry[] = [
   //  PENDAFTARAN PMR
   // ═══════════════════════════════════════
   {
-    patterns: ["cara daftar", "gimana cara daftar", "bagaimana cara daftar", "mau daftar", "ingin daftar", "daftar pmr", "pendaftaran pmr", "form pendaftaran", "formulir pendaftaran", "gabung pmr", "join pmr", "masuk pmr"],
+    patterns: ["cara daftar", "gimana cara daftar", "bagaimana cara daftar", "mau daftar", "ingin daftar", "daftar pmr", "pendaftaran pmr", "form pendaftaran", "formulir pendaftaran", "gabung pmr", "join pmr", "masuk pmr", "cara mendaftar", "gimana cara mendaftar", "bagaimana cara mendaftar", "mau mendaftar", "ingin mendaftar", "mendaftar pmr"],
     response: "Untuk mendaftar PMR PARSTAMA:\n\n1️⃣ Buka halaman utama, klik **\"Daftar Sekarang\"**\n2️⃣ Isi **Data Diri** — nama, jenis kelamin, tempat/tanggal lahir, agama\n3️⃣ Isi **Kontak & Sekolah** — alamat, WhatsApp, email, kelas, jurusan\n4️⃣ Isi **Motivasi** — riwayat organisasi & motivasi bergabung\n5️⃣ **Konfirmasi** — centang persetujuan orang tua, kirim\n\nSemua online, gratis, dan simpel! 📱",
   },
   {
