@@ -24,11 +24,11 @@ const knowledgeBase: KnowledgeEntry[] = [
   },
   {
     patterns: ["cek status", "status daftar", "status pendaftaran", "hasil daftar", "sudah daftar", "uda daftar", "sudah mendaftar", "uda mendaftar"],
-    response: "Untuk cek status pendaftaran:\n\n1️⃣ Hubungi panitia via **WhatsApp: 0814-5914-800**\n2️⃣ Sebutkan **nama lengkap** & **nomor WhatsApp** yang dipakai daftar\n\nStatus:\n🟡 **Pending** — masih diproses\n🟢 **Diterima** — selamat! 🎉\n🔴 **Ditolak** — coba lagi tahun depan",
+    response: "Untuk cek status pendaftaran:\n\n1️⃣ Hubungi panitia via **WhatsApp: 0814-5914-5800**\n2️⃣ Sebutkan **nama lengkap** & **nomor WhatsApp** yang dipakai daftar\n\nStatus:\n🟡 **Pending** — masih diproses\n🟢 **Diterima** — selamat! 🎉\n🔴 **Ditolak** — coba lagi tahun depan",
   },
   {
     patterns: ["diterima", "ditolak", "pending", "status pending", "status diterima", "status ditolak"],
-    response: "Penjelasan status pendaftaran:\n\n🟡 **Pending** — pendaftaranmu sedang diverifikasi oleh panitia. Sabar ya!\n🟢 **Diterima** — kamu diterima di PMR PARSTAMA! 🎉\n🔴 **Ditolak** — belum beruntung, bisa coba lagi tahun depan\n\nUntuk info lebih lanjut, hubungi panitia: **WA 0814-5914-800**",
+    response: "Penjelasan status pendaftaran:\n\n🟡 **Pending** — pendaftaranmu sedang diverifikasi oleh panitia. Sabar ya!\n🟢 **Diterima** — kamu diterima di PMR PARSTAMA! 🎉\n🔴 **Ditolak** — belum beruntung, bisa coba lagi tahun depan\n\nUntuk info lebih lanjut, hubungi panitia: **WA 0814-5914-5800**",
   },
   {
     patterns: ["timeline", "jadwal daftar", "kapan daftar", "kapan dibuka", "waktu pendaftaran", "seleksi", "pengumuman", "jadwal seleksi"],
@@ -36,7 +36,7 @@ const knowledgeBase: KnowledgeEntry[] = [
   },
   {
     patterns: ["kontak panitia", "hubungi panitia", "nomor wa panitia", "no hp panitia", "whatsapp panitia", "nomor telepon panitia", "kontak pmr"],
-    response: "Kontak panitia PMR PARSTAMA:\n\n📱 **WhatsApp**: 0814-5914-800\n🏫 **Sekolah**: SMKN 1 Singosari\n\nJam aktif: **Senin–Jumat, 08.00–16.00 WIB**\n\nLangsung chat aja, fast respon! 😊",
+    response: "Kontak panitia PMR PARSTAMA:\n\n📱 **WhatsApp**: 0814-5914-5800\n🏫 **Sekolah**: SMKN 1 Singosari\n\nJam aktif: **Senin–Jumat, 08.00–16.00 WIB**\n\nLangsung chat aja, fast respon! 😊",
   },
   {
     patterns: ["tentang pmr", "apa itu pmr", "pmr parstama", "pmr itu apa", "kenapa pmr", "kegiatan pmr", "tentang parstama", "parstama itu apa"],
@@ -48,7 +48,7 @@ const knowledgeBase: KnowledgeEntry[] = [
   },
   {
     patterns: ["lokasi", "alamat sekolah", "dimana smkn", "alamat smkn", "lokasi pmr", "lokasi parstama", "alamat parstama"],
-    response: "Lokasi PMR PARSTAMA:\n\n🏫 **SMKN 1 Singosari**\n📍 Singosari, Malang, Jawa Timur\n\nDatang langsung aja, atau hubungi panitia: **WA 0814-5914-800** 📱",
+    response: "Lokasi PMR PARSTAMA:\n\n🏫 **SMKN 1 Singosari**\n📍 Singosari, Malang, Jawa Timur\n\nDatang langsung aja, atau hubungi panitia: **WA 0814-5914-5800** 📱",
   },
 
   // ═══════════════════════════════════════
@@ -152,7 +152,7 @@ const knowledgeBase: KnowledgeEntry[] = [
   // ═══════════════════════════════════════
   {
     patterns: ["donor darah", "donor", "donor plasma"],
-    response: "**Donor Darah** di PMR PARSTAMA:\n\nKegiatan rutin bekerja sama dengan **PMI**.\n\n**Syarat donor:**\n✅ Usia 17–65 tahun\n✅ Berat badan ≥ 45 kg\n✅ Tekanan darah normal\n✅ Tidak sedang sakit\n\nInfo jadwal: **WA 0814-5914-800** 📱",
+    response: "**Donor Darah** di PMR PARSTAMA:\n\nKegiatan rutin bekerja sama dengan **PMI**.\n\n**Syarat donor:**\n✅ Usia 17–65 tahun\n✅ Berat badan ≥ 45 kg\n✅ Tekanan darah normal\n✅ Tidak sedang sakit\n\nInfo jadwal: **WA 0814-5914-5800** 📱",
   },
   {
     patterns: ["jam berapa", "jam buka", "jam operasional", "jam aktif"],
@@ -214,7 +214,7 @@ function findBestResponse(input: string): string {
     return bestMatch.response
   }
 
-  return "Maaf, aku belum sepenuhnya mengerti pertanyaanmu. 😅\n\nCoba tanyakan tentang:\n\n📋 **Pendaftaran:**\n• \"Bagaimana cara daftar?\"\n• \"Apa saja syaratnya?\"\n• \"Berapa biayanya?\"\n\n🏥 **Medis:**\n• \"Bagaimana penanganan luka?\"\n• \"Apa itu RJP?\"\n• \"Cara menangani pingsan?\"\n\n💬 Atau hubungi panitia: **WA 0814-5914-800** 📱"
+  return "Maaf, aku belum sepenuhnya mengerti pertanyaanmu. 😅\n\nCoba tanyakan tentang:\n\n📋 **Pendaftaran:**\n• \"Bagaimana cara daftar?\"\n• \"Apa saja syaratnya?\"\n• \"Berapa biayanya?\"\n\n🏥 **Medis:**\n• \"Bagaimana penanganan luka?\"\n• \"Apa itu RJP?\"\n• \"Cara menangani pingsan?\"\n\n💬 Atau hubungi panitia: **WA 0814-5914-5800** 📱"
 }
 
 export async function POST(request: NextRequest) {
