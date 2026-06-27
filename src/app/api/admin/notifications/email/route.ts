@@ -135,18 +135,26 @@ export async function POST(request: NextRequest) {
       `
     }
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: "PMR PARSTAMA <onboarding@resend.dev>",
       to: reg.email,
       subject,
       html: htmlContent,
     })
 
-    return NextResponse.json({ message: "Email berhasil dikirim" })
-  } catch (error) {
-    console.error("Error sending email:", error)
+    if (result.error) {
+      console.error("Resend error:", result.error)
+      return NextResponse.json(
+        { error: `Gagal mengirim: ${result.error.message || JSON.stringify(result.error)}` },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json({ message: "Email berhasil dikirim", id: result.data?.id })
+  } catch (error: any) {
+    console.error("Error sending email:", error?.message || error)
     return NextResponse.json(
-      { error: "Terjadi kesalahan saat mengirim email" },
+      { error: error?.message || "Terjadi kesalahan saat mengirim email" },
       { status: 500 }
     )
   }
