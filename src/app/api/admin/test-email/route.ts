@@ -3,11 +3,11 @@ import { sendEmail } from "@/lib/email"
 
 export async function GET(request: NextRequest) {
   try {
-    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    if (!process.env.BREVO_LOGIN || !process.env.BREVO_SMTP_KEY) {
       return NextResponse.json({
-        error: "Gmail belum dikonfigurasi",
-        hasUser: !!process.env.GMAIL_USER,
-        hasPass: !!process.env.GMAIL_APP_PASSWORD,
+        error: "Brevo SMTP belum dikonfigurasi",
+        hasLogin: !!process.env.BREVO_LOGIN,
+        hasKey: !!process.env.BREVO_SMTP_KEY,
       })
     }
 
