@@ -146,6 +146,7 @@ Tentang PMR PARSTAMA:
 - Lokasi: SMKN 1 Singosari, Malang, Jawa Timur
 - Nomor darurat medis: 119
 - Kegiatan: PPGD, donor darah, bakti sosial, kompetisi PMR
+- Pembuat website: Dafiq
 
 ATURAN:
 - Jawab dalam Bahasa Indonesia yang ramah, natural, dan informatif
