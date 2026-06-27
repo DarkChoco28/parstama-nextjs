@@ -14,14 +14,20 @@ export default function AdminRegistrations() {
   const [searchQuery, setSearchQuery] = useState("")
   const [classFilter, setClassFilter] = useState("")
   const [majorFilter, setMajorFilter] = useState("")
-  const [filterOptions, setFilterOptions] = useState({ classes: [] as string[], majors: [] as string[] })
+  const [genderFilter, setGenderFilter] = useState("")
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("")
+  const [filterOptions, setFilterOptions] = useState({ classes: [] as string[], majors: [] as string[], genders: [] as string[] })
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+  const [totalResults, setTotalResults] = useState(0)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [detailData, setDetailData] = useState<any>(null)
   const [detailLoading, setDetailLoading] = useState(false)
   const [currentTime, setCurrentTime] = useState("")
   const [menuOpen, setMenuOpen] = useState(false)
+  const [showFilters, setShowFilters] = useState(false)
+  const [emailSending, setEmailSending] = useState<string | null>(null)
 
   useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
   useEffect(() => {
@@ -29,20 +35,28 @@ export default function AdminRegistrations() {
     update(); const i = setInterval(update, 1000); return () => clearInterval(i)
   }, [])
 
+  const buildFilterParams = useCallback(() => {
+    const params = new URLSearchParams({ page: page.toString(), limit: "10" })
+    if (statusFilter) params.append("status", statusFilter)
+    if (searchQuery.trim()) params.append("search", searchQuery.trim())
+    if (classFilter) params.append("class", classFilter)
+    if (majorFilter) params.append("major", majorFilter)
+    if (genderFilter) params.append("gender", genderFilter)
+    if (startDate) params.append("startDate", startDate)
+    if (endDate) params.append("endDate", endDate)
+    return params
+  }, [page, statusFilter, searchQuery, classFilter, majorFilter, genderFilter, startDate, endDate])
+
   const fetchRegistrations = useCallback(async () => {
     setLoading(true)
     try {
-      const params = new URLSearchParams({ page: page.toString(), limit: "10" })
-      if (statusFilter) params.append("status", statusFilter)
-      if (searchQuery.trim()) params.append("search", searchQuery.trim())
-      if (classFilter) params.append("class", classFilter)
-      if (majorFilter) params.append("major", majorFilter)
+      const params = buildFilterParams()
       const r = await fetch(`/api/admin/registrations?${params}`)
       const d = await r.json()
-      setRegistrations(d.registrations); setTotalPages(d.pagination.totalPages)
+      setRegistrations(d.registrations); setTotalPages(d.pagination.totalPages); setTotalResults(d.pagination.total)
       if (d.filters) setFilterOptions(d.filters)
     } catch (e) { console.error(e) } finally { setLoading(false) }
-  }, [page, statusFilter, searchQuery, classFilter, majorFilter])
+  }, [buildFilterParams])
 
   useEffect(() => { if (status === "authenticated") fetchRegistrations() }, [status, fetchRegistrations])
 
@@ -64,6 +78,41 @@ export default function AdminRegistrations() {
     try { const r = await fetch(`/api/admin/registrations/${id}`); const d = await r.json(); setDetailData(d) }
     catch (e) { console.error(e) } finally { setDetailLoading(false) }
   }
+
+  const sendEmailNotif = async (registrationId: string) => {
+    setEmailSending(registrationId)
+    try {
+      const r = await fetch("/api/admin/notifications/email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ registrationId, type: "status_update" }),
+      })
+      const d = await r.json()
+      if (r.ok) alert("Email berhasil dikirim!")
+      else alert(d.error || "Gagal mengirim email")
+    } catch (e) { console.error(e); alert("Gagal mengirim email") }
+    finally { setEmailSending(null) }
+  }
+
+  const getFilteredExportUrl = (type: "excel" | "pdf") => {
+    const params = buildFilterParams()
+    params.delete("page")
+    params.delete("limit")
+    return `/api/admin/export/filtered/${type}?${params.toString()}`
+  }
+
+  const clearFilters = () => {
+    setStatusFilter("")
+    setSearchQuery("")
+    setClassFilter("")
+    setMajorFilter("")
+    setGenderFilter("")
+    setStartDate("")
+    setEndDate("")
+    setPage(1)
+  }
+
+  const hasActiveFilters = statusFilter || searchQuery || classFilter || majorFilter || genderFilter || startDate || endDate
 
   if (status === "loading" || loading) {
     return (<div className="admin-loading"><div className="admin-loading-spinner" /><span>Memuat data...</span><style>{adminCss}</style></div>)
@@ -129,9 +178,15 @@ export default function AdminRegistrations() {
           {/* Filters */}
           <div className="reg-filters">
             <div className="reg-search-row">
-              <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchRegistrations() } }} placeholder="Cari nama atau WhatsApp..." className="admin-input" style={{ flex: 1 }} />
+              <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchRegistrations() } }} placeholder="Cari nama, email, atau WhatsApp..." className="admin-input" style={{ flex: 1 }} />
               <button onClick={() => { setPage(1); fetchRegistrations() }} className="admin-btn-primary">Cari</button>
+              <button onClick={() => setShowFilters(!showFilters)} className={`admin-btn-filter ${showFilters ? "admin-btn-filter-active" : ""}`}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"/></svg>
+                Filter
+              </button>
             </div>
+
+            {/* Quick filters */}
             <div className="reg-filter-row">
               <select value={statusFilter} onChange={e => { setStatusFilter(e.target.value); setPage(1) }} className="admin-select">
                 <option value="">Semua Status</option>
@@ -147,12 +202,41 @@ export default function AdminRegistrations() {
                 <option value="">Semua Jurusan</option>
                 {filterOptions.majors.map(m => <option key={m} value={m}>{m}</option>)}
               </select>
+            </div>
+
+            {/* Advanced filters */}
+            {showFilters && (
+              <div className="reg-advanced-filters">
+                <div className="reg-advanced-row">
+                  <select value={genderFilter} onChange={e => { setGenderFilter(e.target.value); setPage(1) }} className="admin-select">
+                    <option value="">Semua Jenis Kelamin</option>
+                    <option value="L">Laki-laki</option>
+                    <option value="P">Perempuan</option>
+                  </select>
+                  <div className="reg-date-range">
+                    <input type="date" value={startDate} onChange={e => { setStartDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Dari tanggal" />
+                    <span className="reg-date-separator">s/d</span>
+                    <input type="date" value={endDate} onChange={e => { setEndDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Sampai tanggal" />
+                  </div>
+                </div>
+                {hasActiveFilters && (
+                  <button onClick={clearFilters} className="admin-btn-clear">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                    Hapus Semua Filter
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Results info & export */}
+            <div className="reg-filter-footer">
+              <span className="reg-result-count">{totalResults} data ditemukan</span>
               <div className="reg-filter-actions">
                 {selectedIds.length > 0 && (
                   <button onClick={bulkDelete} className="admin-btn-danger-sm">Hapus ({selectedIds.length})</button>
                 )}
-                <a href="/api/admin/export/excel" className="admin-btn-success-sm">Excel</a>
-                <a href="/api/admin/export/pdf" className="admin-btn-blue-sm">PDF</a>
+                <a href={getFilteredExportUrl("excel")} className="admin-btn-success-sm">Export Excel</a>
+                <a href={getFilteredExportUrl("pdf")} className="admin-btn-blue-sm">Export PDF</a>
               </div>
             </div>
           </div>
@@ -172,6 +256,8 @@ export default function AdminRegistrations() {
                   <div className="reg-mobile-field"><span>Email</span><span>{r.email || "-"}</span></div>
                   <div className="reg-mobile-field"><span>WhatsApp</span><span>{r.whatsapp}</span></div>
                   <div className="reg-mobile-field"><span>Kelas</span><span>{r.class}</span></div>
+                  <div className="reg-mobile-field"><span>Jurusan</span><span>{r.major}</span></div>
+                  <div className="reg-mobile-field"><span>JK</span><span>{r.gender === "L" ? "Laki-laki" : "Perempuan"}</span></div>
                 </div>
                 <div className="reg-mobile-actions">
                   <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm">
@@ -180,6 +266,11 @@ export default function AdminRegistrations() {
                     <option value="rejected">Ditolak</option>
                   </select>
                   <button onClick={() => viewDetail(r.id)} className="admin-btn-blue-sm">Lihat</button>
+                  {r.email && (
+                    <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
+                      {emailSending === r.id ? "..." : "Email"}
+                    </button>
+                  )}
                   <button onClick={() => deleteRegistration(r.id)} className="admin-btn-danger-sm">Hapus</button>
                 </div>
               </div>
@@ -196,6 +287,8 @@ export default function AdminRegistrations() {
                   <th className="admin-th">Email</th>
                   <th className="admin-th">WhatsApp</th>
                   <th className="admin-th">Kelas</th>
+                  <th className="admin-th">Jurusan</th>
+                  <th className="admin-th">JK</th>
                   <th className="admin-th">Status</th>
                   <th className="admin-th">Aksi</th>
                 </tr>
@@ -208,11 +301,18 @@ export default function AdminRegistrations() {
                     <td className="admin-td admin-td-muted">{r.email || "-"}</td>
                     <td className="admin-td admin-td-muted">{r.whatsapp}</td>
                     <td className="admin-td admin-td-muted">{r.class}</td>
+                    <td className="admin-td admin-td-muted">{r.major}</td>
+                    <td className="admin-td admin-td-muted">{r.gender === "L" ? "L" : "P"}</td>
                     <td className="admin-td"><span className={`reg-badge reg-badge-${r.status}`}>{r.status === "pending" ? "Pending" : r.status === "accepted" ? "Diterima" : "Ditolak"}</span></td>
                     <td className="admin-td">
                       <div className="reg-action-btns">
                         <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm"><option value="pending">Pending</option><option value="accepted">Diterima</option><option value="rejected">Ditolak</option></select>
                         <button onClick={() => viewDetail(r.id)} className="admin-btn-blue-sm">Lihat</button>
+                        {r.email && (
+                          <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
+                            {emailSending === r.id ? "..." : "Email"}
+                          </button>
+                        )}
                         <button onClick={() => deleteRegistration(r.id)} className="admin-btn-danger-sm">Hapus</button>
                       </div>
                     </td>
@@ -225,7 +325,7 @@ export default function AdminRegistrations() {
 
           {/* Pagination */}
           <div className="reg-pagination">
-            <span className="reg-page-info">Halaman {page} dari {totalPages}</span>
+            <span className="reg-page-info">Halaman {page} dari {totalPages} ({totalResults} data)</span>
             <div className="reg-page-btns">
               <button onClick={() => setPage(p => Math.max(p - 1, 1))} disabled={page === 1} className="admin-page-btn">Sebelumnya</button>
               <button onClick={() => setPage(p => Math.min(p + 1, totalPages))} disabled={page === totalPages} className="admin-page-btn">Selanjutnya</button>
@@ -241,9 +341,16 @@ export default function AdminRegistrations() {
             <div className="reg-modal-draghandle" />
             <div className="reg-modal-header">
               <h2 className="reg-modal-title">Detail Pendaftaran</h2>
-              <button onClick={() => setDetailData(null)} className="reg-modal-close">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
-              </button>
+              <div className="reg-modal-header-actions">
+                {detailData.email && (
+                  <button onClick={() => sendEmailNotif(detailData.id)} disabled={emailSending === detailData.id} className="admin-btn-email-sm">
+                    {emailSending === detailData.id ? "..." : "Kirim Email"}
+                  </button>
+                )}
+                <button onClick={() => setDetailData(null)} className="reg-modal-close">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                </button>
+              </div>
             </div>
             <div className="reg-modal-body">
               {detailLoading ? (
@@ -364,12 +471,20 @@ const adminCss = `
 /* BUTTONS */
 .admin-btn-primary{padding:10px 18px;background:linear-gradient(135deg,#DC2626,#EF4444);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit;flex-shrink:0}
 .admin-btn-primary:hover{box-shadow:0 0 20px rgba(220,38,38,.3);transform:translateY(-1px)}
+.admin-btn-filter{display:flex;align-items:center;gap:5px;padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.6);font-size:12px;font-weight:500;cursor:pointer;transition:all .3s;font-family:inherit;flex-shrink:0}
+.admin-btn-filter:hover{background:rgba(255,255,255,.08);color:#fff}
+.admin-btn-filter-active{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.3);color:#EF4444}
+.admin-btn-clear{display:flex;align-items:center;gap:5px;padding:6px 12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;color:rgba(239,68,68,.7);font-size:11px;cursor:pointer;transition:all .2s;font-family:inherit;margin-top:8px}
+.admin-btn-clear:hover{background:rgba(239,68,68,.15);color:#EF4444}
 .admin-btn-danger-sm{padding:6px 12px;background:rgba(239,68,68,.15);color:#EF4444;border:1px solid rgba(239,68,68,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
 .admin-btn-danger-sm:active{transform:scale(.95)}
 .admin-btn-success-sm{padding:6px 12px;background:rgba(52,211,153,.15);color:#34D399;border:1px solid rgba(52,211,153,.3);border-radius:8px;font-size:11px;font-weight:600;text-decoration:none;display:inline-block;transition:all .2s}
 .admin-btn-success-sm:active{transform:scale(.95)}
 .admin-btn-blue-sm{padding:6px 12px;background:rgba(96,165,250,.15);color:#60A5FA;border:1px solid rgba(96,165,250,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s;font-family:inherit}
 .admin-btn-blue-sm:active{transform:scale(.95)}
+.admin-btn-email-sm{padding:6px 12px;background:rgba(168,85,247,.15);color:#A855F7;border:1px solid rgba(168,85,247,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-btn-email-sm:disabled{opacity:.5;cursor:not-allowed}
+.admin-btn-email-sm:active{transform:scale(.95)}
 .admin-page-btn{padding:8px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.6);font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit}
 .admin-page-btn:disabled{opacity:.3;cursor:not-allowed}
 .admin-page-btn:not(:disabled):active{background:rgba(255,255,255,.1)}
@@ -378,7 +493,13 @@ const adminCss = `
 .reg-filters{padding:16px;border-bottom:1px solid rgba(255,255,255,.06)}
 .reg-search-row{display:flex;gap:8px;margin-bottom:10px}
 .reg-filter-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.reg-filter-actions{display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap}
+.reg-advanced-filters{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.04)}
+.reg-advanced-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.reg-date-range{display:flex;align-items:center;gap:6px}
+.reg-date-separator{color:rgba(255,255,255,.3);font-size:12px}
+.reg-filter-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.04)}
+.reg-result-count{font-size:12px;color:rgba(255,255,255,.4)}
+.reg-filter-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 
 /* REG MOBILE LIST */
 .reg-mobile-list{display:none}
@@ -410,6 +531,7 @@ const adminCss = `
 .reg-modal{background:rgba(20,20,22,.95);backdrop-filter:blur(24px);border-radius:20px 20px 0 0;border:1px solid rgba(220,38,38,.2);width:100%;max-height:92vh;overflow:hidden;box-shadow:0 0 40px rgba(220,38,38,.08),0 -10px 40px rgba(0,0,0,.5);animation:modalIn .3s ease;display:flex;flex-direction:column}
 .reg-modal-draghandle{display:none}
 .reg-modal-header{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.reg-modal-header-actions{display:flex;align-items:center;gap:8px}
 .reg-modal-title{font-family:'Sansita',Georgia,serif;font-size:17px;font-weight:700;color:#fff}
 .reg-modal-close{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px;cursor:pointer;color:rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;width:32px;height:32px;transition:all .2s}
 .reg-modal-close:hover{background:rgba(239,68,68,.15);color:#EF4444}
@@ -440,6 +562,9 @@ const adminCss = `
   .reg-modal{border-radius:20px;max-height:85vh}
   .reg-modal-header{padding:20px 24px}
   .reg-modal-body{padding:24px}
+  .reg-advanced-row{flex-wrap:nowrap}
+  .reg-date-range{flex:1}
+  .reg-date-range .admin-input{width:auto;flex:1}
 }
 
 @media(min-width:768px){
@@ -464,12 +589,18 @@ const adminCss = `
   .reg-mobile-field{display:flex;justify-content:space-between;font-size:13px;gap:8px}
   .reg-mobile-field span:first-child{color:rgba(255,255,255,.4);flex-shrink:0}
   .reg-mobile-field span:last-child{color:rgba(255,255,255,.8);text-align:right;word-break:break-word;font-weight:500}
-  .reg-mobile-actions{display:flex;gap:8px;align-items:center}
+  .reg-mobile-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .reg-mobile-actions .admin-select-sm{flex:1;padding:10px 12px;font-size:12px;border-radius:10px}
-  .reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm{flex:1;padding:10px 12px;font-size:12px;text-align:center;border-radius:10px}
+  .reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm{flex:1;padding:10px 12px;font-size:12px;text-align:center;border-radius:10px}
   .reg-filter-row{flex-direction:column;align-items:stretch}
   .reg-filter-row .admin-select{width:100%;padding:12px;font-size:13px}
-  .reg-filter-actions{margin-left:0;justify-content:stretch;gap:8px}
+  .reg-advanced-row{flex-direction:column;align-items:stretch}
+  .reg-advanced-row .admin-select{width:100%;padding:12px;font-size:13px}
+  .reg-date-range{width:100%}
+  .reg-date-range .admin-input{flex:1;padding:12px;font-size:13px}
+  .reg-date-separator{font-size:13px}
+  .reg-filter-footer{flex-direction:column;gap:10px;align-items:stretch}
+  .reg-filter-actions{justify-content:stretch;gap:8px}
   .reg-filter-actions a,.reg-filter-actions button{flex:1;text-align:center;padding:10px 12px;font-size:12px;border-radius:10px}
   .reg-page-btns{gap:8px}
   .reg-page-btns button{flex:1;padding:12px;font-size:13px}
@@ -505,7 +636,7 @@ const adminCss = `
   .reg-mobile-name{font-size:14px}
   .reg-mobile-fields{padding:10px}
   .reg-mobile-field{font-size:12px}
-  .reg-mobile-actions .admin-select-sm,.reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm{padding:9px 10px;font-size:11px}
+  .reg-mobile-actions .admin-select-sm,.reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm{padding:9px 10px;font-size:11px}
   .reg-badge{font-size:10px;padding:3px 10px}
   .reg-page-btns button{padding:10px;font-size:12px}
 }

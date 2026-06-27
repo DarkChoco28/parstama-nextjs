@@ -13,6 +13,9 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search")
     const classFilter = searchParams.get("class")
     const major = searchParams.get("major")
+    const gender = searchParams.get("gender")
+    const startDate = searchParams.get("startDate")
+    const endDate = searchParams.get("endDate")
     const page = parseInt(searchParams.get("page") || "1")
     const limit = parseInt(searchParams.get("limit") || "10")
 
@@ -28,6 +31,7 @@ export async function GET(request: NextRequest) {
         { fullName: { contains: q } },
         { whatsapp: { contains: q } },
         { nickname: { contains: q } },
+        { email: { contains: q } },
       ]
     }
 
@@ -37,6 +41,22 @@ export async function GET(request: NextRequest) {
 
     if (major?.trim()) {
       where.major = major.trim()
+    }
+
+    if (gender && ["L", "P"].includes(gender)) {
+      where.gender = gender
+    }
+
+    if (startDate || endDate) {
+      where.createdAt = {}
+      if (startDate) {
+        where.createdAt.gte = new Date(startDate)
+      }
+      if (endDate) {
+        const end = new Date(endDate)
+        end.setHours(23, 59, 59, 999)
+        where.createdAt.lte = end
+      }
     }
 
     const [registrations, total] = await Promise.all([
@@ -50,7 +70,7 @@ export async function GET(request: NextRequest) {
     ])
 
     // Get unique filter options
-    const [classes, majors] = await Promise.all([
+    const [classes, majors, genders] = await Promise.all([
       prisma.registration.findMany({
         select: { class: true },
         distinct: ["class"],
@@ -61,6 +81,10 @@ export async function GET(request: NextRequest) {
         distinct: ["major"],
         orderBy: { major: "asc" },
       }),
+      prisma.registration.findMany({
+        select: { gender: true },
+        distinct: ["gender"],
+      }),
     ])
 
     return NextResponse.json({
@@ -68,6 +92,7 @@ export async function GET(request: NextRequest) {
       filters: {
         classes: classes.map((c) => c.class),
         majors: majors.map((m) => m.major),
+        genders: genders.map((g) => g.gender),
       },
       pagination: {
         page,
