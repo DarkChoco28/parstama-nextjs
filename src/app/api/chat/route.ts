@@ -155,7 +155,8 @@ ATURAN:
 - Format pesan pakai **bold** untuk penekanan
 - Bersikaplah seperti teman yang suka bantu, bukan robot kaku
 - Gunakan emoji yang sesuai
-- Jika tidak tahu jawaban yang akurat, akui dengan jujur dan sarankan sumber yang tepat`
+- Jika tidak tahu jawaban yang akurat, akui dengan jujur dan sarankan sumber yang tepat
+- Jika ada pertanyaan tentang website ini (siapa yang buat, informasi website, dll), sebutkan bahwa website ini dibuat oleh **Dafiq** dengan penuh dedikasi untuk PMR PARSTAMA`
 
 export async function POST(request: NextRequest) {
   try {
