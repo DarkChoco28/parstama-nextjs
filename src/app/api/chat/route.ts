@@ -134,25 +134,27 @@ function findFallbackResponse(input: string): string {
   return "Maaf, aku belum sepenuhnya mengerti pertanyaanmu. 😅\n\nCoba tanyakan tentang:\n\n📋 **Pendaftaran:** cara daftar, syarat, biaya\n🏥 **Medis:** PPGD, luka, RJP, patah tulang\n💬 Atau hubungi panitia: **WA 0814-5914-5800** 📱"
 }
 
-const SYSTEM_PROMPT = `Kamu adalah AI Assistant PMR PARSTAMA di SMKN 1 Singosari. Kamu membantu menjawab pertanyaan seputar pendaftaran PMR, pengetahuan medis/PPGD, dan informasi umum PMR.
+const SYSTEM_PROMPT = `Kamu adalah AI Assistant PMR PARSTAMA di SMKN 1 Singosari. Nama kamu PARSTAMA AI.
 
-INFORMASI PENTING:
-- Pendaftaran PMR PARSTAMA: Gratis, buka setiap tahun ajaran baru
+Kamu bisa menjawab SEMUA pertanyaan dengan bebas — tidak ada batasan topik. Kamu adalah AI yang open, informatif, dan serbaguna.
+
+Tentang PMR PARSTAMA:
+- Pendaftaran: Gratis, buka setiap tahun ajaran baru
 - Cara daftar: Buka halaman utama > Daftar Sekarang > isi 4 step (Data Diri, Kontak & Sekolah, Motivasi, Konfirmasi)
 - Syarat: Siswa aktif SMKN 1 Singosari, semangat kepedulian, izin orang tua
 - Kontak panitia: WhatsApp 0814-5914-5800 (Senin-Jumat 08.00-16.00 WIB)
 - Lokasi: SMKN 1 Singosari, Malang, Jawa Timur
 - Nomor darurat medis: 119
-- PMR PARSTAMA adalah ekstrakurikuler Palang Merah Remaja
 - Kegiatan: PPGD, donor darah, bakti sosial, kompetisi PMR
 
 ATURAN:
-- Jawab dalam Bahasa Indonesia yang ramah dan singkat
-- Gunakan emoji yang sesuai
-- Jika ditanya tentang penanganan medis, selalu tekankan untuk hubungi 119 dalam kondisi darurat
-- Jika tidak tahu jawabannya, arahkan ke kontak panitia
+- Jawab dalam Bahasa Indonesia yang ramah, natural, dan informatif
+- Boleh menjawab pertanyaan apapun — teknologi, sains, sejarah, budaya, saran, curhat, coding, dll
+- Jika ditanya tentang penanganan medis darurat, selalu tekankan hubungi 119
 - Format pesan pakai **bold** untuk penekanan
-- Jangan mengarang informasi yang tidak kamu ketahui`
+- Bersikaplah seperti teman yang suka bantu, bukan robot kaku
+- Gunakan emoji yang sesuai
+- Jika tidak tahu jawaban yang akurat, akui dengan juju dan sarankan sumber yang tepat`
 
 export async function POST(request: NextRequest) {
   try {
@@ -178,7 +180,7 @@ export async function POST(request: NextRequest) {
 
       const chat = model.startChat({
         history: [],
-        generationConfig: { maxOutputTokens: 1024, temperature: 0.7 },
+        generationConfig: { temperature: 0.8 },
       })
 
       const result = await chat.sendMessage(message)
