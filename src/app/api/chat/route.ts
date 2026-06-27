@@ -167,7 +167,7 @@ export async function POST(request: NextRequest) {
 
     const apiKey = process.env.GEMINI_API_KEY
     if (!apiKey) {
-      return NextResponse.json({ response: findFallbackResponse(message) })
+      return NextResponse.json({ response: findFallbackResponse(message), _debug: "NO_API_KEY" })
     }
 
     try {
@@ -185,10 +185,10 @@ export async function POST(request: NextRequest) {
 
       const result = await chat.sendMessage(message)
       const response = result.response.text()
-      return NextResponse.json({ response })
+      return NextResponse.json({ response, _debug: "GEMINI_OK" })
     } catch (geminiError: any) {
       console.error("Gemini error, using fallback:", geminiError?.message)
-      return NextResponse.json({ response: findFallbackResponse(message) })
+      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GEMINI_ERROR", _error: geminiError?.message })
     }
   } catch (error: any) {
     console.error("Chat error:", error)

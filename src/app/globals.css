@@ -1,62 +1,26 @@
 @import "tailwindcss";
 
-@theme inline {
-  --font-display: var(--font-sansita), Georgia, serif;
-  --font-body: var(--font-plus-jakarta), Arial, Helvetica, sans-serif;
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
-:root {
-  --bg: #0A0A0B;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
-  background: var(--bg);
-  color: #E4E4E7;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-/* Scroll reveal animations */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px) perspective(600px) rotateX(-8deg);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.34,1.56,.64,1);
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0) perspective(600px) rotateX(0deg);
-}
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-50px) perspective(600px) rotateY(15deg);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.34,1.56,.64,1);
-}
-.reveal-left.visible {
-  opacity: 1;
-  transform: translateX(0) perspective(600px) rotateY(0deg);
-}
-.reveal-right {
-  opacity: 0;
-  transform: translateX(50px) perspective(600px) rotateY(-15deg);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.34,1.56,.64,1);
-}
-.reveal-right.visible {
-  opacity: 1;
-  transform: translateX(0) perspective(600px) rotateY(0deg);
-}
-.reveal-scale {
-  opacity: 0;
-  transform: scale(0.85) perspective(800px) rotateX(10deg);
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.34,1.56,.64,1);
-}
-.reveal-scale.visible {
-  opacity: 1;
-  transform: scale(1) perspective(800px) rotateX(0deg);
-}
-
-@keyframes shimmerSlide {
-  0% { left: -100%; }
-  50%, 100% { left: 200%; }
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
 }
