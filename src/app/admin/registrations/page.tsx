@@ -61,7 +61,18 @@ export default function AdminRegistrations() {
   useEffect(() => { if (status === "authenticated") fetchRegistrations() }, [status, fetchRegistrations])
 
   const updateStatus = async (id: string, s: string) => {
-    try { const r = await fetch(`/api/admin/registrations/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: s }) }); if (r.ok) fetchRegistrations() } catch (e) { console.error(e) }
+    try {
+      const r = await fetch(`/api/admin/registrations/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: s }) })
+      const d = await r.json()
+      if (r.ok) {
+        if (d._emailStatus === "sent") {
+          alert(`Status diubah ke "${s === "accepted" ? "Diterima" : "Ditolak"}"\n\nEmail notif berhasil dikirim ke ${d.email}`)
+        } else if (d._emailStatus === "failed") {
+          alert(`Status diubah ke "${s === "accepted" ? "Diterima" : "Ditolak"}"\n\nGagal kirim email: ${d._emailError}`)
+        }
+        fetchRegistrations()
+      }
+    } catch (e) { console.error(e) }
   }
   const deleteRegistration = async (id: string) => {
     if (!confirm("Yakin hapus pendaftaran ini?")) return

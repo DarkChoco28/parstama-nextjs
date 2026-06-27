@@ -56,6 +56,8 @@ export async function PUT(
     })
 
     // Auto-send email when status changes to accepted or rejected
+    let emailStatus = "skip"
+    let emailError = null
     if (
       registration.email &&
       oldReg.status !== status &&
@@ -71,13 +73,16 @@ export async function PUT(
           status as "accepted" | "rejected"
         )
         await sendEmail({ to: registration.email, subject, html })
+        emailStatus = "sent"
         console.log(`Email notif terkirim ke ${registration.email} (${status})`)
-      } catch (emailError: any) {
-        console.error("Gagal kirim email notif:", emailError?.message || emailError)
+      } catch (err: any) {
+        emailStatus = "failed"
+        emailError = err?.message || "Gagal mengirim email"
+        console.error("Gagal kirim email notif:", emailError)
       }
     }
 
-    return NextResponse.json(registration)
+    return NextResponse.json({ ...registration, _emailStatus: emailStatus, _emailError: emailError })
   } catch (error) {
     console.error("Error updating registration:", error)
     return NextResponse.json(
