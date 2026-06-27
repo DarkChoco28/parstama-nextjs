@@ -81,8 +81,8 @@ export default function BerhasilPage() {
       <div className="fixed inset-0 bg-[#0f0f0f]" />
 
       {/* Background circles */}
-      <div className="fixed pointer-events-none rounded-full w-[600px] h-[600px] -top-[100px] -left-[100px]" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.12) 0%, transparent 70%)" }} />
-      <div className="fixed pointer-events-none rounded-full w-[400px] h-[400px] -bottom-[80px] -right-[80px]" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.12) 0%, transparent 70%)" }} />
+      <div className="fixed pointer-events-none rounded-full w-150 h-150 -top-25 -left-25" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.12) 0%, transparent 70%)" }} />
+      <div className="fixed pointer-events-none rounded-full w-100 h-100 -bottom-20 -right-20" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.12) 0%, transparent 70%)" }} />
 
       {/* Floating 3D Red Cross symbols */}
       <div className="fixed pointer-events-none z-0 opacity-[0.06]" style={{ width: 40, height: 40, top: "20%", left: "10%", animation: "crossFloat1 12s ease-in-out infinite" }}>
@@ -105,8 +105,9 @@ export default function BerhasilPage() {
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-5 py-12">
         {/* Logo */}
         <Link href="/" className="inline-flex items-center gap-3 mb-6 no-underline" style={{ animation: "fadeUp 0.6s 0.1s ease both" }}>
-          <img src="/parstama_logo.png" alt="PARSTAMA" className="w-[72px] h-[72px] rounded-full object-contain" style={{ animation: "logo3D 6s ease-in-out infinite", boxShadow: "0 0 40px rgba(220,38,38,0.4)" }} />
-          <span className="font-bold text-lg bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent" style={{ fontFamily: "Georgia, serif" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/parstama_logo.png" alt="PARSTAMA" className="w-18 h-18 rounded-full object-contain" style={{ animation: "logo3D 6s ease-in-out infinite", boxShadow: "0 0 40px rgba(220,38,38,0.4)" }} />
+          <span className="font-bold text-lg bg-linear-to-r from-red-400 to-red-600 bg-clip-text text-transparent" style={{ fontFamily: "Georgia, serif" }}>
             PARSTAMA
           </span>
         </Link>
@@ -116,7 +117,7 @@ export default function BerhasilPage() {
           <div className="absolute inset-0 rounded-full border-2 border-red-500/50" style={{ animation: "ripple 2s ease-out infinite" }} />
           <div className="absolute inset-0 rounded-full border-2 border-red-500/50" style={{ animation: "ripple 2s ease-out 0.6s infinite" }} />
           <div className="absolute inset-0 rounded-full border-2 border-red-500/50" style={{ animation: "ripple 2s ease-out 1.2s infinite" }} />
-          <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center text-4xl shadow-[0_0_40px_rgba(220,38,38,0.4)]" style={{ animation: "popIn 0.6s 0.2s cubic-bezier(0.175,0.885,0.32,1.275) both" }}>
+          <div className="relative z-10 w-24 h-24 rounded-full bg-linear-to-br from-red-600 to-red-800 flex items-center justify-center text-4xl shadow-[0_0_40px_rgba(220,38,38,0.4)]" style={{ animation: "popIn 0.6s 0.2s cubic-bezier(0.175,0.885,0.32,1.275) both" }}>
             🩸
           </div>
         </div>
@@ -124,7 +125,7 @@ export default function BerhasilPage() {
         {/* Heading */}
         <h1 className="text-[clamp(1.8rem,5vw,2.8rem)] font-extrabold mb-3 leading-tight" style={{ animation: "fadeUp 0.6s 0.5s ease both" }}>
           Pendaftaran{" "}
-          <span className="bg-gradient-to-r from-red-400 via-orange-400 to-red-400 bg-[length:200%_auto] bg-clip-text text-transparent" style={{ animation: "gradientShift 3s linear infinite" }}>
+          <span className="bg-linear-to-r from-red-400 via-orange-400 to-red-400 bg-size-[200%_auto] bg-clip-text text-transparent" style={{ animation: "gradientShift 3s linear infinite" }}>
             Berhasil!
           </span>
         </h1>
@@ -135,23 +136,23 @@ export default function BerhasilPage() {
         </p>
 
         {/* Info Card */}
-        <div className="w-full max-w-md bg-white/[0.04] border border-white/[0.08] rounded-2xl p-5 sm:p-6 mb-8 text-left" style={{ animation: "fadeUp 0.6s 0.8s ease both" }}>
-          <div className="flex items-start gap-3 py-3 border-b border-white/[0.05]">
-            <span className="text-lg flex-shrink-0">📧</span>
+        <div className="w-full max-w-md bg-white/4 border border-white/8 rounded-2xl p-5 sm:p-6 mb-8 text-left" style={{ animation: "fadeUp 0.6s 0.8s ease both" }}>
+          <div className="flex items-start gap-3 py-3 border-b border-white/5">
+            <span className="text-lg shrink-0">📧</span>
             <div>
               <strong className="text-zinc-200 text-xs block mb-0.5">Pantau Informasi Panitia</strong>
               <span className="text-zinc-400 text-sm">Informasi lanjutan dapat disampaikan melalui email atau WhatsApp yang Anda daftarkan.</span>
             </div>
           </div>
-          <div className="flex items-start gap-3 py-3 border-b border-white/[0.05]">
-            <span className="text-lg flex-shrink-0">📅</span>
+          <div className="flex items-start gap-3 py-3 border-b border-white/5">
+            <span className="text-lg shrink-0">📅</span>
             <div>
               <strong className="text-zinc-200 text-xs block mb-0.5">Proses Seleksi</strong>
               <span className="text-zinc-400 text-sm">Pendaftaran Anda akan diperiksa oleh panitia sesuai jadwal seleksi yang sedang berjalan.</span>
             </div>
           </div>
           <div className="flex items-start gap-3 py-3">
-            <span className="text-lg flex-shrink-0">📢</span>
+            <span className="text-lg shrink-0">📢</span>
             <div>
               <strong className="text-zinc-200 text-xs block mb-0.5">Cek Status</strong>
               <span className="text-zinc-400 text-sm">Gunakan fitur cek status untuk melihat perkembangan pendaftaran Anda kapan saja.</span>
@@ -163,7 +164,7 @@ export default function BerhasilPage() {
         <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md" style={{ animation: "fadeUp 0.6s 0.95s ease both" }}>
           <Link
             href="/"
-            className="flex-1 px-6 py-3.5 rounded-full text-center font-bold text-sm bg-gradient-to-r from-red-600 to-red-800 text-white shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all duration-200"
+            className="flex-1 px-6 py-3.5 rounded-full text-center font-bold text-sm bg-linear-to-r from-red-600 to-red-800 text-white shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all duration-200"
           >
             ← Kembali ke Beranda
           </Link>

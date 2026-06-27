@@ -197,8 +197,6 @@ export default function Hero3D() {
       last = now
       t += dt
 
-      const speed = reduced ? 0.2 : 1.0
-
       // Smooth pointer
       pointer.x += (pointer.tx - pointer.x) * 0.06
       pointer.y += (pointer.ty - pointer.y) * 0.06

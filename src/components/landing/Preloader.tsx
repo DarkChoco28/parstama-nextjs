@@ -20,6 +20,7 @@ export default function Preloader() {
         <div className="relative w-[220px] h-[220px] flex items-center justify-center">
           <div className="absolute inset-0 rounded-full border border-red-500/25" style={{ animation: "orbitRing 3s linear infinite reverse" }} />
           <div className="relative flex items-center justify-center" style={{ animation: "preloaderLogoFloat 2s ease-in-out infinite" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/parstama_logo.png" alt="PARSTAMA" className="w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] rounded-full object-contain shadow-[0_0_60px_rgba(220,38,38,0.4)]" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite" }} />
           </div>
         </div>

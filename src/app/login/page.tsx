@@ -30,7 +30,7 @@ export default function LoginPage() {
         router.push("/admin/dashboard")
         router.refresh()
       }
-    } catch (error) {
+    } catch {
       setError("Terjadi kesalahan saat login")
     } finally {
       setIsLoading(false)
@@ -209,6 +209,7 @@ export default function LoginPage() {
                     background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)",
                   }}
                 />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/smkn_logo.png"
                   alt="SMKN"
@@ -230,6 +231,7 @@ export default function LoginPage() {
                     background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)",
                   }}
                 />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/parstama_logo.png"
                   alt="PARSTAMA"

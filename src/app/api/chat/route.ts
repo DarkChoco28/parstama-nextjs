@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 interface KnowledgeEntry {
   patterns: string[]
@@ -160,6 +161,12 @@ ATURAN:
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown"
+    const { allowed } = checkRateLimit(ip)
+    if (!allowed) {
+      return NextResponse.json({ error: "Terlalu banyak permintaan. Coba lagi dalam 1 menit." }, { status: 429 })
+    }
+
     const body = await request.json()
     const { message } = body as { message: string }
 
@@ -200,11 +207,12 @@ export async function POST(request: NextRequest) {
       if (!response) throw new Error("Empty response from Groq")
 
       return NextResponse.json({ response })
-    } catch (groqError: any) {
-      console.error("Groq error, using fallback:", groqError?.message)
-      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GROQ_ERROR", _error: groqError?.message })
+    } catch (groqError: unknown) {
+      const err = groqError instanceof Error ? groqError : new Error(String(groqError))
+      console.error("Groq error, using fallback:", err.message)
+      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GROQ_ERROR", _error: err.message })
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Chat error:", error)
     return NextResponse.json(
       { response: findFallbackResponse("") },

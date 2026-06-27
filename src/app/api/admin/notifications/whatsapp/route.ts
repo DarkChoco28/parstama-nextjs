@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
 
     if (type === "broadcast") {
       const status = searchParams.get("status")
-      const where: any = {}
+      const where: Record<string, unknown> = {}
       if (status) where.status = status
 
       const registrations = await prisma.registration.findMany({
@@ -131,10 +131,11 @@ export async function POST(request: NextRequest) {
       success: true,
       message: `WhatsApp notif terkirim ke ${reg.fullName} (${reg.whatsapp})`,
     })
-  } catch (error: any) {
-    console.error("Error sending WhatsApp:", error)
+  } catch (error: unknown) {
+    const err = error instanceof Error ? error : new Error(String(error))
+    console.error("Error sending WhatsApp:", err)
     return NextResponse.json(
-      { error: error?.message || "Gagal mengirim WhatsApp" },
+      { error: err.message || "Gagal mengirim WhatsApp" },
       { status: 500 }
     )
   }

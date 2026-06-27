@@ -97,11 +97,13 @@ export default function LandingClient() {
         <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-[1]">
           <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
             <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
-            <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
-          </div>
-          <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
-            <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
-            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+              </div>
+              <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
+                <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
           </div>
           <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             PARSTAMA
@@ -334,11 +336,13 @@ export default function LandingClient() {
             <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4 no-underline">
               <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
                 <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
-                <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
               </div>
               <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
                 <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
-                <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
               </div>
               <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 PARSTAMA

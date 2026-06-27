@@ -5,10 +5,34 @@ import { useSession, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
+interface Registration {
+  id: string
+  fullName: string
+  email: string
+  whatsapp: string
+  class: string
+  major: string
+  gender: string
+  status: string
+  nickname?: string
+  birthPlace: string
+  birthDate: string
+  religion?: string
+  address: string
+  city: string
+  province: string
+  postalCode: string
+  bloodType: string
+  medicalHistory: string
+  motivation: string
+  organizationExperience: string
+  createdAt: string
+}
+
 export default function AdminRegistrations() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [registrations, setRegistrations] = useState<any[]>([])
+  const [registrations, setRegistrations] = useState<Registration[]>([])
   const [loading, setLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
@@ -22,7 +46,7 @@ export default function AdminRegistrations() {
   const [totalPages, setTotalPages] = useState(1)
   const [totalResults, setTotalResults] = useState(0)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
-  const [detailData, setDetailData] = useState<any>(null)
+  const [detailData, setDetailData] = useState<Registration | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
   const [currentTime, setCurrentTime] = useState("")
   const [menuOpen, setMenuOpen] = useState(false)
@@ -59,6 +83,7 @@ export default function AdminRegistrations() {
     } catch (e) { console.error(e) } finally { setLoading(false) }
   }, [buildFilterParams])
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { if (status === "authenticated") fetchRegistrations() }, [status, fetchRegistrations])
 
   const updateStatus = async (id: string, s: string) => {
@@ -86,7 +111,7 @@ export default function AdminRegistrations() {
     try { await Promise.all(selectedIds.map(id => fetch(`/api/admin/registrations/${id}`, { method: "DELETE" }))); setSelectedIds([]); fetchRegistrations() } catch (e) { console.error(e) }
   }
   const toggleSelect = (id: string) => setSelectedIds(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id])
-  const toggleSelectAll = () => setSelectedIds(p => p.length === registrations.length ? [] : registrations.map((r: any) => r.id))
+  const toggleSelectAll = () => setSelectedIds(p => p.length === registrations.length ? [] : registrations.map((r: Registration) => r.id))
   const viewDetail = async (id: string) => {
     setDetailLoading(true)
     try { const r = await fetch(`/api/admin/registrations/${id}`); const d = await r.json(); setDetailData(d) }
@@ -148,12 +173,6 @@ export default function AdminRegistrations() {
   }
   if (!session) return null
 
-  const navLinks = [
-    { href: "/admin/registrations", label: "Pendaftaran", icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg> },
-    { href: "/admin/profile", label: "Profile", icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> },
-    { href: "/admin/register", label: "+ Admin", icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg> },
-  ]
-
   return (
     <div className="admin-page">
       <style>{adminCss}</style>
@@ -172,8 +191,14 @@ export default function AdminRegistrations() {
             </Link>
             <div className="admin-divider" />
             <div className="admin-logos">
-              <div className="admin-logo-wrap"><img src="/smkn_logo.png" alt="SMKN" className="admin-logo" /></div>
-              <div className="admin-logo-wrap"><img src="/parstama_logo.png" alt="PARSTAMA" className="admin-logo" /></div>
+              <div className="admin-logo-wrap">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/smkn_logo.png" alt="SMKN" className="admin-logo" />
+              </div>
+              <div className="admin-logo-wrap">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/parstama_logo.png" alt="PARSTAMA" className="admin-logo" />
+              </div>
             </div>
             <div className="admin-nav-title">
               <span className="admin-brand">Pendaftaran</span>
@@ -273,7 +298,7 @@ export default function AdminRegistrations() {
           {/* Mobile cards */}
           <div className="reg-mobile-list">
             {registrations.length === 0 && <div className="reg-empty"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{margin:"0 auto 12px",opacity:.3,display:"block"}}><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Tidak ada data pendaftaran</div>}
-            {registrations.map((r: any, idx: number) => (
+            {registrations.map((r: Registration, idx: number) => (
               <div key={r.id} className="reg-mobile-card">
                 <div className="reg-mobile-header">
                   <input type="checkbox" checked={selectedIds.includes(r.id)} onChange={() => toggleSelect(r.id)} className="admin-checkbox" />
@@ -326,7 +351,7 @@ export default function AdminRegistrations() {
                 </tr>
               </thead>
               <tbody>
-                {registrations.map((r: any) => (
+                {registrations.map((r: Registration) => (
                   <tr key={r.id} className="admin-tr">
                     <td className="admin-td"><input type="checkbox" checked={selectedIds.includes(r.id)} onChange={() => toggleSelect(r.id)} className="admin-checkbox" /></td>
                     <td className="admin-td admin-td-bold">{r.fullName}</td>

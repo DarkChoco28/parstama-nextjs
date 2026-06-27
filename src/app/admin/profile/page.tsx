@@ -25,12 +25,13 @@ export default function AdminProfile() {
     const update = () => setCurrentTime(new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" }))
     update(); const i = setInterval(update, 1000); return () => clearInterval(i)
   }, [])
-  useEffect(() => { if (status === "authenticated") fetchProfile() }, [status])
-
   const fetchProfile = async () => {
     try { const r = await fetch("/api/admin/profile"); const d = await r.json(); setName(d.name || ""); setEmail(d.email || "") }
     catch { setError("Gagal memuat data profile") } finally { setLoading(false) }
   }
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { if (status === "authenticated") fetchProfile() }, [status])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setMessage(""); setError("")
@@ -66,7 +67,9 @@ export default function AdminProfile() {
             </Link>
             <div className="admin-divider" />
             <div className="admin-logos">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <div className="admin-logo-wrap"><img src="/smkn_logo.png" alt="SMKN" className="admin-logo" /></div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <div className="admin-logo-wrap"><img src="/parstama_logo.png" alt="PARSTAMA" className="admin-logo" /></div>
             </div>
             <div className="admin-nav-title">

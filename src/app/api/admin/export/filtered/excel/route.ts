@@ -89,7 +89,7 @@ export async function GET(request: NextRequest) {
     const titleText = "DATA PENDAFTARAN PARSTAMA"
     const subtitleText = `Export: ${new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })} | Total: ${registrations.length} pendaftar | ${filterText}`
 
-    const rows: any[][] = []
+    const rows: unknown[][] = []
     rows.push([titleText])
     rows.push([subtitleText])
     rows.push(columns.map((c) => c.header))
@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
     ws["!cols"] = columns.map((col) => ({ wch: col.width }))
 
     const totalRows = 3 + registrations.length
-    const rowHeights: any[] = []
+    const rowHeights: Record<string, unknown>[] = []
     rowHeights[0] = { hpt: 36 }
     rowHeights[1] = { hpt: 22 }
     rowHeights[2] = { hpt: 28 }
@@ -183,9 +183,9 @@ export async function GET(request: NextRequest) {
         const ref = XLSX.utils.encode_cell({ r: rowNum, c })
         if (!ws[ref]) continue
 
-        let font: any = { sz: 10, name: "Calibri", color: { rgb: "333333" } }
-        let fill: any = isAlt ? { fgColor: { rgb: "F9FAFB" } } : { fgColor: { rgb: "FFFFFF" } }
-        let alignment: any = { horizontal: "left", vertical: "center", wrapText: c >= 7 && c <= 8 || c >= 16 && c <= 18 }
+        let font: Record<string, unknown> = { sz: 10, name: "Calibri", color: { rgb: "333333" } }
+        let fill: Record<string, unknown> = isAlt ? { fgColor: { rgb: "F9FAFB" } } : { fgColor: { rgb: "FFFFFF" } }
+        let alignment: Record<string, unknown> = { horizontal: "left", vertical: "center", wrapText: c >= 7 && c <= 8 || c >= 16 && c <= 18 }
 
         if (c === 0) {
           alignment = { horizontal: "center", vertical: "center" }

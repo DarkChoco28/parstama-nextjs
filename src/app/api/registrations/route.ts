@@ -1,11 +1,18 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 function normalizeWhatsapp(value: string) {
   return value.replace(/\D/g, "")
 }
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown"
+  const { allowed } = checkRateLimit(ip)
+  if (!allowed) {
+    return NextResponse.json({ error: "Terlalu banyak permintaan. Coba lagi dalam 1 menit." }, { status: 429 })
+  }
+
   try {
     const body = await request.json()
 

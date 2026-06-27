@@ -64,8 +64,14 @@ export default function AdminRegister() {
             </Link>
             <div className="admin-divider" />
             <div className="admin-logos">
-              <div className="admin-logo-wrap"><img src="/smkn_logo.png" alt="SMKN" className="admin-logo" /></div>
-              <div className="admin-logo-wrap"><img src="/parstama_logo.png" alt="PARSTAMA" className="admin-logo" /></div>
+              <div className="admin-logo-wrap">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/smkn_logo.png" alt="SMKN" className="admin-logo" />
+              </div>
+              <div className="admin-logo-wrap">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/parstama_logo.png" alt="PARSTAMA" className="admin-logo" />
+              </div>
             </div>
             <div className="admin-nav-title">
               <span className="admin-brand">Tambah Admin</span>
