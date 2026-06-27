@@ -154,7 +154,7 @@ ATURAN:
 - Format pesan pakai **bold** untuk penekanan
 - Bersikaplah seperti teman yang suka bantu, bukan robot kaku
 - Gunakan emoji yang sesuai
-- Jika tidak tahu jawaban yang akurat, akui dengan juju dan sarankan sumber yang tepat`
+- Jika tidak tahu jawaban yang akurat, akui dengan jujur dan sarankan sumber yang tepat`
 
 export async function POST(request: NextRequest) {
   try {
@@ -165,30 +165,42 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Pesan tidak boleh kosong" }, { status: 400 })
     }
 
-    const apiKey = process.env.GEMINI_API_KEY
+    const apiKey = process.env.GROQ_API_KEY
     if (!apiKey) {
       return NextResponse.json({ response: findFallbackResponse(message), _debug: "NO_API_KEY" })
     }
 
     try {
-      const { GoogleGenerativeAI } = await import("@google/generative-ai")
-      const genAI = new GoogleGenerativeAI(apiKey)
-      const model = genAI.getGenerativeModel({
-        model: "gemini-2.0-flash",
-        systemInstruction: SYSTEM_PROMPT,
+      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: message },
+          ],
+          temperature: 0.8,
+          max_tokens: 2048,
+        }),
       })
 
-      const chat = model.startChat({
-        history: [],
-        generationConfig: { temperature: 0.8 },
-      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err.error?.message || `Groq API error: ${res.status}`)
+      }
 
-      const result = await chat.sendMessage(message)
-      const response = result.response.text()
-      return NextResponse.json({ response, _debug: "GEMINI_OK" })
-    } catch (geminiError: any) {
-      console.error("Gemini error, using fallback:", geminiError?.message)
-      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GEMINI_ERROR", _error: geminiError?.message })
+      const data = await res.json()
+      const response = data.choices?.[0]?.message?.content
+      if (!response) throw new Error("Empty response from Groq")
+
+      return NextResponse.json({ response })
+    } catch (groqError: any) {
+      console.error("Groq error, using fallback:", groqError?.message)
+      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GROQ_ERROR", _error: groqError?.message })
     }
   } catch (error: any) {
     console.error("Chat error:", error)
