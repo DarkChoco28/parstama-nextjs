@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import Link from "next/link"
 
 interface OrganizationMember {
@@ -54,6 +54,53 @@ function getLevelLabel(level: number): string {
   }
 }
 
+function AnimatedSection({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect() } },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(30px)",
+        transition: `opacity 0.6s ${delay}s ease, transform 0.6s ${delay}s ease`,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+function HoverCard({ member, children }: { member: OrganizationMember; children: React.ReactNode }) {
+  const [show, setShow] = useState(false)
+  return (
+    <div className="relative" onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+      {show && (
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 w-56 p-3 rounded-xl bg-zinc-900 border border-white/10 shadow-xl" style={{ backdropFilter: "blur(16px)" }}>
+          <p className="text-white font-bold text-xs">{member.name}</p>
+          {member.nickname && <p className="text-zinc-400 text-[10px]">({member.nickname})</p>}
+          <p className="text-red-400 text-[10px] font-medium mt-0.5">{member.position}</p>
+          {member.bio && <p className="text-zinc-500 text-[10px] mt-1.5 leading-relaxed">{member.bio}</p>}
+        </div>
+      )}
+      {children}
+    </div>
+  )
+}
+
 export default function StrukturOrganisasiPage() {
   const [members, setMembers] = useState<OrganizationMember[]>([])
   const [loading, setLoading] = useState(true)
@@ -102,29 +149,31 @@ export default function StrukturOrganisasiPage() {
     const size = isTop ? "w-20 h-20" : "w-16 h-16"
 
     return (
-      <div className="flex flex-col items-center gap-1.5 relative group">
-        <div
-          className={`${size} rounded-full bg-gradient-to-br ${colorClass} flex items-center justify-center text-white font-bold text-sm shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-red-500/30 group-hover:shadow-xl relative z-10`}
-          style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }}
-        >
-          {member.photo ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={member.photo}
-              alt={member.name}
-              className="w-full h-full rounded-full object-cover"
-            />
-          ) : (
-            <span>{initials}</span>
-          )}
+      <HoverCard member={member}>
+        <div className="flex flex-col items-center gap-1.5 relative group">
+          <div
+            className={`${size} rounded-full bg-gradient-to-br ${colorClass} flex items-center justify-center text-white font-bold text-sm shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-red-500/30 group-hover:shadow-xl relative z-10`}
+            style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }}
+          >
+            {member.photo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={member.photo}
+                alt={member.name}
+                className="w-full h-full rounded-full object-cover"
+              />
+            ) : (
+              <span>{initials}</span>
+            )}
+          </div>
+          <div className="text-center">
+            <p className="text-white text-xs font-semibold leading-tight">
+              {member.nickname || member.name.split(" ")[0]}
+            </p>
+            <p className="text-zinc-500 text-[10px] leading-tight">{member.position}</p>
+          </div>
         </div>
-        <div className="text-center">
-          <p className="text-white text-xs font-semibold leading-tight">
-            {member.nickname || member.name.split(" ")[0]}
-          </p>
-          <p className="text-zinc-500 text-[10px] leading-tight">{member.position}</p>
-        </div>
-      </div>
+      </HoverCard>
     )
   }
 
@@ -314,7 +363,7 @@ export default function StrukturOrganisasiPage() {
 
             {/* Tree Hierarchy */}
             {!loading && !error && members.length > 0 && (
-              <div className="mb-16" style={{ animation: "fadeUp 0.6s 0.3s ease both" }}>
+              <AnimatedSection className="mb-16">
                 <h2 className="text-center text-zinc-300 text-sm font-semibold mb-8 uppercase tracking-wider">
                   Hierarki Organisasi
                 </h2>
@@ -391,14 +440,14 @@ export default function StrukturOrganisasiPage() {
                         })}
                       </div>
                     )}
+                    </div>
                   </div>
-                </div>
-              </div>
-            )}
+                </AnimatedSection>
+              )}
 
             {/* Member Cards Section */}
             {!loading && !error && members.length > 0 && (
-              <div style={{ animation: "fadeUp 0.6s 0.5s ease both" }}>
+              <AnimatedSection delay={0.2}>
                 {/* Level 0 & 1 cards */}
                 <div className="mb-8">
                   <h2 className="text-center text-zinc-300 text-sm font-semibold mb-6 uppercase tracking-wider">
@@ -494,19 +543,21 @@ export default function StrukturOrganisasiPage() {
                     </div>
                   </div>
                 ))}
-              </div>
+              </AnimatedSection>
             )}
 
             {/* Footer info */}
             {!loading && !error && members.length > 0 && (
-              <div className="text-center mt-12 pb-8" style={{ animation: "fadeUp 0.6s 0.7s ease both" }}>
-                <div className="glass-card inline-flex items-center gap-2 rounded-full px-5 py-2.5">
-                  <div className="w-2 h-2 rounded-full bg-red-500" style={{ animation: "pulseGlow 2s ease-in-out infinite" }} />
-                  <span className="text-zinc-400 text-xs">
-                    Total {members.length} anggota • Periode {period}
-                  </span>
+              <AnimatedSection delay={0.4}>
+                <div className="text-center mt-12 pb-8">
+                  <div className="glass-card inline-flex items-center gap-2 rounded-full px-5 py-2.5">
+                    <div className="w-2 h-2 rounded-full bg-red-500" style={{ animation: "pulseGlow 2s ease-in-out infinite" }} />
+                    <span className="text-zinc-400 text-xs">
+                      Total {members.length} anggota • Periode {period}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </AnimatedSection>
             )}
           </div>
         </div>
