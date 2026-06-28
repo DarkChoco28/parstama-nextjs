@@ -20,8 +20,8 @@ export default function Preloader() {
       if (progress < 1) {
         frame = requestAnimationFrame(animate)
       } else {
-        setTimeout(() => setPhase("curtain"), 200)
-        setTimeout(() => setPhase("done"), 1200)
+        setTimeout(() => setPhase("curtain"), 150)
+        setTimeout(() => setPhase("done"), 900)
       }
     }
     frame = requestAnimationFrame(animate)
@@ -31,43 +31,41 @@ export default function Preloader() {
   if (phase === "done") return null
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-[#0A0A0B] flex items-center justify-center overflow-hidden">
-      {/* Main Content */}
-      <div className="flex flex-col items-center gap-8" style={{ opacity: phase === "curtain" ? 0 : 1, transform: phase === "curtain" ? "scale(0.9)" : "scale(1)", transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)" }}>
-        {/* Logos */}
+    <div
+      className="fixed inset-0 flex items-center justify-center overflow-hidden"
+      style={{
+        zIndex: 99999,
+        background: "#0A0A0B",
+        opacity: phase === "curtain" ? 0 : 1,
+        transition: "opacity 0.4s ease",
+        pointerEvents: phase === "curtain" ? "none" : "auto",
+      }}
+    >
+      <div className="flex flex-col items-center gap-6">
         <div className="relative flex items-center justify-center gap-4">
-          <div className="relative" style={{ opacity: 0, animation: "logoRevealLeft 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards" }}>
+          <div className="relative" style={{ opacity: 0, animation: "logoRevealLeft 1s cubic-bezier(0.16,1,0.3,1) 0.2s forwards" }}>
             <div className="absolute inset-[-8px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)", animation: "glowPulse 2s ease-in-out infinite" }} />
             <img src="/smkn_logo.png" alt="SMKN" className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px] rounded-full object-contain" style={{ filter: "drop-shadow(0 0 20px rgba(220,38,38,0.3))" }} />
           </div>
-          <div className="relative" style={{ opacity: 0, animation: "logoRevealRight 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards" }}>
+          <div className="relative" style={{ opacity: 0, animation: "logoRevealRight 1s cubic-bezier(0.16,1,0.3,1) 0.4s forwards" }}>
             <div className="absolute inset-[-8px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)", animation: "glowPulse 2s ease-in-out infinite 0.5s" }} />
             <img src="/parstama_logo.png" alt="PARSTAMA" className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px] rounded-full object-contain" style={{ filter: "drop-shadow(0 0 20px rgba(220,38,38,0.3))" }} />
           </div>
         </div>
 
-        {/* Brand Name */}
-        <div className="overflow-hidden" style={{ opacity: 0, animation: "textReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards" }}>
-          <span className="font-display text-lg sm:text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "Sansita, Georgia, serif", background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+        <div className="overflow-hidden" style={{ opacity: 0, animation: "textReveal 0.8s cubic-bezier(0.16,1,0.3,1) 0.6s forwards" }}>
+          <span className="text-lg sm:text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "Sansita, Georgia, serif", background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             PARSTAMA
           </span>
         </div>
 
-        {/* Counter */}
-        <div className="font-mono text-xs text-red-500/60 tracking-widest" style={{ opacity: 0, animation: "textReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards" }}>
+        <div className="text-xs tracking-widest" style={{ color: "rgba(220,38,38,0.5)", fontFamily: "monospace", opacity: 0, animation: "textReveal 0.6s cubic-bezier(0.16,1,0.3,1) 0.8s forwards" }}>
           {percent}%
         </div>
 
-        {/* Loading Bar */}
-        <div className="w-[120px] h-[1px] bg-white/5 rounded-full overflow-hidden" style={{ opacity: 0, animation: "textReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards" }}>
-          <div className="h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full" style={{ width: `${percent}%`, transition: "width 0.1s linear" }} />
+        <div className="w-[120px] h-[2px] rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.05)", opacity: 0, animation: "textReveal 0.6s cubic-bezier(0.16,1,0.3,1) 0.9s forwards" }}>
+          <div className="h-full rounded-full" style={{ width: `${percent}%`, background: "linear-gradient(90deg, #DC2626, #EF4444)", transition: "width 0.1s linear" }} />
         </div>
-      </div>
-
-      {/* Curtain */}
-      <div className="fixed inset-0 z-[10000] pointer-events-none" style={{ opacity: phase === "curtain" ? 1 : 0, transition: "opacity 0.3s ease" }}>
-        <div className="absolute inset-x-0 top-0 h-1/2 bg-[#0A0A0B]" style={{ transform: phase === "curtain" ? "translateY(-100%)" : "translateY(0)", transition: "transform 0.8s cubic-bezier(0.76, 0, 0.24, 1) 0.1s" }} />
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[#0A0A0B]" style={{ transform: phase === "curtain" ? "translateY(100%)" : "translateY(0)", transition: "transform 0.8s cubic-bezier(0.76, 0, 0.24, 1) 0.1s" }} />
       </div>
 
       <style>{`
