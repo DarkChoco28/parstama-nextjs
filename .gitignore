@@ -45,3 +45,4 @@ dev.db
 next-env.d.ts
 
 .vercel
+.env*

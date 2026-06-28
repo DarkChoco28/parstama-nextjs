@@ -2,11 +2,9 @@
 
 import { useState } from "react"
 import { signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 
 export default function LoginPage() {
-  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -21,18 +19,16 @@ export default function LoginPage() {
       const result = await signIn("credentials", {
         email,
         password,
-        redirect: false,
+        redirect: true,
+        callbackUrl: "/admin/dashboard",
       })
 
       if (result?.error) {
         setError("Email atau password salah")
-      } else {
-        router.push("/admin/dashboard")
-        router.refresh()
+        setIsLoading(false)
       }
-    } catch (error) {
+    } catch {
       setError("Terjadi kesalahan saat login")
-    } finally {
       setIsLoading(false)
     }
   }
