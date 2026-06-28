@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react"
 import { useSession } from "next-auth/react"
 import Image from "next/image"
-import Link from "next/link"
 
 interface OrgMember {
   id: string
