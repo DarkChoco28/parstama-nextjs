@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState, useCallback, type MouseEvent as ReactMouseEvent } from "react"
 import Link from "next/link"
 import FluidMenu from "./FluidMenu"
 import Preloader from "./Preloader"
@@ -19,6 +19,101 @@ function useScrollReveal() {
     els.forEach((el) => obs.observe(el))
     return () => obs.disconnect()
   }, [])
+}
+
+function SplitText({ text, className = "", as: Tag = "span" }: { text: string; className?: string; as?: "span" | "a" | "p" | "div" }) {
+  return (
+    <Tag className={className}>
+      {text.split("").map((char, i) => (
+        <span key={i} className="split-char" style={{ transitionDelay: `${i * 25}ms` }}>
+          {char === " " ? "\u00A0" : char}
+        </span>
+      ))}
+    </Tag>
+  )
+}
+
+function MagneticCross() {
+  const crossRef = useRef<HTMLDivElement>(null)
+  const [pos, setPos] = useState({ x: 0, y: 0 })
+  const [isHovered, setIsHovered] = useState(false)
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const el = crossRef.current
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      const cx = rect.left + rect.width / 2
+      const cy = rect.top + rect.height / 2
+      const dx = (e.clientX - cx) * 0.15
+      const dy = (e.clientY - cy) * 0.15
+      setPos({ x: dx, y: dy })
+    }
+    window.addEventListener("mousemove", onMove, { passive: true })
+    return () => window.removeEventListener("mousemove", onMove)
+  }, [])
+
+  return (
+    <div
+      ref={crossRef}
+      className="absolute right-[5%] top-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.07] hidden lg:block"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{ transform: `translate(${pos.x}px, ${pos.y}px)`, transition: "transform 0.3s cubic-bezier(0.33,1,0.68,1)" }}
+    >
+      <svg width="200" height="200" viewBox="0 0 200 200" fill="none" className="transition-transform duration-500" style={{ transform: isHovered ? "scale(1.1) rotate(5deg)" : "scale(1) rotate(0deg)" }}>
+        <rect x="75" y="10" width="50" height="180" rx="10" fill="#DC2626" />
+        <rect x="10" y="75" width="180" height="50" rx="10" fill="#DC2626" />
+      </svg>
+    </div>
+  )
+}
+
+function BentoCard({ f, index }: { f: { icon: string; title: string; desc: string }; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const [isHovered, setIsHovered] = useState(false)
+
+  const onMove = useCallback((e: ReactMouseEvent<HTMLDivElement>) => {
+    const el = cardRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width
+    const y = (e.clientY - rect.top) / rect.height
+    setTilt({ x: (0.5 - y) * 12, y: (x - 0.5) * 12 })
+  }, [])
+
+  return (
+    <div
+      ref={cardRef}
+      className="reveal-scale bento-card group relative bg-[#1A1A1C] border border-white/[0.06] rounded-2xl p-6 sm:p-8 overflow-hidden cursor-default"
+      onMouseMove={onMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => { setIsHovered(false); setTilt({ x: 0, y: 0 }) }}
+      style={{
+        transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) ${isHovered ? "scale(1.02)" : "scale(1)"}`,
+        transition: "transform 0.4s cubic-bezier(0.33,1,0.68,1), border-color 0.3s, box-shadow 0.3s",
+        borderColor: isHovered ? "rgba(220,38,38,0.3)" : undefined,
+        boxShadow: isHovered ? "0 0 40px rgba(220,38,38,0.08), 0 20px 60px rgba(0,0,0,0.4)" : undefined,
+      }}
+    >
+      <div
+        className="bento-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{
+          background: "radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(220,38,38,0.06), transparent 40%)",
+          ["--mx" as string]: `${(tilt.y / 12 + 0.5) * 100}%`,
+          ["--my" as string]: `${(0.5 - tilt.x / 12) * 100}%`,
+        }}
+      />
+      <div className="relative z-10">
+        <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-2xl mb-4 sm:mb-5 group-hover:bg-red-500/20 group-hover:border-red-500/30 transition-all duration-300 group-hover:scale-110">
+          {f.icon}
+        </div>
+        <h3 className="text-base sm:text-lg font-bold text-white mb-1.5 sm:mb-2 group-hover:text-red-300 transition-colors duration-300">{f.title}</h3>
+        <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors duration-300">{f.desc}</p>
+      </div>
+    </div>
+  )
 }
 
 export default function LandingClient() {
@@ -40,6 +135,9 @@ export default function LandingClient() {
       <Preloader />
       <style>{`
         header.scrolled { background: rgba(10,10,11,0.97) !important; box-shadow: 0 4px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(220,38,38,0.05); backdrop-filter: blur(20px) !important; }
+        .split-char { display: inline-block; transition: color 0.2s, transform 0.3s cubic-bezier(0.33,1,0.68,1); }
+        .split-text:hover .split-char { color: #DC2626; }
+        .split-text:hover .split-char:hover { color: #EF4444; transform: translateY(-3px) scale(1.1); }
       `}</style>
 
       {/* Navbar */}
@@ -58,23 +156,23 @@ export default function LandingClient() {
           </span>
         </Link>
         <nav className="hidden sm:flex items-center gap-8 relative z-[1]">
-          <a href="#tentang" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
-            Tentang
+          <a href="#tentang" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+            <SplitText text="Tentang" />
           </a>
-          <a href="#syarat" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
-            Syarat
+          <a href="#syarat" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+            <SplitText text="Syarat" />
           </a>
-          <a href="#timeline" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
-            Timeline
+          <a href="#timeline" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+            <SplitText text="Timeline" />
           </a>
-          <Link href="/cek-status" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
-            💬 Tanya AI
+          <Link href="/cek-status" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+            💬 <SplitText text="Tanya AI" />
           </Link>
-          <Link href="/login" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
-            Login
+          <Link href="/login" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+            <SplitText text="Login" />
           </Link>
-          <a href="https://wa.me/6281459145800?text=Halo%20PARSTAMA,%20saya%20ingin%20bertanya%20tentang%20pendaftaran." target="_blank" rel="noopener" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors">
-            WhatsApp
+          <a href="https://wa.me/6281459145800?text=Halo%20PARSTAMA,%20saya%20ingin%20bertanya%20tentang%20pendaftaran." target="_blank" rel="noopener" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors">
+            <SplitText text="WhatsApp" />
           </a>
           <Link href="/daftar" className="inline-flex items-center px-6 py-2.5 bg-[#DC2626] text-white rounded-full text-sm font-semibold hover:bg-[#EF4444] hover:-translate-y-0.5 transition-all">
             Daftar Sekarang
@@ -88,13 +186,15 @@ export default function LandingClient() {
 
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center text-center px-6 pt-24 pb-16 sm:pt-[120px] sm:pb-20 overflow-hidden">
+        <MagneticCross />
         <div className="relative z-10 max-w-3xl mx-auto">
           <div className="reveal inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
             PMR SMKN 1 Singosari
           </div>
           <h1 className="reveal text-[clamp(2rem,6vw,4.5rem)] font-display font-extrabold leading-[1.1] text-white mb-4 sm:mb-5 tracking-tight">
-            Bergabunglah Bersama{" "}
-            <span className="bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent whitespace-nowrap">
+            <span className="split-text inline-block cursor-default"><SplitText text="Bergabunglah" /></span>{" "}
+            <span className="split-text inline-block cursor-default"><SplitText text="Bersama" /></span>{" "}
+            <span className="inline-block bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent whitespace-nowrap">
               PARSTAMA
             </span>
           </h1>
@@ -152,14 +252,8 @@ export default function LandingClient() {
             { icon: "🌍", title: "Dampak Nyata", desc: "Terlibat langsung dalam kegiatan donor darah, posko kesehatan, dan misi kemanusiaan di lapangan." },
             { icon: "📚", title: "Pengembangan Diri", desc: "Tingkatkan jiwa kepemimpinan, komunikasi, dan kerja tim melalui program pelatihan rutin dan seminar." },
             { icon: "🎖️", title: "Sertifikasi Resmi", desc: "Dapatkan sertifikat resmi dari PMI yang diakui secara nasional sebagai bukti kompetensi Anda." },
-          ].map((f) => (
-            <div key={f.title} className="reveal-scale bg-[#1A1A1C] border border-white/[0.06] rounded-2xl p-6 sm:p-8 transition-all duration-300 hover:border-red-500/20">
-              <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-2xl mb-4 sm:mb-5">
-                {f.icon}
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-white mb-1.5 sm:mb-2">{f.title}</h3>
-              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">{f.desc}</p>
-            </div>
+          ].map((f, i) => (
+            <BentoCard key={f.title} f={f} index={i} />
           ))}
         </div>
       </section>
@@ -218,7 +312,11 @@ export default function LandingClient() {
       {/* CTA */}
       <section className="px-6 py-16 sm:py-24 text-center">
         <div className="reveal-scale max-w-2xl mx-auto bg-gradient-to-br from-red-600/10 to-red-800/5 border border-red-500/20 rounded-2xl sm:rounded-3xl p-8 sm:p-16 relative overflow-hidden">
-          <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-2 sm:mb-3">Siap Bergabung?</h2>
+          <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-2 sm:mb-3">
+            <span className="split-text inline-block cursor-default">
+              <SplitText text="Siap Bergabung?" />
+            </span>
+          </h2>
           <p className="text-sm sm:text-base text-zinc-400 mb-6 sm:mb-8 max-w-md mx-auto">Jangan lewatkan kesempatan menjadi bagian dari keluarga PARSTAMA. Pendaftaran dibuka terbatas!</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
