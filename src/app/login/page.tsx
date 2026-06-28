@@ -19,13 +19,14 @@ export default function LoginPage() {
       const result = await signIn("credentials", {
         email,
         password,
-        redirect: true,
-        callbackUrl: "/admin/dashboard",
+        redirect: false,
       })
 
       if (result?.error) {
         setError("Email atau password salah")
         setIsLoading(false)
+      } else {
+        window.location.href = "/admin/dashboard"
       }
     } catch {
       setError("Terjadi kesalahan saat login")
