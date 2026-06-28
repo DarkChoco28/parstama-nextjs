@@ -31,6 +31,7 @@ export default function AdminOrganization() {
   const [form, setForm] = useState(defaultForm)
   const [saving, setSaving] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
 
   const fetchMembers = useCallback(async () => {
     setLoading(true)
@@ -70,6 +71,19 @@ export default function AdminOrganization() {
   const moveOrder = async (m: OrgMember, dir: -1 | 1) => {
     try { await fetch(`/api/admin/organization/${m.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sortOrder: m.sortOrder + dir }) }); fetchMembers() }
     catch (e) { console.error(e) }
+  }
+
+  const handleUpload = async (file: File) => {
+    setUploading(true)
+    try {
+      const fd = new FormData()
+      fd.append("file", file)
+      const r = await fetch("/api/admin/upload", { method: "POST", body: fd })
+      const d = await r.json()
+      if (r.ok) setForm({ ...form, photo: d.url })
+      else alert(d.error || "Gagal upload")
+    } catch { alert("Gagal upload") }
+    finally { setUploading(false) }
   }
 
   if (status === "loading" || loading) {
@@ -198,8 +212,14 @@ export default function AdminOrganization() {
                 <textarea value={form.bio} onChange={e => setForm({ ...form, bio: e.target.value })} className="admin-input" rows={3} placeholder="Cerita singkat tentang anggota ini..." style={{ resize: "vertical" }} />
               </div>
               <div className="org-form-group">
-                <label className="org-label">Foto (URL)</label>
-                <input type="url" value={form.photo} onChange={e => setForm({ ...form, photo: e.target.value })} className="admin-input" placeholder="https://example.com/foto.jpg" />
+                <label className="org-label">Foto</label>
+                <div className="org-photo-row">
+                  <input type="url" value={form.photo} onChange={e => setForm({ ...form, photo: e.target.value })} className="admin-input" placeholder="https://example.com/foto.jpg" />
+                  <label className="org-upload-btn">
+                    {uploading ? "..." : "Upload"}
+                    <input type="file" accept="image/*" style={{ display: "none" }} onChange={e => { const f = e.target.files?.[0]; if (f) handleUpload(f) }} />
+                  </label>
+                </div>
                 {form.photo && (
                   <div style={{ marginTop: 8, width: 64, height: 64, borderRadius: "50%", overflow: "hidden", border: "2px solid rgba(255,255,255,0.1)" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -296,6 +316,10 @@ export default function AdminOrganization() {
         .org-label{display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:6px}
         .org-required{color:#EF4444}
         .org-check-label{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.6);cursor:pointer}
+        .org-photo-row{display:flex;gap:8px}
+        .org-photo-row .admin-input{flex:1}
+        .org-upload-btn{display:flex;align-items:center;gap:6px;padding:10px 18px;background:rgba(96,165,250,.15);color:#60A5FA;border:1px solid rgba(96,165,250,.3);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .3s;font-family:inherit;white-space:nowrap;flex-shrink:0}
+        .org-upload-btn:hover{background:rgba(96,165,250,.25)}
         .org-form-actions{display:flex;gap:8px;justify-content:flex-end;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);margin-top:8px}
         .org-btn-cancel{padding:10px 18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.6);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
         .org-btn-cancel:hover{background:rgba(255,255,255,.08);color:#fff}
