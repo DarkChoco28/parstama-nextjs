@@ -1,12 +1,9 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import dynamic from "next/dynamic"
 import Link from "next/link"
 import FluidMenu from "./FluidMenu"
 import Preloader from "./Preloader"
-
-const Hero3D = dynamic(() => import("@/components/landing/Hero3D"), { ssr: false })
 
 function useScrollReveal() {
   useEffect(() => {
@@ -43,50 +40,10 @@ export default function LandingClient() {
       <Preloader />
       <style>{`
         header.scrolled { background: rgba(10,10,11,0.97) !important; box-shadow: 0 4px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(220,38,38,0.05); backdrop-filter: blur(20px) !important; }
-        header::after { content: ''; position: absolute; top: 0; left: -100%; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(220,38,38,0.6), transparent); animation: scanLine 5s linear infinite; pointer-events: none; }
-        @keyframes scanLine { from { left: -100%; } to { left: 200%; } }
-        @keyframes neonPulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
-        @keyframes shimmerStat { 0% { left: -100%; } 50%,100% { left: 200%; } }
-      `}</style>
-
-      {/* Background Animations */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-
-        {/* Diagonal Lines */}
-        {[...Array(6)].map((_, i) => (
-          <div key={`line-${i}`} className="absolute h-[1px] opacity-[0.04]" style={{ width: "200%", left: "-50%", top: `${15 + i * 15}%`, background: "linear-gradient(90deg, transparent 0%, rgba(220,38,38,0.6) 50%, transparent 100%)", transform: "rotate(-25deg)", animation: `diagSlide ${12 + i * 2}s ease-in-out infinite ${i * 1.5}s` }} />
-        ))}
-
-        {/* Shimmer Sweep */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ background: "linear-gradient(105deg, transparent 40%, rgba(220,38,38,0.15) 50%, transparent 60%)", backgroundSize: "200% 100%", animation: "shimmerSweep 8s ease-in-out infinite" }} />
-
-        {/* Grain Texture */}
-        <svg className="hidden"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" /></filter></svg>
-        <div className="absolute inset-0 opacity-[0.03]" style={{ filter: "url(#grain)" }} />
-      </div>
-      <style>{`
-        @keyframes diagSlide { 0%,100% { transform: rotate(-25deg) translateX(0); } 50% { transform: rotate(-25deg) translateX(80px); } }
-        @keyframes shimmerSweep { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
       `}</style>
 
       {/* Navbar */}
-      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/[0.06] h-[100px] px-6 flex items-center justify-between overflow-hidden" style={{ animation: "navbarSlideDown 0.6s ease-out" }}>
-        {/* 3D Floating Red Crosses */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none perspective-[600px] z-0">
-          <div className="absolute w-[14px] h-[14px] opacity-[0.15] top-1/2 left-[20%]" style={{ animation: "navCrossFloat1 8s ease-in-out infinite" }}>
-            <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
-          </div>
-          <div className="absolute w-[14px] h-[14px] opacity-[0.15] top-[30%] left-[45%]" style={{ animation: "navCrossFloat2 10s ease-in-out infinite 1s" }}>
-            <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
-          </div>
-          <div className="absolute w-[14px] h-[14px] opacity-[0.15] top-[60%] left-[70%]" style={{ animation: "navCrossFloat1 9s ease-in-out infinite 2s" }}>
-            <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
-          </div>
-          <div className="absolute w-[14px] h-[14px] opacity-[0.15] top-[40%] left-[85%]" style={{ animation: "navCrossFloat2 11s ease-in-out infinite 0.5s" }}>
-            <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
-          </div>
-        </div>
-
+      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/[0.06] h-[100px] px-6 flex items-center justify-between overflow-hidden">
         <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-[1]">
           <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
             <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
@@ -101,19 +58,19 @@ export default function LandingClient() {
           </span>
         </Link>
         <nav className="hidden sm:flex items-center gap-8 relative z-[1]">
-          <a href="#tentang" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.1s" }}>
+          <a href="#tentang" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             Tentang
           </a>
-          <a href="#syarat" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.2s" }}>
+          <a href="#syarat" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             Syarat
           </a>
-          <a href="#timeline" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.3s" }}>
+          <a href="#timeline" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             Timeline
           </a>
-          <Link href="/cek-status" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.4s" }}>
+          <Link href="/cek-status" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             💬 Tanya AI
           </Link>
-          <Link href="/login" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.5s" }}>
+          <Link href="/login" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             Login
           </Link>
           <a href="https://wa.me/6281459145800?text=Halo%20PARSTAMA,%20saya%20ingin%20bertanya%20tentang%20pendaftaran." target="_blank" rel="noopener" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors">
@@ -125,37 +82,12 @@ export default function LandingClient() {
         </nav>
       </header>
       <style>{`
-        @keyframes navCrossFloat1 { 0%,100% { transform: perspective(400px) rotateY(0deg) rotateX(0deg) translateY(0px); } 50% { transform: perspective(400px) rotateY(180deg) rotateX(20deg) translateY(-8px); } }
-        @keyframes navCrossFloat2 { 0%,100% { transform: perspective(400px) rotateY(180deg) rotateX(-15deg) translateY(0px); } 50% { transform: perspective(400px) rotateY(360deg) rotateX(15deg) translateY(-6px); } }
-      `}</style>
-      <style>{`
-        @keyframes navbarSlideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes navLinkFadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes navGlowPulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
         @keyframes navLogoFloat3D { 0%,100% { transform: perspective(400px) rotateY(-12deg) rotateX(5deg) translateY(0px); } 25% { transform: perspective(400px) rotateY(0deg) rotateX(-5deg) translateY(-3px); } 50% { transform: perspective(400px) rotateY(12deg) rotateX(5deg) translateY(0px); } 75% { transform: perspective(400px) rotateY(0deg) rotateX(-5deg) translateY(-3px); } }
       `}</style>
 
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center text-center px-6 pt-24 pb-16 sm:pt-[120px] sm:pb-20 overflow-hidden">
-        <Hero3D />
-
-        {/* 3D Grid */}
-        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(220,38,38,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(220,38,38,0.04) 1px, transparent 1px)", backgroundSize: "60px 60px", transform: "perspective(600px) rotateX(40deg) translateY(20%) scaleY(2)", transformOrigin: "center bottom", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, transparent 100%)", maskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, transparent 100%)", animation: "gridPulse 4s ease-in-out infinite" }} />
-
-        <style>{`
-          @keyframes gridPulse {
-            0%, 100% { opacity: 0.5; background-size: 60px 60px; }
-            50% { opacity: 1; background-size: 62px 62px; }
-          }
-        `}</style>
-
-        {/* Expanding Rings */}
-        <div className="absolute w-[600px] h-[600px] rounded-full border border-red-500/10 top-1/2 left-1/2 pointer-events-none z-[1]" style={{ transform: "translate(-50%,-50%) rotateX(70deg)", animation: "heroRingExpand 6s ease-in-out infinite" }} />
-        <div className="absolute w-[400px] h-[400px] rounded-full border border-red-500/15 top-1/2 left-1/2 pointer-events-none z-[1]" style={{ transform: "translate(-50%,-50%) rotateX(70deg)", animation: "heroRingExpand 6s ease-in-out infinite 2s" }} />
-
-        <style>{`
-        @keyframes heroRingExpand { 0%,100% { transform: translate(-50%,-50%) rotateX(70deg) scale(1); opacity: 0.5; } 50% { transform: translate(-50%,-50%) rotateX(70deg) scale(1.08); opacity: 1; } }
-        `}</style>
-
         <div className="relative z-10 max-w-3xl mx-auto">
           <div className="reveal inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
             PMR SMKN 1 Singosari
@@ -183,8 +115,8 @@ export default function LandingClient() {
         </div>
       </section>
 
-      {/* Neon Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
+      {/* Separator */}
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" />
 
       {/* Stats */}
       <section className="flex justify-center gap-8 sm:gap-16 px-6 py-10 sm:py-12 flex-wrap">
@@ -193,22 +125,18 @@ export default function LandingClient() {
           { value: "50+", label: "Kegiatan Sosial" },
           { value: "10+", label: "Tahun Berdiri" },
           { value: "30+", label: "Penghargaan" },
-        ].map((s, i) => (
-          <div key={s.label} className="reveal-scale text-center group perspective-[1000px]" style={{ animationDelay: `${0.2 + i * 0.2}s`, transitionDelay: `${0.2 + i * 0.2}s` }}>
-            <div className="text-3xl sm:text-5xl font-display font-extrabold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent leading-none mb-1.5 sm:mb-2 relative overflow-hidden group-hover:animate-[statFlip_0.6s_ease-in-out_forwards]">
+        ].map((s) => (
+          <div key={s.label} className="reveal-scale text-center">
+            <div className="text-3xl sm:text-5xl font-display font-extrabold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent leading-none mb-1.5 sm:mb-2">
               {s.value}
-              <span className="absolute top-0 left-[-100%] w-[60%] h-full bg-gradient-to-r from-transparent via-white/15 to-transparent" style={{ animation: "shimmerStat 3s ease-in-out infinite" }} />
             </div>
             <div className="text-xs sm:text-sm text-zinc-500 font-medium">{s.label}</div>
           </div>
         ))}
       </section>
-      <style>{`
-        @keyframes statFlip { 0% { transform: rotateY(0deg) rotateX(0deg) scale(1); } 50% { transform: rotateY(180deg) rotateX(10deg) scale(1.1); } 100% { transform: rotateY(360deg) rotateX(0deg) scale(1); } }
-      `}</style>
 
-      {/* Neon Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
+      {/* Separator */}
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" />
 
       {/* Features */}
       <section id="tentang" className="max-w-6xl mx-auto px-6 py-16 sm:py-24">
@@ -224,9 +152,9 @@ export default function LandingClient() {
             { icon: "🌍", title: "Dampak Nyata", desc: "Terlibat langsung dalam kegiatan donor darah, posko kesehatan, dan misi kemanusiaan di lapangan." },
             { icon: "📚", title: "Pengembangan Diri", desc: "Tingkatkan jiwa kepemimpinan, komunikasi, dan kerja tim melalui program pelatihan rutin dan seminar." },
             { icon: "🎖️", title: "Sertifikasi Resmi", desc: "Dapatkan sertifikat resmi dari PMI yang diakui secara nasional sebagai bukti kompetensi Anda." },
-          ].map((f, i) => (
-            <div key={f.title} className="reveal-scale group bg-[#1A1A1C] border border-white/[0.06] rounded-2xl p-6 sm:p-8 transition-all duration-[400ms] perspective-[1000px]" style={{ transformStyle: "preserve-3d", transitionDelay: `${0.1 + i * 0.1}s` }}>
-              <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-2xl mb-4 sm:mb-5 group-hover:animate-[emoji3DRotate_0.6s_ease-in-out_forwards]">
+          ].map((f) => (
+            <div key={f.title} className="reveal-scale bg-[#1A1A1C] border border-white/[0.06] rounded-2xl p-6 sm:p-8 transition-all duration-300 hover:border-red-500/20">
+              <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-2xl mb-4 sm:mb-5">
                 {f.icon}
               </div>
               <h3 className="text-base sm:text-lg font-bold text-white mb-1.5 sm:mb-2">{f.title}</h3>
@@ -235,12 +163,9 @@ export default function LandingClient() {
           ))}
         </div>
       </section>
-      <style>{`
-        @keyframes emoji3DRotate { 0% { transform: perspective(600px) rotateY(0deg) rotateX(0deg) scale(1); } 50% { transform: perspective(600px) rotateY(180deg) rotateX(20deg) scale(1.2); } 100% { transform: perspective(600px) rotateY(360deg) rotateX(0deg) scale(1); } }
-      `}</style>
 
-      {/* Neon Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
+      {/* Separator */}
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" />
 
       {/* Requirements + Timeline */}
       <section id="syarat" className="bg-[#141415] px-6 py-16 sm:py-24">
@@ -256,7 +181,7 @@ export default function LandingClient() {
                 "Mendapat izin dari orang tua / wali",
                 "Mengetahui dan memiliki minat serta tujuan",
               ].map((req) => (
-                <li key={req} className="reveal-left flex items-start gap-3 text-sm sm:text-base text-zinc-400 rounded-lg px-2 py-3 transition-all duration-300 hover:bg-red-500/5 hover:translate-x-2 hover:perspective-[400px] hover:rotateY-2">
+                <li key={req} className="reveal-left flex items-start gap-3 text-sm sm:text-base text-zinc-400 rounded-lg px-2 py-3">
                   <span className="w-5 h-5 rounded-full bg-red-600 flex items-center justify-center text-white text-xs flex-shrink-0 mt-0.5">✓</span>
                   {req}
                 </li>
@@ -276,8 +201,8 @@ export default function LandingClient() {
                 { title: "Wawancara & Tes", desc: "Tes tertulis, fisik, dan wawancara motivasi." },
                 { title: "Pengumuman Hasil", desc: "Hasil seleksi diumumkan melalui website dan medsos PARSTAMA." },
               ].map((t, i) => (
-                <div key={i} className="reveal-right relative mb-6 sm:mb-8 last:mb-0 group" style={{ transitionDelay: `${0.1 + i * 0.15}s` }}>
-                  <div className="absolute left-[-2rem] sm:left-[-2.25rem] top-1 w-3.5 h-3.5 rounded-full bg-red-600 border-2 border-[#141415] transition-all duration-300 group-hover:scale-150 group-hover:shadow-[0_0_0_8px_rgba(220,38,38,0.3)]" style={{ animation: "timelineDotPulse 2s ease-in-out infinite", animationDelay: `${i * 0.5}s` }} />
+                <div key={i} className="reveal-right relative mb-6 sm:mb-8 last:mb-0">
+                  <div className="absolute left-[-2rem] sm:left-[-2.25rem] top-1 w-3.5 h-3.5 rounded-full bg-red-600 border-2 border-[#141415]" />
                   <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">{t.title}</h3>
                   <p className="text-xs sm:text-sm text-zinc-400">{t.desc}</p>
                 </div>
@@ -286,19 +211,13 @@ export default function LandingClient() {
           </div>
         </div>
       </section>
-      <style>{`
-        @keyframes timelineDotPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.4); } 50% { box-shadow: 0 0 0 6px rgba(220,38,38,0.1); } }
-        .hover\\:perspective-\\[400px\\]:hover { perspective: 400px; }
-        .hover\\:rotateY-2:hover { transform: perspective(400px) translateX(8px) rotateY(-2deg); }
-      `}</style>
 
-      {/* Neon Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
+      {/* Separator */}
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" />
 
       {/* CTA */}
       <section className="px-6 py-16 sm:py-24 text-center">
-        <div className="reveal-scale max-w-2xl mx-auto bg-gradient-to-br from-red-600/10 to-red-800/5 border border-red-500/20 rounded-2xl sm:rounded-3xl p-8 sm:p-16 relative overflow-hidden perspective-[1000px] group">
-          <div className="absolute inset-[-2px] rounded-[inherit] z-[-1]" style={{ background: "conic-gradient(from 0deg, transparent 0%, rgba(220,38,38,0.3) 25%, transparent 50%, rgba(220,38,38,0.3) 75%, transparent 100%)", animation: "rotateBorder 4s linear infinite" }} />
+        <div className="reveal-scale max-w-2xl mx-auto bg-gradient-to-br from-red-600/10 to-red-800/5 border border-red-500/20 rounded-2xl sm:rounded-3xl p-8 sm:p-16 relative overflow-hidden">
           <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-2 sm:mb-3">Siap Bergabung?</h2>
           <p className="text-sm sm:text-base text-zinc-400 mb-6 sm:mb-8 max-w-md mx-auto">Jangan lewatkan kesempatan menjadi bagian dari keluarga PARSTAMA. Pendaftaran dibuka terbatas!</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -311,9 +230,6 @@ export default function LandingClient() {
           </div>
         </div>
       </section>
-      <style>{`
-        @keyframes rotateBorder { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      `}</style>
 
       {/* Footer */}
       <footer id="kontak" className="bg-[#141415] border-t border-white/[0.06] px-6 py-12 sm:py-16">
