@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef } from "react"
 import Link from "next/link"
+import Image from "next/image"
 
 interface OrganizationMember {
   id: string
@@ -156,11 +157,13 @@ export default function StrukturOrganisasiPage() {
             style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }}
           >
             {member.photo ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={member.photo}
                 alt={member.name}
+                width={80}
+                height={80}
                 className="w-full h-full rounded-full object-cover"
+                unoptimized
               />
             ) : (
               <span>{initials}</span>
@@ -276,12 +279,10 @@ export default function StrukturOrganisasiPage() {
         {/* Navbar */}
         <header className="sticky top-0 z-50 bg-[#0A0A0B]/95 backdrop-blur-xl border-b border-white/[0.06]">
           <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-2 no-underline">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/smkn_logo.png" alt="SMKN" className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/parstama_logo.png" alt="PARSTAMA" className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ animation: "logo3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
-            </Link>
+              <Link href="/" className="flex items-center gap-2 no-underline">
+                <Image src="/smkn_logo.png" alt="SMKN" width={36} height={36} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
+                <Image src="/parstama_logo.png" alt="PARSTAMA" width={36} height={36} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ animation: "logo3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
+              </Link>
             <div className="flex-1 min-w-0">
               <h1 className="text-white font-bold text-sm sm:text-base leading-tight" style={{ fontFamily: "Sansita, Georgia, serif" }}>
                 Struktur Organisasi
@@ -463,8 +464,7 @@ export default function StrukturOrganisasiPage() {
                         <div className="flex items-center gap-4">
                           <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${getLevelColor(member.level)} flex items-center justify-center text-white font-bold text-lg shrink-0 shadow-lg`}>
                             {member.photo ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img src={member.photo} alt={member.name} className="w-full h-full rounded-full object-cover" />
+                              <Image src={member.photo} alt={member.name} width={56} height={56} className="w-full h-full rounded-full object-cover" unoptimized />
                             ) : (
                               getInitials(member.name)
                             )}
@@ -516,7 +516,7 @@ export default function StrukturOrganisasiPage() {
                             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg">
                               {member.photo ? (
                                 // eslint-disable-next-line @next/next/no-img-element
-                                <img src={member.photo} alt={member.name} className="w-full h-full rounded-full object-cover" />
+                              <Image src={member.photo} alt={member.name} width={56} height={56} className="w-full h-full rounded-full object-cover" unoptimized />
                               ) : (
                                 getInitials(member.name)
                               )}

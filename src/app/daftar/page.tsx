@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function DaftarPage() {
   const [currentStep, setCurrentStep] = useState(1)
@@ -125,12 +126,10 @@ export default function DaftarPage() {
         <div className="daftar-nav-inner">
           <Link href="/" className="daftar-nav-logo">
             <div className="daftar-nav-logo-wrap">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/smkn_logo.png" alt="SMKN" className="daftar-nav-logo-img" />
+              <Image src="/smkn_logo.png" alt="SMKN" width={36} height={36} className="daftar-nav-logo-img" />
             </div>
             <div className="daftar-nav-logo-wrap">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/parstama_logo.png" alt="PARSTAMA" className="daftar-nav-logo-img" />
+              <Image src="/parstama_logo.png" alt="PARSTAMA" width={36} height={36} className="daftar-nav-logo-img" />
             </div>
             <span className="daftar-nav-brand">PARSTAMA</span>
           </Link>

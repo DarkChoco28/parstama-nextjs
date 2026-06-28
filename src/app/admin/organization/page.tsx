@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react"
 import { useSession } from "next-auth/react"
+import Image from "next/image"
 import Link from "next/link"
 
 interface OrgMember {
@@ -222,8 +223,7 @@ export default function AdminOrganization() {
                 </div>
                 {form.photo && (
                   <div style={{ marginTop: 8, width: 64, height: 64, borderRadius: "50%", overflow: "hidden", border: "2px solid rgba(255,255,255,0.1)" }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={form.photo} alt="preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    <Image src={form.photo} alt="preview" width={64} height={64} style={{ width: "100%", height: "100%", objectFit: "cover" }} unoptimized />
                   </div>
                 )}
               </div>
