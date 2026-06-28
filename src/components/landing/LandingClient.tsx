@@ -191,6 +191,9 @@ export default function LandingClient() {
             <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
               💬 Tanya AI Assistant
             </Link>
+            <Link href="/struktur-organisasi" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
+              📋 Struktur Organisasi
+            </Link>
           </div>
         </div>
       </section>
