@@ -139,20 +139,34 @@ export default function LandingClient() {
         .split-char { display: inline-block; transition: color 0.2s, transform 0.3s cubic-bezier(0.33,1,0.68,1); }
         .split-text:hover .split-char { color: #DC2626; }
         .split-text:hover .split-char:hover { color: #EF4444; transform: translateY(-3px) scale(1.1); }
+        @keyframes heroMesh1 { 0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.1)}66%{transform:translate(-20px,30px) scale(0.95)} }
+        @keyframes heroMesh2 { 0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-40px,20px) scale(0.9)}66%{transform:translate(30px,-30px) scale(1.15)} }
+        @keyframes heroMesh3 { 0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,40px) scale(1.05)} }
+        @keyframes heartbeatLine { 0%{stroke-dashoffset:600}100%{stroke-dashoffset:0} }
+        @keyframes heroStagger { 0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)} }
+        .hero-stagger-1 { animation: heroStagger 0.8s cubic-bezier(.34,1.56,.64,1) 0.1s both }
+        .hero-stagger-2 { animation: heroStagger 0.8s cubic-bezier(.34,1.56,.64,1) 0.25s both }
+        .hero-stagger-3 { animation: heroStagger 0.8s cubic-bezier(.34,1.56,.64,1) 0.4s both }
+        .hero-stagger-4 { animation: heroStagger 0.8s cubic-bezier(.34,1.56,.64,1) 0.55s both }
+        @media(max-width:640px) {
+          .mobile-sticky-cta { position:fixed;bottom:0;left:0;right:0;z-index:50;padding:12px 16px;background:rgba(10,10,11,0.95);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,0.06);transform:translateY(0);transition:transform .3s }
+          .mobile-sticky-cta.hidden-scroll { transform:translateY(100%) }
+        }
+        @media(min-width:641px) { .mobile-sticky-cta { display:none } }
       `}</style>
 
       {/* Navbar */}
-      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/[0.06] h-[100px] px-6 flex items-center justify-between overflow-hidden">
+      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/[0.06] h-[80px] sm:h-[80px] px-4 sm:px-6 flex items-center justify-between overflow-hidden">
         <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-[1]">
-          <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
+          <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
             <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
             <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
           </div>
-          <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
+          <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
             <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
             <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
           </div>
-          <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+          <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             PARSTAMA
           </span>
         </Link>
@@ -186,30 +200,44 @@ export default function LandingClient() {
       `}</style>
 
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center text-center px-6 pt-24 pb-16 sm:pt-[120px] sm:pb-20 overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-[100px] sm:pt-[120px] pb-16 sm:pb-20 overflow-hidden">
+        {/* Gradient mesh background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full opacity-[0.04]" style={{ background: "radial-gradient(circle, #DC2626 0%, transparent 70%)", animation: "heroMesh1 20s ease-in-out infinite" }} />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full opacity-[0.03]" style={{ background: "radial-gradient(circle, #F59E0B 0%, transparent 70%)", animation: "heroMesh2 25s ease-in-out infinite" }} />
+          <div className="absolute top-[30%] right-[20%] w-[400px] h-[400px] rounded-full opacity-[0.025]" style={{ background: "radial-gradient(circle, #EF4444 0%, transparent 70%)", animation: "heroMesh3 18s ease-in-out infinite" }} />
+        </div>
+
+        {/* Heartbeat EKG line */}
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-[0.06]">
+          <svg width="100%" height="120" viewBox="0 0 800 120" fill="none" preserveAspectRatio="none" className="max-w-4xl">
+            <path d="M0 60 L200 60 L220 60 L240 20 L260 100 L280 10 L300 90 L320 60 L340 60 L800 60" stroke="#DC2626" strokeWidth="2" fill="none" strokeDasharray="600" style={{ animation: "heartbeatLine 3s linear infinite" }} />
+          </svg>
+        </div>
+
         <MagneticCross />
         <div className="relative z-10 max-w-3xl mx-auto">
-          <div className="reveal inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
+          <div className="hero-stagger-1 inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
             PMR SMKN 1 Singosari
           </div>
-          <h1 className="reveal text-[clamp(2rem,6vw,4.5rem)] font-display font-extrabold leading-[1.1] text-white mb-4 sm:mb-5 tracking-tight">
+          <h1 className="hero-stagger-2 text-[clamp(1.8rem,5vw,4rem)] sm:text-[clamp(2rem,6vw,4.5rem)] font-display font-extrabold leading-[1.1] text-white mb-4 sm:mb-5 tracking-tight">
             <span className="split-text inline-block cursor-default"><SplitText text="Bergabunglah" /></span>{" "}
             <span className="split-text inline-block cursor-default"><SplitText text="Bersama" /></span>{" "}
             <span className="inline-block bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent whitespace-nowrap">
               PARSTAMA
             </span>
           </h1>
-          <p className="reveal text-sm sm:text-lg text-zinc-400 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
+          <p className="hero-stagger-3 text-sm sm:text-lg text-zinc-400 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
             Jadilah bagian dari generasi penolong yang hebat. Pelajari keterampilan pertolongan pertama, kembangkan jiwa kepedulian, dan beri dampak nyata bagi masyarakat.
           </p>
-          <div className="reveal flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <RocketButton href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
+          <div className="hero-stagger-4 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <RocketButton href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all min-h-[44px]">
               Isi Form Pendaftaran
             </RocketButton>
-            <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
+            <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all min-h-[44px]">
               💬 Tanya AI Assistant
             </Link>
-            <Link href="/struktur-organisasi" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
+            <Link href="/struktur-organisasi" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all min-h-[44px]">
               📋 Struktur Organisasi
             </Link>
           </div>
@@ -220,15 +248,15 @@ export default function LandingClient() {
       <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" />
 
       {/* Stats */}
-      <section className="flex justify-center gap-8 sm:gap-16 px-6 py-10 sm:py-12 flex-wrap">
+      <section className="flex justify-center gap-6 sm:gap-16 px-4 sm:px-6 py-10 sm:py-12 flex-wrap">
         {[
-          { value: "100+", label: "Anggota Aktif" },
-          { value: "50+", label: "Kegiatan Sosial" },
-          { value: "10+", label: "Tahun Berdiri" },
-          { value: "30+", label: "Penghargaan" },
+          { value: "100+", label: "Anggota Aktif", color: "from-red-400 to-red-600" },
+          { value: "50+", label: "Kegiatan Sosial", color: "from-amber-400 to-amber-600" },
+          { value: "10+", label: "Tahun Berdiri", color: "from-red-400 to-red-600" },
+          { value: "30+", label: "Penghargaan", color: "from-amber-400 to-amber-600" },
         ].map((s) => (
           <div key={s.label} className="reveal-scale text-center">
-            <div className="text-3xl sm:text-5xl font-display font-extrabold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent leading-none mb-1.5 sm:mb-2">
+            <div className={`text-3xl sm:text-5xl font-display font-extrabold bg-gradient-to-r ${s.color} bg-clip-text text-transparent leading-none mb-1.5 sm:mb-2`}>
               {s.value}
             </div>
             <div className="text-xs sm:text-sm text-zinc-500 font-medium">{s.label}</div>
@@ -242,7 +270,7 @@ export default function LandingClient() {
       {/* Features */}
       <section id="tentang" className="max-w-6xl mx-auto px-6 py-16 sm:py-24">
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="reveal text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-3 sm:mb-4">Mengapa <span className="bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent">PARSTAMA</span>?</h2>
+          <h2 className="reveal text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-3 sm:mb-4"><span className="glow-heading">Mengapa <span className="bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent">PARSTAMA</span>?</span></h2>
           <p className="reveal text-sm sm:text-base text-zinc-400 max-w-lg mx-auto">Kami bukan sekadar organisasi — kami adalah keluarga yang saling mendukung.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -335,15 +363,15 @@ export default function LandingClient() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
           <div className="footer-col">
             <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4 no-underline">
-              <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
+              <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
                 <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
                 <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
               </div>
-              <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
+              <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
                 <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
                 <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
               </div>
-              <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 PARSTAMA
               </span>
             </Link>
@@ -407,6 +435,13 @@ export default function LandingClient() {
           <p className="mt-2 text-zinc-500">Made with ❤️ by tim PARSTAMA</p>
         </div>
       </footer>
+
+      {/* Sticky Mobile CTA */}
+      <div className="mobile-sticky-cta">
+        <RocketButton href="/daftar" className="w-full inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 min-h-[44px]">
+          Daftar Sekarang
+        </RocketButton>
+      </div>
 
       {/* Fluid Menu (Mobile) */}
       <FluidMenu />

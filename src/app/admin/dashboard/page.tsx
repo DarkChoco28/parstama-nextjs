@@ -1,8 +1,56 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts"
+
+function useAnimatedCounter(target: number, duration = 800) {
+  const [count, setCount] = useState(0)
+  const frameRef = useRef<number>(0)
+  useEffect(() => {
+    if (target === 0) { setCount(0); return }
+    let start: number | null = null
+    const animate = (ts: number) => {
+      if (!start) start = ts
+      const progress = Math.min((ts - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCount(Math.round(eased * target))
+      if (progress < 1) frameRef.current = requestAnimationFrame(animate)
+    }
+    frameRef.current = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(frameRef.current)
+  }, [target, duration])
+  return count
+}
+
+function StatCard({ label, target, color, gradient, border, delay }: { label: string; target: number; color: string; gradient: string; border: string; delay: number }) {
+  const value = useAnimatedCounter(target)
+  return (
+    <div className="admin-stat-card" style={{ background: gradient, borderColor: border, animationDelay: `${delay}s` }}>
+      <div className="admin-stat-label">{label}</div>
+      <div className="admin-stat-value counting" style={{ color }}>{value}</div>
+    </div>
+  )
+}
+
+function SkeletonDashboard() {
+  return (
+    <main className="admin-main">
+      <div className="admin-header">
+        <div className="admin-skeleton" style={{ width: 220, height: 28, marginBottom: 8 }} />
+        <div className="admin-skeleton" style={{ width: 180, height: 16 }} />
+      </div>
+      <div className="admin-stats-grid">
+        {[0,1,2,3].map(i => <div key={i} className="admin-skeleton admin-skeleton-card" />)}
+      </div>
+      <div className="admin-skeleton-row">
+        {[0,1,2].map(i => <div key={i} className="admin-skeleton admin-skeleton-block" />)}
+      </div>
+      <div className="admin-skeleton admin-skeleton-chart" style={{ marginBottom: 16 }} />
+      <div className="admin-skeleton" style={{ height: 200, borderRadius: 16 }} />
+    </main>
+  )
+}
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ total: 0, pending: 0, accepted: 0, rejected: 0 })
@@ -47,14 +95,7 @@ export default function AdminDashboard() {
     finally { setNotifLoading(false) }
   }
 
-  if (isLoading) {
-    return (
-      <div className="admin-loading">
-        <div className="admin-loading-spinner" />
-        <span>Memuat data...</span>
-      </div>
-    )
-  }
+  if (isLoading) return <SkeletonDashboard />
 
   const statCards = [
     { label: "Total Pendaftar", value: stats.total, color: "#fff", gradient: "linear-gradient(135deg, rgba(220,38,38,0.15), rgba(220,38,38,0.05))", border: "rgba(220,38,38,0.2)" },
@@ -71,15 +112,6 @@ export default function AdminDashboard() {
 
   const chartColors = ["#DC2626", "#EF4444", "#F59E0B", "#10B981", "#3B82F6", "#8B5CF6", "#EC4899"]
 
-  if (isLoading) {
-    return (
-      <div className="admin-loading">
-        <div className="admin-loading-spinner" />
-        <span>Memuat data...</span>
-      </div>
-    )
-  }
-
   return (
     <main className="admin-main">
         <div className="admin-header">
@@ -87,13 +119,10 @@ export default function AdminDashboard() {
           <p className="admin-subtitle">Ringkasan data pendaftaran PARSTAMA</p>
         </div>
 
-        {/* Stats Cards */}
+        {/* Stats Cards with Animated Counters */}
         <div className="admin-stats-grid">
           {statCards.map((card, i) => (
-            <div key={card.label} className="admin-stat-card" style={{ background: card.gradient, borderColor: card.border, animationDelay: `${i * 0.5}s` }}>
-              <div className="admin-stat-label">{card.label}</div>
-              <div className="admin-stat-value" style={{ color: card.color }}>{card.value}</div>
-            </div>
+            <StatCard key={card.label} label={card.label} target={card.value} color={card.color} gradient={card.gradient} border={card.border} delay={i * 0.1} />
           ))}
         </div>
 
