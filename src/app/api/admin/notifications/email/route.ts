@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { registrationId } = body
+    const { registrationId, type } = body
 
     if (!registrationId) {
       return NextResponse.json({ error: "Registration ID wajib diisi" }, { status: 400 })
@@ -40,11 +40,10 @@ export async function POST(request: NextRequest) {
     await sendEmail({ to: reg.email, subject, html })
 
     return NextResponse.json({ message: "Email berhasil dikirim" })
-  } catch (error: unknown) {
-    const err = error instanceof Error ? error : new Error(String(error))
-    console.error("Error sending email:", err.message)
+  } catch (error: any) {
+    console.error("Error sending email:", error?.message || error)
     return NextResponse.json(
-      { error: err.message || "Terjadi kesalahan saat mengirim email" },
+      { error: error?.message || "Terjadi kesalahan saat mengirim email" },
       { status: 500 }
     )
   }

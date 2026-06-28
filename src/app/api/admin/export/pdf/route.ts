@@ -1,14 +1,13 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
-import { Registration } from "@prisma/client"
 import jsPDF from "jspdf"
 
 function roundedRect(doc: jsPDF, x: number, y: number, w: number, h: number, r: number, style: "F" | "FD" | "S" = "FD") {
   doc.roundedRect(x, y, w, h, r, r, style)
 }
 
-function drawCard(doc: jsPDF, reg: Registration, x: number, y: number) {
+function drawCard(doc: jsPDF, reg: any, x: number, y: number) {
   const cardW = 86
   const cardH = 54
 

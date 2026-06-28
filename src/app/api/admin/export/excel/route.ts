@@ -44,7 +44,7 @@ export async function GET() {
     const subtitleText = `Export: ${new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })} | Total: ${registrations.length} pendaftar`
 
     // Row 1: title, Row 2: subtitle, Row 3: headers, Row 4+: data
-    const rows: unknown[][] = []
+    const rows: any[][] = []
 
     // Row 1 - title
     rows.push([titleText])
@@ -83,6 +83,7 @@ export async function GET() {
     const ws = XLSX.utils.aoa_to_sheet(rows)
 
     // ── Merges ──
+    const lastCol = XLSX.utils.encode_col(columns.length - 1)
     ws["!merges"] = [
       { s: { r: 0, c: 0 }, e: { r: 0, c: columns.length - 1 } },
       { s: { r: 1, c: 0 }, e: { r: 1, c: columns.length - 1 } },
@@ -93,7 +94,7 @@ export async function GET() {
 
     // ── Row heights ──
     const totalRows = 3 + registrations.length
-    const rowHeights: Record<string, unknown>[] = []
+    const rowHeights: any[] = []
     rowHeights[0] = { hpt: 36 }
     rowHeights[1] = { hpt: 22 }
     rowHeights[2] = { hpt: 28 }
@@ -151,9 +152,9 @@ export async function GET() {
         const ref = XLSX.utils.encode_cell({ r: rowNum, c })
         if (!ws[ref]) continue
 
-        let font: Record<string, unknown> = { sz: 10, name: "Calibri", color: { rgb: "333333" } }
-        let fill: Record<string, unknown> = isAlt ? { fgColor: { rgb: "F9FAFB" } } : { fgColor: { rgb: "FFFFFF" } }
-        let alignment: Record<string, unknown> = { horizontal: "left", vertical: "center", wrapText: c >= 7 && c <= 8 || c >= 16 && c <= 18 }
+        let font: any = { sz: 10, name: "Calibri", color: { rgb: "333333" } }
+        let fill: any = isAlt ? { fgColor: { rgb: "F9FAFB" } } : { fgColor: { rgb: "FFFFFF" } }
+        let alignment: any = { horizontal: "left", vertical: "center", wrapText: c >= 7 && c <= 8 || c >= 16 && c <= 18 }
 
         // No column center
         if (c === 0) {

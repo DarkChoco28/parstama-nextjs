@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import Image from "next/image"
 
 interface Message {
   id: string
@@ -20,18 +19,8 @@ const quickQuestions = [
   { label: "🦴 Patah tulang", message: "Bagaimana penanganan patah tulang?" },
 ]
 
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;")
-}
-
 function parseMarkdown(text: string): string {
-  const safe = escapeHtml(text)
-  return safe
+  return text
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
     .replace(/\n/g, "<br/>")
 }
@@ -49,7 +38,6 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
-  const msgIdRef = useRef(0)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -64,7 +52,7 @@ export default function ChatPage() {
     if (!msg || isLoading) return
 
     const userMsg: Message = {
-      id: `msg-${++msgIdRef.current}`,
+      id: Date.now().toString(),
       role: "user",
       content: msg,
       timestamp: new Date(),
@@ -83,7 +71,7 @@ export default function ChatPage() {
       const data = await res.json()
 
       const assistantMsg: Message = {
-        id: `msg-${++msgIdRef.current}`,
+        id: (Date.now() + 1).toString(),
         role: "assistant",
         content: data.response || "Maaf, terjadi kesalahan. Coba lagi ya!",
         timestamp: new Date(),
@@ -93,7 +81,7 @@ export default function ChatPage() {
       setMessages((prev) => [
         ...prev,
         {
-          id: `msg-${++msgIdRef.current}`,
+          id: (Date.now() + 1).toString(),
           role: "assistant",
           content: "Gagal mengirim pesan. Coba lagi ya! 🔄",
           timestamp: new Date(),
@@ -125,8 +113,8 @@ export default function ChatPage() {
       <header className="sticky top-0 z-50 bg-[#0A0A0B]/95 backdrop-blur-xl border-b border-white/[0.06]">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 no-underline">
-            <Image src="/parstama_logo.png" alt="PARSTAMA" width={36} height={36} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
-            <Image src="/smkn_logo.png" alt="SMKN" width={36} height={36} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
+            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
+            <img src="/smkn_logo.png" alt="SMKN" className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
           </Link>
           <div className="flex-1 min-w-0">
             <h1 className="text-white font-bold text-sm sm:text-base leading-tight" style={{ fontFamily: "Sansita, Georgia, serif" }}>

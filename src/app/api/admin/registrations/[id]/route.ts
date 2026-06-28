@@ -76,9 +76,9 @@ export async function PUT(
         await sendEmail({ to: registration.email, subject, html })
         emailStatus = "sent"
         console.log(`Email notif terkirim ke ${registration.email} (${status})`)
-      } catch (err: unknown) {
+      } catch (err: any) {
         emailStatus = "failed"
-        emailError = err instanceof Error ? err.message : "Gagal mengirim email"
+        emailError = err?.message || "Gagal mengirim email"
         console.error("Gagal kirim email notif:", emailError)
       }
     }
@@ -103,9 +103,9 @@ export async function PUT(
         await sendWhatsApp({ target: registration.whatsapp, message })
         waStatus = "sent"
         console.log(`WA notif terkirim ke ${registration.fullName} (${status})`)
-      } catch (err: unknown) {
+      } catch (err: any) {
         waStatus = "failed"
-        waError = err instanceof Error ? err.message : "Gagal mengirim WhatsApp"
+        waError = err?.message || "Gagal mengirim WhatsApp"
         console.error("Gagal kirim WA notif:", waError)
       }
     }

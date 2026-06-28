@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
 
 export default function DaftarPage() {
   const [currentStep, setCurrentStep] = useState(1)
@@ -39,7 +38,7 @@ export default function DaftarPage() {
     setFieldErrors(prev => ({ ...prev, [name]: false }))
   }
 
-  const markError = (id: string) => {
+  const markError = (id: string, errId: string) => {
     setFieldErrors(prev => ({ ...prev, [id]: true }))
   }
 
@@ -47,19 +46,19 @@ export default function DaftarPage() {
     let ok = true
     setFieldErrors({})
     if (step === 1) {
-      if (!formData.fullName.trim()) { markError("fullName"); ok = false }
-      if (!formData.gender) { markError("gender"); ok = false }
-      if (!formData.birthPlace.trim()) { markError("birthPlace"); ok = false }
-      if (!formData.birthDate) { markError("birthDate"); ok = false }
+      if (!formData.fullName.trim()) { markError("fullName", "err-fullName"); ok = false }
+      if (!formData.gender) { markError("gender", "err-gender"); ok = false }
+      if (!formData.birthPlace.trim()) { markError("birthPlace", "err-birthPlace"); ok = false }
+      if (!formData.birthDate) { markError("birthDate", "err-birthDate"); ok = false }
     }
     if (step === 2) {
-      if (!formData.whatsapp.trim()) { markError("whatsapp"); ok = false }
-      if (!formData.address.trim()) { markError("address"); ok = false }
-      if (!formData.class.trim()) { markError("class"); ok = false }
-      if (!formData.major.trim()) { markError("major"); ok = false }
+      if (!formData.whatsapp.trim()) { markError("whatsapp", "err-whatsapp"); ok = false }
+      if (!formData.address.trim()) { markError("address", "err-address"); ok = false }
+      if (!formData.class.trim()) { markError("class", "err-class"); ok = false }
+      if (!formData.major.trim()) { markError("major", "err-major"); ok = false }
     }
     if (step === 3) {
-      if (formData.motivation.trim().length < 20) { markError("motivation"); ok = false }
+      if (formData.motivation.trim().length < 20) { markError("motivation", "err-motivation"); ok = false }
     }
     return ok
   }
@@ -125,12 +124,8 @@ export default function DaftarPage() {
       <nav className="daftar-nav">
         <div className="daftar-nav-inner">
           <Link href="/" className="daftar-nav-logo">
-            <div className="daftar-nav-logo-wrap">
-              <Image src="/smkn_logo.png" alt="SMKN" width={36} height={36} className="daftar-nav-logo-img" />
-            </div>
-            <div className="daftar-nav-logo-wrap">
-              <Image src="/parstama_logo.png" alt="PARSTAMA" width={36} height={36} className="daftar-nav-logo-img" />
-            </div>
+            <div className="daftar-nav-logo-wrap"><img src="/smkn_logo.png" alt="SMKN" className="daftar-nav-logo-img" /></div>
+            <div className="daftar-nav-logo-wrap"><img src="/parstama_logo.png" alt="PARSTAMA" className="daftar-nav-logo-img" /></div>
             <span className="daftar-nav-brand">PARSTAMA</span>
           </Link>
           <div className="daftar-nav-links-desktop">

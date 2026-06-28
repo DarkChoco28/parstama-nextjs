@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
-import Image from "next/image"
 import FluidMenu from "./FluidMenu"
 import Preloader from "./Preloader"
 
@@ -98,11 +97,11 @@ export default function LandingClient() {
         <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-[1]">
           <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
             <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
-                <Image src="/smkn_logo.png" alt="SMKN" width={36} height={36} className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
-              </div>
-              <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
-                <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
-                <Image src="/parstama_logo.png" alt="PARSTAMA" width={36} height={36} className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+            <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+          </div>
+          <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
+            <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
+            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
           </div>
           <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             PARSTAMA
@@ -118,9 +117,6 @@ export default function LandingClient() {
           <a href="#timeline" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.3s" }}>
             Timeline
           </a>
-          <Link href="/struktur-organisasi" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.35s" }}>
-            Struktur
-          </Link>
           <Link href="/cek-status" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.4s" }}>
             💬 Tanya AI
           </Link>
@@ -194,9 +190,6 @@ export default function LandingClient() {
             </Link>
             <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
               💬 Tanya AI Assistant
-            </Link>
-            <Link href="/struktur-organisasi" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
-              🏛️ Struktur Organisasi
             </Link>
           </div>
         </div>
@@ -341,11 +334,11 @@ export default function LandingClient() {
             <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4 no-underline">
               <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
                 <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
-            <Image src="/smkn_logo.png" alt="SMKN" width={36} height={36} className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+                <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
               </div>
               <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
                 <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
-            <Image src="/parstama_logo.png" alt="PARSTAMA" width={36} height={36} className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+                <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
               </div>
               <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 PARSTAMA
@@ -373,7 +366,6 @@ export default function LandingClient() {
                 { label: "Tentang", href: "#tentang" },
                 { label: "Persyaratan", href: "#syarat" },
                 { label: "Timeline", href: "#timeline" },
-                { label: "Struktur Organisasi", href: "/struktur-organisasi" },
                 { label: "Daftar", href: "/daftar" },
                 { label: "💬 Tanya AI", href: "/cek-status" },
                 { label: "Login Admin", href: "/login" },

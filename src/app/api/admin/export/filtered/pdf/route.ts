@@ -97,6 +97,7 @@ export async function GET(request: NextRequest) {
 
       // Info fields
       const infoX = x + 22
+      const infoW = cardW - 26
       doc.setTextColor(60, 60, 60)
       doc.setFontSize(6.5)
       doc.setFont("helvetica", "bold")

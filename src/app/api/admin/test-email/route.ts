@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { sendEmail } from "@/lib/email"
-import { requireAdmin } from "@/lib/admin-auth"
 
 export async function GET(request: NextRequest) {
-  const auth = await requireAdmin()
-  if (auth.error) return auth.error
-
   try {
     if (!process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
       return NextResponse.json({
@@ -34,11 +30,10 @@ export async function GET(request: NextRequest) {
       message: `Email terkirim ke ${to}`,
       timestamp: new Date().toISOString(),
     })
-  } catch (error: unknown) {
-    const err = error instanceof Error ? error : new Error(String(error))
+  } catch (error: any) {
     return NextResponse.json({
-      error: err.message || "Gagal mengirim",
-      stack: err.stack,
+      error: error?.message || "Gagal mengirim",
+      stack: error?.stack,
     }, { status: 500 })
   }
 }

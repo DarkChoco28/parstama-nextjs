@@ -4,7 +4,6 @@ import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import Image from "next/image"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -31,7 +30,7 @@ export default function LoginPage() {
         router.push("/admin/dashboard")
         router.refresh()
       }
-    } catch {
+    } catch (error) {
       setError("Terjadi kesalahan saat login")
     } finally {
       setIsLoading(false)
@@ -210,17 +209,16 @@ export default function LoginPage() {
                     background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)",
                   }}
                 />
-                <Image
+                <img
                   src="/smkn_logo.png"
                   alt="SMKN"
-                  width={36}
-                  height={36}
                   style={{
+                    width: "48px",
+                    height: "48px",
                     borderRadius: "50%",
                     objectFit: "contain",
                     boxShadow: "0 0 12px rgba(220,38,38,0.3)",
                   }}
-                  className="w-[48px] h-[48px]"
                 />
               </div>
               <div style={{ position: "relative", width: "48px", height: "48px" }}>
@@ -232,17 +230,16 @@ export default function LoginPage() {
                     background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)",
                   }}
                 />
-                <Image
+                <img
                   src="/parstama_logo.png"
                   alt="PARSTAMA"
-                  width={36}
-                  height={36}
                   style={{
+                    width: "48px",
+                    height: "48px",
                     borderRadius: "50%",
                     objectFit: "contain",
                     boxShadow: "0 0 12px rgba(220,38,38,0.3)",
                   }}
-                  className="w-[48px] h-[48px]"
                 />
               </div>
             </div>
