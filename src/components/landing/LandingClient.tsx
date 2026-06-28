@@ -64,41 +64,54 @@ export default function LandingClient() {
       {/* Cursor Glow */}
       <div ref={glowRef} id="cursor-glow" style={{ position: "fixed", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, rgba(220,38,38,0.06) 0%, transparent 70%)", pointerEvents: "none", zIndex: 9999, transform: "translate(-50%, -50%)" }} />
 
-      {/* Background: Gradient Mesh */}
+      {/* Background Animations */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute inset-0" style={{ filter: "blur(80px)" }}>
-          <div className="absolute w-[600px] h-[600px] -top-[100px] -left-[100px] opacity-30" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.35) 0%, transparent 70%)", animation: "meshFloat1 20s ease-in-out infinite" }} />
-          <div className="absolute w-[500px] h-[500px] top-[15%] right-[-80px] opacity-25" style={{ background: "radial-gradient(circle, rgba(153,27,27,0.3) 0%, transparent 70%)", animation: "meshFloat2 25s ease-in-out infinite 3s" }} />
-          <div className="absolute w-[450px] h-[450px] bottom-[5%] left-[25%] opacity-20" style={{ background: "radial-gradient(circle, rgba(239,68,68,0.25) 0%, transparent 70%)", animation: "meshFloat3 18s ease-in-out infinite 6s" }} />
-          <div className="absolute w-[350px] h-[350px] top-[45%] left-[10%] opacity-15" style={{ background: "radial-gradient(circle, rgba(185,28,28,0.2) 0%, transparent 70%)", animation: "meshFloat4 22s ease-in-out infinite 9s" }} />
-        </div>
+
+        {/* Floating Cross Particles */}
+        {[
+          { x: "12%", y: "18%", size: 5, dur: 16, delay: 0 },
+          { x: "82%", y: "10%", size: 4, dur: 20, delay: 2 },
+          { x: "65%", y: "68%", size: 6, dur: 18, delay: 4 },
+          { x: "22%", y: "82%", size: 4, dur: 22, delay: 6 },
+          { x: "88%", y: "48%", size: 5, dur: 17, delay: 1 },
+          { x: "42%", y: "32%", size: 3, dur: 24, delay: 3 },
+          { x: "70%", y: "88%", size: 4, dur: 19, delay: 5 },
+          { x: "8%", y: "55%", size: 5, dur: 21, delay: 7 },
+        ].map((p, i) => (
+          <div key={i} className="absolute opacity-[0.06]" style={{ left: p.x, top: p.y, width: p.size, height: p.size, animation: `crossDrift${i % 3 + 1} ${p.dur}s ease-in-out infinite ${p.delay}s` }}>
+            <svg viewBox="0 0 24 24" fill="rgba(220,38,38,0.8)" width="100%" height="100%"><rect x="9" y="4" width="6" height="16" rx="1" /><rect x="4" y="9" width="16" height="6" rx="1" /></svg>
+          </div>
+        ))}
+
+        {/* Diagonal Lines */}
+        {[...Array(6)].map((_, i) => (
+          <div key={`line-${i}`} className="absolute h-[1px] opacity-[0.04]" style={{ width: "200%", left: "-50%", top: `${15 + i * 15}%`, background: "linear-gradient(90deg, transparent 0%, rgba(220,38,38,0.6) 50%, transparent 100%)", transform: "rotate(-25deg)", animation: `diagSlide ${12 + i * 2}s ease-in-out infinite ${i * 1.5}s` }} />
+        ))}
+
+        {/* Shimmer Sweep */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ background: "linear-gradient(105deg, transparent 40%, rgba(220,38,38,0.15) 50%, transparent 60%)", backgroundSize: "200% 100%", animation: "shimmerSweep 8s ease-in-out infinite" }} />
+
+        {/* Grid Dots */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.04]" style={{ animation: "gridPulse 6s ease-in-out infinite" }}>
+          <defs>
+            <pattern id="dotGrid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="1" fill="rgba(220,38,38,0.6)" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dotGrid)" />
+        </svg>
 
         {/* Grain Texture */}
         <svg className="hidden"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" /></filter></svg>
         <div className="absolute inset-0 opacity-[0.03]" style={{ filter: "url(#grain)" }} />
-
-        {/* Floating Cross Particles */}
-        {[
-          { x: "15%", y: "20%", size: 5, dur: 16, delay: 0 },
-          { x: "80%", y: "12%", size: 4, dur: 20, delay: 2 },
-          { x: "60%", y: "70%", size: 6, dur: 18, delay: 4 },
-          { x: "25%", y: "85%", size: 4, dur: 22, delay: 6 },
-          { x: "90%", y: "50%", size: 5, dur: 17, delay: 1 },
-          { x: "45%", y: "35%", size: 3, dur: 24, delay: 3 },
-        ].map((p, i) => (
-          <div key={i} className="absolute opacity-[0.07]" style={{ left: p.x, top: p.y, width: p.size, height: p.size, animation: `crossDrift${i % 3 + 1} ${p.dur}s ease-in-out infinite ${p.delay}s` }}>
-            <svg viewBox="0 0 24 24" fill="rgba(220,38,38,0.8)" width="100%" height="100%"><rect x="9" y="4" width="6" height="16" rx="1" /><rect x="4" y="9" width="16" height="6" rx="1" /></svg>
-          </div>
-        ))}
       </div>
       <style>{`
-        @keyframes meshFloat1 { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(60px,40px) scale(1.1); } 66% { transform: translate(-30px,80px) scale(0.95); } }
-        @keyframes meshFloat2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,-60px) scale(1.15); } }
-        @keyframes meshFloat3 { 0%,100% { transform: translate(0,0) scale(1); } 40% { transform: translate(40px,-30px) scale(1.1); } 70% { transform: translate(-60px,20px) scale(0.9); } }
-        @keyframes meshFloat4 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px,50px) scale(1.2); } }
         @keyframes crossDrift1 { 0%,100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(20px,-30px) rotate(180deg); } }
         @keyframes crossDrift2 { 0%,100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(-15px,25px) rotate(-180deg); } }
         @keyframes crossDrift3 { 0%,100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(25px,15px) rotate(90deg); } }
+        @keyframes diagSlide { 0%,100% { transform: rotate(-25deg) translateX(0); } 50% { transform: rotate(-25deg) translateX(80px); } }
+        @keyframes shimmerSweep { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @keyframes gridPulse { 0%,100% { opacity: 0.04; } 50% { opacity: 0.07; } }
       `}</style>
 
       {/* Navbar */}
