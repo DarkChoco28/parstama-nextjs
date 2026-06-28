@@ -1,5 +1,5 @@
 {
-  "buildCommand": "rm -rf node_modules/.prisma 2>/dev/null; npx prisma generate && npm run build",
+  "buildCommand": "npx prisma generate && npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "installCommand": "npm install"
