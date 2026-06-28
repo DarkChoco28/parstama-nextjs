@@ -120,9 +120,6 @@ export default function LandingClient() {
           <Link href="/cek-status" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.4s" }}>
             💬 Tanya AI
           </Link>
-          <Link href="/struktur-organisasi" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.45s" }}>
-            📋 Struktur
-          </Link>
           <Link href="/login" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.5s" }}>
             Login
           </Link>
