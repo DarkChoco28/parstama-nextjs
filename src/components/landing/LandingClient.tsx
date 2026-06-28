@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback, type MouseEvent as ReactMouse
 import Link from "next/link"
 import FluidMenu from "./FluidMenu"
 import Preloader from "./Preloader"
+import RocketButton from "./RocketButton"
 
 function useScrollReveal() {
   useEffect(() => {
@@ -174,9 +175,9 @@ export default function LandingClient() {
           <a href="https://wa.me/6281459145800?text=Halo%20PARSTAMA,%20saya%20ingin%20bertanya%20tentang%20pendaftaran." target="_blank" rel="noopener" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors">
             <SplitText text="WhatsApp" />
           </a>
-          <Link href="/daftar" className="inline-flex items-center px-6 py-2.5 bg-[#DC2626] text-white rounded-full text-sm font-semibold hover:bg-[#EF4444] hover:-translate-y-0.5 transition-all">
+          <RocketButton href="/daftar" className="inline-flex items-center px-6 py-2.5 bg-[#DC2626] text-white rounded-full text-sm font-semibold hover:bg-[#EF4444] hover:-translate-y-0.5 transition-all">
             Daftar Sekarang
-          </Link>
+          </RocketButton>
         </nav>
       </header>
       <style>{`
@@ -202,9 +203,9 @@ export default function LandingClient() {
             Jadilah bagian dari generasi penolong yang hebat. Pelajari keterampilan pertolongan pertama, kembangkan jiwa kepedulian, dan beri dampak nyata bagi masyarakat.
           </p>
           <div className="reveal flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <Link href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
+            <RocketButton href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
               Isi Form Pendaftaran
-            </Link>
+            </RocketButton>
             <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
               💬 Tanya AI Assistant
             </Link>
@@ -281,9 +282,9 @@ export default function LandingClient() {
                 </li>
               ))}
             </ul>
-            <Link href="/daftar" className="reveal-left inline-flex items-center justify-center mt-6 sm:mt-8 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm font-bold text-white bg-gradient-to-r from-red-600 to-red-800 hover:shadow-lg hover:shadow-red-600/30 hover:-translate-y-0.5 transition-all">
+            <RocketButton href="/daftar" className="reveal-left inline-flex items-center justify-center mt-6 sm:mt-8 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm font-bold text-white bg-gradient-to-r from-red-600 to-red-800 hover:shadow-lg hover:shadow-red-600/30 hover:-translate-y-0.5 transition-all">
               Daftar Sekarang →
-            </Link>
+            </RocketButton>
           </div>
           <div id="timeline">
             <h2 className="reveal-right text-[clamp(1.3rem,3vw,2rem)] font-display font-extrabold text-white mb-1">Timeline Seleksi</h2>
@@ -319,9 +320,9 @@ export default function LandingClient() {
           </h2>
           <p className="text-sm sm:text-base text-zinc-400 mb-6 sm:mb-8 max-w-md mx-auto">Jangan lewatkan kesempatan menjadi bagian dari keluarga PARSTAMA. Pendaftaran dibuka terbatas!</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
+            <RocketButton href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
               Daftar Sekarang — Gratis
-            </Link>
+            </RocketButton>
             <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
               💬 Tanya AI
             </Link>
