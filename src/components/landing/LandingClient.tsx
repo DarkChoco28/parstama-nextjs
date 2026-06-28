@@ -34,43 +34,7 @@ function SplitText({ text, className = "", as: Tag = "span" }: { text: string; c
   )
 }
 
-function MagneticCross() {
-  const crossRef = useRef<HTMLDivElement>(null)
-  const [pos, setPos] = useState({ x: 0, y: 0 })
-  const [isHovered, setIsHovered] = useState(false)
-
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const el = crossRef.current
-      if (!el) return
-      const rect = el.getBoundingClientRect()
-      const cx = rect.left + rect.width / 2
-      const cy = rect.top + rect.height / 2
-      const dx = (e.clientX - cx) * 0.15
-      const dy = (e.clientY - cy) * 0.15
-      setPos({ x: dx, y: dy })
-    }
-    window.addEventListener("mousemove", onMove, { passive: true })
-    return () => window.removeEventListener("mousemove", onMove)
-  }, [])
-
-  return (
-    <div
-      ref={crossRef}
-      className="absolute right-[5%] top-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.07] hidden lg:block"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={{ transform: `translate(${pos.x}px, ${pos.y}px)`, transition: "transform 0.3s cubic-bezier(0.33,1,0.68,1)" }}
-    >
-      <svg width="200" height="200" viewBox="0 0 200 200" fill="none" className="transition-transform duration-500" style={{ transform: isHovered ? "scale(1.1) rotate(5deg)" : "scale(1) rotate(0deg)" }}>
-        <rect x="75" y="10" width="50" height="180" rx="10" fill="#DC2626" />
-        <rect x="10" y="75" width="180" height="50" rx="10" fill="#DC2626" />
-      </svg>
-    </div>
-  )
-}
-
-function BentoCard({ f, index }: { f: { icon: string; title: string; desc: string }; index: number }) {
+function BentoCard({ f }: { f: { icon: string; title: string; desc: string } }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
@@ -139,15 +103,6 @@ export default function LandingClient() {
         .split-char { display: inline-block; transition: color 0.2s, transform 0.3s cubic-bezier(0.33,1,0.68,1); }
         .split-text:hover .split-char { color: #DC2626; }
         .split-text:hover .split-char:hover { color: #EF4444; transform: translateY(-3px) scale(1.1); }
-        @keyframes heroMesh1 { 0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.1)}66%{transform:translate(-20px,30px) scale(0.95)} }
-        @keyframes heroMesh2 { 0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-40px,20px) scale(0.9)}66%{transform:translate(30px,-30px) scale(1.15)} }
-        @keyframes heroMesh3 { 0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,40px) scale(1.05)} }
-        @keyframes heartbeatLine { 0%{stroke-dashoffset:600}100%{stroke-dashoffset:0} }
-        @keyframes heroStagger { 0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)} }
-        .hero-stagger-1 { animation: heroStagger 0.8s cubic-bezier(.34,1.56,.64,1) 0.1s both }
-        .hero-stagger-2 { animation: heroStagger 0.8s cubic-bezier(.34,1.56,.64,1) 0.25s both }
-        .hero-stagger-3 { animation: heroStagger 0.8s cubic-bezier(.34,1.56,.64,1) 0.4s both }
-        .hero-stagger-4 { animation: heroStagger 0.8s cubic-bezier(.34,1.56,.64,1) 0.55s both }
         @media(max-width:640px) {
           .mobile-sticky-cta { position:fixed;bottom:0;left:0;right:0;z-index:50;padding:12px 16px;background:rgba(10,10,11,0.95);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,0.06);transform:translateY(0);transition:transform .3s }
           .mobile-sticky-cta.hidden-scroll { transform:translateY(100%) }
@@ -158,13 +113,11 @@ export default function LandingClient() {
       {/* Navbar */}
       <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/[0.06] h-[80px] sm:h-[80px] px-4 sm:px-6 flex items-center justify-between overflow-hidden">
         <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-[1]">
-          <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
-            <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
-            <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+          <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
+            <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }} />
           </div>
-          <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
-            <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
-            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+          <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
+            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }} />
           </div>
           <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             PARSTAMA
@@ -181,7 +134,7 @@ export default function LandingClient() {
             <SplitText text="Timeline" />
           </a>
           <Link href="/cek-status" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
-            💬 <SplitText text="Tanya AI" />
+            Tanya AI
           </Link>
           <Link href="/login" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             <SplitText text="Login" />
@@ -194,51 +147,32 @@ export default function LandingClient() {
           </RocketButton>
         </nav>
       </header>
-      <style>{`
-        @keyframes navGlowPulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
-        @keyframes navLogoFloat3D { 0%,100% { transform: perspective(400px) rotateY(-12deg) rotateX(5deg) translateY(0px); } 25% { transform: perspective(400px) rotateY(0deg) rotateX(-5deg) translateY(-3px); } 50% { transform: perspective(400px) rotateY(12deg) rotateX(5deg) translateY(0px); } 75% { transform: perspective(400px) rotateY(0deg) rotateX(-5deg) translateY(-3px); } }
-      `}</style>
 
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-[100px] sm:pt-[120px] pb-16 sm:pb-20 overflow-hidden">
-        {/* Gradient mesh background */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full opacity-[0.04]" style={{ background: "radial-gradient(circle, #DC2626 0%, transparent 70%)", animation: "heroMesh1 20s ease-in-out infinite" }} />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full opacity-[0.03]" style={{ background: "radial-gradient(circle, #F59E0B 0%, transparent 70%)", animation: "heroMesh2 25s ease-in-out infinite" }} />
-          <div className="absolute top-[30%] right-[20%] w-[400px] h-[400px] rounded-full opacity-[0.025]" style={{ background: "radial-gradient(circle, #EF4444 0%, transparent 70%)", animation: "heroMesh3 18s ease-in-out infinite" }} />
-        </div>
-
-        {/* Heartbeat EKG line */}
-        <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-[0.06]">
-          <svg width="100%" height="120" viewBox="0 0 800 120" fill="none" preserveAspectRatio="none" className="max-w-4xl">
-            <path d="M0 60 L200 60 L220 60 L240 20 L260 100 L280 10 L300 90 L320 60 L340 60 L800 60" stroke="#DC2626" strokeWidth="2" fill="none" strokeDasharray="600" style={{ animation: "heartbeatLine 3s linear infinite" }} />
-          </svg>
-        </div>
-
-        <MagneticCross />
+      <section className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-[100px] sm:pt-[120px] pb-16 sm:pb-20">
         <div className="relative z-10 max-w-3xl mx-auto">
-          <div className="hero-stagger-1 inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
+          <div className="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
             PMR SMKN 1 Singosari
           </div>
-          <h1 className="hero-stagger-2 text-[clamp(1.8rem,5vw,4rem)] sm:text-[clamp(2rem,6vw,4.5rem)] font-display font-extrabold leading-[1.1] text-white mb-4 sm:mb-5 tracking-tight">
+          <h1 className="text-[clamp(1.8rem,5vw,4rem)] sm:text-[clamp(2rem,6vw,4.5rem)] font-display font-extrabold leading-[1.1] text-white mb-4 sm:mb-5 tracking-tight">
             <span className="split-text inline-block cursor-default"><SplitText text="Bergabunglah" /></span>{" "}
             <span className="split-text inline-block cursor-default"><SplitText text="Bersama" /></span>{" "}
             <span className="inline-block bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent whitespace-nowrap">
               PARSTAMA
             </span>
           </h1>
-          <p className="hero-stagger-3 text-sm sm:text-lg text-zinc-400 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
+          <p className="text-sm sm:text-lg text-zinc-400 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
             Jadilah bagian dari generasi penolong yang hebat. Pelajari keterampilan pertolongan pertama, kembangkan jiwa kepedulian, dan beri dampak nyata bagi masyarakat.
           </p>
-          <div className="hero-stagger-4 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <RocketButton href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all min-h-[44px]">
               Isi Form Pendaftaran
             </RocketButton>
             <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all min-h-[44px]">
-              💬 Tanya AI Assistant
+              Tanya AI Assistant
             </Link>
             <Link href="/struktur-organisasi" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all min-h-[44px]">
-              📋 Struktur Organisasi
+              Struktur Organisasi
             </Link>
           </div>
         </div>
@@ -270,7 +204,7 @@ export default function LandingClient() {
       {/* Features */}
       <section id="tentang" className="max-w-6xl mx-auto px-6 py-16 sm:py-24">
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="reveal text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-3 sm:mb-4"><span className="glow-heading">Mengapa <span className="bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent">PARSTAMA</span>?</span></h2>
+          <h2 className="reveal text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-3 sm:mb-4">Mengapa <span className="bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent">PARSTAMA</span>?</h2>
           <p className="reveal text-sm sm:text-base text-zinc-400 max-w-lg mx-auto">Kami bukan sekadar organisasi — kami adalah keluarga yang saling mendukung.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -281,8 +215,8 @@ export default function LandingClient() {
             { icon: "🌍", title: "Dampak Nyata", desc: "Terlibat langsung dalam kegiatan donor darah, posko kesehatan, dan misi kemanusiaan di lapangan." },
             { icon: "📚", title: "Pengembangan Diri", desc: "Tingkatkan jiwa kepemimpinan, komunikasi, dan kerja tim melalui program pelatihan rutin dan seminar." },
             { icon: "🎖️", title: "Sertifikasi Resmi", desc: "Dapatkan sertifikat resmi dari PMI yang diakui secara nasional sebagai bukti kompetensi Anda." },
-          ].map((f, i) => (
-            <BentoCard key={f.title} f={f} index={i} />
+          ].map((f) => (
+            <BentoCard key={f.title} f={f} />
           ))}
         </div>
       </section>
@@ -352,7 +286,7 @@ export default function LandingClient() {
               Daftar Sekarang — Gratis
             </RocketButton>
             <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
-              💬 Tanya AI
+              Tanya AI
             </Link>
           </div>
         </div>
@@ -363,13 +297,11 @@ export default function LandingClient() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
           <div className="footer-col">
             <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4 no-underline">
-              <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
-                <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
-                <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+              <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
+                <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }} />
               </div>
-              <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
-                <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
-                <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+              <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
+                <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }} />
               </div>
               <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 PARSTAMA
@@ -398,8 +330,8 @@ export default function LandingClient() {
                 { label: "Persyaratan", href: "#syarat" },
                 { label: "Timeline", href: "#timeline" },
                 { label: "Daftar", href: "/daftar" },
-                { label: "💬 Tanya AI", href: "/cek-status" },
-                { label: "📋 Struktur Organisasi", href: "/struktur-organisasi" },
+                { label: "Tanya AI", href: "/cek-status" },
+                { label: "Struktur Organisasi", href: "/struktur-organisasi" },
                 { label: "Login Admin", href: "/login" },
               ].map((l) => (
                 <Link key={l.label} href={l.href} className="block text-xs sm:text-sm text-zinc-400 hover:text-red-400 transition-colors">{l.label}</Link>
