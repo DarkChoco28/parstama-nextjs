@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Link from "next/link"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts"
 
 export default function AdminDashboard() {
@@ -46,16 +47,14 @@ export default function AdminDashboard() {
     finally { setNotifLoading(false) }
   }
 
-  if (status === "loading" || isLoading) {
+  if (isLoading) {
     return (
       <div className="admin-loading">
         <div className="admin-loading-spinner" />
         <span>Memuat data...</span>
-        <style>{adminCss}</style>
       </div>
     )
   }
-  if (!session) return null
 
   const statCards = [
     { label: "Total Pendaftar", value: stats.total, color: "#fff", gradient: "linear-gradient(135deg, rgba(220,38,38,0.15), rgba(220,38,38,0.05))", border: "rgba(220,38,38,0.2)" },
