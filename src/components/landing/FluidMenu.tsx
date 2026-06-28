@@ -7,6 +7,8 @@ const items = [
   { label: "Tentang", href: "#tentang", icon: "M12 16v-4M12 8h.01M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" },
   { label: "Syarat", href: "#syarat", icon: "M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8" },
   { label: "Timeline", href: "#timeline", icon: "M3 4h18v2H3V4zm0 6h18v2H3v-2zm0 6h18v2H3v-2zM16 2v4M8 2v4" },
+  { label: "Blog", href: "/blog", icon: "M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" },
+  { label: "Event", href: "/events", icon: "M3 4h18v18H3z" },
   { label: "Tanya AI", href: "/cek-status", icon: "M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" },
   { label: "Struktur", href: "/struktur-organisasi", icon: "M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" },
   { label: "Login", href: "/login", icon: "M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" },

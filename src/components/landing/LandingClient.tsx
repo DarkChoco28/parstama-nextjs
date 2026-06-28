@@ -133,6 +133,12 @@ export default function LandingClient() {
           <a href="#timeline" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             <SplitText text="Timeline" />
           </a>
+          <Link href="/blog" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+            <SplitText text="Blog" />
+          </Link>
+          <Link href="/events" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+            <SplitText text="Event" />
+          </Link>
           <Link href="/cek-status" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             Tanya AI
           </Link>
@@ -330,6 +336,8 @@ export default function LandingClient() {
                 { label: "Persyaratan", href: "#syarat" },
                 { label: "Timeline", href: "#timeline" },
                 { label: "Daftar", href: "/daftar" },
+                { label: "Blog", href: "/blog" },
+                { label: "Event", href: "/events" },
                 { label: "Tanya AI", href: "/cek-status" },
                 { label: "Struktur Organisasi", href: "/struktur-organisasi" },
                 { label: "Login Admin", href: "/login" },

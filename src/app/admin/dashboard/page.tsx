@@ -199,6 +199,8 @@ export default function AdminDashboard() {
           <div className="admin-actions-grid">
             {[
               { href: "/admin/registrations", label: "Lihat Semua Pendaftar", icon: "M4 6h16M4 10h16M4 14h16M4 18h16", color: "#DC2626" },
+              { href: "/admin/articles", label: "Kelola Artikel", icon: "M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z", color: "#10B981" },
+              { href: "/admin/events", label: "Kelola Event", icon: "M3 4h18v18H3z", color: "#F59E0B" },
               { href: "/admin/register", label: "Tambah Admin", icon: "M12 6v6m0 0v6m0-6h6m-6 0H6", color: "#3B82F6" },
               { href: "/admin/profile", label: "Edit Profile", icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z", color: "#8B5CF6" },
             ].map(a => (
@@ -222,6 +224,15 @@ export default function AdminDashboard() {
                 <span>Broadcast WA</span>
               </button>
             </div>
+          </div>
+
+          {/* Backup Section */}
+          <div className="admin-notif-section" style={{ marginTop: 18, paddingTop: 18, borderTop: "1px solid rgba(255,255,255,.06)" }}>
+            <h3 className="admin-card-title" style={{ marginBottom: 12 }}>Backup Data</h3>
+            <a href="/api/admin/export/backup" target="_blank" rel="noopener" className="admin-notif-btn" style={{ background: "rgba(96,165,250,.1)", color: "#60A5FA", border: "1px solid rgba(96,165,250,.3)", width: "100%", display: "flex", justifyContent: "center" }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Download Backup (JSON)</span>
+            </a>
           </div>
         </div>
       </main>

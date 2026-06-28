@@ -81,3 +81,42 @@ model OrganizationMember {
   @@index([parentId])
   @@index([sortOrder])
 }
+
+model Article {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String
+  coverImage  String?
+  author      String   @default("Admin PARSTAMA")
+  category    String   @default("Kesehatan")
+  isPublished Boolean  @default(false)
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([isPublished])
+  @@index([category])
+  @@index([createdAt])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  location    String?
+  startDate   DateTime
+  endDate     DateTime?
+  allDay      Boolean  @default(false)
+  color       String   @default("#DC2626")
+  category    String   @default("Kegiatan")
+  isVisible   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([startDate])
+  @@index([isVisible])
+  @@index([category])
+}
