@@ -148,20 +148,12 @@ export default function LandingClient() {
           }
         `}</style>
 
-        {/* Floating Orbs */}
-        <div className="absolute w-[300px] h-[300px] top-[10%] -right-[80px] rounded-full pointer-events-none z-[1]" style={{ background: "radial-gradient(circle at 40% 40%, rgba(220,38,38,0.15), transparent 70%)", border: "1px solid rgba(220,38,38,0.08)", animation: "orbFloat1 8s ease-in-out infinite" }} />
-        <div className="absolute w-[180px] h-[180px] bottom-[15%] -left-[50px] rounded-full pointer-events-none z-[1]" style={{ background: "radial-gradient(circle at 60% 60%, rgba(239,68,68,0.12), transparent 70%)", border: "1px solid rgba(239,68,68,0.06)", animation: "orbFloat2 6s ease-in-out infinite 1s" }} />
-        <div className="absolute w-[100px] h-[100px] top-[35%] left-[10%] rounded-full pointer-events-none z-[1]" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.1), transparent 70%)", border: "1px solid rgba(220,38,38,0.1)", animation: "orbFloat3 10s ease-in-out infinite 2s" }} />
-
         {/* Expanding Rings */}
         <div className="absolute w-[600px] h-[600px] rounded-full border border-red-500/10 top-1/2 left-1/2 pointer-events-none z-[1]" style={{ transform: "translate(-50%,-50%) rotateX(70deg)", animation: "heroRingExpand 6s ease-in-out infinite" }} />
         <div className="absolute w-[400px] h-[400px] rounded-full border border-red-500/15 top-1/2 left-1/2 pointer-events-none z-[1]" style={{ transform: "translate(-50%,-50%) rotateX(70deg)", animation: "heroRingExpand 6s ease-in-out infinite 2s" }} />
 
         <style>{`
-          @keyframes orbFloat1 { 0%,100% { transform: perspective(800px) rotateX(10deg) rotateY(-15deg) translateY(0px); } 50% { transform: perspective(800px) rotateX(-10deg) rotateY(15deg) translateY(-30px); } }
-          @keyframes orbFloat2 { 0%,100% { transform: perspective(600px) rotateX(-8deg) rotateY(12deg) translateY(0px) scale(1); } 50% { transform: perspective(600px) rotateX(8deg) rotateY(-12deg) translateY(-20px) scale(1.1); } }
-          @keyframes orbFloat3 { 0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.6; } 33% { transform: translateY(-15px) rotate(120deg); opacity: 1; } 66% { transform: translateY(-8px) rotate(240deg); opacity: 0.8; } }
-          @keyframes heroRingExpand { 0%,100% { transform: translate(-50%,-50%) rotateX(70deg) scale(1); opacity: 0.5; } 50% { transform: translate(-50%,-50%) rotateX(70deg) scale(1.08); opacity: 1; } }
+        @keyframes heroRingExpand { 0%,100% { transform: translate(-50%,-50%) rotateX(70deg) scale(1); opacity: 0.5; } 50% { transform: translate(-50%,-50%) rotateX(70deg) scale(1.08); opacity: 1; } }
         `}</style>
 
         <div className="relative z-10 max-w-3xl mx-auto">
