@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { sendEmail, buildRegistrationConfirmationEmail } from "@/lib/email"
 
 function normalizeWhatsapp(value: string) {
   return value.replace(/\D/g, "")
@@ -153,6 +154,22 @@ export async function POST(request: NextRequest) {
         status: "pending",
       },
     })
+
+    // Auto-send confirmation email (non-blocking)
+    if (normalizedEmail) {
+      try {
+        const { subject, html } = buildRegistrationConfirmationEmail(
+          fullName.trim(),
+          className.trim(),
+          major.trim(),
+          normalizedWhatsapp,
+          normalizedEmail,
+        )
+        await sendEmail({ to: normalizedEmail, subject, html })
+      } catch (emailError) {
+        console.error("Gagal mengirim email konfirmasi:", emailError)
+      }
+    }
 
     return NextResponse.json(
       { message: "Pendaftaran berhasil", registration },
