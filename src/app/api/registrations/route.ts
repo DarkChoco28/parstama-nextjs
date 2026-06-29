@@ -155,23 +155,18 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Auto-send confirmation email
+    // Fire-and-forget: kirim email tanpa block response
     if (normalizedEmail) {
-      try {
-        const { subject, html } = buildRegistrationConfirmationEmail(
-          fullName.trim(),
-          className.trim(),
-          major.trim(),
-          normalizedWhatsapp,
-          normalizedEmail,
-        )
-        const emailResult = await sendEmail({ to: normalizedEmail, subject, html })
-        console.log("Email konfirmasi terkirim ke:", normalizedEmail, emailResult)
-      } catch (emailError: any) {
-        console.error("Gagal kirim email konfirmasi:", emailError?.message || emailError)
-      }
-    } else {
-      console.log("Skip kirim email: pendaftar tidak mengisi email")
+      const emailData = buildRegistrationConfirmationEmail(
+        fullName.trim(),
+        className.trim(),
+        major.trim(),
+        normalizedWhatsapp,
+        normalizedEmail,
+      )
+      sendEmail({ to: normalizedEmail, subject: emailData.subject, html: emailData.html })
+        .then((r) => console.log("Email konfirmasi terkirim ke:", normalizedEmail, r))
+        .catch((e) => console.error("Gagal kirim email konfirmasi:", e?.message || e))
     }
 
     return NextResponse.json(
