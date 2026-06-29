@@ -1,3 +1,5 @@
+import { Resend } from "resend"
+
 interface SendEmailOptions {
   to: string
   subject: string
@@ -5,36 +7,29 @@ interface SendEmailOptions {
 }
 
 export async function sendEmail({ to, subject, html }: SendEmailOptions) {
-  const apiKey = process.env.BREVO_API_KEY
-  const senderEmail = process.env.BREVO_SENDER_EMAIL
+  const apiKey = process.env.RESEND_API_KEY
+  const senderEmail = process.env.RESEND_SENDER_EMAIL
 
   if (!apiKey || !senderEmail) {
-    throw new Error("Brevo API credentials belum dikonfigurasi")
+    throw new Error("Resend API credentials belum dikonfigurasi")
   }
 
-  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "api-key": apiKey,
-    },
-    body: JSON.stringify({
-      sender: { email: senderEmail, name: "PARSTAMA" },
-      to: [{ email: to }],
-      subject,
-      htmlContent: html,
-    }),
+  const resend = new Resend(apiKey)
+
+  const { data, error } = await resend.emails.send({
+    from: `PARSTAMA <${senderEmail}>`,
+    to: [to],
+    subject,
+    html,
   })
 
-  const resBody = await res.json().catch(() => ({}))
-
-  if (!res.ok) {
-    console.error("Brevo API error:", res.status, resBody)
-    throw new Error(resBody.message || `Brevo API error: ${res.status}`)
+  if (error) {
+    console.error("Resend API error:", error)
+    throw new Error(error.message || "Gagal mengirim email via Resend")
   }
 
-  console.log("Brevo API success:", resBody)
-  return { messageId: resBody.messageId || `brevo-${Date.now()}` }
+  console.log("Resend API success:", data)
+  return { messageId: data?.id || `resend-${Date.now()}` }
 }
 
 export function buildStatusEmail(

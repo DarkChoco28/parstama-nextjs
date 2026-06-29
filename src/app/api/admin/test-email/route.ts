@@ -3,11 +3,11 @@ import { sendEmail } from "@/lib/email"
 
 export async function GET(request: NextRequest) {
   try {
-    if (!process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
+    if (!process.env.RESEND_API_KEY || !process.env.RESEND_SENDER_EMAIL) {
       return NextResponse.json({
-        error: "Brevo API belum dikonfigurasi",
-        hasApiKey: !!process.env.BREVO_API_KEY,
-        hasSender: !!process.env.BREVO_SENDER_EMAIL,
+        error: "Resend API belum dikonfigurasi",
+        hasApiKey: !!process.env.RESEND_API_KEY,
+        hasSender: !!process.env.RESEND_SENDER_EMAIL,
       })
     }
 
