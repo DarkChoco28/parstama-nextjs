@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 
 interface Event {
   id: string; title: string; description?: string; location?: string; startDate: string; endDate?: string; allDay: boolean; color: string; category: string; isVisible: boolean; createdAt: string
@@ -97,29 +96,6 @@ export default function AdminEvents() {
 
   return (
     <div className="admin-page">
-      <nav className="admin-nav">
-        <div className="admin-nav-inner">
-          <div className="admin-nav-left">
-            <Link href="/admin/dashboard" className="admin-back-link">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-              <span className="admin-back-text">Dashboard</span>
-            </Link>
-            <div className="admin-divider" />
-            <div className="admin-logos">
-              <div className="admin-logo-wrap"><img src="/smkn_logo.png" alt="SMKN" className="admin-logo" /></div>
-              <div className="admin-logo-wrap"><img src="/parstama_logo.png" alt="PARSTAMA" className="admin-logo" /></div>
-            </div>
-            <div className="admin-nav-title">
-              <span className="admin-brand">Event</span>
-            </div>
-          </div>
-          <div className="admin-nav-links-desktop">
-            <Link href="/" className="admin-nav-link admin-home-link">Website</Link>
-            <Link href="/admin/dashboard" className="admin-nav-link">Dashboard</Link>
-          </div>
-        </div>
-      </nav>
-
       <main className="admin-main">
         <div className="admin-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <div>
