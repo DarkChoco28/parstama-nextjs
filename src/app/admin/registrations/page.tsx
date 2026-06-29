@@ -313,7 +313,7 @@ export default function AdminRegistrations() {
                   <button onClick={() => viewDetail(r.id)} className="admin-btn-blue-sm">Lihat</button>
                   {r.email && (
                     <>
-                      <button onClick={() => sendConfirmNotif(r.id)} disabled={confirmSending === r.id} className="admin-btn-success-sm">
+                      <button onClick={() => sendConfirmNotif(r.id)} disabled={confirmSending === r.id} className="admin-btn-orange-sm">
                         {confirmSending === r.id ? "..." : "Konfirmasi"}
                       </button>
                       <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
@@ -363,7 +363,7 @@ export default function AdminRegistrations() {
                         <button onClick={() => viewDetail(r.id)} className="admin-btn-blue-sm">Lihat</button>
                         {r.email && (
                           <>
-                            <button onClick={() => sendConfirmNotif(r.id)} disabled={confirmSending === r.id} className="admin-btn-success-sm">
+                            <button onClick={() => sendConfirmNotif(r.id)} disabled={confirmSending === r.id} className="admin-btn-orange-sm">
                               {confirmSending === r.id ? "..." : "Konfirmasi"}
                             </button>
                             <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
@@ -405,7 +405,7 @@ export default function AdminRegistrations() {
               <div className="reg-modal-header-actions">
                 {detailData.email && (
                   <>
-                    <button onClick={() => sendConfirmNotif(detailData.id)} disabled={confirmSending === detailData.id} className="admin-btn-success-sm">
+                    <button onClick={() => sendConfirmNotif(detailData.id)} disabled={confirmSending === detailData.id} className="admin-btn-orange-sm">
                       {confirmSending === detailData.id ? "..." : "Konfirmasi"}
                     </button>
                     <button onClick={() => sendEmailNotif(detailData.id)} disabled={emailSending === detailData.id} className="admin-btn-email-sm">
