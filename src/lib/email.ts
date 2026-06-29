@@ -26,12 +26,15 @@ export async function sendEmail({ to, subject, html }: SendEmailOptions) {
     }),
   })
 
+  const resBody = await res.json().catch(() => ({}))
+
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}))
-    throw new Error(err.message || `Brevo API error: ${res.status}`)
+    console.error("Brevo API error:", res.status, resBody)
+    throw new Error(resBody.message || `Brevo API error: ${res.status}`)
   }
 
-  return { messageId: `brevo-${Date.now()}` }
+  console.log("Brevo API success:", resBody)
+  return { messageId: resBody.messageId || `brevo-${Date.now()}` }
 }
 
 export function buildStatusEmail(
@@ -144,7 +147,7 @@ export function buildRegistrationConfirmationEmail(
               Halo <strong style="color:#fff">${fullName}</strong>,
             </p>
             <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
-              Terima kasih telah mendaftar sebagai anggota <strong style="color:#DC2626">PARSTAMA</strong> SMKN 1 Singosari. Pendaftaran Anda telah <strong style="color:#34D399">BERHASIM DITERIMA</strong> dan sedang dalam proses verifikasi oleh admin.
+              Terima kasih telah mendaftar sebagai anggota <strong style="color:#DC2626">PARSTAMA</strong> SMKN 1 Singosari. Pendaftaran Anda telah <strong style="color:#34D399">BERHASIL DITERIMA</strong> dan sedang dalam proses verifikasi oleh admin.
             </p>
             <div style="text-align:center;margin:20px 0">
               <span style="display:inline-block;padding:12px 32px;background:rgba(252,211,77,.12);color:#FCD34D;border:1px solid rgba(252,211,77,.3);border-radius:8px;font-size:16px;font-weight:700">

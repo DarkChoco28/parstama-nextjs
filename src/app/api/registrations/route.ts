@@ -155,7 +155,7 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Auto-send confirmation email (non-blocking)
+    // Auto-send confirmation email
     if (normalizedEmail) {
       try {
         const { subject, html } = buildRegistrationConfirmationEmail(
@@ -165,10 +165,13 @@ export async function POST(request: NextRequest) {
           normalizedWhatsapp,
           normalizedEmail,
         )
-        await sendEmail({ to: normalizedEmail, subject, html })
-      } catch (emailError) {
-        console.error("Gagal mengirim email konfirmasi:", emailError)
+        const emailResult = await sendEmail({ to: normalizedEmail, subject, html })
+        console.log("Email konfirmasi terkirim ke:", normalizedEmail, emailResult)
+      } catch (emailError: any) {
+        console.error("Gagal kirim email konfirmasi:", emailError?.message || emailError)
       }
+    } else {
+      console.log("Skip kirim email: pendaftar tidak mengisi email")
     }
 
     return NextResponse.json(
