@@ -1,29 +1,36 @@
 import { NextRequest, NextResponse } from "next/server"
+import { prisma } from "@/lib/prisma"
+import { requireAdmin } from "@/lib/admin-auth"
 import { sendEmail, buildRegistrationConfirmationEmail } from "@/lib/email"
 
 export async function POST(request: NextRequest) {
-  try {
-    const { fullName, className, major, whatsapp, email } = await request.json()
+  const auth = await requireAdmin()
+  if (auth.error) return auth.error
 
-    if (!email) {
-      return NextResponse.json({ error: "Email wajib diisi" }, { status: 400 })
+  try {
+    const { registrationId } = await request.json()
+
+    if (!registrationId) {
+      return NextResponse.json({ error: "Registration ID wajib diisi" }, { status: 400 })
     }
 
+    const reg = await prisma.registration.findUnique({ where: { id: registrationId } })
+    if (!reg) return NextResponse.json({ error: "Pendaftaran tidak ditemukan" }, { status: 404 })
+    if (!reg.email) return NextResponse.json({ error: "Pendaftar tidak memiliki email" }, { status: 400 })
+
     const { subject, html } = buildRegistrationConfirmationEmail(
-      fullName,
-      className,
-      major,
-      whatsapp,
-      email,
+      reg.fullName,
+      reg.class,
+      reg.major,
+      reg.whatsapp,
+      reg.email,
     )
 
-    await sendEmail({ to: email, subject, html })
+    await sendEmail({ to: reg.email, subject, html })
+
     return NextResponse.json({ message: "Email konfirmasi berhasil dikirim" })
   } catch (error: any) {
     console.error("Error kirim email konfirmasi:", error?.message || error)
-    return NextResponse.json(
-      { error: error?.message || "Gagal mengirim email" },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: error?.message || "Gagal mengirim email" }, { status: 500 })
   }
 }

@@ -29,6 +29,7 @@ export default function AdminRegistrations() {
   const [showFilters, setShowFilters] = useState(false)
   const [emailSending, setEmailSending] = useState<string | null>(null)
   const [waSending, setWaSending] = useState<string | null>(null)
+  const [confirmSending, setConfirmSending] = useState<string | null>(null)
 
   useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
   useEffect(() => {
@@ -121,6 +122,21 @@ export default function AdminRegistrations() {
       else alert(d.error || "Gagal mengirim WhatsApp")
     } catch (e) { console.error(e); alert("Gagal mengirim WhatsApp") }
     finally { setWaSending(null) }
+  }
+
+  const sendConfirmNotif = async (registrationId: string) => {
+    setConfirmSending(registrationId)
+    try {
+      const r = await fetch("/api/send-confirmation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ registrationId }),
+      })
+      const d = await r.json()
+      if (r.ok) alert("Email konfirmasi berhasil dikirim!")
+      else alert(d.error || "Gagal mengirim email konfirmasi")
+    } catch (e) { console.error(e); alert("Gagal mengirim email konfirmasi") }
+    finally { setConfirmSending(null) }
   }
 
   const getFilteredExportUrl = (type: "excel" | "pdf") => {
@@ -296,9 +312,14 @@ export default function AdminRegistrations() {
                   </select>
                   <button onClick={() => viewDetail(r.id)} className="admin-btn-blue-sm">Lihat</button>
                   {r.email && (
-                    <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
-                      {emailSending === r.id ? "..." : "Email"}
-                    </button>
+                    <>
+                      <button onClick={() => sendConfirmNotif(r.id)} disabled={confirmSending === r.id} className="admin-btn-success-sm">
+                        {confirmSending === r.id ? "..." : "Konfirmasi"}
+                      </button>
+                      <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
+                        {emailSending === r.id ? "..." : "Email"}
+                      </button>
+                    </>
                   )}
                   <button onClick={() => sendWaNotif(r.id)} disabled={waSending === r.id} className="admin-btn-wa-sm">
                     {waSending === r.id ? "..." : "WA"}
@@ -341,9 +362,14 @@ export default function AdminRegistrations() {
                         <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm"><option value="pending">Pending</option><option value="accepted">Diterima</option><option value="rejected">Ditolak</option></select>
                         <button onClick={() => viewDetail(r.id)} className="admin-btn-blue-sm">Lihat</button>
                         {r.email && (
-                          <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
-                            {emailSending === r.id ? "..." : "Email"}
-                          </button>
+                          <>
+                            <button onClick={() => sendConfirmNotif(r.id)} disabled={confirmSending === r.id} className="admin-btn-success-sm">
+                              {confirmSending === r.id ? "..." : "Konfirmasi"}
+                            </button>
+                            <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
+                              {emailSending === r.id ? "..." : "Email"}
+                            </button>
+                          </>
                         )}
                         <button onClick={() => sendWaNotif(r.id)} disabled={waSending === r.id} className="admin-btn-wa-sm">
                           {waSending === r.id ? "..." : "WA"}
@@ -378,9 +404,14 @@ export default function AdminRegistrations() {
               <h2 className="reg-modal-title">Detail Pendaftaran</h2>
               <div className="reg-modal-header-actions">
                 {detailData.email && (
-                  <button onClick={() => sendEmailNotif(detailData.id)} disabled={emailSending === detailData.id} className="admin-btn-email-sm">
-                    {emailSending === detailData.id ? "..." : "Kirim Email"}
-                  </button>
+                  <>
+                    <button onClick={() => sendConfirmNotif(detailData.id)} disabled={confirmSending === detailData.id} className="admin-btn-success-sm">
+                      {confirmSending === detailData.id ? "..." : "Konfirmasi"}
+                    </button>
+                    <button onClick={() => sendEmailNotif(detailData.id)} disabled={emailSending === detailData.id} className="admin-btn-email-sm">
+                      {emailSending === detailData.id ? "..." : "Kirim Email"}
+                    </button>
+                  </>
                 )}
                 <button onClick={() => sendWaNotif(detailData.id)} disabled={waSending === detailData.id} className="admin-btn-wa-sm">
                   {waSending === detailData.id ? "..." : "Kirim WA"}

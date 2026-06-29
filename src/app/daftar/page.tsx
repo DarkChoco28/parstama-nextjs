@@ -81,19 +81,6 @@ export default function DaftarPage() {
         body: JSON.stringify({ ...formData, parentConsent: agree }),
       })
       if (response.ok) {
-        if (formData.email) {
-          fetch("/api/send-confirmation", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              fullName: formData.fullName,
-              className: formData.class,
-              major: formData.major,
-              whatsapp: formData.whatsapp,
-              email: formData.email,
-            }),
-          }).catch(() => {})
-        }
         window.location.href = "/daftar/berhasil"
       } else {
         const data = await response.json()
