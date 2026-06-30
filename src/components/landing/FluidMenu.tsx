@@ -28,9 +28,9 @@ export default function FluidMenu() {
       <div className={`fixed bottom-7 right-5 z-[9000] sm:hidden ${open ? "open" : ""}`}>
         <button
           onClick={() => setOpen(!open)}
-          className="relative w-14 h-14 rounded-full bg-linear-to-br from-red-600 to-red-800 border-none cursor-pointer z-[9010] flex items-center justify-center shadow-[0_4px_24px_rgba(220,38,38,0.4)] active:scale-95 transition-transform"
+          className="relative w-14 h-14 rounded-full bg-linear-to-br from-orange-600 to-orange-800 border-none cursor-pointer z-[9010] flex items-center justify-center shadow-[0_4px_24px_rgba(232,122,26,0.4)] active:scale-95 transition-transform"
         >
-          <span className="absolute inset-[-6px] rounded-full border-2 border-red-500/30" style={{ animation: open ? "none" : "pulse 2.5s ease-in-out infinite" }} />
+          <span className="absolute inset-[-6px] rounded-full border-2 border-orange-500/30" style={{ animation: open ? "none" : "pulse 2.5s ease-in-out infinite" }} />
           <svg className="absolute w-6 h-6 text-white transition-all duration-300" style={{ opacity: open ? 0 : 1, transform: open ? "scale(0) rotate(180deg)" : "scale(1) rotate(0deg)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
           <svg className="absolute w-6 h-6 text-white transition-all duration-300" style={{ opacity: open ? 1 : 0, transform: open ? "scale(1) rotate(0deg)" : "scale(0) rotate(-180deg)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
         </button>

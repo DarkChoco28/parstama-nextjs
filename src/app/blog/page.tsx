@@ -32,14 +32,14 @@ export default function BlogPage() {
 
   useEffect(() => { fetchArticles() }, [fetchArticles])
 
-  const categoryColors: Record<string, string> = { Kesehatan: "#10B981", P3K: "#F59E0B", Kegiatan: "#DC2626", Lainnya: "#8B5CF6" }
+  const categoryColors: Record<string, string> = { Kesehatan: "#10B981", P3K: "#F59E0B", Kegiatan: "#E87A1A", Lainnya: "#8B5CF6" }
 
   return (
     <div style={{ minHeight: "100vh", background: "#0A0A0B" }}>
       <style>{`
         .blog-card { background: rgba(26,26,28,.8); border: 1px solid rgba(255,255,255,.06); border-radius: 16px; overflow: hidden; transition: all .3s cubic-bezier(.33,1,.68,1); cursor: pointer; }
-        .blog-card:hover { border-color: rgba(220,38,38,.3); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,.4); }
-        .blog-card:hover .blog-card-title { color: #EF4444; }
+        .blog-card:hover { border-color: rgba(232,122,26,.3); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+        .blog-card:hover .blog-card-title { color: #F59E0B; }
         .blog-cover { width: 100%; height: 180px; object-fit: cover; background: rgba(255,255,255,.03); }
         .blog-tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; }
       `}</style>
@@ -49,7 +49,7 @@ export default function BlogPage() {
         <div style={{ maxWidth: 1000, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
             <img src="/parstama_logo.png" alt="PARSTAMA" style={{ width: 32, height: 32, borderRadius: "50%" }} />
-            <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: 16, fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>PARSTAMA</span>
+            <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: 16, fontWeight: 700, background: "linear-gradient(90deg,#F59E0B,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>PARSTAMA</span>
           </Link>
           <Link href="/" style={{ color: "rgba(255,255,255,.5)", fontSize: 13, textDecoration: "none" }}>← Kembali</Link>
         </div>
@@ -58,7 +58,7 @@ export default function BlogPage() {
       <main style={{ maxWidth: 1000, margin: "0 auto", padding: "32px 24px" }}>
         <div style={{ marginBottom: 32 }}>
           <h1 style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "clamp(1.5rem, 4vw, 2.5rem)", fontWeight: 800, color: "#fff", marginBottom: 8 }}>
-            Blog & <span style={{ background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Artikel</span>
+            Blog & <span style={{ background: "linear-gradient(90deg,#F59E0B,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Artikel</span>
           </h1>
           <p style={{ color: "rgba(255,255,255,.4)", fontSize: 14 }}>{totalResults} artikel tentang kesehatan dan kegiatan PMR</p>
         </div>
@@ -66,7 +66,7 @@ export default function BlogPage() {
         {/* Category filter */}
         <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
           {categories.map(c => (
-            <button key={c || "all"} onClick={() => { setCategory(c); setPage(1) }} style={{ padding: "6px 16px", borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: "pointer", transition: "all .2s", background: category === c ? "rgba(220,38,38,.15)" : "rgba(255,255,255,.05)", color: category === c ? "#EF4444" : "rgba(255,255,255,.5)", border: `1px solid ${category === c ? "rgba(220,38,38,.3)" : "rgba(255,255,255,.08)"}` }}>
+            <button key={c || "all"} onClick={() => { setCategory(c); setPage(1) }} style={{ padding: "6px 16px", borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: "pointer", transition: "all .2s", background: category === c ? "rgba(232,122,26,.15)" : "rgba(255,255,255,.05)", color: category === c ? "#F59E0B" : "rgba(255,255,255,.5)", border: `1px solid ${category === c ? "rgba(232,122,26,.3)" : "rgba(255,255,255,.08)"}` }}>
               {c || "Semua"}
             </button>
           ))}

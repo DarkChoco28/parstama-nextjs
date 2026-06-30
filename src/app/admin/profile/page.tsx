@@ -53,7 +53,7 @@ export default function AdminProfile() {
         <form onSubmit={handleSubmit} className="form-body">
           <div>
             <h2 className="form-section-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E87A1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               Informasi Akun
             </h2>
             <div className="form-group">
@@ -70,7 +70,7 @@ export default function AdminProfile() {
 
           <div>
             <h2 className="form-section-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E87A1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
               Ganti Password
             </h2>
             <p className="form-section-desc">Kosongkan jika tidak ingin mengganti password</p>

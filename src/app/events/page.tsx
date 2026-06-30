@@ -7,7 +7,7 @@ interface Event {
   id: string; title: string; description?: string; location?: string; startDate: string; endDate?: string; allDay: boolean; color: string; category: string
 }
 
-const categoryColors: Record<string, string> = { Pelatihan: "#3B82F6", Rapat: "#F59E0B", Kegiatan: "#DC2626", Lainnya: "#8B5CF6" }
+const categoryColors: Record<string, string> = { Pelatihan: "#3B82F6", Rapat: "#F59E0B", Kegiatan: "#E87A1A", Lainnya: "#8B5CF6" }
 const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
 const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"]
 
@@ -61,9 +61,9 @@ export default function EventsPage() {
       <style>{`
         .cal-day { width: 100%; aspect-ratio: 1; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 13px; color: rgba(255,255,255,.5); cursor: pointer; transition: all .2s; border: 1px solid transparent; position: relative; }
         .cal-day:hover { background: rgba(255,255,255,.05); }
-        .cal-day.today { color: #EF4444; font-weight: 700; border-color: rgba(220,38,38,.3); }
-        .cal-day.selected { background: rgba(220,38,38,.15); border-color: rgba(220,38,38,.4); color: #fff; }
-        .cal-day.has-event::after { content: ""; position: absolute; bottom: 4px; width: 4px; height: 4px; border-radius: 50%; background: #DC2626; }
+        .cal-day.today { color: #F97316; font-weight: 700; border-color: rgba(232,122,26,.3); }
+        .cal-day.selected { background: rgba(232,122,26,.15); border-color: rgba(232,122,26,.4); color: #fff; }
+        .cal-day.has-event::after { content: ""; position: absolute; bottom: 4px; width: 4px; height: 4px; border-radius: 50%; background: #E87A1A; }
         .cal-day.empty { cursor: default; }
         .cal-day.empty:hover { background: transparent; }
         .event-card { background: rgba(26,26,28,.8); border: 1px solid rgba(255,255,255,.06); border-radius: 12px; padding: 14px 16px; border-left: 3px solid; transition: all .2s; }
@@ -75,7 +75,7 @@ export default function EventsPage() {
         <div style={{ maxWidth: 1000, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
             <img src="/parstama_logo.png" alt="PARSTAMA" style={{ width: 32, height: 32, borderRadius: "50%" }} />
-            <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: 16, fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>PARSTAMA</span>
+            <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: 16, fontWeight: 700, background: "linear-gradient(90deg,#F97316,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>PARSTAMA</span>
           </Link>
           <Link href="/" style={{ color: "rgba(255,255,255,.5)", fontSize: 13, textDecoration: "none" }}>← Kembali</Link>
         </div>
@@ -84,7 +84,7 @@ export default function EventsPage() {
       <main style={{ maxWidth: 1000, margin: "0 auto", padding: "32px 24px" }}>
         <div style={{ marginBottom: 32 }}>
           <h1 style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "clamp(1.5rem, 4vw, 2.5rem)", fontWeight: 800, color: "#fff", marginBottom: 8 }}>
-            Event & <span style={{ background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Kegiatan</span>
+            Event & <span style={{ background: "linear-gradient(90deg,#F97316,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Kegiatan</span>
           </h1>
           <p style={{ color: "rgba(255,255,255,.4)", fontSize: 14 }}>Jadwal kegiatan dan pelatihan PARSTAMA</p>
         </div>

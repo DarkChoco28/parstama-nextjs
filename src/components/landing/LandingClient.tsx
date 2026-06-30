@@ -58,23 +58,23 @@ function BentoCard({ f }: { f: { icon: string; title: string; desc: string } }) 
       style={{
         transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) ${isHovered ? "scale(1.02)" : "scale(1)"}`,
         transition: "transform 0.4s cubic-bezier(0.33,1,0.68,1), border-color 0.3s, box-shadow 0.3s",
-        borderColor: isHovered ? "rgba(220,38,38,0.3)" : undefined,
-        boxShadow: isHovered ? "0 0 40px rgba(220,38,38,0.08), 0 20px 60px rgba(0,0,0,0.4)" : undefined,
+        borderColor: isHovered ? "rgba(232,122,26,0.3)" : undefined,
+        boxShadow: isHovered ? "0 0 40px rgba(232,122,26,0.08), 0 20px 60px rgba(0,0,0,0.4)" : undefined,
       }}
     >
       <div
         className="bento-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          background: "radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(220,38,38,0.06), transparent 40%)",
+          background: "radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(232,122,26,0.06), transparent 40%)",
           ["--mx" as string]: `${(tilt.y / 12 + 0.5) * 100}%`,
           ["--my" as string]: `${(0.5 - tilt.x / 12) * 100}%`,
         }}
       />
       <div className="relative z-10">
-        <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-2xl mb-4 sm:mb-5 group-hover:bg-red-500/20 group-hover:border-red-500/30 transition-all duration-300 group-hover:scale-110">
+        <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-2xl mb-4 sm:mb-5 group-hover:bg-orange-500/20 group-hover:border-orange-500/30 transition-all duration-300 group-hover:scale-110">
           {f.icon}
         </div>
-        <h3 className="text-base sm:text-lg font-bold text-white mb-1.5 sm:mb-2 group-hover:text-red-300 transition-colors duration-300">{f.title}</h3>
+        <h3 className="text-base sm:text-lg font-bold text-white mb-1.5 sm:mb-2 group-hover:text-orange-300 transition-colors duration-300">{f.title}</h3>
         <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors duration-300">{f.desc}</p>
       </div>
     </div>
@@ -99,10 +99,10 @@ export default function LandingClient() {
     <>
       <Preloader />
       <style>{`
-        header.scrolled { background: rgba(10,10,11,0.97) !important; box-shadow: 0 4px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(220,38,38,0.05); backdrop-filter: blur(20px) !important; }
+        header.scrolled { background: rgba(10,10,11,0.97) !important; box-shadow: 0 4px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(232,122,26,0.05); backdrop-filter: blur(20px) !important; }
         .split-char { display: inline-block; transition: color 0.2s, transform 0.3s cubic-bezier(0.33,1,0.68,1); }
-        .split-text:hover .split-char { color: #DC2626; }
-        .split-text:hover .split-char:hover { color: #EF4444; transform: translateY(-3px) scale(1.1); }
+        .split-text:hover .split-char { color: #E87A1A; }
+        .split-text:hover .split-char:hover { color: #F97316; transform: translateY(-3px) scale(1.1); }
 
       `}</style>
 
@@ -110,38 +110,38 @@ export default function LandingClient() {
       <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/6 h-[80px] sm:h-[80px] px-4 sm:px-6 flex items-center justify-between overflow-hidden">
         <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-[1]">
           <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
-            <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }} />
+            <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
           </div>
           <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
-            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }} />
+            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
           </div>
-          <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+          <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#F97316,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             PARSTAMA
           </span>
         </Link>
         <nav className="hidden sm:flex items-center gap-8 relative z-[1]">
-          <a href="#tentang" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <a href="#tentang" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Tentang" />
           </a>
-          <a href="#syarat" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <a href="#syarat" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Syarat" />
           </a>
-          <a href="#timeline" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <a href="#timeline" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Timeline" />
           </a>
-          <Link href="/sejarah" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <Link href="/sejarah" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Sejarah" />
           </Link>
-          <Link href="/blog" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <Link href="/blog" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Blog" />
           </Link>
-          <Link href="/events" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <Link href="/events" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Event" />
           </Link>
-          <Link href="/cek-status" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <Link href="/cek-status" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             Tanya AI
           </Link>
-          <Link href="/login" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <Link href="/login" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Login" />
           </Link>
           <a href="https://wa.me/6281459145800?text=Halo%20PARSTAMA,%20saya%20ingin%20bertanya%20tentang%20pendaftaran." target="_blank" rel="noopener" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors">
@@ -156,13 +156,13 @@ export default function LandingClient() {
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-[100px] sm:pt-[120px] pb-16 sm:pb-20">
         <div className="relative z-10 max-w-3xl mx-auto">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
+          <div className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
             PMR SMKN 1 Singosari
           </div>
           <h1 className="text-[clamp(1.8rem,5vw,4rem)] sm:text-[clamp(2rem,6vw,4.5rem)] font-display font-extrabold leading-[1.1] text-white mb-4 sm:mb-5 tracking-tight">
             <span className="split-text inline-block cursor-default"><SplitText text="Bergabunglah" /></span>{" "}
             <span className="split-text inline-block cursor-default"><SplitText text="Bersama" /></span>{" "}
-            <span className="inline-block bg-linear-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent whitespace-nowrap">
+            <span className="inline-block bg-linear-to-r from-orange-400 via-orange-400 to-orange-600 bg-clip-text text-transparent whitespace-nowrap">
               PARSTAMA
             </span>
           </h1>
@@ -187,14 +187,14 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" />
+      <div className="h-[1px] bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
 
       {/* Stats */}
       <section className="flex justify-center gap-6 sm:gap-16 px-4 sm:px-6 py-10 sm:py-12 flex-wrap">
         {[
-          { value: "100+", label: "Anggota Aktif", color: "from-red-400 to-red-600" },
+          { value: "100+", label: "Anggota Aktif", color: "from-orange-400 to-orange-600" },
           { value: "50+", label: "Kegiatan Sosial", color: "from-amber-400 to-amber-600" },
-          { value: "10+", label: "Tahun Berdiri", color: "from-red-400 to-red-600" },
+          { value: "10+", label: "Tahun Berdiri", color: "from-orange-400 to-orange-600" },
           { value: "30+", label: "Penghargaan", color: "from-amber-400 to-amber-600" },
         ].map((s) => (
           <div key={s.label} className="reveal-scale text-center">
@@ -207,12 +207,12 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" />
+      <div className="h-[1px] bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
 
       {/* Features */}
       <section id="tentang" className="max-w-6xl mx-auto px-6 py-16 sm:py-24">
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="reveal text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-3 sm:mb-4">Mengapa <span className="bg-linear-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent">PARSTAMA</span>?</h2>
+          <h2 className="reveal text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-3 sm:mb-4">Mengapa <span className="bg-linear-to-r from-orange-400 via-orange-400 to-orange-600 bg-clip-text text-transparent">PARSTAMA</span>?</h2>
           <p className="reveal text-sm sm:text-base text-zinc-400 max-w-lg mx-auto">Kami bukan sekadar organisasi — kami adalah keluarga yang saling mendukung.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -230,7 +230,7 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" />
+      <div className="h-[1px] bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
 
       {/* Requirements + Timeline */}
       <section id="syarat" className="bg-[#141415] px-6 py-16 sm:py-24">
@@ -247,12 +247,12 @@ export default function LandingClient() {
                 "Mengetahui dan memiliki minat serta tujuan",
               ].map((req) => (
                 <li key={req} className="reveal-left flex items-start gap-3 text-sm sm:text-base text-zinc-400 rounded-lg px-2 py-3">
-                  <span className="w-5 h-5 rounded-full bg-red-600 flex items-center justify-center text-white text-xs flex-shrink-0 mt-0.5">✓</span>
+                  <span className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center text-white text-xs flex-shrink-0 mt-0.5">✓</span>
                   {req}
                 </li>
               ))}
             </ul>
-            <Link href="/sejarah" className="reveal-left inline-flex items-center justify-center gap-2 mt-6 sm:mt-8 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm font-bold text-white bg-red-600 hover:bg-red-500 shadow-lg shadow-red-600/30 hover:-translate-y-0.5 transition-all">
+            <Link href="/sejarah" className="reveal-left inline-flex items-center justify-center gap-2 mt-6 sm:mt-8 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm font-bold text-white bg-orange-600 hover:bg-orange-500 shadow-lg shadow-orange-600/30 hover:-translate-y-0.5 transition-all">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               Lihat Sejarah PARSTAMA
             </Link>
@@ -260,7 +260,7 @@ export default function LandingClient() {
           <div id="timeline">
             <h2 className="reveal-right text-[clamp(1.3rem,3vw,2rem)] font-display font-extrabold text-white mb-1">Timeline Seleksi</h2>
             <p className="reveal-right text-sm text-zinc-400 mb-6">Ikuti setiap tahapan seleksi dengan baik</p>
-            <div className="relative pl-7 sm:pl-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-linear-to-b before:from-red-600 before:to-transparent">
+            <div className="relative pl-7 sm:pl-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-linear-to-b before:from-orange-600 before:to-transparent">
               {[
                 { title: "Pendaftaran Online", desc: "Isi formulir pendaftaran melalui website ini." },
                 { title: "Seleksi Administrasi", desc: "Tim panitia memeriksa berkas pendaftar." },
@@ -268,7 +268,7 @@ export default function LandingClient() {
                 { title: "Pengumuman Hasil", desc: "Hasil seleksi diumumkan melalui website dan medsos PARSTAMA." },
               ].map((t, i) => (
                 <div key={i} className="reveal-right relative mb-6 sm:mb-8 last:mb-0">
-                  <div className="absolute left-[-2rem] sm:left-[-2.25rem] top-1 w-3.5 h-3.5 rounded-full bg-red-600 border-2 border-[#141415]" />
+                  <div className="absolute left-[-2rem] sm:left-[-2.25rem] top-1 w-3.5 h-3.5 rounded-full bg-orange-600 border-2 border-[#141415]" />
                   <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">{t.title}</h3>
                   <p className="text-xs sm:text-sm text-zinc-400">{t.desc}</p>
                 </div>
@@ -279,11 +279,11 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" />
+      <div className="h-[1px] bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
 
       {/* CTA */}
       <section className="px-6 py-16 sm:py-24 text-center">
-        <div className="reveal-scale max-w-2xl mx-auto bg-linear-to-br from-red-600/10 to-red-800/5 border border-red-500/20 rounded-2xl sm:rounded-3xl p-8 sm:p-16 relative overflow-hidden">
+        <div className="reveal-scale max-w-2xl mx-auto bg-linear-to-br from-orange-600/10 to-orange-800/5 border border-orange-500/20 rounded-2xl sm:rounded-3xl p-8 sm:p-16 relative overflow-hidden">
           <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-2 sm:mb-3">
             <span className="split-text inline-block cursor-default">
               <SplitText text="Siap Bergabung?" />
@@ -294,7 +294,7 @@ export default function LandingClient() {
             <RocketButton href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
               Daftar Sekarang — Gratis
             </RocketButton>
-            <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
+            <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-orange-500 hover:text-orange-400 hover:-translate-y-0.5 transition-all">
               Tanya AI
             </Link>
           </div>
@@ -307,12 +307,12 @@ export default function LandingClient() {
           <div className="footer-col">
             <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4 no-underline">
               <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
-                <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }} />
+                <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
               </div>
               <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
-                <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }} />
+                <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
               </div>
-              <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#F97316,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 PARSTAMA
               </span>
             </Link>
@@ -323,7 +323,7 @@ export default function LandingClient() {
                 { label: "TikTok", path: "M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1.84-.1z" },
                 { label: "YouTube", path: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" },
               ].map((s) => (
-                <a key={s.label} href="#" className="w-14 h-14 rounded-xl bg-white/3 border border-white/6 flex items-center justify-center hover:bg-white/5 hover:border-red-500/30 transition-all" aria-label={s.label}>
+                <a key={s.label} href="#" className="w-14 h-14 rounded-xl bg-white/3 border border-white/6 flex items-center justify-center hover:bg-white/5 hover:border-orange-500/30 transition-all" aria-label={s.label}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="#71717A">
                     <path d={s.path} />
                   </svg>
@@ -345,7 +345,7 @@ export default function LandingClient() {
                 { label: "Struktur Organisasi", href: "/struktur-organisasi" },
                 { label: "Login Admin", href: "/login" },
               ].map((l) => (
-                <Link key={l.label} href={l.href} className="block text-xs sm:text-sm text-zinc-400 hover:text-red-400 transition-colors">{l.label}</Link>
+                <Link key={l.label} href={l.href} className="block text-xs sm:text-sm text-zinc-400 hover:text-orange-400 transition-colors">{l.label}</Link>
               ))}
             </div>
           </div>
@@ -374,7 +374,7 @@ export default function LandingClient() {
           </div>
         </div>
         <div className="text-center text-xs text-zinc-600 pt-6 sm:pt-8 border-t border-white/6">
-          &copy; {new Date().getFullYear()} <span className="text-red-400 font-semibold">PARSTAMA</span> — SMKN 1 Singosari
+          &copy; {new Date().getFullYear()} <span className="text-orange-400 font-semibold">PARSTAMA</span> — SMKN 1 Singosari
           <p className="mt-2 text-zinc-500">Made with ❤️ by tim PARSTAMA</p>
         </div>
       </footer>

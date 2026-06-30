@@ -293,7 +293,7 @@ export default function DaftarPage() {
                   <label>Alasan Bergabung dengan PARSTAMA <span className="req">*</span></label>
                   <textarea name="motivation" value={formData.motivation} onChange={handleInputChange} placeholder="Ceritakan alasan Anda ingin bergabung, pengalaman yang diharapkan, dan kontribusi yang ingin diberikan..." style={{ minHeight: 180 }} className={fieldErrors.motivation ? "error" : ""} />
                   <span className={`error-msg${fieldErrors.motivation ? " show" : ""}`}>Kolom motivasi wajib diisi (minimal 20 karakter).</span>
-                  <span className="char-hint" style={{ color: formData.motivation.length >= 20 ? "#EF4444" : "#555" }}>{formData.motivation.length} karakter{formData.motivation.length < 20 ? " (min. 20)" : " ok"}</span>
+                  <span className="char-hint" style={{ color: formData.motivation.length >= 20 ? "#F97316" : "#555" }}>{formData.motivation.length} karakter{formData.motivation.length < 20 ? " (min. 20)" : " ok"}</span>
                 </div>
               </div>
               <div className="form-row">
@@ -326,7 +326,7 @@ export default function DaftarPage() {
                   </div>
                 </div>
                 <label className="flex items-start gap-3 cursor-pointer" style={{ fontSize: "14.4px", color: "#E0E0E0", marginBottom: 24 }}>
-                  <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, accentColor: "#DC2626" }} />
+                  <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2, accentColor: "#E87A1A" }} />
                   <span>Saya menyatakan bahwa data yang saya isi adalah <strong style={{ color: "#3B82F6" }}>benar dan dapat dipertanggungjawabkan</strong>, sudah mendapatkan <strong style={{ color: "#fff" }}>izin dari orang tua / wali</strong>, serta bersedia mengikuti seluruh proses seleksi PARSTAMA.</span>
                 </label>
                 <span className={`error-msg${fieldErrors.agree ? " show" : ""}`} style={{ marginBottom: 16 }}>Anda harus menyetujui pernyataan dan persetujuan orang tua / wali di atas.</span>
@@ -379,74 +379,74 @@ export default function DaftarPage() {
         .daftar-nav-inner{display:flex;justify-content:space-between;align-items:center;padding:0 16px;height:60px}
         .daftar-nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;min-width:0}
         .daftar-nav-logo-wrap{position:relative;width:32px;height:32px;flex-shrink:0}
-        .daftar-nav-logo-img{width:32px;height:32px;border-radius:50%;object-fit:contain;animation:navLogoFloat3D 6s ease-in-out infinite;box-shadow:0 0 8px rgba(220,38,38,.4)}
-        .daftar-nav-brand{font-family:'Sansita',Georgia,serif;font-size:14px;font-weight:700;background:linear-gradient(90deg,#EF4444,#DC2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+        .daftar-nav-logo-img{width:32px;height:32px;border-radius:50%;object-fit:contain;animation:navLogoFloat3D 6s ease-in-out infinite;box-shadow:0 0 8px rgba(232,122,26,.4)}
+        .daftar-nav-brand{font-family:'Sansita',Georgia,serif;font-size:14px;font-weight:700;background:linear-gradient(90deg,#F97316,#E87A1A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
         .daftar-nav-links-desktop{display:flex;align-items:center;gap:16px}
         .daftar-nav-link{font-family:'Sansita',Georgia,serif,sans-serif;font-size:13px;font-weight:400;color:#888;text-decoration:none;letter-spacing:.5px;transition:color .2s}
         .daftar-nav-link:hover{color:#fff}
-        .daftar-nav-admin{font-family:'Sansita',Georgia,serif,sans-serif;font-size:13px;color:#EF4444;text-decoration:none;letter-spacing:.5px;padding:8px 18px;border:1px solid rgba(220,38,38,.3);border-radius:8px;transition:background .2s,box-shadow .2s}
-        .daftar-nav-admin:hover{background:rgba(220,38,38,.08);box-shadow:0 0 12px rgba(220,38,38,.1)}
+        .daftar-nav-admin{font-family:'Sansita',Georgia,serif,sans-serif;font-size:13px;color:#F97316;text-decoration:none;letter-spacing:.5px;padding:8px 18px;border:1px solid rgba(232,122,26,.3);border-radius:8px;transition:background .2s,box-shadow .2s}
+        .daftar-nav-admin:hover{background:rgba(232,122,26,.08);box-shadow:0 0 12px rgba(232,122,26,.1)}
         .daftar-hamburger{display:none;background:none;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px;color:rgba(255,255,255,.7);cursor:pointer;transition:all .3s}
         .daftar-hamburger:hover{background:rgba(255,255,255,.06);color:#fff}
         .daftar-mobile-menu{display:none;flex-direction:column;padding:8px 16px 16px;gap:4px;animation:menuSlideDown .2s ease}
         .daftar-mobile-link{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;color:rgba(255,255,255,.7);font-size:14px;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.06);transition:all .3s;background:rgba(255,255,255,.03);font-family:'Sansita',Georgia,serif,sans-serif}
         .daftar-mobile-link:active{background:rgba(255,255,255,.08)}
-        .daftar-mobile-admin{color:#EF4444;border-color:rgba(220,38,38,.15);background:rgba(220,38,38,.05)}
+        .daftar-mobile-admin{color:#F97316;border-color:rgba(232,122,26,.15);background:rgba(232,122,26,.05)}
 
         /* PAGE */
         .daftar-page-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;padding:80px 16px 40px}
         .daftar-page-header{text-align:center;max-width:580px;margin-bottom:28px;animation:fadeUp .7s .2s ease both}
-        .page-badge{display:inline-block;background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.25);color:#EF4444;font-family:'Sansita',Georgia,serif,sans-serif;font-size:11px;font-weight:400;letter-spacing:1.2px;text-transform:uppercase;padding:6px 16px;border-radius:50px;margin-bottom:12px}
+        .page-badge{display:inline-block;background:rgba(232,122,26,.12);border:1px solid rgba(232,122,26,.25);color:#F97316;font-family:'Sansita',Georgia,serif,sans-serif;font-size:11px;font-weight:400;letter-spacing:1.2px;text-transform:uppercase;padding:6px 16px;border-radius:50px;margin-bottom:12px}
         .page-title{font-family:'Sansita',Georgia,serif;font-size:24px;font-weight:700;margin-bottom:8px;color:#fff}
-        .page-title span{background:linear-gradient(135deg,#EF4444,#DC2626);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+        .page-title span{background:linear-gradient(135deg,#F97316,#E87A1A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
         .page-sub{color:#888;font-size:13px;line-height:1.6}
 
         /* STEPS */
         .steps-bar{display:flex;gap:6px;justify-content:center;flex-wrap:nowrap;align-items:center;margin-bottom:28px;width:100%;max-width:620px;animation:fadeUp .7s .3s ease both;overflow-x:auto;padding:4px 0}
         .step-item{display:inline-flex;align-items:center;gap:6px;height:36px;border-radius:8px;background:rgba(255,255,255,.04);color:#555;border:1px solid rgba(255,255,255,.08);transition:background .3s,color .3s,border-color .3s,box-shadow .3s;flex-shrink:0;padding:0 10px}
-        .step-item.active{background:linear-gradient(135deg,#DC2626,#991B1B);color:#fff;border-color:#DC2626;box-shadow:0 0 20px rgba(220,38,38,.3)}
-        .step-item.done{background:rgba(220,38,38,.08);color:#EF4444;border-color:rgba(220,38,38,.3)}
+        .step-item.active{background:linear-gradient(135deg,#E87A1A,#991B1B);color:#fff;border-color:#E87A1A;box-shadow:0 0 20px rgba(232,122,26,.3)}
+        .step-item.done{background:rgba(232,122,26,.08);color:#F97316;border-color:rgba(232,122,26,.3)}
         .step-num{font-family:'Sansita',Georgia,serif;font-size:13px;font-weight:700;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.06);flex-shrink:0}
         .step-item.active .step-num{background:rgba(255,255,255,.2)}
-        .step-item.done .step-num{background:rgba(220,38,38,.15)}
+        .step-item.done .step-num{background:rgba(232,122,26,.15)}
         .step-label-desktop{font-family:'Sansita',Georgia,serif,sans-serif;font-size:12px;font-weight:400;letter-spacing:.3px;white-space:nowrap}
         .step-label-mobile{display:none;font-family:'Sansita',Georgia,serif,sans-serif;font-size:11px;font-weight:400;letter-spacing:.3px;white-space:nowrap}
 
         /* FORM */
         .form-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px 16px;width:100%;max-width:680px;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:fadeUp .7s .4s ease both;position:relative;overflow:hidden}
-        .form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#DC2626,transparent)}
+        .form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#E87A1A,transparent)}
         .form-section{display:none}
         .form-section.active{display:block;animation:slideIn .4s ease both}
-        .section-heading{font-family:'Sansita',Georgia,serif;font-size:16px;font-weight:700;color:#EF4444;display:flex;align-items:center;gap:8px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.06)}
+        .section-heading{font-family:'Sansita',Georgia,serif;font-size:16px;font-weight:700;color:#F97316;display:flex;align-items:center;gap:8px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.06)}
         .form-row{display:grid;gap:14px;grid-template-columns:1fr;margin-bottom:14px}
         .form-row.two-col{grid-template-columns:1fr}
         .form-group{display:flex;flex-direction:column;gap:5px}
         label{font-size:13px;font-weight:600;color:#ccc;letter-spacing:.3px}
-        label .req{color:#EF4444;margin-left:2px}
+        label .req{color:#F97316;margin-left:2px}
         input[type="text"],input[type="email"],input[type="tel"],input[type="date"],select,textarea{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#fff;font-family:'Sansita',Georgia,serif,-apple-system,sans-serif;font-size:15px;padding:12px 14px;transition:border-color .25s,box-shadow .25s;outline:none;width:100%;-webkit-appearance:none}
         input::placeholder,textarea::placeholder{color:#555}
-        input:focus,select:focus,textarea:focus{border-color:#DC2626;box-shadow:0 0 0 2px rgba(220,38,38,.15)}
-        input.error,select.error,textarea.error{border-color:#EF4444;animation:shake .4s ease}
+        input:focus,select:focus,textarea:focus{border-color:#E87A1A;box-shadow:0 0 0 2px rgba(232,122,26,.15)}
+        input.error,select.error,textarea.error{border-color:#F97316;animation:shake .4s ease}
         select option{background:#1a1a1a;color:#fff}
         textarea{resize:vertical;min-height:90px}
         .radio-group{display:flex;gap:10px;flex-wrap:wrap}
         .radio-opt{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 14px;cursor:pointer;transition:border-color .2s,background .2s;flex:1;min-width:0}
-        .radio-opt input[type="radio"]{accent-color:#DC2626;width:16px;height:16px}
-        .radio-opt.checked{border-color:#DC2626;background:rgba(220,38,38,.06);box-shadow:0 0 12px rgba(220,38,38,.1)}
+        .radio-opt input[type="radio"]{accent-color:#E87A1A;width:16px;height:16px}
+        .radio-opt.checked{border-color:#E87A1A;background:rgba(232,122,26,.06);box-shadow:0 0 12px rgba(232,122,26,.1)}
         .radio-opt span{font-size:13px;font-weight:600;color:#ccc}
-        .error-msg{font-size:12px;color:#EF4444;margin-top:3px;display:none}
+        .error-msg{font-size:12px;color:#F97316;margin-top:3px;display:none}
         .error-msg.show{display:block}
         .alert-closed{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:14px 16px;margin-bottom:16px;color:#F59E0B;font-size:13px;text-align:center}
         .form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:12px}
         .btn-ghost{background:transparent;color:#aaa;border:1px solid rgba(255,255,255,.1);font-family:'Sansita',Georgia,serif,-apple-system,sans-serif;font-weight:600;font-size:13px;padding:12px 20px;border-radius:8px;cursor:pointer;transition:border-color .2s,color .2s}
-        .btn-ghost:hover{border-color:#EF4444;color:#EF4444}
-        .btn-next,.btn-submit{background:linear-gradient(135deg,#DC2626,#991B1B);color:#fff;border:none;font-family:'Sansita',Georgia,serif,-apple-system,sans-serif;font-weight:600;font-size:13px;padding:12px 20px;border-radius:8px;cursor:pointer;transition:opacity .2s,transform .2s,box-shadow .2s;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(220,38,38,.3)}
-        .btn-next:hover,.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(220,38,38,.45)}
+        .btn-ghost:hover{border-color:#F97316;color:#F97316}
+        .btn-next,.btn-submit{background:linear-gradient(135deg,#E87A1A,#991B1B);color:#fff;border:none;font-family:'Sansita',Georgia,serif,-apple-system,sans-serif;font-weight:600;font-size:13px;padding:12px 20px;border-radius:8px;cursor:pointer;transition:opacity .2s,transform .2s,box-shadow .2s;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(232,122,26,.3)}
+        .btn-next:hover,.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(232,122,26,.45)}
         .btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none!important}
         .btn-submit .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
         .char-hint{font-size:12px;color:#555;margin-top:3px}
         .form-hint{text-align:center;font-size:13px;color:#555;margin-top:16px}
-        .form-hint a{color:#EF4444;text-decoration:none}
+        .form-hint a{color:#F97316;text-decoration:none}
         .form-hint a:hover{text-decoration:underline}
         .sum-table{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:16px;margin-bottom:20px;font-size:13px}
         .sum-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);gap:12px}
@@ -520,7 +520,7 @@ export default function DaftarPage() {
 
 function CrossSvg() {
   return (
-    <svg viewBox="0 0 24 24" fill="#DC2626">
+    <svg viewBox="0 0 24 24" fill="#E87A1A">
       <rect x="9" y="2" width="6" height="20" rx="1.5" />
       <rect x="2" y="9" width="20" height="6" rx="1.5" />
     </svg>

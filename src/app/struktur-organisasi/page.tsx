@@ -32,11 +32,11 @@ function getInitials(name: string): string {
 function getLevelColor(level: number): string {
   switch (level) {
     case 0:
-      return "from-red-600 to-red-800"
+      return "from-orange-600 to-orange-800"
     case 1:
-      return "from-red-500 to-red-700"
+      return "from-orange-500 to-orange-700"
     case 2:
-      return "from-red-400 to-red-600"
+      return "from-orange-400 to-orange-600"
     default:
       return "from-zinc-600 to-zinc-800"
   }
@@ -93,7 +93,7 @@ function HoverCard({ member, children }: { member: OrganizationMember; children:
         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 w-56 p-3 rounded-xl bg-zinc-900 border border-white/10 shadow-xl" style={{ backdropFilter: "blur(16px)" }}>
           <p className="text-white font-bold text-xs">{member.name}</p>
           {member.nickname && <p className="text-zinc-400 text-[10px]">({member.nickname})</p>}
-          <p className="text-red-400 text-[10px] font-medium mt-0.5">{member.position}</p>
+          <p className="text-orange-400 text-[10px] font-medium mt-0.5">{member.position}</p>
           {member.bio && <p className="text-zinc-500 text-[10px] mt-1.5 leading-relaxed">{member.bio}</p>}
         </div>
       )}
@@ -153,8 +153,8 @@ export default function StrukturOrganisasiPage() {
       <HoverCard member={member}>
         <div className="flex flex-col items-center gap-1.5 relative group">
           <div
-            className={`${size} rounded-full bg-linear-to-br ${colorClass} flex items-center justify-center text-white font-bold text-sm shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-red-500/30 group-hover:shadow-xl relative z-10`}
-            style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }}
+            className={`${size} rounded-full bg-linear-to-br ${colorClass} flex items-center justify-center text-white font-bold text-sm shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-orange-500/30 group-hover:shadow-xl relative z-10`}
+            style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }}
           >
             {member.photo ? (
               <Image
@@ -212,14 +212,14 @@ export default function StrukturOrganisasiPage() {
         .tree-line-v {
           position: absolute;
           width: 2px;
-          background: linear-gradient(to bottom, rgba(220,38,38,0.4), rgba(220,38,38,0.1));
+          background: linear-gradient(to bottom, rgba(232,122,26,0.4), rgba(232,122,26,0.1));
           left: 50%;
           transform: translateX(-50%);
         }
         .tree-line-h {
           position: absolute;
           height: 2px;
-          background: linear-gradient(to right, rgba(220,38,38,0.1), rgba(220,38,38,0.4), rgba(220,38,38,0.1));
+          background: linear-gradient(to right, rgba(232,122,26,0.1), rgba(232,122,26,0.4), rgba(232,122,26,0.1));
           top: 50%;
           transform: translateY(-50%);
         }
@@ -233,7 +233,7 @@ export default function StrukturOrganisasiPage() {
           -webkit-backdrop-filter: blur(12px);
         }
         .glass-card:hover {
-          border-color: rgba(220,38,38,0.3);
+          border-color: rgba(232,122,26,0.3);
           background: rgba(255,255,255,0.05);
         }
       `}</style>
@@ -241,23 +241,23 @@ export default function StrukturOrganisasiPage() {
       <div className="min-h-screen bg-[#0A0A0B] flex flex-col"
         style={{
           backgroundImage: `
-            radial-gradient(circle at top left, rgba(220,38,38,0.1), transparent 30%),
-            radial-gradient(circle at bottom right, rgba(220,38,38,0.08), transparent 35%)
+            radial-gradient(circle at top left, rgba(232,122,26,0.1), transparent 30%),
+            radial-gradient(circle at bottom right, rgba(232,122,26,0.08), transparent 35%)
           `,
         }}
       >
         {/* Floating 3D Red Cross symbols */}
         <div className="fixed pointer-events-none z-0 opacity-[0.06]" style={{ width: 40, height: 40, top: "20%", left: "10%", animation: "crossFloat1 12s ease-in-out infinite" }}>
-          <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
+          <svg viewBox="0 0 24 24" fill="#E87A1A" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
         </div>
         <div className="fixed pointer-events-none z-0 opacity-[0.06]" style={{ width: 28, height: 28, top: "60%", left: "85%", animation: "crossFloat2 14s ease-in-out infinite 2s" }}>
-          <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
+          <svg viewBox="0 0 24 24" fill="#E87A1A" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
         </div>
         <div className="fixed pointer-events-none z-0 opacity-[0.06]" style={{ width: 50, height: 50, top: "75%", left: "15%", animation: "crossFloat1 16s ease-in-out infinite 1s" }}>
-          <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
+          <svg viewBox="0 0 24 24" fill="#E87A1A" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
         </div>
         <div className="fixed pointer-events-none z-0 opacity-[0.06]" style={{ width: 22, height: 22, top: "15%", left: "80%", animation: "crossFloat2 10s ease-in-out infinite 0.5s" }}>
-          <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
+          <svg viewBox="0 0 24 24" fill="#E87A1A" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
         </div>
 
         {/* Scan line */}
@@ -270,7 +270,7 @@ export default function StrukturOrganisasiPage() {
         <div
           className="fixed inset-0 pointer-events-none z-0 opacity-20"
           style={{
-            background: "linear-gradient(transparent 50%, rgba(220,38,38,0.03) 50%)",
+            background: "linear-gradient(transparent 50%, rgba(232,122,26,0.03) 50%)",
             backgroundSize: "100% 4px",
             animation: "scanline 8s linear infinite",
           }}
@@ -280,8 +280,8 @@ export default function StrukturOrganisasiPage() {
         <header className="sticky top-0 z-50 bg-[#0A0A0B]/95 backdrop-blur-xl border-b border-white/6">
           <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
               <Link href="/" className="flex items-center gap-2 no-underline">
-                <Image src="/smkn_logo.png" alt="SMKN" width={36} height={36} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
-                <Image src="/parstama_logo.png" alt="PARSTAMA" width={36} height={36} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ animation: "logo3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
+                <Image src="/smkn_logo.png" alt="SMKN" width={36} height={36} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(232,122,26,.4))" }} />
+                <Image src="/parstama_logo.png" alt="PARSTAMA" width={36} height={36} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ animation: "logo3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 6px rgba(232,122,26,.4))" }} />
               </Link>
             <div className="flex-1 min-w-0">
               <h1 className="text-white font-bold text-sm sm:text-base leading-tight" style={{ fontFamily: "Sansita, Georgia, serif" }}>
@@ -291,7 +291,7 @@ export default function StrukturOrganisasiPage() {
             </div>
             <Link
               href="/"
-              className="px-3 py-1.5 rounded-lg bg-white/4 border border-white/8 text-zinc-400 text-xs font-medium hover:border-red-500/30 hover:text-red-400 transition-all no-underline"
+              className="px-3 py-1.5 rounded-lg bg-white/4 border border-white/8 text-zinc-400 text-xs font-medium hover:border-orange-500/30 hover:text-orange-400 transition-all no-underline"
             >
               Beranda
             </Link>
@@ -304,7 +304,7 @@ export default function StrukturOrganisasiPage() {
             {/* Header Section */}
             <div className="text-center mb-10" style={{ animation: "fadeUp 0.6s 0.1s ease both" }}>
               <h1 className="text-[clamp(1.8rem,5vw,2.8rem)] font-extrabold mb-2 leading-tight">
-                <span className="bg-linear-to-r from-red-400 via-orange-400 to-red-400 bg-size-[200%_auto] bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-orange-400 via-orange-400 to-orange-400 bg-size-[200%_auto] bg-clip-text text-transparent">
                   Struktur Organisasi
                 </span>{" "}
                 <span className="text-white">PARSTAMA</span>
@@ -317,7 +317,7 @@ export default function StrukturOrganisasiPage() {
             {/* Loading State */}
             {loading && (
               <div className="flex flex-col items-center justify-center py-20 gap-4">
-                <div className="w-12 h-12 rounded-full bg-linear-to-br from-red-500 to-red-700 flex items-center justify-center animate-pulse">
+                <div className="w-12 h-12 rounded-full bg-linear-to-br from-orange-500 to-orange-700 flex items-center justify-center animate-pulse">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" />
                     <path d="M6 10h12l1 10H5L6 10z" />
@@ -330,8 +330,8 @@ export default function StrukturOrganisasiPage() {
             {/* Error State */}
             {error && (
               <div className="flex flex-col items-center justify-center py-20 gap-4">
-                <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E87A1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10" />
                     <line x1="15" y1="9" x2="9" y2="15" />
                     <line x1="9" y1="9" x2="15" y2="15" />
@@ -340,7 +340,7 @@ export default function StrukturOrganisasiPage() {
                 <p className="text-zinc-400 text-sm">{error}</p>
                 <button
                   onClick={() => window.location.reload()}
-                  className="px-4 py-2 rounded-lg bg-white/4 border border-white/8 text-zinc-300 text-sm hover:border-red-500/30 hover:text-red-400 transition-all"
+                  className="px-4 py-2 rounded-lg bg-white/4 border border-white/8 text-zinc-300 text-sm hover:border-orange-500/30 hover:text-orange-400 transition-all"
                 >
                   Coba Lagi
                 </button>
@@ -459,7 +459,7 @@ export default function StrukturOrganisasiPage() {
                       <div
                         key={member.id}
                         className="glass-card rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1"
-                        style={{ borderLeft: "3px solid #DC2626" }}
+                        style={{ borderLeft: "3px solid #E87A1A" }}
                       >
                         <div className="flex items-center gap-4">
                           <div className={`w-14 h-14 rounded-full bg-linear-to-br ${getLevelColor(member.level)} flex items-center justify-center text-white font-bold text-lg shrink-0 shadow-lg`}>
@@ -476,7 +476,7 @@ export default function StrukturOrganisasiPage() {
                             {member.nickname && (
                               <p className="text-zinc-500 text-xs">({member.nickname})</p>
                             )}
-                            <p className="text-red-400 text-xs font-medium mt-0.5">
+                            <p className="text-orange-400 text-xs font-medium mt-0.5">
                               {member.position}
                             </p>
                             <p className="text-zinc-600 text-[10px] mt-0.5">
@@ -510,10 +510,10 @@ export default function StrukturOrganisasiPage() {
                         <div
                           key={member.id}
                           className="glass-card rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1"
-                          style={{ borderLeft: "3px solid rgba(220,38,38,0.4)" }}
+                          style={{ borderLeft: "3px solid rgba(232,122,26,0.4)" }}
                         >
                           <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-linear-to-br from-red-400 to-red-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg">
+                            <div className="w-12 h-12 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg">
                               {member.photo ? (
                               <Image src={member.photo} alt={member.name} width={56} height={56} className="w-full h-full rounded-full object-cover" unoptimized />
                               ) : (
@@ -527,7 +527,7 @@ export default function StrukturOrganisasiPage() {
                               {member.nickname && (
                                 <p className="text-zinc-500 text-[10px]">({member.nickname})</p>
                               )}
-                              <p className="text-red-400 text-[10px] font-medium mt-0.5 truncate">
+                              <p className="text-orange-400 text-[10px] font-medium mt-0.5 truncate">
                                 {member.position}
                               </p>
                               {member.bio && (
@@ -550,7 +550,7 @@ export default function StrukturOrganisasiPage() {
               <AnimatedSection delay={0.4}>
                 <div className="text-center mt-12 pb-8">
                   <div className="glass-card inline-flex items-center gap-2 rounded-full px-5 py-2.5">
-                    <div className="w-2 h-2 rounded-full bg-red-500" style={{ animation: "pulseGlow 2s ease-in-out infinite" }} />
+                    <div className="w-2 h-2 rounded-full bg-orange-500" style={{ animation: "pulseGlow 2s ease-in-out infinite" }} />
                     <span className="text-zinc-400 text-xs">
                       Total {members.length} anggota • Periode {period}
                     </span>

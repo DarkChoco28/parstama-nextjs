@@ -112,7 +112,7 @@ export default function AdminArticles() {
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
                     <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff", margin: 0 }}>{a.title}</h3>
                     <span style={{ fontSize: 10, padding: "2px 8px", borderRadius: 12, background: a.isPublished ? "rgba(52,211,153,.12)" : "rgba(252,211,77,.12)", color: a.isPublished ? "#34D399" : "#FCD34D", border: `1px solid ${a.isPublished ? "rgba(52,211,153,.3)" : "rgba(252,211,77,.3)"}`, fontWeight: 600 }}>{a.isPublished ? "Published" : "Draft"}</span>
-                    <span style={{ fontSize: 10, padding: "2px 8px", borderRadius: 12, background: "rgba(220,38,38,.1)", color: "#EF4444", border: "1px solid rgba(220,38,38,.2)", fontWeight: 600 }}>{a.category}</span>
+                    <span style={{ fontSize: 10, padding: "2px 8px", borderRadius: 12, background: "rgba(232,122,26,.1)", color: "#F97316", border: "1px solid rgba(232,122,26,.2)", fontWeight: 600 }}>{a.category}</span>
                   </div>
                   {a.excerpt && <p style={{ fontSize: 12, color: "rgba(255,255,255,.4)", margin: "0 0 8px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.excerpt}</p>}
                   <div style={{ display: "flex", gap: 12, fontSize: 11, color: "rgba(255,255,255,.3)" }}>

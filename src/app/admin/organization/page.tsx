@@ -266,8 +266,8 @@ export default function AdminOrganization() {
 
       <style>{`
         .admin-header-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
-        .admin-btn-add{display:flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,#DC2626,#EF4444);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit;white-space:nowrap}
-        .admin-btn-add:hover{box-shadow:0 0 20px rgba(220,38,38,.3);transform:translateY(-1px)}
+        .admin-btn-add{display:flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,#E87A1A,#F97316);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit;white-space:nowrap}
+        .admin-btn-add:hover{box-shadow:0 0 20px rgba(232,122,26,.3);transform:translateY(-1px)}
         .org-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
         .org-summary-card{background:rgba(20,20,22,.8);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;text-align:center;display:flex;flex-direction:column;gap:4px}
         .org-summary-count{font-size:24px;font-weight:800;color:#fff}
@@ -281,7 +281,7 @@ export default function AdminOrganization() {
         .org-empty{padding:24px;text-align:center;color:rgba(255,255,255,.3);font-size:13px;background:rgba(20,20,22,.5);border-radius:12px;border:1px dashed rgba(255,255,255,.1)}
         .org-member-grid{display:grid;grid-template-columns:1fr;gap:10px}
         .org-member-card{background:rgba(20,20,22,.8);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;transition:all .3s}
-        .org-member-card:hover{border-color:rgba(220,38,38,.2);box-shadow:0 0 20px rgba(220,38,38,.05)}
+        .org-member-card:hover{border-color:rgba(232,122,26,.2);box-shadow:0 0 20px rgba(232,122,26,.05)}
         .org-member-hidden{opacity:.45}
         .org-member-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
         .org-member-info{display:flex;flex-direction:column;gap:2px;min-width:0}
@@ -303,7 +303,7 @@ export default function AdminOrganization() {
         .org-del-yes{padding:4px 8px;background:rgba(239,68,68,.2);color:#EF4444;border:1px solid rgba(239,68,68,.4);border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
         .org-del-no{padding:4px 8px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1);border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit}
         .org-modal-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);padding:0}
-        .org-modal{background:rgba(20,20,22,.95);backdrop-filter:blur(24px);border-radius:20px 20px 0 0;border:1px solid rgba(220,38,38,.2);width:100%;max-height:92vh;overflow:hidden;box-shadow:0 0 40px rgba(220,38,38,.08),0 -10px 40px rgba(0,0,0,.5);animation:modalIn .3s ease;display:flex;flex-direction:column}
+        .org-modal{background:rgba(20,20,22,.95);backdrop-filter:blur(24px);border-radius:20px 20px 0 0;border:1px solid rgba(232,122,26,.2);width:100%;max-height:92vh;overflow:hidden;box-shadow:0 0 40px rgba(232,122,26,.08),0 -10px 40px rgba(0,0,0,.5);animation:modalIn .3s ease;display:flex;flex-direction:column}
         .org-modal-draghandle{display:none}
         .org-modal-header{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
         .org-modal-title{font-family:'Sansita',Georgia,serif;font-size:17px;font-weight:700;color:#fff}

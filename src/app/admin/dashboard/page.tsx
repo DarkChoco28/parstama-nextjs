@@ -98,19 +98,19 @@ export default function AdminDashboard() {
   if (isLoading) return <SkeletonDashboard />
 
   const statCards = [
-    { label: "Total Pendaftar", value: stats.total, color: "#fff", gradient: "linear-gradient(135deg, rgba(220,38,38,0.15), rgba(220,38,38,0.05))", border: "rgba(220,38,38,0.2)" },
+    { label: "Total Pendaftar", value: stats.total, color: "#fff", gradient: "linear-gradient(135deg, rgba(232,122,26,0.15), rgba(232,122,26,0.05))", border: "rgba(232,122,26,0.2)" },
     { label: "Pending", value: stats.pending, color: "#FCD34D", gradient: "linear-gradient(135deg, rgba(252,211,77,0.15), rgba(252,211,77,0.05))", border: "rgba(252,211,77,0.2)" },
     { label: "Diterima", value: stats.accepted, color: "#34D399", gradient: "linear-gradient(135deg, rgba(52,211,153,0.15), rgba(52,211,153,0.05))", border: "rgba(52,211,153,0.2)" },
     { label: "Ditolak", value: stats.rejected, color: "#EF4444", gradient: "linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.05))", border: "rgba(239,68,68,0.2)" },
   ]
 
   const timeStats = [
-    { label: "Hari Ini", value: analytics?.today || 0, color: "#DC2626" },
+    { label: "Hari Ini", value: analytics?.today || 0, color: "#E87A1A" },
     { label: "Minggu Ini", value: analytics?.thisWeek || 0, color: "#F59E0B" },
     { label: "Bulan Ini", value: analytics?.thisMonth || 0, color: "#10B981" },
   ]
 
-  const chartColors = ["#DC2626", "#EF4444", "#F59E0B", "#10B981", "#3B82F6", "#8B5CF6", "#EC4899"]
+  const chartColors = ["#E87A1A", "#F97316", "#F59E0B", "#10B981", "#3B82F6", "#8B5CF6", "#EC4899"]
 
   return (
     <main className="admin-main">
@@ -161,12 +161,12 @@ export default function AdminDashboard() {
                   <Tooltip
                     contentStyle={{
                       background: "rgba(20,20,22,0.95)",
-                      border: "1px solid rgba(220,38,38,0.3)",
+                      border: "1px solid rgba(232,122,26,0.3)",
                       borderRadius: 12,
                       color: "#fff",
                       fontSize: 12,
                     }}
-                    cursor={{ fill: "rgba(220,38,38,0.05)" }}
+                    cursor={{ fill: "rgba(232,122,26,0.05)" }}
                   />
                   <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                     {analytics.dailyData.map((_: any, index: number) => (
@@ -195,12 +195,12 @@ export default function AdminDashboard() {
                   <XAxis dataKey="date" stroke="rgba(255,255,255,0.3)" fontSize={10} tickLine={false} axisLine={false} interval={6} />
                   <YAxis stroke="rgba(255,255,255,0.3)" fontSize={11} tickLine={false} axisLine={false} allowDecimals={false} />
                   <Tooltip
-                    contentStyle={{ background: "rgba(20,20,22,0.95)", border: "1px solid rgba(220,38,38,0.3)", borderRadius: 12, color: "#fff", fontSize: 12 }}
-                    cursor={{ stroke: "rgba(220,38,38,0.3)" }}
+                    contentStyle={{ background: "rgba(20,20,22,0.95)", border: "1px solid rgba(232,122,26,0.3)", borderRadius: 12, color: "#fff", fontSize: 12 }}
+                    cursor={{ stroke: "rgba(232,122,26,0.3)" }}
                   />
                   <Legend wrapperStyle={{ color: "rgba(255,255,255,0.6)", fontSize: 11 }} />
                   <ReferenceLine x={analytics.prediction.daily.find((d: any) => d.actual === null)?.date} stroke="rgba(255,255,255,0.2)" strokeDasharray="3 3" label={{ value: "Hari ini", fill: "rgba(255,255,255,0.4)", fontSize: 10 }} />
-                  <Line type="monotone" dataKey="actual" stroke="#DC2626" strokeWidth={2} dot={false} strokeDasharray="6 3" name="Actual" connectNulls={false} />
+                  <Line type="monotone" dataKey="actual" stroke="#E87A1A" strokeWidth={2} dot={false} strokeDasharray="6 3" name="Actual" connectNulls={false} />
                   <Line type="monotone" dataKey="predicted" stroke="#3B82F6" strokeWidth={2} dot={false} name="Prediksi" connectNulls={false} />
                 </LineChart>
               </ResponsiveContainer>
@@ -255,7 +255,7 @@ export default function AdminDashboard() {
 
           <div className="admin-actions-grid">
             {[
-              { href: "/admin/registrations", label: "Lihat Semua Pendaftar", icon: "M4 6h16M4 10h16M4 14h16M4 18h16", color: "#DC2626" },
+              { href: "/admin/registrations", label: "Lihat Semua Pendaftar", icon: "M4 6h16M4 10h16M4 14h16M4 18h16", color: "#E87A1A" },
               { href: "/admin/articles", label: "Kelola Artikel", icon: "M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z", color: "#10B981" },
               { href: "/admin/events", label: "Kelola Event", icon: "M3 4h18v18H3z", color: "#F59E0B" },
               { href: "/admin/register", label: "Tambah Admin", icon: "M12 6v6m0 0v6m0-6h6m-6 0H6", color: "#3B82F6" },

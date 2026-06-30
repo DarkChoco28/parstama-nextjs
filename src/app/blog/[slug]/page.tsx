@@ -8,7 +8,7 @@ interface Article {
   id: string; title: string; slug: string; excerpt?: string; content: string; coverImage?: string; author: string; category: string; viewCount: number; createdAt: string; updatedAt: string
 }
 
-const categoryColors: Record<string, string> = { Kesehatan: "#10B981", P3K: "#F59E0B", Kegiatan: "#DC2626", Lainnya: "#8B5CF6" }
+const categoryColors: Record<string, string> = { Kesehatan: "#10B981", P3K: "#F59E0B", Kegiatan: "#E87A1A", Lainnya: "#8B5CF6" }
 
 export default function BlogDetailPage() {
   const params = useParams()
@@ -84,7 +84,7 @@ export default function BlogDetailPage() {
                 <div style={{ display: "grid", gap: 12 }}>
                   {related.map(r => (
                     <Link key={r.slug} href={`/blog/${r.slug}`} style={{ display: "block", padding: 16, background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.06)", borderRadius: 12, textDecoration: "none", transition: "border-color .2s" }}
-                      onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(220,38,38,.3)")}
+                      onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(232,122,26,.3)")}
                       onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,.06)")}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                         <span style={{ padding: "2px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700, background: `${categoryColors[r.category] || "#8B5CF6"}15`, color: categoryColors[r.category] || "#8B5CF6" }}>{r.category}</span>

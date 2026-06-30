@@ -8,8 +8,8 @@ interface Event {
   id: string; title: string; description?: string; location?: string; startDate: string; endDate?: string; allDay: boolean; color: string; category: string; isVisible: boolean; createdAt: string
 }
 
-const defaultForm = { title: "", description: "", location: "", startDate: "", endDate: "", allDay: false, color: "#DC2626", category: "Kegiatan", isVisible: true }
-const eventColors = ["#DC2626", "#EF4444", "#F59E0B", "#10B981", "#3B82F6", "#8B5CF6", "#EC4899"]
+const defaultForm = { title: "", description: "", location: "", startDate: "", endDate: "", allDay: false, color: "#E87A1A", category: "Kegiatan", isVisible: true }
+const eventColors = ["#E87A1A", "#F97316", "#F59E0B", "#10B981", "#3B82F6", "#8B5CF6", "#EC4899"]
 
 function formatDateLocal(d: Date) {
   const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, "0"), day = String(d.getDate()).padStart(2, "0"), h = String(d.getHours()).padStart(2, "0"), min = String(d.getMinutes()).padStart(2, "0")
@@ -88,7 +88,7 @@ export default function AdminEvents() {
     try { await fetch(`/api/admin/events/${e.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ isVisible: !e.isVisible }) }); fetchEvents() } catch (err) { console.error(err) }
   }
 
-  const categoryColors: Record<string, string> = { Pelatihan: "#3B82F6", Rapat: "#F59E0B", Kegiatan: "#DC2626", Lainnya: "#8B5CF6" }
+  const categoryColors: Record<string, string> = { Pelatihan: "#3B82F6", Rapat: "#F59E0B", Kegiatan: "#E87A1A", Lainnya: "#8B5CF6" }
 
   if (status === "loading" || (loading && events.length === 0)) {
     return <div className="admin-loading"><div className="admin-loading-spinner" /><span>Memuat event...</span></div>

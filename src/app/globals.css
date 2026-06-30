@@ -7,7 +7,7 @@
 
 :root {
   --bg: #0A0A0B;
-  --red: #DC2626;
+  --orange: #E87A1A;
   --amber: #F59E0B;
 }
 
@@ -75,7 +75,7 @@ html {
   inset: 0;
   border-radius: 16px;
   padding: 1px;
-  background: conic-gradient(from var(--border-angle, 0deg), transparent 60%, rgba(220,38,38,0.4) 80%, rgba(245,158,11,0.3) 90%, transparent 100%);
+  background: conic-gradient(from var(--border-angle, 0deg), transparent 60%, rgba(232,122,26,0.4) 80%, rgba(245,158,11,0.3) 90%, transparent 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;

@@ -44,27 +44,27 @@ export default function Preloader() {
       <div className="flex flex-col items-center gap-6">
         <div className="relative flex items-center justify-center gap-4">
           <div className="relative" style={{ opacity: 0, animation: "logoRevealLeft 1s cubic-bezier(0.16,1,0.3,1) 0.2s forwards" }}>
-            <div className="absolute inset-[-8px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)", animation: "glowPulse 2s ease-in-out infinite" }} />
-            <img src="/smkn_logo.png" alt="SMKN" className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px] rounded-full object-contain" style={{ filter: "drop-shadow(0 0 20px rgba(220,38,38,0.3))" }} />
+            <div className="absolute inset-[-8px] rounded-full" style={{ background: "radial-gradient(circle, rgba(232,122,26,0.2) 0%, transparent 70%)", animation: "glowPulse 2s ease-in-out infinite" }} />
+            <img src="/smkn_logo.png" alt="SMKN" className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px] rounded-full object-contain" style={{ filter: "drop-shadow(0 0 20px rgba(232,122,26,0.3))" }} />
           </div>
           <div className="relative" style={{ opacity: 0, animation: "logoRevealRight 1s cubic-bezier(0.16,1,0.3,1) 0.4s forwards" }}>
-            <div className="absolute inset-[-8px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)", animation: "glowPulse 2s ease-in-out infinite 0.5s" }} />
-            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px] rounded-full object-contain" style={{ filter: "drop-shadow(0 0 20px rgba(220,38,38,0.3))" }} />
+            <div className="absolute inset-[-8px] rounded-full" style={{ background: "radial-gradient(circle, rgba(232,122,26,0.2) 0%, transparent 70%)", animation: "glowPulse 2s ease-in-out infinite 0.5s" }} />
+            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px] rounded-full object-contain" style={{ filter: "drop-shadow(0 0 20px rgba(232,122,26,0.3))" }} />
           </div>
         </div>
 
         <div className="overflow-hidden" style={{ opacity: 0, animation: "textReveal 0.8s cubic-bezier(0.16,1,0.3,1) 0.6s forwards" }}>
-          <span className="text-lg sm:text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "Sansita, Georgia, serif", background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+          <span className="text-lg sm:text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "Sansita, Georgia, serif", background: "linear-gradient(90deg,#F97316,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             PARSTAMA
           </span>
         </div>
 
-        <div className="text-xs tracking-widest" style={{ color: "rgba(220,38,38,0.5)", fontFamily: "monospace", opacity: 0, animation: "textReveal 0.6s cubic-bezier(0.16,1,0.3,1) 0.8s forwards" }}>
+        <div className="text-xs tracking-widest" style={{ color: "rgba(232,122,26,0.5)", fontFamily: "monospace", opacity: 0, animation: "textReveal 0.6s cubic-bezier(0.16,1,0.3,1) 0.8s forwards" }}>
           {percent}%
         </div>
 
         <div className="w-[120px] h-[2px] rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.05)", opacity: 0, animation: "textReveal 0.6s cubic-bezier(0.16,1,0.3,1) 0.9s forwards" }}>
-          <div className="h-full rounded-full" style={{ width: `${percent}%`, background: "linear-gradient(90deg, #DC2626, #EF4444)", transition: "width 0.1s linear" }} />
+          <div className="h-full rounded-full" style={{ width: `${percent}%`, background: "linear-gradient(90deg, #E87A1A, #F97316)", transition: "width 0.1s linear" }} />
         </div>
       </div>
 
