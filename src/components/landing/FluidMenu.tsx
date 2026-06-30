@@ -24,7 +24,7 @@ export default function FluidMenu() {
       {open && (
         <div className="fixed inset-0 z-[8999] bg-black/40 backdrop-blur-sm opacity-0 animate-in fade-in duration-300" style={{ opacity: open ? 1 : 0 }} onClick={() => setOpen(false)} />
       )}
-      <div className={`fixed bottom-7 right-5 z-[9000] w-14 sm:hidden ${open ? "open" : ""}`}>
+      <div className={`fixed bottom-7 right-5 z-[9000] sm:hidden ${open ? "open" : ""}`}>
         <button
           onClick={() => setOpen(!open)}
           className="relative w-14 h-14 rounded-full bg-linear-to-br from-red-600 to-red-800 border-none cursor-pointer z-[9010] flex items-center justify-center shadow-[0_4px_24px_rgba(220,38,38,0.4)] active:scale-95 transition-transform"
@@ -33,32 +33,32 @@ export default function FluidMenu() {
           <svg className="absolute w-6 h-6 text-white transition-all duration-300" style={{ opacity: open ? 0 : 1, transform: open ? "scale(0) rotate(180deg)" : "scale(1) rotate(0deg)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
           <svg className="absolute w-6 h-6 text-white transition-all duration-300" style={{ opacity: open ? 1 : 0, transform: open ? "scale(1) rotate(0deg)" : "scale(0) rotate(-180deg)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
-        <div className="absolute bottom-0 right-0 w-14">
+        <div className="absolute bottom-0 right-0">
           {items.map((item, i) => (
             <a
               key={item.label}
               href={item.href}
               target={item.external ? "_blank" : undefined}
               rel={item.external ? "noopener" : undefined}
-              className={`absolute bottom-0 right-0 w-12 h-12 rounded-full flex items-center justify-center no-underline cursor-pointer shadow-lg transition-all duration-300 ${
+              className={`absolute bottom-0 right-0 h-11 px-3 flex items-center gap-2 rounded-full no-underline cursor-pointer shadow-lg transition-all duration-300 whitespace-nowrap ${
                 item.cta
-                  ? "bg-linear-to-br from-red-600 to-red-800 border-none"
+                  ? "bg-linear-to-br from-red-600 to-red-800 border-none text-white font-semibold"
                   : item.wa
-                  ? "bg-[rgba(24,24,27,0.95)] border border-[rgba(37,211,102,0.3)]"
-                  : "bg-[rgba(24,24,27,0.95)] border border-white/10"
+                  ? "bg-[rgba(24,24,27,0.95)] border border-[rgba(37,211,102,0.3)] text-[#25D366]"
+                  : "bg-[rgba(24,24,27,0.95)] border border-white/10 text-zinc-300"
               }`}
               style={{
                 pointerEvents: open ? "auto" : "none",
                 opacity: open ? 1 : 0,
-                transform: open ? `translateY(-${(i + 1) * 56}px) scale(1)` : "translateY(0) scale(0.6)",
+                transform: open ? `translateY(-${(i + 1) * 52}px) scale(1)` : "translateY(0) scale(0.6)",
                 transitionDelay: open ? `${i * 0.03}s` : `${(items.length - 1 - i) * 0.02}s`,
-                color: item.wa ? "#25D366" : undefined,
               }}
               onClick={() => setOpen(false)}
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                 <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
               </svg>
+              <span className="text-xs">{item.label}</span>
             </a>
           ))}
         </div>
