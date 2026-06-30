@@ -172,7 +172,7 @@ export default function AdminRegistrations() {
 
   return (
       <main className="admin-main">
-        <div className="admin-card" style={{ padding: 0, overflow: "hidden" }}>
+        <div className="admin-card" style={{ padding: 0 }}>
           {/* Filters */}
           <div className="reg-filters">
             <div className="reg-search-row">

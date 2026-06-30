@@ -202,29 +202,41 @@
 .reg-badge-rejected{background:rgba(239,68,68,.12);color:#EF4444;border:1px solid rgba(239,68,68,.2)}
 .reg-badge-rejected::before{background:#EF4444}
 .reg-result-count{font-size:12px;color:rgba(255,255,255,.4);flex-shrink:0}
-.reg-filters{padding:14px}
+.reg-empty{padding:40px 16px;text-align:center;color:rgba(255,255,255,.3);font-size:13px}
+
+/* FILTERS */
+.reg-filters{padding:16px;border-bottom:1px solid rgba(255,255,255,.06)}
 .reg-search-row{display:flex;gap:8px;align-items:center}
-.reg-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.reg-advanced-filters{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
+.reg-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.reg-advanced-filters{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)}
 .reg-advanced-row{display:flex;gap:8px;flex-wrap:wrap}
 .reg-date-range{display:flex;align-items:center;gap:8px;flex:1}
 .reg-date-separator{font-size:12px;color:rgba(255,255,255,.3)}
 .reg-filter-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
-.reg-filter-actions{display:flex;gap:8px;align-items:center}
-.reg-empty{padding:40px 16px;text-align:center;color:rgba(255,255,255,.3);font-size:13px}
-.reg-mobile-list{display:none}
+.reg-filter-actions{display:flex;gap:6px;align-items:center}
 
 /* DESKTOP TABLE */
 .reg-desktop-table{overflow-x:auto}
 .admin-table{width:100%;border-collapse:collapse;table-layout:auto}
-.admin-th{text-align:left;font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08);white-space:nowrap}
+.admin-th{text-align:left;font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08);white-space:nowrap;background:rgba(255,255,255,.02)}
 .admin-td{padding:12px 14px;font-size:13px;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
 .admin-td-bold{font-weight:600;color:#fff}
 .admin-td-muted{color:rgba(255,255,255,.5)}
 .admin-tr:hover{background:rgba(255,255,255,.02)}
-.reg-action-btns{display:flex;gap:5px;align-items:center;flex-wrap:nowrap}
-.reg-action-btns .admin-select-sm{min-width:0;width:auto}
-.reg-action-btns .admin-btn-blue-sm,.reg-action-btns .admin-btn-danger-sm,.reg-action-btns .admin-btn-email-sm,.reg-action-btns .admin-btn-wa-sm,.reg-action-btns .admin-btn-orange-sm,.reg-action-btns .admin-btn-purple-sm{padding:5px 8px;font-size:10px;white-space:nowrap}
+.reg-action-btns{display:flex;gap:4px;align-items:center;flex-wrap:nowrap}
+.reg-action-btns .admin-select-sm{min-width:0;width:auto;padding:4px 6px;font-size:10px}
+.reg-action-btns .admin-btn-blue-sm,.reg-action-btns .admin-btn-danger-sm,.reg-action-btns .admin-btn-email-sm,.reg-action-btns .admin-btn-wa-sm,.reg-action-btns .admin-btn-orange-sm,.reg-action-btns .admin-btn-purple-sm{padding:4px 7px;font-size:10px;white-space:nowrap}
+
+/* PAGINATION */
+.reg-pagination{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-top:1px solid rgba(255,255,255,.06)}
+.reg-page-info{font-size:12px;color:rgba(255,255,255,.4)}
+.reg-page-btns{display:flex;gap:6px}
+
+/* MODAL HEADER ACTIONS */
+.reg-modal-header-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+
+/* MOBILE LIST */
+.reg-mobile-list{display:none}
 
 /* RESPONSIVE */
 @media(min-width:640px){
@@ -245,16 +257,16 @@
   .admin-actions-grid{grid-template-columns:repeat(3,1fr)}
   .admin-action-card{padding:14px 18px}
   .admin-notif-grid{grid-template-columns:repeat(2,1fr)}
-  .admin-th,.admin-td{padding:14px 20px}
+  .admin-th,.admin-td{padding:14px 16px}
   .reg-filters{padding:20px 24px}
   .reg-advanced-row{flex-wrap:nowrap}
   .reg-date-range{flex:1}
   .reg-date-range .admin-input{width:auto;flex:1}
+  .reg-pagination{padding:16px 24px}
   .reg-modal-overlay{align-items:center;padding:16px}
   .reg-modal{border-radius:20px;max-height:85vh}
   .reg-modal-header{padding:20px 24px}
   .reg-modal-body{padding:24px}
-  .reg-pagination{padding:16px 24px}
 }
 
 @media(min-width:768px){
@@ -269,11 +281,14 @@
   .admin-mobile-menu{display:flex}
   .admin-input{padding:12px 14px;font-size:14px}
   .admin-btn-primary{padding:12px 20px;font-size:14px}
+
+  /* Desktop table hidden on mobile */
   .reg-desktop-table{display:none}
-  .reg-mobile-list{display:flex;flex-direction:column;gap:0}
-  .reg-mobile-card{padding:16px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);transition:background .2s}
-  .reg-mobile-card:active{background:rgba(255,255,255,.05)}
-  .reg-mobile-card:last-child{border-bottom:none}
+
+  /* Mobile cards */
+  .reg-mobile-list{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.04)}
+  .reg-mobile-card{padding:16px;background:#0A0A0B;transition:background .2s}
+  .reg-mobile-card:active{background:rgba(255,255,255,.03)}
   .reg-mobile-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
   .reg-mobile-idx{font-size:11px;font-weight:700;color:rgba(220,38,38,.6);background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.2);border-radius:6px;padding:2px 7px;flex-shrink:0;line-height:1}
   .reg-mobile-name{font-size:15px;font-weight:700;color:#fff;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -281,9 +296,12 @@
   .reg-mobile-field{display:flex;justify-content:space-between;font-size:13px;gap:8px}
   .reg-mobile-field span:first-child{color:rgba(255,255,255,.4);flex-shrink:0}
   .reg-mobile-field span:last-child{color:rgba(255,255,255,.8);text-align:right;word-break:break-word;font-weight:500}
-  .reg-mobile-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .reg-mobile-actions .admin-select-sm{flex:1;padding:10px 12px;font-size:12px;border-radius:10px}
-  .reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm,.reg-mobile-actions .admin-btn-wa-sm,.reg-mobile-actions .admin-btn-orange-sm,.reg-mobile-actions .admin-btn-purple-sm{flex:1;padding:10px 12px;font-size:12px;text-align:center;border-radius:10px}
+  .reg-mobile-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .reg-mobile-actions .admin-select-sm{flex:1;min-width:0;padding:10px 12px;font-size:12px;border-radius:10px}
+  .reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm,.reg-mobile-actions .admin-btn-wa-sm,.reg-mobile-actions .admin-btn-orange-sm,.reg-mobile-actions .admin-btn-purple-sm{padding:10px 12px;font-size:12px;text-align:center;border-radius:10px;white-space:nowrap}
+
+  /* Mobile filters */
+  .reg-filters{padding:14px}
   .reg-filter-row{flex-direction:column;align-items:stretch}
   .reg-filter-row .admin-select{width:100%;padding:12px;font-size:13px}
   .reg-advanced-row{flex-direction:column;align-items:stretch}
@@ -292,24 +310,26 @@
   .reg-date-range .admin-input{flex:1;padding:12px;font-size:13px}
   .reg-date-separator{font-size:13px}
   .reg-filter-footer{flex-direction:column;gap:10px;align-items:stretch}
-  .reg-filter-actions{justify-content:stretch;gap:8px}
+  .reg-filter-actions{justify-content:stretch;gap:6px}
   .reg-filter-actions a,.reg-filter-actions button{flex:1;text-align:center;padding:10px 12px;font-size:12px;border-radius:10px}
-  .reg-page-btns{gap:8px}
+
+  /* Mobile pagination */
+  .reg-pagination{flex-direction:column;gap:10px;text-align:center;padding:14px}
+  .reg-page-btns{display:flex;gap:8px;width:100%}
   .reg-page-btns button{flex:1;padding:12px;font-size:13px}
-  .reg-pagination{padding:16px;flex-direction:column;gap:12px;text-align:center}
-  .reg-page-btns{width:100%}
+
+  /* Mobile modal */
   .reg-modal-overlay{align-items:flex-end;padding:0}
   .reg-modal{border-radius:20px 20px 0 0;max-height:95vh}
   .reg-modal-draghandle{display:block;width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:4px;margin:12px auto 0}
-  .reg-modal-header{padding:16px 20px}
+  .reg-modal-header{padding:16px 20px;gap:8px}
   .reg-modal-title{font-size:16px}
+  .reg-modal-header-actions{gap:4px}
   .reg-modal-body{padding:16px 20px}
   .reg-modal-field{flex-direction:column;gap:4px;padding:10px 0}
   .reg-modal-field-value{text-align:left;font-size:13px}
   .reg-modal-field-label{font-size:12px}
   .reg-modal-section{padding:14px}
-  .reg-filters{padding:14px}
-  .reg-search-row{gap:10px}
   .reg-empty{padding:60px 20px;font-size:14px}
 }
 
