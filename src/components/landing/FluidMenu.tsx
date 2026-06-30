@@ -5,6 +5,7 @@ import Link from "next/link"
 
 const items = [
   { label: "Tentang", href: "#tentang", icon: "M12 16v-4M12 8h.01M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" },
+  { label: "Sejarah", href: "/sejarah", icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" },
   { label: "Syarat", href: "#syarat", icon: "M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8" },
   { label: "Timeline", href: "#timeline", icon: "M3 4h18v2H3V4zm0 6h18v2H3v-2zm0 6h18v2H3v-2zM16 2v4M8 2v4" },
   { label: "Blog", href: "/blog", icon: "M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" },
