@@ -141,7 +141,7 @@ export default function StrukturOrganisasiPage() {
 
   const period = useMemo(() => {
     const periods = members.map((m) => m.period).filter(Boolean)
-    return periods.length > 0 ? periods[0] : "2025-2026"
+    return periods.length > 0 ? periods[0] : "2026/2027"
   }, [members])
 
   const renderMemberNode = (member: OrganizationMember, isTop = false) => {

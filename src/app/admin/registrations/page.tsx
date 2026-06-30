@@ -158,9 +158,6 @@ export default function AdminRegistrations() {
   if (!session) return null
 
   return (
-    <div className="admin-page">
-
-      {/* MAIN */}
       <main className="admin-main">
         <div className="admin-card" style={{ padding: 0, overflow: "hidden" }}>
           {/* Filters */}
@@ -336,7 +333,6 @@ export default function AdminRegistrations() {
             </div>
           </div>
         </div>
-      </main>
 
       {/* DETAIL MODAL */}
       {detailData && (
@@ -400,7 +396,7 @@ export default function AdminRegistrations() {
           </div>
         </div>
       )}
-    </div>
+      </main>
   )
 }
 

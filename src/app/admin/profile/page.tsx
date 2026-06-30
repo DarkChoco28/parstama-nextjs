@@ -44,65 +44,59 @@ export default function AdminProfile() {
   if (!session) return null
 
   return (
-    <div className="admin-page">
+    <main className="admin-main">
+      <div className="form-card">
+        <div className="form-accent" />
+        {message && <div className="form-alert form-alert-success">{message}</div>}
+        {error && <div className="form-alert form-alert-error">{error}</div>}
 
-      {/* MAIN */}
-      <main className="form-main">
-        <div className="form-card">
-          <div className="form-accent" />
-          {message && <div className="form-alert form-alert-success">{message}</div>}
-          {error && <div className="form-alert form-alert-error">{error}</div>}
+        <form onSubmit={handleSubmit} className="form-body">
+          <div>
+            <h2 className="form-section-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Informasi Akun
+            </h2>
+            <div className="form-group">
+              <label className="form-label">Nama Lengkap</label>
+              <input type="text" value={name} onChange={e => setName(e.target.value)} className="admin-input" required />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Email</label>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="admin-input" required />
+            </div>
+          </div>
 
-          <form onSubmit={handleSubmit} className="form-body">
-            {/* Account Info */}
-            <div>
-              <h2 className="form-section-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                Informasi Akun
-              </h2>
+          <div className="form-divider" />
+
+          <div>
+            <h2 className="form-section-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              Ganti Password
+            </h2>
+            <p className="form-section-desc">Kosongkan jika tidak ingin mengganti password</p>
+            <div className="form-group">
+              <label className="form-label">Password Saat Ini</label>
+              <input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} className="admin-input" placeholder="Masukkan password saat ini" />
+            </div>
+            <div className="form-row-2">
               <div className="form-group">
-                <label className="form-label">Nama Lengkap</label>
-                <input type="text" value={name} onChange={e => setName(e.target.value)} className="admin-input" required />
+                <label className="form-label">Password Baru</label>
+                <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="admin-input" placeholder="Minimal 6 karakter" />
               </div>
               <div className="form-group">
-                <label className="form-label">Email</label>
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="admin-input" required />
+                <label className="form-label">Konfirmasi Password Baru</label>
+                <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="admin-input" placeholder="Ulangi password baru" />
               </div>
             </div>
+          </div>
 
-            <div className="form-divider" />
-
-            {/* Change Password */}
-            <div>
-              <h2 className="form-section-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                Ganti Password
-              </h2>
-              <p className="form-section-desc">Kosongkan jika tidak ingin mengganti password</p>
-              <div className="form-group">
-                <label className="form-label">Password Saat Ini</label>
-                <input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} className="admin-input" placeholder="Masukkan password saat ini" />
-              </div>
-              <div className="form-row-2">
-                <div className="form-group">
-                  <label className="form-label">Password Baru</label>
-                  <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="admin-input" placeholder="Minimal 6 karakter" />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Konfirmasi Password Baru</label>
-                  <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="admin-input" placeholder="Ulangi password baru" />
-                </div>
-              </div>
-            </div>
-
-            <div className="form-actions">
-              <Link href="/admin/dashboard" className="form-btn-cancel">Batal</Link>
-              <button type="submit" disabled={saving} className="form-btn-submit">{saving ? "Menyimpan..." : "Simpan Perubahan"}</button>
-            </div>
-          </form>
-        </div>
-      </main>
-    </div>
+          <div className="form-actions">
+            <Link href="/admin/dashboard" className="form-btn-cancel">Batal</Link>
+            <button type="submit" disabled={saving} className="form-btn-submit">{saving ? "Menyimpan..." : "Simpan Perubahan"}</button>
+          </div>
+        </form>
+      </div>
+    </main>
   )
 }
 

@@ -74,7 +74,6 @@ export default function AdminArticles() {
   }
 
   return (
-    <div className="admin-page">
       <main className="admin-main">
         <div className="admin-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <div>
@@ -147,7 +146,6 @@ export default function AdminArticles() {
             <button onClick={() => setPage(p => Math.min(p + 1, totalPages))} disabled={page === totalPages} className="admin-page-btn">Selanjutnya</button>
           </div>
         )}
-      </main>
 
       {/* FORM MODAL */}
       {showForm && (
@@ -203,6 +201,6 @@ export default function AdminArticles() {
           </div>
         </div>
       )}
-    </div>
+      </main>
   )
 }

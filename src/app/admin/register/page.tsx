@@ -39,42 +39,42 @@ export default function AdminRegister() {
   if (!session) return null
 
   return (
-    <div className="admin-page">
+    <main className="admin-main">
+      <div className="admin-header">
+        <h2 className="admin-title">Tambah Admin</h2>
+        <p className="admin-subtitle">Buat akun admin baru</p>
+      </div>
+      <div className="form-card">
+        <div className="form-accent" />
+        {message && <div className="form-alert form-alert-success">{message}</div>}
+        {error && <div className="form-alert form-alert-error">{error}</div>}
 
-      {/* MAIN */}
-      <main className="form-main">
-        <div className="form-card">
-          <div className="form-accent" />
-          {message && <div className="form-alert form-alert-success">{message}</div>}
-          {error && <div className="form-alert form-alert-error">{error}</div>}
-
-          <form onSubmit={handleSubmit} className="form-body">
+        <form onSubmit={handleSubmit} className="form-body">
+          <div className="form-group">
+            <label className="form-label">Nama Lengkap</label>
+            <input type="text" value={name} onChange={e => setName(e.target.value)} className="admin-input" required />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Email</label>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="admin-input" required />
+          </div>
+          <div className="form-row-2">
             <div className="form-group">
-              <label className="form-label">Nama Lengkap</label>
-              <input type="text" value={name} onChange={e => setName(e.target.value)} className="admin-input" required />
+              <label className="form-label">Password</label>
+              <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="admin-input" placeholder="Minimal 6 karakter" required />
             </div>
             <div className="form-group">
-              <label className="form-label">Email</label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="admin-input" required />
+              <label className="form-label">Konfirmasi Password</label>
+              <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="admin-input" placeholder="Ulangi password" required />
             </div>
-            <div className="form-row-2">
-              <div className="form-group">
-                <label className="form-label">Password</label>
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="admin-input" placeholder="Minimal 6 karakter" required />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Konfirmasi Password</label>
-                <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="admin-input" placeholder="Ulangi password" required />
-              </div>
-            </div>
-            <div className="form-actions">
-              <Link href="/admin/dashboard" className="form-btn-cancel">Batal</Link>
-              <button type="submit" disabled={saving} className="form-btn-submit">{saving ? "Menyimpan..." : "Buat Admin"}</button>
-            </div>
-          </form>
-        </div>
-      </main>
-    </div>
+          </div>
+          <div className="form-actions">
+            <Link href="/admin/dashboard" className="form-btn-cancel">Batal</Link>
+            <button type="submit" disabled={saving} className="form-btn-submit">{saving ? "Menyimpan..." : "Buat Admin"}</button>
+          </div>
+        </form>
+      </div>
+    </main>
   )
 }
 

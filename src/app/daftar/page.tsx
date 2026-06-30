@@ -162,7 +162,7 @@ export default function DaftarPage() {
       {/* Page Content */}
       <div className="daftar-page-wrap">
         <div className="daftar-page-header">
-          <div className="page-badge">Pendaftaran Anggota 2025/2026</div>
+          <div className="page-badge">Pendaftaran Anggota 2026/2027</div>
           <h1 className="page-title">Formulir <span>Pendaftaran</span></h1>
           <p className="page-sub">Isi data diri Anda dengan lengkap dan benar. Proses pendaftaran hanya memerlukan beberapa menit.</p>
         </div>
