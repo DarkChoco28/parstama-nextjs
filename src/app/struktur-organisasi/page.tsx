@@ -277,7 +277,7 @@ export default function StrukturOrganisasiPage() {
         />
 
         {/* Navbar */}
-        <header className="sticky top-0 z-50 bg-[#0A0A0B]/95 backdrop-blur-xl border-b border-white/[0.06]">
+        <header className="sticky top-0 z-50 bg-[#0A0A0B]/95 backdrop-blur-xl border-b border-white/6">
           <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
               <Link href="/" className="flex items-center gap-2 no-underline">
                 <Image src="/smkn_logo.png" alt="SMKN" width={36} height={36} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
@@ -291,7 +291,7 @@ export default function StrukturOrganisasiPage() {
             </div>
             <Link
               href="/"
-              className="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-zinc-400 text-xs font-medium hover:border-red-500/30 hover:text-red-400 transition-all no-underline"
+              className="px-3 py-1.5 rounded-lg bg-white/4 border border-white/8 text-zinc-400 text-xs font-medium hover:border-red-500/30 hover:text-red-400 transition-all no-underline"
             >
               Beranda
             </Link>
@@ -340,7 +340,7 @@ export default function StrukturOrganisasiPage() {
                 <p className="text-zinc-400 text-sm">{error}</p>
                 <button
                   onClick={() => window.location.reload()}
-                  className="px-4 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-zinc-300 text-sm hover:border-red-500/30 hover:text-red-400 transition-all"
+                  className="px-4 py-2 rounded-lg bg-white/4 border border-white/8 text-zinc-300 text-sm hover:border-red-500/30 hover:text-red-400 transition-all"
                 >
                   Coba Lagi
                 </button>
@@ -371,7 +371,7 @@ export default function StrukturOrganisasiPage() {
 
                 {/* Tree Container */}
                 <div className="overflow-x-auto pb-4">
-                  <div className="min-w-[600px] flex flex-col items-center gap-6">
+                  <div className="min-w-150 flex flex-col items-center gap-6">
                     {/* Level 0: Ketua & Wakil */}
                     {level0.length > 0 && (
                       <div className="relative">
@@ -515,7 +515,6 @@ export default function StrukturOrganisasiPage() {
                           <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-full bg-linear-to-br from-red-400 to-red-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg">
                               {member.photo ? (
-                                // eslint-disable-next-line @next/next/no-img-element
                               <Image src={member.photo} alt={member.name} width={56} height={56} className="w-full h-full rounded-full object-cover" unoptimized />
                               ) : (
                                 getInitials(member.name)

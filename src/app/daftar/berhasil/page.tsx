@@ -135,15 +135,15 @@ export default function BerhasilPage() {
         </p>
 
         {/* Info Card */}
-        <div className="w-full max-w-md bg-white/[0.04] border border-white/[0.08] rounded-2xl p-5 sm:p-6 mb-8 text-left" style={{ animation: "fadeUp 0.6s 0.8s ease both" }}>
-          <div className="flex items-start gap-3 py-3 border-b border-white/[0.05]">
+        <div className="w-full max-w-md bg-white/4 border border-white/8 rounded-2xl p-5 sm:p-6 mb-8 text-left" style={{ animation: "fadeUp 0.6s 0.8s ease both" }}>
+          <div className="flex items-start gap-3 py-3 border-b border-white/5">
             <span className="text-lg flex-shrink-0">📧</span>
             <div>
               <strong className="text-zinc-200 text-xs block mb-0.5">Pantau Informasi Panitia</strong>
               <span className="text-zinc-400 text-sm">Informasi lanjutan dapat disampaikan melalui email atau WhatsApp yang Anda daftarkan.</span>
             </div>
           </div>
-          <div className="flex items-start gap-3 py-3 border-b border-white/[0.05]">
+          <div className="flex items-start gap-3 py-3 border-b border-white/5">
             <span className="text-lg flex-shrink-0">📅</span>
             <div>
               <strong className="text-zinc-200 text-xs block mb-0.5">Proses Seleksi</strong>

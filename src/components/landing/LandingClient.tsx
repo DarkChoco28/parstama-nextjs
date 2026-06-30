@@ -51,7 +51,7 @@ function BentoCard({ f }: { f: { icon: string; title: string; desc: string } }) 
   return (
     <div
       ref={cardRef}
-      className="reveal-scale bento-card group relative bg-[#1A1A1C] border border-white/[0.06] rounded-2xl p-6 sm:p-8 overflow-hidden cursor-default"
+      className="reveal-scale bento-card group relative bg-[#1A1A1C] border border-white/6 rounded-2xl p-6 sm:p-8 overflow-hidden cursor-default"
       onMouseMove={onMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => { setIsHovered(false); setTilt({ x: 0, y: 0 }) }}
@@ -111,7 +111,7 @@ export default function LandingClient() {
       `}</style>
 
       {/* Navbar */}
-      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/[0.06] h-[80px] sm:h-[80px] px-4 sm:px-6 flex items-center justify-between overflow-hidden">
+      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/6 h-[80px] sm:h-[80px] px-4 sm:px-6 flex items-center justify-between overflow-hidden">
         <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-[1]">
           <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
             <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }} />
@@ -299,7 +299,7 @@ export default function LandingClient() {
       </section>
 
       {/* Footer */}
-      <footer id="kontak" className="bg-[#141415] border-t border-white/[0.06] px-6 py-12 sm:py-16">
+      <footer id="kontak" className="bg-[#141415] border-t border-white/6 px-6 py-12 sm:py-16">
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
           <div className="footer-col">
             <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4 no-underline">
@@ -320,7 +320,7 @@ export default function LandingClient() {
                 { label: "TikTok", path: "M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1.84-.1z" },
                 { label: "YouTube", path: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" },
               ].map((s) => (
-                <a key={s.label} href="#" className="w-14 h-14 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center hover:bg-white/5 hover:border-red-500/30 transition-all" aria-label={s.label}>
+                <a key={s.label} href="#" className="w-14 h-14 rounded-xl bg-white/3 border border-white/6 flex items-center justify-center hover:bg-white/5 hover:border-red-500/30 transition-all" aria-label={s.label}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="#71717A">
                     <path d={s.path} />
                   </svg>
@@ -370,7 +370,7 @@ export default function LandingClient() {
             </div>
           </div>
         </div>
-        <div className="text-center text-xs text-zinc-600 pt-6 sm:pt-8 border-t border-white/[0.06]">
+        <div className="text-center text-xs text-zinc-600 pt-6 sm:pt-8 border-t border-white/6">
           &copy; {new Date().getFullYear()} <span className="text-red-400 font-semibold">PARSTAMA</span> — SMKN 1 Singosari
           <p className="mt-2 text-zinc-500">Made with ❤️ by tim PARSTAMA</p>
         </div>
