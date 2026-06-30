@@ -103,11 +103,7 @@ export default function LandingClient() {
         .split-char { display: inline-block; transition: color 0.2s, transform 0.3s cubic-bezier(0.33,1,0.68,1); }
         .split-text:hover .split-char { color: #DC2626; }
         .split-text:hover .split-char:hover { color: #EF4444; transform: translateY(-3px) scale(1.1); }
-        @media(max-width:640px) {
-          .mobile-sticky-cta { position:fixed;bottom:0;left:0;right:0;z-index:50;padding:12px 16px;background:rgba(10,10,11,0.95);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,0.06);transform:translateY(0);transition:transform .3s }
-          .mobile-sticky-cta.hidden-scroll { transform:translateY(100%) }
-        }
-        @media(min-width:641px) { .mobile-sticky-cta { display:none } }
+
       `}</style>
 
       {/* Navbar */}
@@ -375,13 +371,6 @@ export default function LandingClient() {
           <p className="mt-2 text-zinc-500">Made with ❤️ by tim PARSTAMA</p>
         </div>
       </footer>
-
-      {/* Sticky Mobile CTA */}
-      <div className="mobile-sticky-cta">
-        <RocketButton href="/daftar" className="w-full inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 min-h-[44px]">
-          Daftar Sekarang
-        </RocketButton>
-      </div>
 
       {/* Fluid Menu (Mobile) */}
       <FluidMenu />
