@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { sendEmail } from "@/lib/email"
+import { requireAdmin } from "@/lib/admin-auth"
 
 export async function GET(request: NextRequest) {
+  const auth = await requireAdmin()
+  if (auth.error) return auth.error
+
   try {
     if (!process.env.RESEND_API_KEY || !process.env.RESEND_SENDER_EMAIL) {
       return NextResponse.json({
@@ -33,7 +37,6 @@ export async function GET(request: NextRequest) {
   } catch (error: any) {
     return NextResponse.json({
       error: error?.message || "Gagal mengirim",
-      stack: error?.stack,
     }, { status: 500 })
   }
 }

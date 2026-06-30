@@ -1,29 +1,18 @@
 const rateLimit = new Map<string, { count: number; resetAt: number }>()
 
-const WINDOW_MS = 60 * 1000 // 1 minute
-const MAX_REQUESTS = 10 // per window
-
-export function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
+export function checkRateLimit(ip: string, maxRequests = 10, windowMs = 60000): { allowed: boolean; remaining: number } {
   const now = Date.now()
   const entry = rateLimit.get(ip)
 
   if (!entry || now > entry.resetAt) {
-    rateLimit.set(ip, { count: 1, resetAt: now + WINDOW_MS })
-    return { allowed: true, remaining: MAX_REQUESTS - 1 }
+    rateLimit.set(ip, { count: 1, resetAt: now + windowMs })
+    return { allowed: true, remaining: maxRequests - 1 }
   }
 
-  if (entry.count >= MAX_REQUESTS) {
+  if (entry.count >= maxRequests) {
     return { allowed: false, remaining: 0 }
   }
 
   entry.count++
-  return { allowed: true, remaining: MAX_REQUESTS - entry.count }
+  return { allowed: true, remaining: maxRequests - entry.count }
 }
-
-// Cleanup every 5 minutes
-setInterval(() => {
-  const now = Date.now()
-  for (const [key, value] of rateLimit.entries()) {
-    if (now > value.resetAt) rateLimit.delete(key)
-  }
-}, 5 * 60 * 1000)

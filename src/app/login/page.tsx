@@ -23,7 +23,7 @@ export default function LoginPage() {
       })
 
       if (result?.error) {
-        setError("Email atau password salah")
+        setError(result.error.includes("Terlalu banyak") ? result.error : "Email atau password salah")
         setIsLoading(false)
       } else {
         window.location.href = "/admin/dashboard"

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 interface KnowledgeEntry {
   patterns: string[]
@@ -159,6 +160,13 @@ ATURAN:
 - Jika ada pertanyaan tentang website ini (siapa yang buat, informasi website, dll), sebutkan bahwa website ini dibuat oleh **Dafiq** dengan penuh dedikasi untuk PARSTAMA`
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 20 requests per minute per IP
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
+  const { allowed } = checkRateLimit(`chat:${ip}`, 20, 60000)
+  if (!allowed) {
+    return NextResponse.json({ error: "Terlalu banyak permintaan. Coba lagi sebentar." }, { status: 429 })
+  }
+
   try {
     const body = await request.json()
     const { message } = body as { message: string }

@@ -1,8 +1,14 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
-export async function POST() {
+export async function POST(request: NextRequest) {
+  // Protect seed endpoint with secret key
+  const authHeader = request.headers.get("authorization")
+  const seedSecret = process.env.SEED_SECRET
+  if (!seedSecret || authHeader !== `Bearer ${seedSecret}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
   try {
     // Create tables using raw SQL (PostgreSQL)
     await prisma.$executeRawUnsafe(`
@@ -93,12 +99,10 @@ export async function POST() {
     return NextResponse.json({
       success: true,
       message: "Database migrated & seeded!",
-      admin: { email: admin.email, name: admin.name },
     })
   } catch (error) {
-    console.error("Seed error:", error)
     return NextResponse.json(
-      { error: String(error) },
+      { error: "Internal server error" },
       { status: 500 }
     )
   }
