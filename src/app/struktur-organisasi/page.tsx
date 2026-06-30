@@ -153,7 +153,7 @@ export default function StrukturOrganisasiPage() {
       <HoverCard member={member}>
         <div className="flex flex-col items-center gap-1.5 relative group">
           <div
-            className={`${size} rounded-full bg-gradient-to-br ${colorClass} flex items-center justify-center text-white font-bold text-sm shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-red-500/30 group-hover:shadow-xl relative z-10`}
+            className={`${size} rounded-full bg-linear-to-br ${colorClass} flex items-center justify-center text-white font-bold text-sm shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-red-500/30 group-hover:shadow-xl relative z-10`}
             style={{ filter: "drop-shadow(0 0 8px rgba(220,38,38,0.3))" }}
           >
             {member.photo ? (
@@ -317,7 +317,7 @@ export default function StrukturOrganisasiPage() {
             {/* Loading State */}
             {loading && (
               <div className="flex flex-col items-center justify-center py-20 gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center animate-pulse">
+                <div className="w-12 h-12 rounded-full bg-linear-to-br from-red-500 to-red-700 flex items-center justify-center animate-pulse">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" />
                     <path d="M6 10h12l1 10H5L6 10z" />
@@ -462,7 +462,7 @@ export default function StrukturOrganisasiPage() {
                         style={{ borderLeft: "3px solid #DC2626" }}
                       >
                         <div className="flex items-center gap-4">
-                          <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${getLevelColor(member.level)} flex items-center justify-center text-white font-bold text-lg shrink-0 shadow-lg`}>
+                          <div className={`w-14 h-14 rounded-full bg-linear-to-br ${getLevelColor(member.level)} flex items-center justify-center text-white font-bold text-lg shrink-0 shadow-lg`}>
                             {member.photo ? (
                               <Image src={member.photo} alt={member.name} width={56} height={56} className="w-full h-full rounded-full object-cover" unoptimized />
                             ) : (
@@ -513,7 +513,7 @@ export default function StrukturOrganisasiPage() {
                           style={{ borderLeft: "3px solid rgba(220,38,38,0.4)" }}
                         >
                           <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg">
+                            <div className="w-12 h-12 rounded-full bg-linear-to-br from-red-400 to-red-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg">
                               {member.photo ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                               <Image src={member.photo} alt={member.name} width={56} height={56} className="w-full h-full rounded-full object-cover" unoptimized />

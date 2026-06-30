@@ -177,7 +177,7 @@ export default function ChatPage() {
                 {/* Avatar */}
                 {msg.role === "assistant" && (
                   <div className="flex items-center gap-2 mb-1.5 ml-1">
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-full bg-linear-to-br from-red-500 to-red-700 flex items-center justify-center">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" />
                         <path d="M6 10h12l1 10H5L6 10z" />
@@ -190,7 +190,7 @@ export default function ChatPage() {
                 <div
                   className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-gradient-to-br from-red-600 to-red-800 text-white rounded-br-md"
+                      ? "bg-linear-to-br from-red-600 to-red-800 text-white rounded-br-md"
                       : "bg-white/[0.05] border border-white/[0.08] text-zinc-200 rounded-bl-md"
                   }`}
                   dangerouslySetInnerHTML={{ __html: parseMarkdown(msg.content) }}
@@ -208,7 +208,7 @@ export default function ChatPage() {
             <div className="flex justify-start">
               <div className="max-w-[75%]">
                 <div className="flex items-center gap-2 mb-1.5 ml-1">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
+                  <div className="w-6 h-6 rounded-full bg-linear-to-br from-red-500 to-red-700 flex items-center justify-center">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" />
                       <path d="M6 10h12l1 10H5L6 10z" />
@@ -305,7 +305,7 @@ export default function ChatPage() {
             <button
               onClick={() => sendMessage()}
               disabled={(!input.trim() && !selectedImage) || isLoading}
-              className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white hover:from-red-400 hover:to-red-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
+              className="w-9 h-9 rounded-xl bg-linear-to-br from-red-500 to-red-700 flex items-center justify-center text-white hover:from-red-400 hover:to-red-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="22" y1="2" x2="11" y2="13" />

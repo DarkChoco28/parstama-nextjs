@@ -124,25 +124,25 @@ export default function LandingClient() {
           </span>
         </Link>
         <nav className="hidden sm:flex items-center gap-8 relative z-[1]">
-          <a href="#tentang" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <a href="#tentang" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             <SplitText text="Tentang" />
           </a>
-          <a href="#syarat" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <a href="#syarat" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             <SplitText text="Syarat" />
           </a>
-          <a href="#timeline" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <a href="#timeline" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             <SplitText text="Timeline" />
           </a>
-          <Link href="/blog" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <Link href="/blog" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             <SplitText text="Blog" />
           </Link>
-          <Link href="/events" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <Link href="/events" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             <SplitText text="Event" />
           </Link>
-          <Link href="/cek-status" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <Link href="/cek-status" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             Tanya AI
           </Link>
-          <Link href="/login" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
+          <Link href="/login" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full">
             <SplitText text="Login" />
           </Link>
           <a href="https://wa.me/6281459145800?text=Halo%20PARSTAMA,%20saya%20ingin%20bertanya%20tentang%20pendaftaran." target="_blank" rel="noopener" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors">
@@ -163,7 +163,7 @@ export default function LandingClient() {
           <h1 className="text-[clamp(1.8rem,5vw,4rem)] sm:text-[clamp(2rem,6vw,4.5rem)] font-display font-extrabold leading-[1.1] text-white mb-4 sm:mb-5 tracking-tight">
             <span className="split-text inline-block cursor-default"><SplitText text="Bergabunglah" /></span>{" "}
             <span className="split-text inline-block cursor-default"><SplitText text="Bersama" /></span>{" "}
-            <span className="inline-block bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent whitespace-nowrap">
+            <span className="inline-block bg-linear-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent whitespace-nowrap">
               PARSTAMA
             </span>
           </h1>
@@ -171,7 +171,7 @@ export default function LandingClient() {
             Jadilah bagian dari generasi penolong yang hebat. Pelajari keterampilan pertolongan pertama, kembangkan jiwa kepedulian, dan beri dampak nyata bagi masyarakat.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <RocketButton href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all min-h-[44px]">
+            <RocketButton href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all min-h-[44px]">
               Isi Form Pendaftaran
             </RocketButton>
             <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all min-h-[44px]">
@@ -185,7 +185,7 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" />
+      <div className="h-[1px] bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" />
 
       {/* Stats */}
       <section className="flex justify-center gap-6 sm:gap-16 px-4 sm:px-6 py-10 sm:py-12 flex-wrap">
@@ -196,7 +196,7 @@ export default function LandingClient() {
           { value: "30+", label: "Penghargaan", color: "from-amber-400 to-amber-600" },
         ].map((s) => (
           <div key={s.label} className="reveal-scale text-center">
-            <div className={`text-3xl sm:text-5xl font-display font-extrabold bg-gradient-to-r ${s.color} bg-clip-text text-transparent leading-none mb-1.5 sm:mb-2`}>
+            <div className={`text-3xl sm:text-5xl font-display font-extrabold bg-linear-to-r ${s.color} bg-clip-text text-transparent leading-none mb-1.5 sm:mb-2`}>
               {s.value}
             </div>
             <div className="text-xs sm:text-sm text-zinc-500 font-medium">{s.label}</div>
@@ -205,12 +205,12 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" />
+      <div className="h-[1px] bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" />
 
       {/* Features */}
       <section id="tentang" className="max-w-6xl mx-auto px-6 py-16 sm:py-24">
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="reveal text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-3 sm:mb-4">Mengapa <span className="bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent">PARSTAMA</span>?</h2>
+          <h2 className="reveal text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-3 sm:mb-4">Mengapa <span className="bg-linear-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent">PARSTAMA</span>?</h2>
           <p className="reveal text-sm sm:text-base text-zinc-400 max-w-lg mx-auto">Kami bukan sekadar organisasi — kami adalah keluarga yang saling mendukung.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -228,7 +228,7 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" />
+      <div className="h-[1px] bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" />
 
       {/* Requirements + Timeline */}
       <section id="syarat" className="bg-[#141415] px-6 py-16 sm:py-24">
@@ -250,14 +250,14 @@ export default function LandingClient() {
                 </li>
               ))}
             </ul>
-            <RocketButton href="/daftar" className="reveal-left inline-flex items-center justify-center mt-6 sm:mt-8 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm font-bold text-white bg-gradient-to-r from-red-600 to-red-800 hover:shadow-lg hover:shadow-red-600/30 hover:-translate-y-0.5 transition-all">
+            <RocketButton href="/daftar" className="reveal-left inline-flex items-center justify-center mt-6 sm:mt-8 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm font-bold text-white bg-linear-to-r from-red-600 to-red-800 hover:shadow-lg hover:shadow-red-600/30 hover:-translate-y-0.5 transition-all">
               Daftar Sekarang →
             </RocketButton>
           </div>
           <div id="timeline">
             <h2 className="reveal-right text-[clamp(1.3rem,3vw,2rem)] font-display font-extrabold text-white mb-1">Timeline Seleksi</h2>
             <p className="reveal-right text-sm text-zinc-400 mb-6">Ikuti setiap tahapan seleksi dengan baik</p>
-            <div className="relative pl-7 sm:pl-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-gradient-to-b before:from-red-600 before:to-transparent">
+            <div className="relative pl-7 sm:pl-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-linear-to-b before:from-red-600 before:to-transparent">
               {[
                 { title: "Pendaftaran Online", desc: "Isi formulir pendaftaran melalui website ini." },
                 { title: "Seleksi Administrasi", desc: "Tim panitia memeriksa berkas pendaftar." },
@@ -276,11 +276,11 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" />
+      <div className="h-[1px] bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" />
 
       {/* CTA */}
       <section className="px-6 py-16 sm:py-24 text-center">
-        <div className="reveal-scale max-w-2xl mx-auto bg-gradient-to-br from-red-600/10 to-red-800/5 border border-red-500/20 rounded-2xl sm:rounded-3xl p-8 sm:p-16 relative overflow-hidden">
+        <div className="reveal-scale max-w-2xl mx-auto bg-linear-to-br from-red-600/10 to-red-800/5 border border-red-500/20 rounded-2xl sm:rounded-3xl p-8 sm:p-16 relative overflow-hidden">
           <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-2 sm:mb-3">
             <span className="split-text inline-block cursor-default">
               <SplitText text="Siap Bergabung?" />
@@ -288,7 +288,7 @@ export default function LandingClient() {
           </h2>
           <p className="text-sm sm:text-base text-zinc-400 mb-6 sm:mb-8 max-w-md mx-auto">Jangan lewatkan kesempatan menjadi bagian dari keluarga PARSTAMA. Pendaftaran dibuka terbatas!</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <RocketButton href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
+            <RocketButton href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
               Daftar Sekarang — Gratis
             </RocketButton>
             <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
@@ -378,7 +378,7 @@ export default function LandingClient() {
 
       {/* Sticky Mobile CTA */}
       <div className="mobile-sticky-cta">
-        <RocketButton href="/daftar" className="w-full inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 min-h-[44px]">
+        <RocketButton href="/daftar" className="w-full inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 min-h-[44px]">
           Daftar Sekarang
         </RocketButton>
       </div>
