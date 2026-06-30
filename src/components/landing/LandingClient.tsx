@@ -170,13 +170,16 @@ export default function LandingClient() {
             Jadilah bagian dari generasi penolong yang hebat. Pelajari keterampilan pertolongan pertama, kembangkan jiwa kepedulian, dan beri dampak nyata bagi masyarakat.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <RocketButton href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all min-h-[44px]">
+            <RocketButton href="/daftar" className="inline-flex items-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all min-h-[44px]">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
               Isi Form Pendaftaran
             </RocketButton>
-            <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/30 hover:-translate-y-0.5 transition-all min-h-[44px]">
+            <Link href="/cek-status" className="inline-flex items-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/30 hover:-translate-y-0.5 transition-all min-h-[44px]">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               Tanya AI Assistant
             </Link>
-            <Link href="/struktur-organisasi" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-white bg-orange-600 hover:bg-orange-500 shadow-lg shadow-orange-600/30 hover:-translate-y-0.5 transition-all min-h-[44px]">
+            <Link href="/struktur-organisasi" className="inline-flex items-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-white bg-orange-600 hover:bg-orange-500 shadow-lg shadow-orange-600/30 hover:-translate-y-0.5 transition-all min-h-[44px]">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
               Struktur Organisasi
             </Link>
           </div>
@@ -249,8 +252,9 @@ export default function LandingClient() {
                 </li>
               ))}
             </ul>
-            <Link href="/sejarah" className="reveal-left inline-flex items-center justify-center mt-6 sm:mt-8 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm font-bold text-white bg-red-600 hover:bg-red-500 shadow-lg shadow-red-600/30 hover:-translate-y-0.5 transition-all">
-              Lihat Sejarah PARSTAMA →
+            <Link href="/sejarah" className="reveal-left inline-flex items-center gap-2 mt-6 sm:mt-8 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm font-bold text-white bg-red-600 hover:bg-red-500 shadow-lg shadow-red-600/30 hover:-translate-y-0.5 transition-all">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              Lihat Sejarah PARSTAMA
             </Link>
           </div>
           <div id="timeline">
