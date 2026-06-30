@@ -118,6 +118,9 @@
 .admin-btn-orange-sm{padding:6px 12px;background:rgba(245,158,11,.15);color:#F59E0B;border:1px solid rgba(245,158,11,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
 .admin-btn-orange-sm:disabled{opacity:.5;cursor:not-allowed}
 .admin-btn-orange-sm:active{transform:scale(.95)}
+.admin-btn-purple-sm{padding:6px 12px;background:rgba(139,92,246,.15);color:#A78BFA;border:1px solid rgba(139,92,246,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-btn-purple-sm:disabled{opacity:.5;cursor:not-allowed}
+.admin-btn-purple-sm:active{transform:scale(.95)}
 
 /* FORM STYLES (profile/register pages) */
 .form-card{background:rgba(20,20,22,.8);backdrop-filter:blur(20px);border-radius:16px;border:1px solid rgba(255,255,255,.08);padding:24px;max-width:640px;margin:0 auto}
@@ -209,7 +212,7 @@
 .reg-filter-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
 .reg-filter-actions{display:flex;gap:8px;align-items:center}
 .reg-empty{padding:40px 16px;text-align:center;color:rgba(255,255,255,.3);font-size:13px}
-.reg-desktop-table{display:none}
+.reg-desktop-table{display:block}
 .reg-mobile-list{display:none}
 
 /* RESPONSIVE */
@@ -269,7 +272,7 @@
   .reg-mobile-field span:last-child{color:rgba(255,255,255,.8);text-align:right;word-break:break-word;font-weight:500}
   .reg-mobile-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .reg-mobile-actions .admin-select-sm{flex:1;padding:10px 12px;font-size:12px;border-radius:10px}
-  .reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm,.reg-mobile-actions .admin-btn-wa-sm,.reg-mobile-actions .admin-btn-orange-sm{flex:1;padding:10px 12px;font-size:12px;text-align:center;border-radius:10px}
+  .reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm,.reg-mobile-actions .admin-btn-wa-sm,.reg-mobile-actions .admin-btn-orange-sm,.reg-mobile-actions .admin-btn-purple-sm{flex:1;padding:10px 12px;font-size:12px;text-align:center;border-radius:10px}
   .reg-filter-row{flex-direction:column;align-items:stretch}
   .reg-filter-row .admin-select{width:100%;padding:12px;font-size:13px}
   .reg-advanced-row{flex-direction:column;align-items:stretch}
@@ -312,7 +315,7 @@
   .reg-mobile-name{font-size:14px}
   .reg-mobile-fields{padding:10px}
   .reg-mobile-field{font-size:12px}
-  .reg-mobile-actions .admin-select-sm,.reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm,.reg-mobile-actions .admin-btn-wa-sm,.reg-mobile-actions .admin-btn-orange-sm{padding:9px 10px;font-size:11px}
+  .reg-mobile-actions .admin-select-sm,.reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm,.reg-mobile-actions .admin-btn-wa-sm,.reg-mobile-actions .admin-btn-orange-sm,.reg-mobile-actions .admin-btn-purple-sm{padding:9px 10px;font-size:11px}
   .reg-badge{font-size:10px;padding:3px 10px}
   .reg-page-btns button{padding:10px;font-size:12px}
 }

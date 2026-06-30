@@ -30,14 +30,17 @@ export default function ChatPage() {
     {
       id: "welcome",
       role: "assistant",
-      content: "Halo! 👋 Selamat datang di AI Assistant PARSTAMA.\n\nAku bisa membantu kamu dengan:\n• 📋 Pertanyaan seputar pendaftaran\n• 🏥 Informasi medis & pertolongan pertama\n• ❓ Tanya apa aja tentang PARSTAMA\n\nSilakan ketik pertanyaanmu di bawah!",
+      content: "Halo! 👋 Selamat datang di AI Assistant PARSTAMA.\n\nAku bisa membantu kamu dengan:\n• 📋 Pertanyaan seputar pendaftaran\n• 🏥 Informasi medis & pertolongan pertama\n• 📷 **Kirim foto luka/cedera** untuk panduan P3K\n• ❓ Tanya apa aja tentang PARSTAMA\n\nSilakan ketik pertanyaanmu di bawah!",
       timestamp: new Date(),
     },
   ])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -47,14 +50,35 @@ export default function ChatPage() {
     scrollToBottom()
   }, [messages])
 
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith("image/")) return
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      const base64 = reader.result as string
+      setSelectedImage(base64)
+      setImagePreview(URL.createObjectURL(file))
+    }
+    reader.readAsDataURL(file)
+    e.target.value = ""
+  }
+
+  const removeImage = () => {
+    setSelectedImage(null)
+    setImagePreview(null)
+  }
+
   const sendMessage = async (text?: string) => {
     const msg = (text || input).trim()
-    if (!msg || isLoading) return
+    const hasImage = !!selectedImage
+    if ((!msg && !hasImage) || isLoading) return
 
     const userMsg: Message = {
       id: Date.now().toString(),
       role: "user",
-      content: msg,
+      content: msg || (hasImage ? "📷 Gambar" : ""),
       timestamp: new Date(),
     }
 
@@ -63,17 +87,30 @@ export default function ChatPage() {
     setIsLoading(true)
 
     try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg }),
-      })
-      const data = await res.json()
+      let data: any
+      if (hasImage) {
+        const res = await fetch("/api/chat/vision", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: selectedImage, message: msg || undefined }),
+        })
+        data = await res.json()
+      } else {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: msg,
+            history: messages.filter(m => m.id !== "welcome").map(m => ({ role: m.role, content: m.content })),
+          }),
+        })
+        data = await res.json()
+      }
 
       const assistantMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: data.response || "Maaf, terjadi kesalahan. Coba lagi ya!",
+        content: data.response || data.error || "Maaf, terjadi kesalahan. Coba lagi ya!",
         timestamp: new Date(),
       }
       setMessages((prev) => [...prev, assistantMsg])
@@ -89,6 +126,8 @@ export default function ChatPage() {
       ])
     } finally {
       setIsLoading(false)
+      setSelectedImage(null)
+      setImagePreview(null)
       inputRef.current?.focus()
     }
   }
@@ -213,13 +252,44 @@ export default function ChatPage() {
       {/* Input Area */}
       <div className="sticky bottom-0 bg-[#0A0A0B]/95 backdrop-blur-xl border-t border-white/[0.06] px-4 py-3 sm:py-4">
         <div className="max-w-4xl mx-auto">
+          {/* Image Preview */}
+          {imagePreview && (
+            <div style={{ marginBottom: 8, display: "inline-flex", position: "relative", borderRadius: 12, overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)" }}>
+              <img src={imagePreview} alt="Preview" style={{ width: 100, height: 100, objectFit: "cover" }} />
+              <button
+                onClick={removeImage}
+                style={{ position: "absolute", top: 4, right: 4, width: 22, height: 22, borderRadius: "50%", background: "rgba(0,0,0,0.7)", color: "#fff", fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", border: "none" }}
+              >
+                ✕
+              </button>
+            </div>
+          )}
           <div className="flex items-end gap-2 bg-white/[0.04] border border-white/[0.08] rounded-2xl px-3 py-2 focus-within:border-red-500/30 transition-colors">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageSelect}
+              style={{ display: "none" }}
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isLoading}
+              title="Kirim gambar"
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-zinc-400 hover:text-red-400 hover:bg-white/[0.05] disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </button>
             <textarea
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Ketik pertanyaanmu..."
+              placeholder={selectedImage ? "Tambahkan pertanyaan (opsional)..." : "Ketik pertanyaanmu..."}
               rows={1}
               className="flex-1 bg-transparent text-white text-sm placeholder-zinc-500 resize-none outline-none min-h-[36px] max-h-[120px] py-1.5"
               style={{
@@ -234,7 +304,7 @@ export default function ChatPage() {
             />
             <button
               onClick={() => sendMessage()}
-              disabled={!input.trim() || isLoading}
+              disabled={(!input.trim() && !selectedImage) || isLoading}
               className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white hover:from-red-400 hover:to-red-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -244,7 +314,7 @@ export default function ChatPage() {
             </button>
           </div>
           <p className="text-zinc-600 text-[10px] text-center mt-2">
-            AI Assistant PARSTAMA — Untuk informasi medis darurat, selalu hubungi 119 🚑
+            AI Assistant PARSTAMA — Kirim foto luka/cedera untuk panduan P3K 🚑
           </p>
         </div>
       </div>

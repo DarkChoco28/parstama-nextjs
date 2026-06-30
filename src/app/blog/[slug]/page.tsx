@@ -14,6 +14,7 @@ export default function BlogDetailPage() {
   const params = useParams()
   const slug = params.slug as string
   const [article, setArticle] = useState<Article | null>(null)
+  const [related, setRelated] = useState<Article[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
@@ -21,7 +22,19 @@ export default function BlogDetailPage() {
     if (!slug) return
     fetch(`/api/articles/${slug}`)
       .then(r => { if (!r.ok) throw new Error(); return r.json() })
-      .then(d => setArticle(d))
+      .then(d => {
+        setArticle(d)
+        // Fetch related articles from same category
+        if (d?.category) {
+          fetch(`/api/articles?category=${encodeURIComponent(d.category)}`)
+            .then(r => r.json())
+            .then(list => {
+              const filtered = (list.articles || []).filter((a: Article) => a.slug !== d.slug).slice(0, 3)
+              setRelated(filtered)
+            })
+            .catch(() => {})
+        }
+      })
       .catch(() => setError("Artikel tidak ditemukan"))
       .finally(() => setLoading(false))
   }, [slug])
@@ -63,6 +76,27 @@ export default function BlogDetailPage() {
             </div>
             {article.excerpt && <p style={{ fontSize: 16, color: "rgba(255,255,255,.5)", marginBottom: 24, fontStyle: "italic", lineHeight: 1.6 }}>{article.excerpt}</p>}
             <div className="article-content">{article.content}</div>
+
+            {/* Artikel Terkait */}
+            {related.length > 0 && (
+              <div style={{ marginTop: 48, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,.06)" }}>
+                <h3 style={{ fontFamily: "Sansita, Georgia, serif", fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 16 }}>Artikel Terkait</h3>
+                <div style={{ display: "grid", gap: 12 }}>
+                  {related.map(r => (
+                    <Link key={r.slug} href={`/blog/${r.slug}`} style={{ display: "block", padding: 16, background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.06)", borderRadius: 12, textDecoration: "none", transition: "border-color .2s" }}
+                      onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(220,38,38,.3)")}
+                      onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,.06)")}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                        <span style={{ padding: "2px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700, background: `${categoryColors[r.category] || "#8B5CF6"}15`, color: categoryColors[r.category] || "#8B5CF6" }}>{r.category}</span>
+                        <span style={{ fontSize: 10, color: "rgba(255,255,255,.3)" }}>{new Date(r.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}</span>
+                      </div>
+                      <h4 style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 4 }}>{r.title}</h4>
+                      {r.excerpt && <p style={{ fontSize: 12, color: "rgba(255,255,255,.4)", lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{r.excerpt}</p>}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </>
         )}
       </main>

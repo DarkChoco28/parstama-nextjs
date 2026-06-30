@@ -6,6 +6,44 @@ function normalizeWhatsapp(value: string) {
   return value.replace(/\D/g, "")
 }
 
+async function scoreMotivation(text: string): Promise<{ score: number; label: string }> {
+  const apiKey = process.env.GROQ_API_KEY
+  if (!apiKey) return { score: 5, label: "netral" }
+
+  try {
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          {
+            role: "system",
+            content: `Analisis sentimen teks motivasi pendaftaran PMR. Berikan JSON: {"score": <1-10>, "label": "<positif|netral|negatif>}. Score berdasarkan: kesungguhan, kejelasan tujuan, antusiasme, panjang teks. Hanya jawab JSON tanpa penjelasan.`,
+          },
+          { role: "user", content: text },
+        ],
+        temperature: 0.3,
+        max_tokens: 50,
+      }),
+    })
+
+    if (!res.ok) return { score: 5, label: "netral" }
+    const data = await res.json()
+    const content = data.choices?.[0]?.message?.content?.trim() || ""
+    const match = content.match(/\{[^}]+\}/)
+    if (match) {
+      const parsed = JSON.parse(match[0])
+      const score = Math.max(1, Math.min(10, parseInt(parsed.score) || 5))
+      const label = ["positif", "netral", "negatif"].includes(parsed.label) ? parsed.label : "netral"
+      return { score, label }
+    }
+    return { score: 5, label: "netral" }
+  } catch {
+    return { score: 5, label: "netral" }
+  }
+}
+
 export async function POST(request: NextRequest) {
   // Rate limit: 5 registrations per minute per IP
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
@@ -160,6 +198,14 @@ export async function POST(request: NextRequest) {
         motivation: motivation.trim(),
         status: "pending",
       },
+    })
+
+    // Auto-score motivation sentiment (non-blocking)
+    scoreMotivation(motivation.trim()).then(({ score, label }) => {
+      prisma.registration.update({
+        where: { id: registration.id },
+        data: { motivationScore: score, sentimentLabel: label },
+      }).catch(() => {})
     })
 
     return NextResponse.json(

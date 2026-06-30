@@ -38,6 +38,8 @@ model Registration {
   medicalHistory          String?
   organizationExperience String?
   motivation              String
+  motivationScore         Int?
+  sentimentLabel          String?
   status                  String    @default("pending")
   createdAt               DateTime  @default(now())
   updatedAt               DateTime  @updatedAt

@@ -27,6 +27,8 @@ export default function AdminRegistrations() {
   const [emailSending, setEmailSending] = useState<string | null>(null)
   const [waSending, setWaSending] = useState<string | null>(null)
   const [confirmSending, setConfirmSending] = useState<string | null>(null)
+  const [aiReview, setAiReview] = useState<any>(null)
+  const [aiReviewLoading, setAiReviewLoading] = useState(false)
 
   useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
 
@@ -83,8 +85,19 @@ export default function AdminRegistrations() {
   const toggleSelectAll = () => setSelectedIds(p => p.length === registrations.length ? [] : registrations.map((r: any) => r.id))
   const viewDetail = async (id: string) => {
     setDetailLoading(true)
+    setAiReview(null)
     try { const r = await fetch(`/api/admin/registrations/${id}`); const d = await r.json(); setDetailData(d) }
     catch (e) { console.error(e) } finally { setDetailLoading(false) }
+  }
+
+  const runAiReview = async (id: string) => {
+    setAiReviewLoading(true)
+    setAiReview(null)
+    try {
+      const r = await fetch(`/api/admin/registrations/${id}/review`)
+      const d = await r.json()
+      setAiReview(d)
+    } catch (e) { console.error(e) } finally { setAiReviewLoading(false) }
   }
 
   const sendEmailNotif = async (registrationId: string) => {
@@ -342,6 +355,9 @@ export default function AdminRegistrations() {
             <div className="reg-modal-header">
               <h2 className="reg-modal-title">Detail Pendaftaran</h2>
               <div className="reg-modal-header-actions">
+                <button onClick={() => runAiReview(detailData.id)} disabled={aiReviewLoading} className="admin-btn-purple-sm">
+                  {aiReviewLoading ? "..." : "🤖 Review AI"}
+                </button>
                 {detailData.email && (
                   <>
                     <button onClick={() => sendConfirmNotif(detailData.id)} disabled={confirmSending === detailData.id} className="admin-btn-orange-sm">
@@ -390,6 +406,42 @@ export default function AdminRegistrations() {
                   {detailData.medicalHistory && <ModalSection title="Riwayat Medis"><p className="reg-modal-text">{detailData.medicalHistory}</p></ModalSection>}
                   <ModalSection title="Motivasi"><p className="reg-modal-text">{detailData.motivation}</p></ModalSection>
                   {detailData.organizationExperience && <ModalSection title="Pengalaman Organisasi"><p className="reg-modal-text">{detailData.organizationExperience}</p></ModalSection>}
+
+                  {/* AI Review Results */}
+                  {aiReview && (
+                    <ModalSection title="🤖 Review AI">
+                      <div style={{ marginBottom: 12 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                          <span style={{
+                            padding: "4px 12px", borderRadius: 8, fontSize: 12, fontWeight: 700,
+                            background: aiReview.suggestion === "accept" ? "rgba(52,211,153,0.15)" : aiReview.suggestion === "reject" ? "rgba(239,68,68,0.15)" : "rgba(252,211,77,0.15)",
+                            color: aiReview.suggestion === "accept" ? "#34D399" : aiReview.suggestion === "reject" ? "#EF4444" : "#FCD34D",
+                            border: `1px solid ${aiReview.suggestion === "accept" ? "rgba(52,211,153,0.3)" : aiReview.suggestion === "reject" ? "rgba(239,68,68,0.3)" : "rgba(252,211,77,0.3)"}`,
+                          }}>
+                            {aiReview.suggestion === "accept" ? "✅ Disarankan Diterima" : aiReview.suggestion === "reject" ? "❌ Disarankan Ditolak" : "⏳ Perlu Review Manual"}
+                          </span>
+                          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>Skor: {aiReview.score}/10</span>
+                        </div>
+                        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.6, marginBottom: 12 }}>{aiReview.reasoning}</p>
+                        {aiReview.strengths?.length > 0 && (
+                          <div style={{ marginBottom: 8 }}>
+                            <span style={{ fontSize: 11, fontWeight: 700, color: "#34D399", marginBottom: 4, display: "block" }}>Kekuatan:</span>
+                            {aiReview.strengths.map((s: string, i: number) => (
+                              <div key={i} style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", paddingLeft: 12, marginBottom: 2 }}>• {s}</div>
+                            ))}
+                          </div>
+                        )}
+                        {aiReview.concerns?.length > 0 && (
+                          <div>
+                            <span style={{ fontSize: 11, fontWeight: 700, color: "#FCD34D", marginBottom: 4, display: "block" }}>Kekhawatiran:</span>
+                            {aiReview.concerns.map((c: string, i: number) => (
+                              <div key={i} style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", paddingLeft: 12, marginBottom: 2 }}>• {c}</div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </ModalSection>
+                  )}
                 </>
               )}
             </div>

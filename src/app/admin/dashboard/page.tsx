@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LineChart, Line, Legend, ReferenceLine } from "recharts"
 
 function useAnimatedCounter(target: number, duration = 800) {
   const [count, setCount] = useState(0)
@@ -175,6 +175,63 @@ export default function AdminDashboard() {
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        {/* Trend Prediction Chart */}
+        {analytics?.prediction && (
+          <div className="admin-card" style={{ marginBottom: 16 }}>
+            <h3 className="admin-card-title">Prediksi Tren Pendaftaran</h3>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 12 }}>
+              Garis putus-putus = actual, Garis solid = prediksi • Trend: <span style={{ fontWeight: 700, color: analytics.prediction.trend.direction === "naik" ? "#34D399" : analytics.prediction.trend.direction === "turun" ? "#EF4444" : "#F59E0B" }}>
+                {analytics.prediction.trend.direction === "naik" ? "📈 Naik" : analytics.prediction.trend.direction === "turun" ? "📉 Turun" : "➡️ Stabil"}
+              </span> ({analytics.prediction.trend.slope > 0 ? "+" : ""}{analytics.prediction.trend.slope} org/hari)
+            </p>
+            <div className="chart-container">
+              <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={analytics.prediction.daily} margin={{ top: 20, right: 10, left: -10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                  <XAxis dataKey="date" stroke="rgba(255,255,255,0.3)" fontSize={10} tickLine={false} axisLine={false} interval={6} />
+                  <YAxis stroke="rgba(255,255,255,0.3)" fontSize={11} tickLine={false} axisLine={false} allowDecimals={false} />
+                  <Tooltip
+                    contentStyle={{ background: "rgba(20,20,22,0.95)", border: "1px solid rgba(220,38,38,0.3)", borderRadius: 12, color: "#fff", fontSize: 12 }}
+                    cursor={{ stroke: "rgba(220,38,38,0.3)" }}
+                  />
+                  <Legend wrapperStyle={{ color: "rgba(255,255,255,0.6)", fontSize: 11 }} />
+                  <ReferenceLine x={analytics.prediction.daily.find((d: any) => d.actual === null)?.date} stroke="rgba(255,255,255,0.2)" strokeDasharray="3 3" label={{ value: "Hari ini", fill: "rgba(255,255,255,0.4)", fontSize: 10 }} />
+                  <Line type="monotone" dataKey="actual" stroke="#DC2626" strokeWidth={2} dot={false} strokeDasharray="6 3" name="Actual" connectNulls={false} />
+                  <Line type="monotone" dataKey="predicted" stroke="#3B82F6" strokeWidth={2} dot={false} name="Prediksi" connectNulls={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        {/* Sentiment Analysis */}
+        {analytics?.sentiment?.distribution?.length > 0 && (
+          <div className="admin-card" style={{ marginBottom: 16 }}>
+            <h3 className="admin-card-title">Analisis Sentimen Motivasi</h3>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+              {analytics.sentiment.distribution.map((s: any) => (
+                <div key={s.label} style={{
+                  background: s.label === "positif" ? "rgba(52,211,153,0.1)" : s.label === "negatif" ? "rgba(239,68,68,0.1)" : "rgba(252,211,77,0.1)",
+                  border: `1px solid ${s.label === "positif" ? "rgba(52,211,153,0.3)" : s.label === "negatif" ? "rgba(239,68,68,0.3)" : "rgba(252,211,77,0.3)"}`,
+                  borderRadius: 12, padding: 16, textAlign: "center",
+                }}>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", marginBottom: 4 }}>
+                    {s.label === "positif" ? "😊 Positif" : s.label === "negatif" ? "😟 Negatif" : "😐 Netral"}
+                  </div>
+                  <div style={{ fontSize: 28, fontWeight: 800, color: s.label === "positif" ? "#34D399" : s.label === "negatif" ? "#EF4444" : "#FCD34D" }}>
+                    {s.count}
+                  </div>
+                  {s.avgScore && (
+                    <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 4 }}>
+                      Skor rata-rata: {s.avgScore}/10
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         )}
