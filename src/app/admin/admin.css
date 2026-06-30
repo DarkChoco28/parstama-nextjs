@@ -214,6 +214,18 @@
 .reg-empty{padding:40px 16px;text-align:center;color:rgba(255,255,255,.3);font-size:13px}
 .reg-mobile-list{display:none}
 
+/* DESKTOP TABLE */
+.reg-desktop-table{overflow-x:auto}
+.admin-table{width:100%;border-collapse:collapse;table-layout:auto}
+.admin-th{text-align:left;font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08);white-space:nowrap}
+.admin-td{padding:12px 14px;font-size:13px;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+.admin-td-bold{font-weight:600;color:#fff}
+.admin-td-muted{color:rgba(255,255,255,.5)}
+.admin-tr:hover{background:rgba(255,255,255,.02)}
+.reg-action-btns{display:flex;gap:5px;align-items:center;flex-wrap:nowrap}
+.reg-action-btns .admin-select-sm{min-width:0;width:auto}
+.reg-action-btns .admin-btn-blue-sm,.reg-action-btns .admin-btn-danger-sm,.reg-action-btns .admin-btn-email-sm,.reg-action-btns .admin-btn-wa-sm,.reg-action-btns .admin-btn-orange-sm,.reg-action-btns .admin-btn-purple-sm{padding:5px 8px;font-size:10px;white-space:nowrap}
+
 /* RESPONSIVE */
 @media(min-width:640px){
   .admin-nav-inner{padding:0 24px;height:68px}
