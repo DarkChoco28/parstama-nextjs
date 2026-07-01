@@ -32,8 +32,8 @@
 .admin-back-text{display:none}
 .admin-divider{width:1px;height:20px;background:rgba(255,255,255,.08);flex-shrink:0}
 .admin-logos{display:flex;align-items:center;gap:4px;flex-shrink:0}
-.admin-logo-wrap{position:relative;width:28px;height:28px}
-.admin-logo{width:28px;height:28px;border-radius:50%;object-fit:contain;filter:drop-shadow(0 0 6px rgba(232,122,26,.3))}
+.admin-logo-wrap{position:relative;width:60px;height:60px}
+.admin-logo{width:60px;height:60px;border-radius:50%;object-fit:contain;filter:drop-shadow(0 0 6px rgba(232,122,26,.3))}
 .admin-nav-title{display:flex;flex-direction:column;min-width:0}
 .admin-brand{font-family:'Sansita',Georgia,serif;font-size:13px;font-weight:700;background:linear-gradient(90deg,#F97316,#E87A1A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
 .admin-time{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace;line-height:1}
@@ -242,8 +242,8 @@
 @media(min-width:640px){
   .admin-nav-inner{padding:0 24px;height:68px}
   .admin-back-text{display:inline}
-  .admin-logo-wrap{width:32px;height:32px}
-  .admin-logo{width:32px;height:32px}
+  .admin-logo-wrap{width:64px;height:64px}
+  .admin-logo{width:64px;height:64px}
   .admin-brand{font-size:15px}
   .admin-time{font-size:11px}
   .admin-main{padding:24px;min-height:calc(100vh - 68px)}

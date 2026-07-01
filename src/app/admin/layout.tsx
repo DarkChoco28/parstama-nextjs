@@ -124,10 +124,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             )}
             <div className="admin-logos">
               <div className="admin-logo-wrap">
-                <Image src="/smkn_logo.png" alt="SMKN" width={28} height={28} className="admin-logo" />
+                <Image src="/smkn_logo.png" alt="SMKN" width={60} height={60} className="admin-logo" />
               </div>
               <div className="admin-logo-wrap">
-                <Image src="/parstama_logo.png" alt="PARSTAMA" width={28} height={28} className="admin-logo" />
+                <Image src="/parstama_logo.png" alt="PARSTAMA" width={60} height={60} className="admin-logo" />
               </div>
             </div>
             <div className="admin-nav-title">

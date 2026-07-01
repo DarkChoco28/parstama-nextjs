@@ -280,8 +280,8 @@ export default function StrukturOrganisasiPage() {
         <header className="sticky top-0 z-50 bg-[#0A0A0B]/95 backdrop-blur-xl border-b border-white/6">
           <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
               <Link href="/" className="flex items-center gap-2 no-underline">
-                <Image src="/smkn_logo.png" alt="SMKN" width={36} height={36} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(232,122,26,.4))" }} />
-                <Image src="/parstama_logo.png" alt="PARSTAMA" width={36} height={36} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ animation: "logo3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 6px rgba(232,122,26,.4))" }} />
+                <Image src="/smkn_logo.png" alt="SMKN" width={60} height={60} className="w-[60px] h-[60px] sm:w-[64px] sm:h-[64px] rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(232,122,26,.4))" }} />
+                <Image src="/parstama_logo.png" alt="PARSTAMA" width={60} height={60} className="w-[60px] h-[60px] sm:w-[64px] sm:h-[64px] rounded-lg object-contain" style={{ animation: "logo3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 6px rgba(232,122,26,.4))" }} />
               </Link>
             <div className="flex-1 min-w-0">
               <h1 className="text-white font-bold text-sm sm:text-base leading-tight" style={{ fontFamily: "Sansita, Georgia, serif" }}>

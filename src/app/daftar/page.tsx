@@ -378,8 +378,8 @@ export default function DaftarPage() {
         .daftar-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);animation:fadeDown .7s ease both}
         .daftar-nav-inner{display:flex;justify-content:space-between;align-items:center;padding:0 16px;height:60px}
         .daftar-nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;min-width:0}
-        .daftar-nav-logo-wrap{position:relative;width:32px;height:32px;flex-shrink:0}
-        .daftar-nav-logo-img{width:32px;height:32px;border-radius:50%;object-fit:contain;animation:navLogoFloat3D 6s ease-in-out infinite;box-shadow:0 0 8px rgba(232,122,26,.4)}
+        .daftar-nav-logo-wrap{position:relative;width:60px;height:60px;flex-shrink:0}
+        .daftar-nav-logo-img{width:60px;height:60px;border-radius:50%;object-fit:contain;animation:navLogoFloat3D 6s ease-in-out infinite;box-shadow:0 0 8px rgba(232,122,26,.4)}
         .daftar-nav-brand{font-family:'Sansita',Georgia,serif;font-size:14px;font-weight:700;background:linear-gradient(90deg,#F97316,#E87A1A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
         .daftar-nav-links-desktop{display:flex;align-items:center;gap:16px}
         .daftar-nav-link{font-family:'Sansita',Georgia,serif,sans-serif;font-size:13px;font-weight:400;color:#888;text-decoration:none;letter-spacing:.5px;transition:color .2s}
@@ -457,8 +457,8 @@ export default function DaftarPage() {
 
         @media(min-width:640px){
           .daftar-nav-inner{padding:0 24px;height:68px}
-          .daftar-nav-logo-wrap{width:36px;height:36px}
-          .daftar-nav-logo-img{width:36px;height:36px}
+          .daftar-nav-logo-wrap{width:64px;height:64px}
+          .daftar-nav-logo-img{width:64px;height:64px}
           .daftar-nav-brand{font-size:16px}
           .daftar-page-wrap{padding:92px 28px 52px}
           .page-title{font-size:30px}
