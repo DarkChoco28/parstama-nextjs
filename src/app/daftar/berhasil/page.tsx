@@ -105,7 +105,7 @@ export default function BerhasilPage() {
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-5 py-12">
         {/* Logo */}
         <Link href="/" className="inline-flex items-center gap-3 mb-6 no-underline" style={{ animation: "fadeUp 0.6s 0.1s ease both" }}>
-          <img src="/parstama_logo.png" alt="PARSTAMA" className="w-[72px] h-[72px] rounded-full object-contain" style={{ animation: "logo3D 6s ease-in-out infinite", boxShadow: "0 0 40px rgba(232,122,26,0.4)" }} />
+          <img src="/parstama_logo.png" alt="PARSTAMA" width={60} height={60} className="w-15 h-15 sm:w-16 sm:h-16 rounded-full object-contain" style={{ animation: "logo3D 6s ease-in-out infinite", boxShadow: "0 0 40px rgba(232,122,26,0.4)" }} />
           <span className="font-bold text-lg bg-linear-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent" style={{ fontFamily: "Georgia, serif" }}>
             PARSTAMA
           </span>

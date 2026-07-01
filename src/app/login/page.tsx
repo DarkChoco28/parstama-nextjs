@@ -197,7 +197,7 @@ export default function LoginPage() {
                 marginBottom: "20px",
               }}
             >
-              <div style={{ position: "relative", width: "48px", height: "48px" }}>
+              <div style={{ position: "relative", width: "60px", height: "60px" }}>
                 <div
                   style={{
                     position: "absolute",
@@ -210,15 +210,15 @@ export default function LoginPage() {
                   src="/smkn_logo.png"
                   alt="SMKN"
                   style={{
-                    width: "48px",
-                    height: "48px",
+                    width: "60px",
+                    height: "60px",
                     borderRadius: "50%",
                     objectFit: "contain",
                     boxShadow: "0 0 12px rgba(232,122,26,0.3)",
                   }}
                 />
               </div>
-              <div style={{ position: "relative", width: "48px", height: "48px" }}>
+              <div style={{ position: "relative", width: "60px", height: "60px" }}>
                 <div
                   style={{
                     position: "absolute",
@@ -231,8 +231,8 @@ export default function LoginPage() {
                   src="/parstama_logo.png"
                   alt="PARSTAMA"
                   style={{
-                    width: "48px",
-                    height: "48px",
+                    width: "60px",
+                    height: "60px",
                     borderRadius: "50%",
                     objectFit: "contain",
                     boxShadow: "0 0 12px rgba(232,122,26,0.3)",

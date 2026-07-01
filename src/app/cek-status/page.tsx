@@ -152,8 +152,8 @@ export default function ChatPage() {
       <header className="sticky top-0 z-50 bg-[#0A0A0B]/95 backdrop-blur-xl border-b border-white/6">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 no-underline">
-            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-[60px] h-[60px] sm:w-[64px] sm:h-[64px] rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(232,122,26,.4))" }} />
-            <img src="/smkn_logo.png" alt="SMKN" className="w-[60px] h-[60px] sm:w-[64px] sm:h-[64px] rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(232,122,26,.4))" }} />
+            <img src="/parstama_logo.png" alt="PARSTAMA" width={60} height={60} className="w-15 h-15 sm:w-16 sm:h-16 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(232,122,26,.4))" }} />
+            <img src="/smkn_logo.png" alt="SMKN" width={60} height={60} className="w-15 h-15 sm:w-16 sm:h-16 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(232,122,26,.4))" }} />
           </Link>
           <div className="flex-1 min-w-0">
             <h1 className="text-white font-bold text-sm sm:text-base leading-tight" style={{ fontFamily: "Sansita, Georgia, serif" }}>
