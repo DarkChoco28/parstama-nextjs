@@ -107,41 +107,41 @@ export default function LandingClient() {
       `}</style>
 
       {/* Navbar */}
-      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/6 h-[80px] sm:h-[80px] px-4 sm:px-6 flex items-center justify-between overflow-hidden">
-        <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-[1]">
-          <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
+      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/6 h-20 sm:h-20 px-4 sm:px-6 flex items-center justify-between overflow-hidden">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-1">
+          <div className="relative w-11 h-11 sm:w-16 sm:h-16">
             <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
           </div>
-          <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
+          <div className="relative w-11 h-11 sm:w-16 sm:h-16">
             <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
           </div>
           <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#F97316,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             PARSTAMA
           </span>
         </Link>
-        <nav className="hidden sm:flex items-center gap-8 relative z-[1]">
-          <a href="#tentang" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
+        <nav className="hidden sm:flex items-center gap-8 relative z-1">
+          <a href="#tentang" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Tentang" />
           </a>
-          <a href="#syarat" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
+          <a href="#syarat" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Syarat" />
           </a>
-          <a href="#timeline" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
+          <a href="#timeline" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Timeline" />
           </a>
-          <Link href="/sejarah" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
+          <Link href="/sejarah" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Sejarah" />
           </Link>
-          <Link href="/blog" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
+          <Link href="/blog" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Blog" />
           </Link>
-          <Link href="/events" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
+          <Link href="/events" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Event" />
           </Link>
-          <Link href="/cek-status" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
+          <Link href="/cek-status" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             Tanya AI
           </Link>
-          <Link href="/login" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
+          <Link href="/login" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Login" />
           </Link>
           <a href="https://wa.me/6281459145800?text=Halo%20PARSTAMA,%20saya%20ingin%20bertanya%20tentang%20pendaftaran." target="_blank" rel="noopener" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors">
@@ -154,7 +154,7 @@ export default function LandingClient() {
       </header>
 
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-[100px] sm:pt-[120px] pb-16 sm:pb-20">
+      <section className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-25 sm:pt-30 pb-16 sm:pb-20">
         <div className="relative z-10 max-w-3xl mx-auto">
           <div className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
             PMR SMKN 1 Singosari
@@ -170,15 +170,15 @@ export default function LandingClient() {
             Jadilah bagian dari generasi penolong yang hebat. Pelajari keterampilan pertolongan pertama, kembangkan jiwa kepedulian, dan beri dampak nyata bagi masyarakat.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <RocketButton href="/daftar" className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all min-h-[44px]">
+            <RocketButton href="/daftar" className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all min-h-11">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
               Isi Form Pendaftaran
             </RocketButton>
-            <Link href="/cek-status" className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/30 hover:-translate-y-0.5 transition-all min-h-[44px]">
+            <Link href="/cek-status" className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/30 hover:-translate-y-0.5 transition-all min-h-11">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               Tanya AI Assistant
             </Link>
-            <Link href="/struktur-organisasi" className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-white bg-orange-600 hover:bg-orange-500 shadow-lg shadow-orange-600/30 hover:-translate-y-0.5 transition-all min-h-[44px]">
+            <Link href="/struktur-organisasi" className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-white bg-orange-600 hover:bg-orange-500 shadow-lg shadow-orange-600/30 hover:-translate-y-0.5 transition-all min-h-11">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
               Struktur Organisasi
             </Link>
@@ -187,7 +187,7 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
+      <div className="h-px bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
 
       {/* Stats */}
       <section className="flex justify-center gap-6 sm:gap-16 px-4 sm:px-6 py-10 sm:py-12 flex-wrap">
@@ -207,7 +207,7 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
+      <div className="h-px bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
 
       {/* Features */}
       <section id="tentang" className="max-w-6xl mx-auto px-6 py-16 sm:py-24">
@@ -230,7 +230,7 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
+      <div className="h-px bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
 
       {/* Requirements + Timeline */}
       <section id="syarat" className="bg-[#141415] px-6 py-16 sm:py-24">
@@ -247,7 +247,7 @@ export default function LandingClient() {
                 "Mengetahui dan memiliki minat serta tujuan",
               ].map((req) => (
                 <li key={req} className="reveal-left flex items-start gap-3 text-sm sm:text-base text-zinc-400 rounded-lg px-2 py-3">
-                  <span className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center text-white text-xs flex-shrink-0 mt-0.5">✓</span>
+                  <span className="w-5 h-5 rounded-full bg-orange-600 flex items-center justify-center text-white text-xs shrink-0 mt-0.5">✓</span>
                   {req}
                 </li>
               ))}
@@ -260,7 +260,7 @@ export default function LandingClient() {
           <div id="timeline">
             <h2 className="reveal-right text-[clamp(1.3rem,3vw,2rem)] font-display font-extrabold text-white mb-1">Timeline Seleksi</h2>
             <p className="reveal-right text-sm text-zinc-400 mb-6">Ikuti setiap tahapan seleksi dengan baik</p>
-            <div className="relative pl-7 sm:pl-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-linear-to-b before:from-orange-600 before:to-transparent">
+            <div className="relative pl-7 sm:pl-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-linear-to-b before:from-orange-600 before:to-transparent">
               {[
                 { title: "Pendaftaran Online", desc: "Isi formulir pendaftaran melalui website ini." },
                 { title: "Seleksi Administrasi", desc: "Tim panitia memeriksa berkas pendaftar." },
@@ -268,7 +268,7 @@ export default function LandingClient() {
                 { title: "Pengumuman Hasil", desc: "Hasil seleksi diumumkan melalui website dan medsos PARSTAMA." },
               ].map((t, i) => (
                 <div key={i} className="reveal-right relative mb-6 sm:mb-8 last:mb-0">
-                  <div className="absolute left-[-2rem] sm:left-[-2.25rem] top-1 w-3.5 h-3.5 rounded-full bg-orange-600 border-2 border-[#141415]" />
+                  <div className="absolute -left-8 sm:-left-9 top-1 w-3.5 h-3.5 rounded-full bg-orange-600 border-2 border-[#141415]" />
                   <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">{t.title}</h3>
                   <p className="text-xs sm:text-sm text-zinc-400">{t.desc}</p>
                 </div>
@@ -279,7 +279,7 @@ export default function LandingClient() {
       </section>
 
       {/* Separator */}
-      <div className="h-[1px] bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
+      <div className="h-px bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
 
       {/* CTA */}
       <section className="px-6 py-16 sm:py-24 text-center">
@@ -306,10 +306,10 @@ export default function LandingClient() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
           <div className="footer-col">
             <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4 no-underline">
-              <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
+              <div className="relative w-11 h-11 sm:w-16 sm:h-16">
                 <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
               </div>
-              <div className="relative w-[44px] h-[44px] sm:w-[64px] sm:h-[64px]">
+              <div className="relative w-11 h-11 sm:w-16 sm:h-16">
                 <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
               </div>
               <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#F97316,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
@@ -353,13 +353,13 @@ export default function LandingClient() {
             <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 sm:mb-4 font-display">Kontak</h4>
             <div className="space-y-3 text-xs sm:text-sm text-zinc-400">
               <p className="flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                 </svg>
                 SMKN 1 Singosari, Malang
               </p>
               <p className="flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
                 </svg>
                 pmr.parstama@gmail.com
