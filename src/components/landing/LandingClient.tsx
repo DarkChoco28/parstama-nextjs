@@ -155,19 +155,21 @@ export default function LandingClient() {
         </nav>
       </header>
 
+      {/* ShapeGrid Background - full page */}
+      <div className="fixed inset-0 opacity-40 sm:opacity-70" style={{ zIndex: 0, pointerEvents: "none" }}>
+        <ShapeGrid
+          speed={0.3}
+          squareSize={40}
+          direction="diagonal"
+          borderColor="rgba(232,122,26,0.5)"
+          hoverFillColor="rgba(232,122,26,0.15)"
+          shape="hexagon"
+          hoverTrailAmount={7}
+        />
+      </div>
+
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-25 sm:pt-30 pb-16 sm:pb-20">
-        <div className="absolute inset-0 hidden sm:block opacity-70">
-          <ShapeGrid
-            speed={0.3}
-            squareSize={40}
-            direction="diagonal"
-            borderColor="rgba(232,122,26,0.5)"
-            hoverFillColor="rgba(232,122,26,0.15)"
-            shape="hexagon"
-            hoverTrailAmount={7}
-          />
-        </div>
         <div className="relative z-10 max-w-3xl mx-auto">
           <div className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
             PMR SMKN 1 Singosari
