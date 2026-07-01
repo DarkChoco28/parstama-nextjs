@@ -86,6 +86,14 @@ function BentoCard({ f }: { f: { icon: string; title: string; desc: string } }) 
 export default function LandingClient() {
   useScrollReveal()
   const headerRef = useRef<HTMLElement>(null)
+  const [showPreloader, setShowPreloader] = useState(false)
+
+  useEffect(() => {
+    const navType = performance.getEntriesByType("navigation")[0]?.type
+    if (navType === "reload" || !sessionStorage.getItem("preloader_done")) {
+      setShowPreloader(true)
+    }
+  }, [])
 
   useEffect(() => {
     const header = headerRef.current
@@ -99,7 +107,7 @@ export default function LandingClient() {
 
   return (
     <>
-      <Preloader />
+      {showPreloader && <Preloader />}
       <style>{`
         header.scrolled { background: rgba(10,10,11,0.97) !important; box-shadow: 0 4px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(232,122,26,0.05); backdrop-filter: blur(20px) !important; }
         .split-char { display: inline-block; transition: color 0.2s, transform 0.3s cubic-bezier(0.33,1,0.68,1); }

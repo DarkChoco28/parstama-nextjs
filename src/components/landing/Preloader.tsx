@@ -24,6 +24,7 @@ export default function Preloader() {
         muted
         playsInline
         onEnded={() => {
+          sessionStorage.setItem("preloader_done", "1")
           setPhase("curtain")
           setTimeout(() => setPhase("done"), 600)
         }}
