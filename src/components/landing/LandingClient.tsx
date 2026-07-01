@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback, type MouseEvent as ReactMouseEvent } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import ShapeGrid from "./ShapeGrid"
 import FluidMenu from "./FluidMenu"
 import Preloader from "./Preloader"
 import RocketButton from "./RocketButton"
@@ -156,6 +157,17 @@ export default function LandingClient() {
 
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-25 sm:pt-30 pb-16 sm:pb-20">
+        <div className="absolute inset-0 hidden sm:block opacity-40">
+          <ShapeGrid
+            speed={0.3}
+            squareSize={40}
+            direction="diagonal"
+            borderColor="rgba(232,122,26,0.25)"
+            hoverFillColor="rgba(232,122,26,0.08)"
+            shape="hexagon"
+            hoverTrailAmount={7}
+          />
+        </div>
         <div className="relative z-10 max-w-3xl mx-auto">
           <div className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
             PMR SMKN 1 Singosari
