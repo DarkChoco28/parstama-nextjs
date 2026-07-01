@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 
 interface Article {
   id: string; title: string; slug: string; excerpt?: string; coverImage?: string; author: string; category: string; viewCount: number; createdAt: string
@@ -17,20 +18,24 @@ export default function BlogPage() {
   const [totalResults, setTotalResults] = useState(0)
   const [category, setCategory] = useState("")
 
-  const fetchArticles = useCallback(async () => {
+  useEffect(() => {
+    let cancelled = false
     setLoading(true)
-    try {
-      const params = new URLSearchParams({ page: page.toString(), limit: "12" })
-      if (category) params.append("category", category)
-      const r = await fetch(`/api/articles?${params}`)
-      const d = await r.json()
-      setArticles(d.articles || [])
-      setTotalPages(d.pagination?.totalPages || 1)
-      setTotalResults(d.pagination?.total || 0)
-    } catch (e) { console.error(e) } finally { setLoading(false) }
+    const params = new URLSearchParams({ page: page.toString(), limit: "12" })
+    if (category) params.append("category", category)
+    fetch(`/api/articles?${params}`)
+      .then(r => r.json())
+      .then(d => {
+        if (!cancelled) {
+          setArticles(d.articles || [])
+          setTotalPages(d.pagination?.totalPages || 1)
+          setTotalResults(d.pagination?.total || 0)
+        }
+      })
+      .catch(e => console.error(e))
+      .finally(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
   }, [page, category])
-
-  useEffect(() => { fetchArticles() }, [fetchArticles])
 
   const categoryColors: Record<string, string> = { Kesehatan: "#10B981", P3K: "#F59E0B", Kegiatan: "#E87A1A", Lainnya: "#8B5CF6" }
 
@@ -48,7 +53,7 @@ export default function BlogPage() {
       <div style={{ borderBottom: "1px solid rgba(255,255,255,.06)", padding: "20px 24px", position: "sticky", top: 0, background: "rgba(10,10,11,.9)", backdropFilter: "blur(12px)", zIndex: 50 }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <img src="/parstama_logo.png" alt="PARSTAMA" style={{ width: 32, height: 32, borderRadius: "50%" }} />
+            <Image src="/parstama_logo.png" alt="PARSTAMA" width={32} height={32} unoptimized style={{ borderRadius: "50%" }} />
             <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: 16, fontWeight: 700, background: "linear-gradient(90deg,#F59E0B,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>PARSTAMA</span>
           </Link>
           <Link href="/" style={{ color: "rgba(255,255,255,.5)", fontSize: 13, textDecoration: "none" }}>← Kembali</Link>
@@ -83,7 +88,7 @@ export default function BlogPage() {
               <Link key={a.id} href={`/blog/${a.slug}`} style={{ textDecoration: "none" }}>
                 <div className="blog-card">
                   {a.coverImage ? (
-                    <img src={a.coverImage} alt={a.title} className="blog-cover" />
+                    <Image src={a.coverImage} alt={a.title} width={400} height={180} unoptimized className="blog-cover" />
                   ) : (
                     <div className="blog-cover" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, opacity: 0.1 }}>📝</div>
                   )}
