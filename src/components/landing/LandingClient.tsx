@@ -157,13 +157,13 @@ export default function LandingClient() {
 
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-25 sm:pt-30 pb-16 sm:pb-20">
-        <div className="absolute inset-0 hidden sm:block opacity-40">
+        <div className="absolute inset-0 hidden sm:block opacity-70">
           <ShapeGrid
             speed={0.3}
             squareSize={40}
             direction="diagonal"
-            borderColor="rgba(232,122,26,0.25)"
-            hoverFillColor="rgba(232,122,26,0.08)"
+            borderColor="rgba(232,122,26,0.5)"
+            hoverFillColor="rgba(232,122,26,0.15)"
             shape="hexagon"
             hoverTrailAmount={7}
           />
