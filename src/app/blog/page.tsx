@@ -20,7 +20,6 @@ export default function BlogPage() {
 
   useEffect(() => {
     let cancelled = false
-    setLoading(true)
     const params = new URLSearchParams({ page: page.toString(), limit: "12" })
     if (category) params.append("category", category)
     fetch(`/api/articles?${params}`)
@@ -30,6 +29,7 @@ export default function BlogPage() {
           setArticles(d.articles || [])
           setTotalPages(d.pagination?.totalPages || 1)
           setTotalResults(d.pagination?.total || 0)
+          setLoading(false)
         }
       })
       .catch(e => console.error(e))
@@ -71,7 +71,7 @@ export default function BlogPage() {
         {/* Category filter */}
         <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
           {categories.map(c => (
-            <button key={c || "all"} onClick={() => { setCategory(c); setPage(1) }} style={{ padding: "6px 16px", borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: "pointer", transition: "all .2s", background: category === c ? "rgba(232,122,26,.15)" : "rgba(255,255,255,.05)", color: category === c ? "#F59E0B" : "rgba(255,255,255,.5)", border: `1px solid ${category === c ? "rgba(232,122,26,.3)" : "rgba(255,255,255,.08)"}` }}>
+            <button key={c || "all"} onClick={() => { setCategory(c); setPage(1); setLoading(true) }} style={{ padding: "6px 16px", borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: "pointer", transition: "all .2s", background: category === c ? "rgba(232,122,26,.15)" : "rgba(255,255,255,.05)", color: category === c ? "#F59E0B" : "rgba(255,255,255,.5)", border: `1px solid ${category === c ? "rgba(232,122,26,.3)" : "rgba(255,255,255,.08)"}` }}>
               {c || "Semua"}
             </button>
           ))}
@@ -113,9 +113,9 @@ export default function BlogPage() {
         {/* Pagination */}
         {totalPages > 1 && (
           <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 32 }}>
-            <button onClick={() => setPage(p => Math.max(p - 1, 1))} disabled={page === 1} style={{ padding: "8px 16px", borderRadius: 8, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", color: "rgba(255,255,255,.6)", fontSize: 12, cursor: "pointer", opacity: page === 1 ? 0.3 : 1 }}>Sebelumnya</button>
+            <button onClick={() => { setLoading(true); setPage(p => Math.max(p - 1, 1)) }} disabled={page === 1} style={{ padding: "8px 16px", borderRadius: 8, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", color: "rgba(255,255,255,.6)", fontSize: 12, cursor: "pointer", opacity: page === 1 ? 0.3 : 1 }}>Sebelumnya</button>
             <span style={{ fontSize: 12, color: "rgba(255,255,255,.4)", display: "flex", alignItems: "center" }}>{page}/{totalPages}</span>
-            <button onClick={() => setPage(p => Math.min(p + 1, totalPages))} disabled={page === totalPages} style={{ padding: "8px 16px", borderRadius: 8, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", color: "rgba(255,255,255,.6)", fontSize: 12, cursor: "pointer", opacity: page === totalPages ? 0.3 : 1 }}>Selanjutnya</button>
+            <button onClick={() => { setLoading(true); setPage(p => Math.min(p + 1, totalPages)) }} disabled={page === totalPages} style={{ padding: "8px 16px", borderRadius: 8, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", color: "rgba(255,255,255,.6)", fontSize: 12, cursor: "pointer", opacity: page === totalPages ? 0.3 : 1 }}>Selanjutnya</button>
           </div>
         )}
       </main>
