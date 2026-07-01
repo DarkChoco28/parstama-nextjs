@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback, type MouseEvent as ReactMouseEvent } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import FluidMenu from "./FluidMenu"
 import Preloader from "./Preloader"
 import RocketButton from "./RocketButton"
@@ -110,10 +111,10 @@ export default function LandingClient() {
       <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/6 h-20 sm:h-20 px-4 sm:px-6 flex items-center justify-between overflow-hidden">
         <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-1">
           <div className="relative w-11 h-11 sm:w-16 sm:h-16">
-            <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
+            <Image src="/smkn_logo.png" alt="SMKN" width={64} height={64} unoptimized className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
           </div>
           <div className="relative w-11 h-11 sm:w-16 sm:h-16">
-            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
+            <Image src="/parstama_logo.png" alt="PARSTAMA" width={64} height={64} unoptimized className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
           </div>
           <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#F97316,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             PARSTAMA
@@ -307,10 +308,10 @@ export default function LandingClient() {
           <div className="footer-col">
             <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4 no-underline">
               <div className="relative w-11 h-11 sm:w-16 sm:h-16">
-                <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
+                <Image src="/smkn_logo.png" alt="SMKN" width={64} height={64} unoptimized className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
               </div>
               <div className="relative w-11 h-11 sm:w-16 sm:h-16">
-                <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
+                <Image src="/parstama_logo.png" alt="PARSTAMA" width={64} height={64} unoptimized className="w-full h-full object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 8px rgba(232,122,26,0.3))" }} />
               </div>
               <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "16px", fontWeight: 700, background: "linear-gradient(90deg,#F97316,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 PARSTAMA
