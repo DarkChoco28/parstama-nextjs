@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
+import { createAuditLog } from "@/lib/audit-log"
+import { eventSchema } from "@/lib/validation"
 
 export async function GET(request: NextRequest) {
   const auth = await requireAdmin()
@@ -35,11 +37,11 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { title, description, location, startDate, endDate, allDay, color, category, isVisible } = body
-
-    if (!title?.trim() || !startDate) {
-      return NextResponse.json({ error: "Judul dan tanggal wajib diisi" }, { status: 400 })
+    const parsed = eventSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
     }
+    const { title, description, location, startDate, endDate, allDay, color, category, isVisible } = parsed.data
 
     const event = await prisma.event.create({
       data: {
@@ -53,6 +55,13 @@ export async function POST(request: NextRequest) {
         category: category || "Kegiatan",
         isVisible: isVisible ?? true,
       },
+    })
+
+    createAuditLog({
+      action: "create_event",
+      userEmail: auth.session?.user?.email || "unknown",
+      details: `Membuat event baru: "${title.trim()}"`,
+      ip: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined,
     })
 
     return NextResponse.json(event, { status: 201 })

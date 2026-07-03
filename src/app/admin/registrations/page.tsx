@@ -1,8 +1,9 @@
 "use client"
 
 import { useEffect, useState, useCallback } from "react"
-import { useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export default function AdminRegistrations() {
   const { data: session, status } = useSession()
@@ -23,14 +24,17 @@ export default function AdminRegistrations() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [detailData, setDetailData] = useState<any>(null)
   const [detailLoading, setDetailLoading] = useState(false)
+  const [currentTime, setCurrentTime] = useState("")
+  const [menuOpen, setMenuOpen] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
   const [emailSending, setEmailSending] = useState<string | null>(null)
   const [waSending, setWaSending] = useState<string | null>(null)
-  const [confirmSending, setConfirmSending] = useState<string | null>(null)
-  const [aiReview, setAiReview] = useState<any>(null)
-  const [aiReviewLoading, setAiReviewLoading] = useState(false)
 
   useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
+  useEffect(() => {
+    const update = () => setCurrentTime(new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" }))
+    update(); const i = setInterval(update, 1000); return () => clearInterval(i)
+  }, [])
 
   const buildFilterParams = useCallback(() => {
     const params = new URLSearchParams({ page: page.toString(), limit: "10" })
@@ -85,19 +89,8 @@ export default function AdminRegistrations() {
   const toggleSelectAll = () => setSelectedIds(p => p.length === registrations.length ? [] : registrations.map((r: any) => r.id))
   const viewDetail = async (id: string) => {
     setDetailLoading(true)
-    setAiReview(null)
     try { const r = await fetch(`/api/admin/registrations/${id}`); const d = await r.json(); setDetailData(d) }
     catch (e) { console.error(e) } finally { setDetailLoading(false) }
-  }
-
-  const runAiReview = async (id: string) => {
-    setAiReviewLoading(true)
-    setAiReview(null)
-    try {
-      const r = await fetch(`/api/admin/registrations/${id}/review`)
-      const d = await r.json()
-      setAiReview(d)
-    } catch (e) { console.error(e) } finally { setAiReviewLoading(false) }
   }
 
   const sendEmailNotif = async (registrationId: string) => {
@@ -130,21 +123,6 @@ export default function AdminRegistrations() {
     finally { setWaSending(null) }
   }
 
-  const sendConfirmNotif = async (registrationId: string) => {
-    setConfirmSending(registrationId)
-    try {
-      const r = await fetch("/api/send-confirmation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ registrationId }),
-      })
-      const d = await r.json()
-      if (r.ok) alert("Email konfirmasi berhasil dikirim!")
-      else alert(d.error || "Gagal mengirim email konfirmasi")
-    } catch (e) { console.error(e); alert("Gagal mengirim email konfirmasi") }
-    finally { setConfirmSending(null) }
-  }
-
   const getFilteredExportUrl = (type: "excel" | "pdf") => {
     const params = buildFilterParams()
     params.delete("page")
@@ -166,17 +144,70 @@ export default function AdminRegistrations() {
   const hasActiveFilters = statusFilter || searchQuery || classFilter || majorFilter || genderFilter || startDate || endDate
 
   if (status === "loading" || loading) {
-    return (<div className="admin-loading"><div className="admin-loading-spinner" /><span>Memuat data...</span></div>)
+    return (<div className="admin-loading"><div className="admin-loading-spinner" /><span>Memuat data...</span><style>{adminCss}</style></div>)
   }
   if (!session) return null
 
+  const navLinks = [
+    { href: "/admin/registrations", label: "Pendaftaran", icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg> },
+    { href: "/admin/profile", label: "Profile", icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> },
+    { href: "/admin/register", label: "+ Admin", icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg> },
+  ]
+
   return (
+    <div className="admin-page">
+      <style>{adminCss}</style>
+
+      <div className="admin-cross" style={{ top: "8%", right: "4%", width: 18, height: 18, animation: "dashCross1 10s ease-in-out infinite" }}>
+        <div className="cross-h" /><div className="cross-v" />
+      </div>
+
+      {/* NAVBAR */}
+      <nav className="admin-nav">
+        <div className="admin-nav-inner">
+          <div className="admin-nav-left">
+            <Link href="/admin/dashboard" className="admin-back-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+              <span className="admin-back-text">Dashboard</span>
+            </Link>
+            <div className="admin-divider" />
+            <div className="admin-logos">
+              <div className="admin-logo-wrap"><img src="/smkn_logo.png" alt="SMKN" className="admin-logo" /></div>
+              <div className="admin-logo-wrap"><img src="/parstama_logo.png" alt="PARSTAMA" className="admin-logo" /></div>
+            </div>
+            <div className="admin-nav-title">
+              <span className="admin-brand">Pendaftaran</span>
+              <span className="admin-time">{currentTime}</span>
+            </div>
+          </div>
+          <div className="admin-nav-links-desktop">
+            <Link href="/" className="admin-nav-link admin-home-link"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Website</Link>
+            <Link href="/admin/profile" className="admin-nav-link"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</Link>
+            <Link href="/admin/register" className="admin-nav-link"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>+ Admin</Link>
+            <button onClick={() => signOut({ callbackUrl: "/" })} className="admin-nav-link admin-logout-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Logout</button>
+          </div>
+          <button className="admin-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+            {menuOpen ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 12h18"/><path d="M3 6h18"/><path d="M3 18h18"/></svg>}
+          </button>
+        </div>
+        {menuOpen && (
+          <div className="admin-mobile-menu">
+            <Link href="/" className="admin-mobile-link admin-home-link" onClick={() => setMenuOpen(false)}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Kembali ke Website</Link>
+            <Link href="/admin/dashboard" className="admin-mobile-link" onClick={() => setMenuOpen(false)}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>Dashboard</Link>
+            <Link href="/admin/profile" className="admin-mobile-link" onClick={() => setMenuOpen(false)}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</Link>
+            <Link href="/admin/register" className="admin-mobile-link" onClick={() => setMenuOpen(false)}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>+ Admin</Link>
+            <button onClick={() => { signOut({ callbackUrl: "/" }); setMenuOpen(false) }} className="admin-mobile-link admin-logout-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Logout</button>
+          </div>
+        )}
+      </nav>
+
+      {/* MAIN */}
       <main className="admin-main">
-        <div className="admin-card" style={{ padding: 0 }}>
+        <div className="admin-card" style={{ padding: 0, overflow: "hidden" }}>
           {/* Filters */}
           <div className="reg-filters">
             <div className="reg-search-row">
-              <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchRegistrations() } }} placeholder="Cari nama, email, atau WhatsApp..." className="admin-input" style={{ flex: 1 }} />
+              <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchRegistrations() } }} placeholder="Cari nama, email, atau WhatsApp..." aria-label="Cari nama, email, atau WhatsApp" className="admin-input" style={{ flex: 1 }} />
               <button onClick={() => { setPage(1); fetchRegistrations() }} className="admin-btn-primary">Cari</button>
               <button onClick={() => setShowFilters(!showFilters)} className={`admin-btn-filter ${showFilters ? "admin-btn-filter-active" : ""}`}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"/></svg>
@@ -186,17 +217,17 @@ export default function AdminRegistrations() {
 
             {/* Quick filters */}
             <div className="reg-filter-row">
-              <select value={statusFilter} onChange={e => { setStatusFilter(e.target.value); setPage(1) }} className="admin-select">
+              <select value={statusFilter} onChange={e => { setStatusFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter status">
                 <option value="">Semua Status</option>
                 <option value="pending">Pending</option>
                 <option value="accepted">Diterima</option>
                 <option value="rejected">Ditolak</option>
               </select>
-              <select value={classFilter} onChange={e => { setClassFilter(e.target.value); setPage(1) }} className="admin-select">
+              <select value={classFilter} onChange={e => { setClassFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter kelas">
                 <option value="">Semua Kelas</option>
                 {filterOptions.classes.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <select value={majorFilter} onChange={e => { setMajorFilter(e.target.value); setPage(1) }} className="admin-select">
+              <select value={majorFilter} onChange={e => { setMajorFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter jurusan">
                 <option value="">Semua Jurusan</option>
                 {filterOptions.majors.map(m => <option key={m} value={m}>{m}</option>)}
               </select>
@@ -206,15 +237,15 @@ export default function AdminRegistrations() {
             {showFilters && (
               <div className="reg-advanced-filters">
                 <div className="reg-advanced-row">
-                  <select value={genderFilter} onChange={e => { setGenderFilter(e.target.value); setPage(1) }} className="admin-select">
+                  <select value={genderFilter} onChange={e => { setGenderFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter jenis kelamin">
                     <option value="">Semua Jenis Kelamin</option>
                     <option value="L">Laki-laki</option>
                     <option value="P">Perempuan</option>
                   </select>
                   <div className="reg-date-range">
-                    <input type="date" value={startDate} onChange={e => { setStartDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Dari tanggal" />
+                    <input type="date" value={startDate} onChange={e => { setStartDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Dari tanggal" aria-label="Filter dari tanggal" />
                     <span className="reg-date-separator">s/d</span>
-                    <input type="date" value={endDate} onChange={e => { setEndDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Sampai tanggal" />
+                    <input type="date" value={endDate} onChange={e => { setEndDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Sampai tanggal" aria-label="Filter sampai tanggal" />
                   </div>
                 </div>
                 {hasActiveFilters && (
@@ -258,21 +289,16 @@ export default function AdminRegistrations() {
                   <div className="reg-mobile-field"><span>JK</span><span>{r.gender === "L" ? "Laki-laki" : "Perempuan"}</span></div>
                 </div>
                 <div className="reg-mobile-actions">
-                  <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm">
+                  <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm" aria-label="Ubah status pendaftaran">
                     <option value="pending">Pending</option>
                     <option value="accepted">Diterima</option>
                     <option value="rejected">Ditolak</option>
                   </select>
                   <button onClick={() => viewDetail(r.id)} className="admin-btn-blue-sm">Lihat</button>
                   {r.email && (
-                    <>
-                      <button onClick={() => sendConfirmNotif(r.id)} disabled={confirmSending === r.id} className="admin-btn-orange-sm">
-                        {confirmSending === r.id ? "..." : "Konfirmasi"}
-                      </button>
-                      <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
-                        {emailSending === r.id ? "..." : "Email"}
-                      </button>
-                    </>
+                    <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
+                      {emailSending === r.id ? "..." : "Email"}
+                    </button>
                   )}
                   <button onClick={() => sendWaNotif(r.id)} disabled={waSending === r.id} className="admin-btn-wa-sm">
                     {waSending === r.id ? "..." : "WA"}
@@ -312,17 +338,12 @@ export default function AdminRegistrations() {
                     <td className="admin-td"><span className={`reg-badge reg-badge-${r.status}`}>{r.status === "pending" ? "Pending" : r.status === "accepted" ? "Diterima" : "Ditolak"}</span></td>
                     <td className="admin-td">
                       <div className="reg-action-btns">
-                        <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm"><option value="pending">Pending</option><option value="accepted">Diterima</option><option value="rejected">Ditolak</option></select>
+                        <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm" aria-label="Ubah status pendaftaran"><option value="pending">Pending</option><option value="accepted">Diterima</option><option value="rejected">Ditolak</option></select>
                         <button onClick={() => viewDetail(r.id)} className="admin-btn-blue-sm">Lihat</button>
                         {r.email && (
-                          <>
-                            <button onClick={() => sendConfirmNotif(r.id)} disabled={confirmSending === r.id} className="admin-btn-orange-sm">
-                              {confirmSending === r.id ? "..." : "Konfirmasi"}
-                            </button>
-                            <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
-                              {emailSending === r.id ? "..." : "Email"}
-                            </button>
-                          </>
+                          <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
+                            {emailSending === r.id ? "..." : "Email"}
+                          </button>
                         )}
                         <button onClick={() => sendWaNotif(r.id)} disabled={waSending === r.id} className="admin-btn-wa-sm">
                           {waSending === r.id ? "..." : "WA"}
@@ -346,6 +367,7 @@ export default function AdminRegistrations() {
             </div>
           </div>
         </div>
+      </main>
 
       {/* DETAIL MODAL */}
       {detailData && (
@@ -355,23 +377,15 @@ export default function AdminRegistrations() {
             <div className="reg-modal-header">
               <h2 className="reg-modal-title">Detail Pendaftaran</h2>
               <div className="reg-modal-header-actions">
-                <button onClick={() => runAiReview(detailData.id)} disabled={aiReviewLoading} className="admin-btn-purple-sm">
-                  {aiReviewLoading ? "..." : "🤖 Review AI"}
-                </button>
                 {detailData.email && (
-                  <>
-                    <button onClick={() => sendConfirmNotif(detailData.id)} disabled={confirmSending === detailData.id} className="admin-btn-orange-sm">
-                      {confirmSending === detailData.id ? "..." : "Konfirmasi"}
-                    </button>
-                    <button onClick={() => sendEmailNotif(detailData.id)} disabled={emailSending === detailData.id} className="admin-btn-email-sm">
-                      {emailSending === detailData.id ? "..." : "Kirim Email"}
-                    </button>
-                  </>
+                  <button onClick={() => sendEmailNotif(detailData.id)} disabled={emailSending === detailData.id} className="admin-btn-email-sm">
+                    {emailSending === detailData.id ? "..." : "Kirim Email"}
+                  </button>
                 )}
                 <button onClick={() => sendWaNotif(detailData.id)} disabled={waSending === detailData.id} className="admin-btn-wa-sm">
                   {waSending === detailData.id ? "..." : "Kirim WA"}
                 </button>
-                <button onClick={() => setDetailData(null)} className="reg-modal-close">
+                <button onClick={() => setDetailData(null)} className="reg-modal-close" aria-label="Tutup">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
                 </button>
               </div>
@@ -406,49 +420,13 @@ export default function AdminRegistrations() {
                   {detailData.medicalHistory && <ModalSection title="Riwayat Medis"><p className="reg-modal-text">{detailData.medicalHistory}</p></ModalSection>}
                   <ModalSection title="Motivasi"><p className="reg-modal-text">{detailData.motivation}</p></ModalSection>
                   {detailData.organizationExperience && <ModalSection title="Pengalaman Organisasi"><p className="reg-modal-text">{detailData.organizationExperience}</p></ModalSection>}
-
-                  {/* AI Review Results */}
-                  {aiReview && (
-                    <ModalSection title="🤖 Review AI">
-                      <div style={{ marginBottom: 12 }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                          <span style={{
-                            padding: "4px 12px", borderRadius: 8, fontSize: 12, fontWeight: 700,
-                            background: aiReview.suggestion === "accept" ? "rgba(52,211,153,0.15)" : aiReview.suggestion === "reject" ? "rgba(239,68,68,0.15)" : "rgba(252,211,77,0.15)",
-                            color: aiReview.suggestion === "accept" ? "#34D399" : aiReview.suggestion === "reject" ? "#EF4444" : "#FCD34D",
-                            border: `1px solid ${aiReview.suggestion === "accept" ? "rgba(52,211,153,0.3)" : aiReview.suggestion === "reject" ? "rgba(239,68,68,0.3)" : "rgba(252,211,77,0.3)"}`,
-                          }}>
-                            {aiReview.suggestion === "accept" ? "✅ Disarankan Diterima" : aiReview.suggestion === "reject" ? "❌ Disarankan Ditolak" : "⏳ Perlu Review Manual"}
-                          </span>
-                          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>Skor: {aiReview.score}/10</span>
-                        </div>
-                        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.6, marginBottom: 12 }}>{aiReview.reasoning}</p>
-                        {aiReview.strengths?.length > 0 && (
-                          <div style={{ marginBottom: 8 }}>
-                            <span style={{ fontSize: 11, fontWeight: 700, color: "#34D399", marginBottom: 4, display: "block" }}>Kekuatan:</span>
-                            {aiReview.strengths.map((s: string, i: number) => (
-                              <div key={i} style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", paddingLeft: 12, marginBottom: 2 }}>• {s}</div>
-                            ))}
-                          </div>
-                        )}
-                        {aiReview.concerns?.length > 0 && (
-                          <div>
-                            <span style={{ fontSize: 11, fontWeight: 700, color: "#FCD34D", marginBottom: 4, display: "block" }}>Kekhawatiran:</span>
-                            {aiReview.concerns.map((c: string, i: number) => (
-                              <div key={i} style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", paddingLeft: 12, marginBottom: 2 }}>• {c}</div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </ModalSection>
-                  )}
                 </>
               )}
             </div>
           </div>
         </div>
       )}
-      </main>
+    </div>
   )
 }
 
@@ -469,3 +447,158 @@ function ModalField({ label, value }: { label: string; value: string }) {
   )
 }
 
+const adminCss = `
+@keyframes modalIn { from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)} }
+
+/* REG FILTERS */
+.reg-filters{padding:16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.reg-search-row{display:flex;gap:8px;margin-bottom:10px}
+.reg-filter-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.reg-advanced-filters{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.04)}
+.reg-advanced-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.reg-date-range{display:flex;align-items:center;gap:6px}
+.reg-date-separator{color:rgba(255,255,255,.3);font-size:12px}
+.reg-filter-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.04)}
+.reg-result-count{font-size:12px;color:rgba(255,255,255,.4)}
+.reg-filter-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+
+/* REG MOBILE LIST */
+.reg-mobile-list{display:none}
+
+/* TABLE */
+.reg-desktop-table{overflow-x:auto}
+.admin-table{width:100%;border-collapse:collapse}
+.admin-th{padding:12px 16px;text-align:left;font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid rgba(255,255,255,.06);white-space:nowrap}
+.admin-td{padding:12px 16px;font-size:13px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+.admin-td-bold{font-weight:600;color:#fff}
+.admin-td-muted{color:rgba(255,255,255,.5)}
+.admin-tr:hover{background:rgba(255,255,255,.03)}
+.reg-action-btns{display:flex;gap:6px;align-items:center;white-space:nowrap}
+
+/* BADGES */
+.reg-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700}
+.reg-badge-pending{background:rgba(252,211,77,.15);color:#FCD34D;border:1px solid rgba(252,211,77,.3)}
+.reg-badge-accepted{background:rgba(52,211,153,.15);color:#34D399;border:1px solid rgba(52,211,153,.3)}
+.reg-badge-rejected{background:rgba(239,68,68,.15);color:#EF4444;border:1px solid rgba(239,68,68,.3)}
+
+/* PAGINATION */
+.reg-pagination{padding:14px 16px;border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
+.reg-page-info{font-size:12px;color:rgba(255,255,255,.4)}
+.reg-page-btns{display:flex;gap:8px}
+.reg-empty{padding:40px 16px;text-align:center;color:rgba(255,255,255,.3);font-size:13px}
+
+/* MODAL */
+.reg-modal-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);padding:0}
+.reg-modal{background:rgba(20,20,22,.95);backdrop-filter:blur(24px);border-radius:20px 20px 0 0;border:1px solid rgba(220,38,38,.2);width:100%;max-height:92vh;overflow:hidden;box-shadow:0 0 40px rgba(220,38,38,.08),0 -10px 40px rgba(0,0,0,.5);animation:modalIn .3s ease;display:flex;flex-direction:column}
+.reg-modal-draghandle{display:none}
+.reg-modal-header{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.reg-modal-header-actions{display:flex;align-items:center;gap:8px}
+.reg-modal-title{font-family:var(--font-sansita),Georgia,serif;font-size:17px;font-weight:700;color:#fff}
+.reg-modal-close{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px;cursor:pointer;color:rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;width:32px;height:32px;transition:all .2s}
+.reg-modal-close:hover{background:rgba(239,68,68,.15);color:#EF4444}
+.reg-modal-body{padding:20px;overflow-y:auto;flex:1}
+.reg-modal-loading{text-align:center;padding:40px;color:rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;gap:10px}
+.reg-modal-status{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.reg-modal-date{font-size:11px;color:rgba(255,255,255,.35)}
+.reg-modal-section-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.reg-modal-section{background:rgba(255,255,255,.03);border-radius:12px;padding:12px 14px;border:1px solid rgba(255,255,255,.05)}
+.reg-modal-field{display:flex;justify-content:space-between;align-items:flex-start;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);gap:8px}
+.reg-modal-field:last-child{border-bottom:none;padding-bottom:0}
+.reg-modal-field-label{font-size:12px;color:rgba(255,255,255,.4);flex-shrink:0}
+.reg-modal-field-value{font-size:12px;font-weight:600;color:#fff;text-align:right;word-break:break-word}
+.reg-modal-text{color:rgba(255,255,255,.6);font-size:12px;line-height:1.7;white-space:pre-wrap;margin:0}
+
+@media(min-width:640px){
+  .admin-nav-inner{padding:0 24px;height:68px}
+  .admin-back-text{display:inline}
+  .admin-logo-wrap{width:32px;height:32px}
+  .admin-logo{width:32px;height:32px}
+  .admin-brand{font-size:15px}
+  .admin-time{font-size:11px}
+  .admin-main{padding:24px}
+  .reg-filters{padding:20px 24px}
+  .admin-th,.admin-td{padding:14px 20px}
+  .reg-pagination{padding:16px 24px}
+  .reg-modal-overlay{align-items:center;padding:16px}
+  .reg-modal{border-radius:20px;max-height:85vh}
+  .reg-modal-header{padding:20px 24px}
+  .reg-modal-body{padding:24px}
+  .reg-advanced-row{flex-wrap:nowrap}
+  .reg-date-range{flex:1}
+  .reg-date-range .admin-input{width:auto;flex:1}
+}
+
+@media(min-width:768px){
+  .admin-hamburger{display:none!important}
+  .admin-mobile-menu{display:none!important}
+  .admin-nav-links-desktop{display:flex!important}
+}
+
+@media(max-width:767px){
+  .admin-nav-links-desktop{display:none}
+  .admin-hamburger{display:flex}
+  .admin-mobile-menu{display:flex}
+  .reg-desktop-table{display:none}
+  .reg-mobile-list{display:flex;flex-direction:column;gap:0}
+  .reg-mobile-card{padding:16px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);transition:background .2s}
+  .reg-mobile-card:active{background:rgba(255,255,255,.05)}
+  .reg-mobile-card:last-child{border-bottom:none}
+  .reg-mobile-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .reg-mobile-idx{font-size:11px;font-weight:700;color:rgba(220,38,38,.6);background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.2);border-radius:6px;padding:2px 7px;flex-shrink:0;line-height:1}
+  .reg-mobile-name{font-size:15px;font-weight:700;color:#fff;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .reg-mobile-fields{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;padding:12px;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid rgba(255,255,255,.04)}
+  .reg-mobile-field{display:flex;justify-content:space-between;font-size:13px;gap:8px}
+  .reg-mobile-field span:first-child{color:rgba(255,255,255,.4);flex-shrink:0}
+  .reg-mobile-field span:last-child{color:rgba(255,255,255,.8);text-align:right;word-break:break-word;font-weight:500}
+  .reg-mobile-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .reg-mobile-actions .admin-select-sm{flex:1;padding:10px 12px;font-size:12px;border-radius:10px}
+  .reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm,.reg-mobile-actions .admin-btn-wa-sm{flex:1;padding:10px 12px;font-size:12px;text-align:center;border-radius:10px}
+  .reg-filter-row{flex-direction:column;align-items:stretch}
+  .reg-filter-row .admin-select{width:100%;padding:12px;font-size:13px}
+  .reg-advanced-row{flex-direction:column;align-items:stretch}
+  .reg-advanced-row .admin-select{width:100%;padding:12px;font-size:13px}
+  .reg-date-range{width:100%}
+  .reg-date-range .admin-input{flex:1;padding:12px;font-size:13px}
+  .reg-date-separator{font-size:13px}
+  .reg-filter-footer{flex-direction:column;gap:10px;align-items:stretch}
+  .reg-filter-actions{justify-content:stretch;gap:8px}
+  .reg-filter-actions a,.reg-filter-actions button{flex:1;text-align:center;padding:10px 12px;font-size:12px;border-radius:10px}
+  .reg-page-btns{gap:8px}
+  .reg-page-btns button{flex:1;padding:12px;font-size:13px}
+  .reg-pagination{padding:16px;flex-direction:column;gap:12px;text-align:center}
+  .reg-page-btns{width:100%}
+  .reg-modal-overlay{align-items:flex-end;padding:0}
+  .reg-modal{border-radius:20px 20px 0 0;max-height:95vh}
+  .reg-modal-draghandle{display:block;width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:4px;margin:12px auto 0}
+  .reg-modal-header{padding:16px 20px}
+  .reg-modal-title{font-size:16px}
+  .reg-modal-body{padding:16px 20px}
+  .reg-modal-field{flex-direction:column;gap:4px;padding:10px 0}
+  .reg-modal-field-value{text-align:left;font-size:13px}
+  .reg-modal-field-label{font-size:12px}
+  .reg-modal-section{padding:14px}
+  .reg-filters{padding:14px}
+  .reg-search-row{gap:10px}
+  .admin-input{padding:12px 14px;font-size:14px}
+  .admin-btn-primary{padding:12px 20px;font-size:14px}
+  .reg-empty{padding:60px 20px;font-size:14px}
+}
+
+@media(max-width:380px){
+  .admin-nav-inner{height:56px;padding:0 12px}
+  .admin-logo-wrap{width:24px;height:24px}
+  .admin-logo{width:24px;height:24px}
+  .admin-brand{font-size:12px}
+  .admin-main{padding:12px}
+  .reg-filters{padding:12px}
+  .admin-input{padding:10px 12px;font-size:13px}
+  .reg-mobile-card{padding:14px}
+  .reg-mobile-idx{font-size:10px;padding:2px 6px}
+  .reg-mobile-name{font-size:14px}
+  .reg-mobile-fields{padding:10px}
+  .reg-mobile-field{font-size:12px}
+  .reg-mobile-actions .admin-select-sm,.reg-mobile-actions .admin-btn-blue-sm,.reg-mobile-actions .admin-btn-danger-sm,.reg-mobile-actions .admin-btn-email-sm,.reg-mobile-actions .admin-btn-wa-sm{padding:9px 10px;font-size:11px}
+  .reg-badge{font-size:10px;padding:3px 10px}
+  .reg-page-btns button{padding:10px;font-size:12px}
+}
+`

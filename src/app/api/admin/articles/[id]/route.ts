@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
+import { createAuditLog } from "@/lib/audit-log"
+import { articleSchema } from "@/lib/validation"
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const auth = await requireAdmin()
@@ -24,7 +26,11 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   try {
     const { id } = await params
     const body = await request.json()
-    const { title, excerpt, content, coverImage, author, category, isPublished } = body
+    const parsed = articleSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
+    }
+    const { title, excerpt, content, coverImage, author, category, isPublished } = parsed.data
 
     const existing = await prisma.article.findUnique({ where: { id } })
     if (!existing) return NextResponse.json({ error: "Artikel tidak ditemukan" }, { status: 404 })
@@ -39,6 +45,12 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     if (isPublished !== undefined) data.isPublished = isPublished
 
     const article = await prisma.article.update({ where: { id }, data })
+    createAuditLog({
+      action: "update_article",
+      userEmail: auth.session?.user?.email || "unknown",
+      details: `Mengupdate artikel: "${existing.title}" → "${article.title}"`,
+      ip: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined,
+    })
     return NextResponse.json(article)
   } catch (error) {
     console.error("Error updating article:", error)
@@ -46,13 +58,22 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   }
 }
 
-export async function DELETE(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const auth = await requireAdmin()
   if (auth.error) return auth.error
 
   try {
     const { id } = await params
+    const existing = await prisma.article.findUnique({ where: { id } })
+    if (!existing) return NextResponse.json({ error: "Artikel tidak ditemukan" }, { status: 404 })
+
     await prisma.article.delete({ where: { id } })
+    createAuditLog({
+      action: "delete_article",
+      userEmail: auth.session?.user?.email || "unknown",
+      details: `Menghapus artikel: "${existing.title}"`,
+      ip: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined,
+    })
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Error deleting article:", error)

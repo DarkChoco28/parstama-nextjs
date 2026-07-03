@@ -107,8 +107,8 @@ export default function AdminEvents() {
         {/* Filters */}
         <div className="admin-card" style={{ padding: "14px 16px", marginBottom: 16 }}>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-            <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchEvents() } }} placeholder="Cari event..." className="admin-input" style={{ flex: 1, minWidth: 150 }} />
-            <select value={categoryFilter} onChange={e => { setCategoryFilter(e.target.value); setPage(1) }} className="admin-select">
+            <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchEvents() } }} placeholder="Cari event..." aria-label="Cari event" className="admin-input" style={{ flex: 1, minWidth: 150 }} />
+            <select value={categoryFilter} onChange={e => { setCategoryFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter kategori">
               <option value="">Semua Kategori</option>
               <option value="Pelatihan">Pelatihan</option>
               <option value="Rapat">Rapat</option>
@@ -176,37 +176,37 @@ export default function AdminEvents() {
           <div className="reg-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 560 }}>
             <div className="reg-modal-header">
               <h2 className="reg-modal-title">{editing ? "Edit Event" : "Event Baru"}</h2>
-              <button onClick={closeForm} className="reg-modal-close">
+              <button onClick={closeForm} className="reg-modal-close" aria-label="Tutup">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
               </button>
             </div>
             <div className="reg-modal-body" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               <div>
                 <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Judul *</label>
-                <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="admin-input" placeholder="Nama event" />
+                <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="admin-input" placeholder="Nama event" aria-label="Judul" />
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 <div>
                   <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Tanggal Mulai *</label>
-                  <input type="datetime-local" value={form.startDate} onChange={e => setForm({ ...form, startDate: e.target.value })} className="admin-input" />
+                  <input type="datetime-local" value={form.startDate} onChange={e => setForm({ ...form, startDate: e.target.value })} className="admin-input" aria-label="Tanggal Mulai" />
                 </div>
                 <div>
                   <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Tanggal Selesai</label>
-                  <input type="datetime-local" value={form.endDate} onChange={e => setForm({ ...form, endDate: e.target.value })} className="admin-input" />
+                  <input type="datetime-local" value={form.endDate} onChange={e => setForm({ ...form, endDate: e.target.value })} className="admin-input" aria-label="Tanggal Selesai" />
                 </div>
               </div>
               <div>
                 <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Deskripsi</label>
-                <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="admin-input" rows={3} placeholder="Deskripsi event..." style={{ resize: "vertical" }} />
+                <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="admin-input" rows={3} placeholder="Deskripsi event..." aria-label="Deskripsi" style={{ resize: "vertical" }} />
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 <div>
                   <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Lokasi</label>
-                  <input value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} className="admin-input" placeholder="Lokasi" />
+                  <input value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} className="admin-input" placeholder="Lokasi" aria-label="Lokasi" />
                 </div>
                 <div>
                   <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Kategori</label>
-                  <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="admin-select" style={{ width: "100%", padding: "10px 12px" }}>
+                  <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="admin-select" aria-label="Kategori" style={{ width: "100%", padding: "10px 12px" }}>
                     <option value="Pelatihan">Pelatihan</option>
                     <option value="Rapat">Rapat</option>
                     <option value="Kegiatan">Kegiatan</option>
@@ -217,9 +217,11 @@ export default function AdminEvents() {
               <div>
                 <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 6, display: "block" }}>Warna</label>
                 <div style={{ display: "flex", gap: 8 }}>
-                  {eventColors.map(c => (
-                    <button key={c} onClick={() => setForm({ ...form, color: c })} style={{ width: 28, height: 28, borderRadius: 8, background: c, border: form.color === c ? "2px solid #fff" : "2px solid transparent", cursor: "pointer", transition: "all .2s" }} />
-                  ))}
+                  {eventColors.map(c => {
+                    const colorNames: Record<string, string> = { "#EF4444": "Merah", "#F97316": "Oranye", "#22C55E": "Hijau", "#3B82F6": "Biru", "#A855F7": "Ungu", "#EC4899": "Pink" };
+                    return (
+                    <button key={c} onClick={() => setForm({ ...form, color: c })} aria-label={colorNames[c] || "Warna"} style={{ width: 28, height: 28, borderRadius: 8, background: c, border: form.color === c ? "2px solid #fff" : "2px solid transparent", cursor: "pointer", transition: "all .2s" }} />
+                  )})}
                 </div>
               </div>
               <div style={{ display: "flex", gap: 16, alignItems: "center" }}>

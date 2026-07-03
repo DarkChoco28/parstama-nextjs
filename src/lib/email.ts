@@ -1,4 +1,4 @@
-import { Resend } from "resend"
+import { WA_LINK, WA_NUMBER } from "@/lib/constants"
 
 interface SendEmailOptions {
   to: string
@@ -6,37 +6,35 @@ interface SendEmailOptions {
   html: string
 }
 
-function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;")
-}
-
 export async function sendEmail({ to, subject, html }: SendEmailOptions) {
   const apiKey = process.env.RESEND_API_KEY
-  const senderEmail = process.env.RESEND_SENDER_EMAIL
+  const senderEmail = process.env.RESEND_SENDER_EMAIL || "admin@parstama.my.id"
 
-  if (!apiKey || !senderEmail) {
-    throw new Error("Resend API credentials belum dikonfigurasi")
+  if (!apiKey) {
+    throw new Error("Resend API key belum dikonfigurasi")
   }
 
-  const resend = new Resend(apiKey)
-
-  const { data, error } = await resend.emails.send({
-    from: `PARSTAMA <${senderEmail}>`,
-    to: [to],
-    subject,
-    html,
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      from: senderEmail,
+      to,
+      subject,
+      html,
+    }),
   })
 
-  if (error) {
-    throw new Error(error.message || "Gagal mengirim email via Resend")
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.message || `Resend API error: ${res.status}`)
   }
 
-  return { messageId: data?.id || `resend-${Date.now()}` }
+  const data = await res.json()
+  return { messageId: data.id }
 }
 
 export function buildStatusEmail(
@@ -84,7 +82,7 @@ export function buildStatusEmail(
               Assalamu'alaikum Wr. Wb.
             </p>
             <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
-              Halo <strong style="color:#fff">${escapeHtml(fullName)}</strong>,
+              Halo <strong style="color:#fff">${fullName}</strong>,
             </p>
             <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
               Status pendaftaran Anda di PARSTAMA adalah:
@@ -97,13 +95,13 @@ export function buildStatusEmail(
             ${extraMessage}
             <div style="background:rgba(255,255,255,.03);border-radius:12px;padding:16px;margin:20px 0;border:1px solid rgba(255,255,255,.06)">
               <p style="color:rgba(255,255,255,.4);font-size:11px;margin:0 0 8px;text-transform:uppercase;letter-spacing:1px">Data Pendaftaran</p>
-              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Nama:</strong> ${escapeHtml(fullName)}</p>
-              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Kelas:</strong> ${escapeHtml(className)} - ${escapeHtml(major)}</p>
-              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">WhatsApp:</strong> ${escapeHtml(whatsapp)}</p>
-              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Email:</strong> ${escapeHtml(email)}</p>
+              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Nama:</strong> ${fullName}</p>
+              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Kelas:</strong> ${className} - ${major}</p>
+              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">WhatsApp:</strong> ${whatsapp}</p>
+              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Email:</strong> ${email}</p>
             </div>
             <p style="color:rgba(255,255,255,.5);font-size:12px;margin:20px 0 0;line-height:1.6">
-              Jika ada pertanyaan, silakan hubungi admin via WhatsApp di <a href="https://wa.me/6281459145800" style="color:#DC2626;text-decoration:none">0814-5914-5800</a>.
+              Jika ada pertanyaan, silakan hubungi admin via WhatsApp di <a href="${WA_LINK}" style="color:#DC2626;text-decoration:none">${WA_NUMBER}</a>.
             </p>
             <p style="color:rgba(255,255,255,.3);font-size:11px;margin:24px 0 0;text-align:center">
               Hormat kami,<br>Admin PARSTAMA
@@ -123,9 +121,9 @@ export function buildRegistrationConfirmationEmail(
   className: string,
   major: string,
   whatsapp: string,
-  email: string,
+  email: string
 ) {
-  const subject = `Pendaftaran PARSTAMA Berhasil - ${fullName}`
+  const subject = "Konfirmasi Pendaftaran PARSTAMA"
 
   const html = `
     <!DOCTYPE html>
@@ -136,41 +134,31 @@ export function buildRegistrationConfirmationEmail(
     </head>
     <body style="margin:0;padding:0;background:#0A0A0B;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif">
       <div style="max-width:600px;margin:0 auto;padding:20px">
-        <div style="background:rgba(20,20,22,.9);border-radius:16px;border:1px solid rgba(220,38,38,.2);overflow:hidden">
-          <div style="background:linear-gradient(135deg,#DC2626,#EF4444);padding:24px;text-align:center">
+        <div style="background:rgba(20,20,22,.9);border-radius:16px;border:1px solid rgba(232,122,26,.2);overflow:hidden">
+          <div style="background:linear-gradient(135deg,#E87A1A,#F97316);padding:24px;text-align:center">
             <h1 style="color:#fff;margin:0;font-size:20px">PARSTAMA</h1>
-            <p style="color:rgba(255,255,255,.8);margin:8px 0 0;font-size:13px">Konfirmasi Pendaftaran</p>
+            <p style="color:rgba(255,255,255,.8);margin:8px 0 0;font-size:13px">SMKN 1 Singosari</p>
           </div>
           <div style="padding:24px">
             <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 16px">
               Assalamu'alaikum Wr. Wb.
             </p>
             <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
-              Halo <strong style="color:#fff">${escapeHtml(fullName)}</strong>,
+              Halo <strong style="color:#fff">${fullName}</strong>,
             </p>
             <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
-              Terima kasih telah mendaftar sebagai anggota <strong style="color:#DC2626">PARSTAMA</strong> SMKN 1 Singosari. Pendaftaran Anda telah <strong style="color:#34D399">BERHASIL DITERIMA</strong> dan sedang dalam proses verifikasi oleh admin.
-            </p>
-            <div style="text-align:center;margin:20px 0">
-              <span style="display:inline-block;padding:12px 32px;background:rgba(252,211,77,.12);color:#FCD34D;border:1px solid rgba(252,211,77,.3);border-radius:8px;font-size:16px;font-weight:700">
-                STATUS: PENDING
-              </span>
-            </div>
-            <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
-              Admin akan segera menghubungi Anda via WhatsApp untuk informasi tahap selanjutnya. Mohon pastikan nomor WhatsApp Anda aktif.
+              Pendaftaran Anda di <strong style="color:#E87A1A">PARSTAMA</strong> telah berhasil diterima dan dikonfirmasi.
             </p>
             <div style="background:rgba(255,255,255,.03);border-radius:12px;padding:16px;margin:20px 0;border:1px solid rgba(255,255,255,.06)">
               <p style="color:rgba(255,255,255,.4);font-size:11px;margin:0 0 8px;text-transform:uppercase;letter-spacing:1px">Data Pendaftaran</p>
-              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Nama:</strong> ${escapeHtml(fullName)}</p>
-              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Kelas:</strong> ${escapeHtml(className)} - ${escapeHtml(major)}</p>
-              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">WhatsApp:</strong> ${escapeHtml(whatsapp)}</p>
-              ${email ? `<p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Email:</strong> ${escapeHtml(email)}</p>` : ""}
+              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Nama:</strong> ${fullName}</p>
+              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Kelas:</strong> ${className} - ${major}</p>
+              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">WhatsApp:</strong> ${whatsapp}</p>
+              <p style="color:rgba(255,255,255,.7);font-size:13px;margin:4px 0"><strong style="color:#fff">Email:</strong> ${email}</p>
             </div>
-            <div style="background:rgba(220,38,38,.08);border-radius:12px;padding:16px;margin:20px 0;border:1px solid rgba(220,38,38,.2)">
-              <p style="color:rgba(255,255,255,.6);font-size:13px;margin:0;line-height:1.6">
-                <strong style="color:#EF4444">Catatan:</strong> Simpan email ini sebagai bukti pendaftaran Anda. Jika ada pertanyaan, silakan hubungi admin via WhatsApp di <a href="https://wa.me/6281459145800" style="color:#DC2626;text-decoration:none">0814-5914-5800</a>.
-              </p>
-            </div>
+            <p style="color:rgba(255,255,255,.5);font-size:12px;margin:20px 0 0;line-height:1.6">
+              Jika ada pertanyaan, silakan hubungi admin via WhatsApp di <a href="${WA_LINK}" style="color:#E87A1A;text-decoration:none">${WA_NUMBER}</a>.
+            </p>
             <p style="color:rgba(255,255,255,.3);font-size:11px;margin:24px 0 0;text-align:center">
               Hormat kami,<br>Admin PARSTAMA
             </p>

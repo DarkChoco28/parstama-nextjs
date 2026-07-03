@@ -153,12 +153,12 @@ export default function AdminOrganization() {
                     {m.division && <div className="org-member-division">{m.division}</div>}
                     {m.period && <div className="org-member-period">{m.period}</div>}
                     <div className="org-member-actions">
-                      <button onClick={() => moveOrder(m, -1)} className="org-action-btn" title="Naikkan"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 15l-6-6-6 6"/></svg></button>
-                      <button onClick={() => moveOrder(m, 1)} className="org-action-btn" title="Turunkan"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
-                      <button onClick={() => toggleVisibility(m)} className={`org-action-btn ${m.isVisible ? "org-vis-toggle-on" : "org-vis-toggle-off"}`} title={m.isVisible ? "Sembunyikan" : "Tampilkan"}>
+                      <button onClick={() => moveOrder(m, -1)} className="org-action-btn" title="Naikkan" aria-label="Naikkan urutan"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 15l-6-6-6 6"/></svg></button>
+                      <button onClick={() => moveOrder(m, 1)} className="org-action-btn" title="Turunkan" aria-label="Turunkan urutan"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+                      <button onClick={() => toggleVisibility(m)} className={`org-action-btn ${m.isVisible ? "org-vis-toggle-on" : "org-vis-toggle-off"}`} title={m.isVisible ? "Sembunyikan" : "Tampilkan"} aria-label={m.isVisible ? "Sembunyikan" : "Tampilkan"}>
                         {m.isVisible ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> : <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>}
                       </button>
-                      <button onClick={() => openEdit(m)} className="org-action-btn org-action-edit" title="Edit"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                      <button onClick={() => openEdit(m)} className="org-action-btn org-action-edit" title="Edit" aria-label="Edit anggota"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
                       {deleteConfirm === m.id ? (
                         <div className="org-delete-confirm">
                           <span>Hapus?</span>
@@ -166,7 +166,7 @@ export default function AdminOrganization() {
                           <button onClick={() => setDeleteConfirm(null)} className="org-del-no">Batal</button>
                         </div>
                       ) : (
-                        <button onClick={() => setDeleteConfirm(m.id)} className="org-action-btn org-action-delete" title="Hapus"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+                        <button onClick={() => setDeleteConfirm(m.id)} className="org-action-btn org-action-delete" title="Hapus" aria-label="Hapus anggota"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
                       )}
                     </div>
                   </div>
@@ -184,37 +184,37 @@ export default function AdminOrganization() {
             <div className="org-modal-draghandle" />
             <div className="org-modal-header">
               <h2 className="org-modal-title">{editingMember ? "Edit Anggota" : "Tambah Anggota"}</h2>
-              <button onClick={closeForm} className="org-modal-close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg></button>
+              <button onClick={closeForm} className="org-modal-close" aria-label="Tutup"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg></button>
             </div>
             <div className="org-modal-body">
               <div className="org-form-group">
                 <label className="org-label">Nama <span className="org-required">*</span></label>
-                <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="admin-input" placeholder="Nama lengkap" />
+                <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="admin-input" placeholder="Nama lengkap" aria-label="Nama" />
               </div>
               <div className="org-form-group">
                 <label className="org-label">Nama Panggilan</label>
-                <input type="text" value={form.nickname} onChange={e => setForm({ ...form, nickname: e.target.value })} className="admin-input" placeholder="Nama panggilan (opsional)" />
+                <input type="text" value={form.nickname} onChange={e => setForm({ ...form, nickname: e.target.value })} className="admin-input" placeholder="Nama panggilan (opsional)" aria-label="Nama Panggilan" />
               </div>
               <div className="org-form-group">
                 <label className="org-label">Posisi <span className="org-required">*</span></label>
-                <input type="text" value={form.position} onChange={e => setForm({ ...form, position: e.target.value })} className="admin-input" placeholder="Ketua, Sekretaris, dll." />
+                <input type="text" value={form.position} onChange={e => setForm({ ...form, position: e.target.value })} className="admin-input" placeholder="Ketua, Sekretaris, dll." aria-label="Posisi" />
               </div>
               <div className="org-form-group">
                 <label className="org-label">Divisi</label>
-                <input type="text" value={form.division} onChange={e => setForm({ ...form, division: e.target.value })} className="admin-input" placeholder="Bidang Keorganisasian, dll." />
+                <input type="text" value={form.division} onChange={e => setForm({ ...form, division: e.target.value })} className="admin-input" placeholder="Bidang Keorganisasian, dll." aria-label="Divisi" />
               </div>
               <div className="org-form-group">
                 <label className="org-label">Deskripsi Divisi</label>
-                <textarea value={form.divisionDesc} onChange={e => setForm({ ...form, divisionDesc: e.target.value })} className="admin-input" rows={2} placeholder="Penjelasan singkat tentang divisi ini..." style={{ resize: "vertical" }} />
+                <textarea value={form.divisionDesc} onChange={e => setForm({ ...form, divisionDesc: e.target.value })} className="admin-input" rows={2} placeholder="Penjelasan singkat tentang divisi ini..." aria-label="Deskripsi Divisi" style={{ resize: "vertical" }} />
               </div>
               <div className="org-form-group">
                 <label className="org-label">Bio / Deskripsi Diri</label>
-                <textarea value={form.bio} onChange={e => setForm({ ...form, bio: e.target.value })} className="admin-input" rows={3} placeholder="Cerita singkat tentang anggota ini..." style={{ resize: "vertical" }} />
+                <textarea value={form.bio} onChange={e => setForm({ ...form, bio: e.target.value })} className="admin-input" rows={3} placeholder="Cerita singkat tentang anggota ini..." aria-label="Bio" style={{ resize: "vertical" }} />
               </div>
               <div className="org-form-group">
                 <label className="org-label">Foto</label>
                 <div className="org-photo-row">
-                  <input type="url" value={form.photo} onChange={e => setForm({ ...form, photo: e.target.value })} className="admin-input" placeholder="https://example.com/foto.jpg" />
+                  <input type="url" value={form.photo} onChange={e => setForm({ ...form, photo: e.target.value })} className="admin-input" placeholder="https://example.com/foto.jpg" aria-label="URL Foto" />
                   <label className="org-upload-btn">
                     {uploading ? "..." : "Upload"}
                     <input type="file" accept="image/*" style={{ display: "none" }} onChange={e => { const f = e.target.files?.[0]; if (f) handleUpload(f) }} />
@@ -229,25 +229,25 @@ export default function AdminOrganization() {
               <div className="org-form-row">
                 <div className="org-form-group" style={{ flex: 1 }}>
                   <label className="org-label">Level</label>
-                  <select value={form.level} onChange={e => setForm({ ...form, level: Number(e.target.value) })} className="admin-select" style={{ width: "100%" }}>
+                  <select value={form.level} onChange={e => setForm({ ...form, level: Number(e.target.value) })} className="admin-select" aria-label="Level" style={{ width: "100%" }}>
                     {levelOptions.map(l => <option key={l.value} value={l.value}>{l.label}</option>)}
                   </select>
                 </div>
                 <div className="org-form-group" style={{ flex: 1 }}>
                   <label className="org-label">Urutan</label>
-                  <input type="number" value={form.sortOrder} onChange={e => setForm({ ...form, sortOrder: Number(e.target.value) })} className="admin-input" min="0" />
+                  <input type="number" value={form.sortOrder} onChange={e => setForm({ ...form, sortOrder: Number(e.target.value) })} className="admin-input" min="0" aria-label="Urutan" />
                 </div>
               </div>
               <div className="org-form-group">
                 <label className="org-label">Parent (Atasan)</label>
-                <select value={form.parentId} onChange={e => setForm({ ...form, parentId: e.target.value })} className="admin-select" style={{ width: "100%" }}>
+                <select value={form.parentId} onChange={e => setForm({ ...form, parentId: e.target.value })} className="admin-select" aria-label="Parent (Atasan)" style={{ width: "100%" }}>
                   <option value="">Tanpa atasan</option>
                   {members.filter(m => m.id !== editingMember?.id).map(m => <option key={m.id} value={m.id}>{m.name} - {m.position}</option>)}
                 </select>
               </div>
               <div className="org-form-group">
                 <label className="org-label">Periode</label>
-                <input type="text" value={form.period} onChange={e => setForm({ ...form, period: e.target.value })} className="admin-input" placeholder="2025-2026" />
+                <input type="text" value={form.period} onChange={e => setForm({ ...form, period: e.target.value })} className="admin-input" placeholder="2025-2026" aria-label="Periode" />
               </div>
               <div className="org-form-group">
                 <label className="org-check-label">
@@ -273,7 +273,7 @@ export default function AdminOrganization() {
         .org-summary-count{font-size:24px;font-weight:800;color:#fff}
         .org-summary-label{font-size:11px;color:rgba(255,255,255,.4);font-weight:500}
         .org-group{margin-bottom:24px}
-        .org-group-title{font-family:'Sansita',Georgia,serif;font-size:16px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+        .org-group-title{font-family:var(--font-sansita),Georgia,serif;font-size:16px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;margin-bottom:12px}
         .org-level-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
         .org-level-0{background:#EF4444}
         .org-level-1{background:#F59E0B}
@@ -306,7 +306,7 @@ export default function AdminOrganization() {
         .org-modal{background:rgba(20,20,22,.95);backdrop-filter:blur(24px);border-radius:20px 20px 0 0;border:1px solid rgba(232,122,26,.2);width:100%;max-height:92vh;overflow:hidden;box-shadow:0 0 40px rgba(232,122,26,.08),0 -10px 40px rgba(0,0,0,.5);animation:modalIn .3s ease;display:flex;flex-direction:column}
         .org-modal-draghandle{display:none}
         .org-modal-header{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-        .org-modal-title{font-family:'Sansita',Georgia,serif;font-size:17px;font-weight:700;color:#fff}
+        .org-modal-title{font-family:var(--font-sansita),Georgia,serif;font-size:17px;font-weight:700;color:#fff}
         .org-modal-close{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px;cursor:pointer;color:rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;width:32px;height:32px;transition:all .2s}
         .org-modal-close:hover{background:rgba(239,68,68,.15);color:#EF4444}
         .org-modal-body{padding:20px;overflow-y:auto;flex:1}

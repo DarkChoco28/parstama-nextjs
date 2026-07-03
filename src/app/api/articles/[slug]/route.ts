@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { checkRateLimit } from "@/lib/rate-limit"
 
-export async function GET(_request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
+  const { allowed } = await checkRateLimit(`article-view:${ip}`, 30, 60000)
+  if (!allowed) {
+    return NextResponse.json({ error: "Terlalu banyak permintaan" }, { status: 429 })
+  }
   try {
     const { slug } = await params
     const article = await prisma.article.findUnique({

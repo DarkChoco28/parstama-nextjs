@@ -16,8 +16,8 @@ export async function POST(request: NextRequest) {
     if (!email?.trim()) {
       return NextResponse.json({ error: "Email wajib diisi" }, { status: 400 })
     }
-    if (!password || password.length < 12) {
-      return NextResponse.json({ error: "Password minimal 12 karakter" }, { status: 400 })
+    if (!password || password.length < 6) {
+      return NextResponse.json({ error: "Password minimal 6 karakter" }, { status: 400 })
     }
 
     const existing = await prisma.user.findUnique({ where: { email: email.trim() } })

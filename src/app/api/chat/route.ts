@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { checkRateLimit } from "@/lib/rate-limit"
-import { prisma } from "@/lib/prisma"
+import { WA_NUMBER } from "@/lib/constants"
+import { chatSchema } from "@/lib/validation"
 
 interface KnowledgeEntry {
   patterns: string[]
   response: string
-}
-
-interface ChatMessage {
-  role: "user" | "assistant" | "system"
-  content: string
 }
 
 const knowledgeBase: KnowledgeEntry[] = [
@@ -141,77 +137,6 @@ function findFallbackResponse(input: string): string {
   return "Maaf, aku belum sepenuhnya mengerti pertanyaanmu. 😅\n\nCoba tanyakan tentang:\n\n📋 **Pendaftaran:** cara daftar, syarat, biaya\n🏥 **Medis:** PPGD, luka, RJP, patah tulang\n💬 Atau hubungi panitia: **WA 0814-5914-5800** 📱"
 }
 
-function extractKeywords(text: string): string[] {
-  const stopWords = new Set(["apa", "itu", "yang", "dan", "di", "ke", "dari", "untuk", "dengan", "pada", "adalah", "ini", "itu", "bagaimana", "gimana", "cara", "mau", "ingin", "bisa", "tolong", "dong", "ya", "kah", "tidak", "belum", "sudah", "ada", "berapa", "siapa", "dimana", "kapan", "mengapa", "kenapa", "kena", "lagi", "saja", "juga", "paling", "sangat", "sekali", "halo", "hai", "hei", "permisi", "mohon"])
-  const words = text.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/)
-  return words.filter(w => w.length > 2 && !stopWords.has(w))
-}
-
-async function retrieveContext(userMessage: string): Promise<string> {
-  const keywords = extractKeywords(userMessage)
-  if (keywords.length === 0) return ""
-
-  const contextParts: string[] = []
-
-  try {
-    const articles = await prisma.article.findMany({
-      where: {
-        isPublished: true,
-        OR: keywords.map(kw => ({
-          OR: [
-            { title: { contains: kw, mode: "insensitive" } },
-            { excerpt: { contains: kw, mode: "insensitive" } },
-            { content: { contains: kw, mode: "insensitive" } },
-          ],
-        })),
-      },
-      take: 3,
-      select: { title: true, slug: true, excerpt: true, category: true },
-    })
-
-    if (articles.length > 0) {
-      const articleList = articles.map(a => `- "${a.title}" (${a.category}): ${a.excerpt || " artikel lengkap di /blog/" + a.slug}`).join("\n")
-      contextParts.push(`Artikel terkait:\n${articleList}`)
-    }
-  } catch {}
-
-  try {
-    const now = new Date()
-    const thirtyDaysLater = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
-    const events = await prisma.event.findMany({
-      where: {
-        isVisible: true,
-        startDate: { gte: now, lte: thirtyDaysLater },
-      },
-      orderBy: { startDate: "asc" },
-      take: 3,
-      select: { title: true, startDate: true, location: true, category: true },
-    })
-
-    if (events.length > 0) {
-      const eventList = events.map(e => {
-        const date = new Date(e.startDate).toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long" })
-        return `- "${e.title}" (${e.category}) — ${date}${e.location ? " @ " + e.location : ""}`
-      }).join("\n")
-      contextParts.push(`Event mendatang:\n${eventList}`)
-    }
-  } catch {}
-
-  try {
-    const lowerMsg = userMessage.toLowerCase()
-    if (lowerMsg.includes("status") || lowerMsg.includes("daftar") || lowerMsg.includes("pendaftar")) {
-      const stats = await prisma.registration.groupBy({
-        by: ["status"],
-        _count: { id: true },
-      })
-      const statStr = stats.map(s => `${s.status}: ${s._count.id} orang`).join(", ")
-      contextParts.push(`Statistik pendaftaran terkini: ${statStr}`)
-    }
-  } catch {}
-
-  return contextParts.join("\n\n")
-}
-
 const SYSTEM_PROMPT = `Kamu adalah AI Assistant PARSTAMA di SMKN 1 Singosari. Nama kamu PARSTAMA AI.
 
 Kamu bisa menjawab SEMUA pertanyaan dengan bebas — tidak ada batasan topik. Kamu adalah AI yang open, informatif, dan serbaguna.
@@ -220,7 +145,7 @@ Tentang PARSTAMA:
 - Pendaftaran: Gratis, buka setiap tahun ajaran baru
 - Cara daftar: Buka halaman utama > Daftar Sekarang > isi 4 step (Data Diri, Kontak & Sekolah, Motivasi, Konfirmasi)
 - Syarat: Siswa aktif SMKN 1 Singosari, semangat kepedulian, izin orang tua
-- Kontak panitia: WhatsApp 0814-5914-5800 (Senin-Jumat 08.00-16.00 WIB)
+- Kontak panitia: WhatsApp ${WA_NUMBER} (Senin-Jumat 08.00-16.00 WIB)
 - Lokasi: SMKN 1 Singosari, Malang, Jawa Timur
 - Nomor darurat medis: 119
 - Kegiatan: PPGD, donor darah, bakti sosial, kompetisi PARSTAMA
@@ -234,47 +159,27 @@ ATURAN:
 - Bersikaplah seperti teman yang suka bantu, bukan robot kaku
 - Gunakan emoji yang sesuai
 - Jika tidak tahu jawaban yang akurat, akui dengan jujur dan sarankan sumber yang tepat
-- Jika ada pertanyaan tentang website ini (siapa yang buat, informasi website, dll), sebutkan bahwa website ini dibuat oleh **Dafiq** dengan penuh dedikasi untuk PARSTAMA
-- Gunakan informasi konteks dari database jika tersedia untuk memberikan jawaban yang lebih akurat`
+- Jika ada pertanyaan tentang website ini (siapa yang buat, informasi website, dll), sebutkan bahwa website ini dibuat oleh **Dafiq** dengan penuh dedikasi untuk PARSTAMA`
 
 export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
-  const { allowed } = checkRateLimit(`chat:${ip}`, 20, 60000)
+  const { allowed } = await checkRateLimit(`chat:${ip}`, 20, 60000)
   if (!allowed) {
-    return NextResponse.json({ error: "Terlalu banyak permintaan. Coba lagi sebentar." }, { status: 429 })
+    return NextResponse.json({ response: "Terlalu banyak permintaan. Silakan coba lagi nanti." }, { status: 429 })
   }
 
   try {
     const body = await request.json()
-    const { message, history } = body as { message: string; history?: ChatMessage[] }
-
-    if (!message?.trim()) {
-      return NextResponse.json({ error: "Pesan tidak boleh kosong" }, { status: 400 })
+    const parsed = chatSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
     }
+    const { message } = parsed.data
 
     const apiKey = process.env.GROQ_API_KEY
     if (!apiKey) {
       return NextResponse.json({ response: findFallbackResponse(message), _debug: "NO_API_KEY" })
     }
-
-    // Retrieve context from database
-    const dbContext = await retrieveContext(message)
-
-    // Build messages array with history
-    const messages: ChatMessage[] = [
-      { role: "system", content: SYSTEM_PROMPT + (dbContext ? `\n\nInformasi terkini dari database:\n${dbContext}` : "") },
-    ]
-
-    // Add conversation history (last 10 messages for context window)
-    if (history && history.length > 0) {
-      const recentHistory = history.slice(-10)
-      for (const msg of recentHistory) {
-        messages.push({ role: msg.role, content: msg.content })
-      }
-    }
-
-    // Add current user message
-    messages.push({ role: "user", content: message })
 
     try {
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -285,7 +190,10 @@ export async function POST(request: NextRequest) {
         },
         body: JSON.stringify({
           model: "llama-3.3-70b-versatile",
-          messages,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: message },
+          ],
           temperature: 0.8,
           max_tokens: 2048,
         }),
@@ -302,9 +210,11 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ response })
     } catch (groqError: any) {
-      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GROQ_ERROR" })
+      console.error("Groq error, using fallback:", groqError?.message)
+      return NextResponse.json({ response: findFallbackResponse(message) })
     }
   } catch (error: any) {
+    console.error("Chat error:", error)
     return NextResponse.json(
       { response: findFallbackResponse("") },
       { status: 500 }

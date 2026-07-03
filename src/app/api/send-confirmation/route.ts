@@ -29,8 +29,7 @@ export async function POST(request: NextRequest) {
     await sendEmail({ to: reg.email, subject, html })
 
     return NextResponse.json({ message: "Email konfirmasi berhasil dikirim" })
-  } catch (error: any) {
-    console.error("Error kirim email konfirmasi:", error?.message || error)
-    return NextResponse.json({ error: error?.message || "Gagal mengirim email" }, { status: 500 })
+  } catch {
+    return NextResponse.json({ error: "Gagal mengirim email" }, { status: 500 })
   }
 }

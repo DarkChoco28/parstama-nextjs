@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { WA_NUMBER } from "@/lib/constants"
+import { visionSchema } from "@/lib/validation"
 
 const VISION_PROMPT = `Kamu adalah AI ahli P3K (Pertolongan Pertama Gawat Darurat) PARSTAMA.
 
@@ -19,28 +21,28 @@ Aturan:
 
 export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
-  const { allowed } = checkRateLimit(`chat-vision:${ip}`, 10, 60000)
+  const { allowed } = await checkRateLimit(`chat-vision:${ip}`, 10, 60000)
   if (!allowed) {
     return NextResponse.json({ error: "Terlalu banyak permintaan. Coba lagi sebentar." }, { status: 429 })
   }
 
   try {
     const body = await request.json()
-    const { image, message } = body as { image: string; message?: string }
-
-    if (!image) {
-      return NextResponse.json({ error: "Gambar tidak boleh kosong" }, { status: 400 })
+    const parsed = visionSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
     }
+    const { image, message } = parsed.data
 
     const base64Data = image.replace(/^data:image\/\w+;base64,/, "")
-    if (!base64Data || base64Data.length < 100) {
+    if (base64Data.length < 100) {
       return NextResponse.json({ error: "Format gambar tidak valid" }, { status: 400 })
     }
 
     const apiKey = process.env.GROQ_API_KEY
     if (!apiKey) {
       return NextResponse.json({
-        response: "Fitur analisis gambar belum tersedia. Silakan hubungi panitia via WhatsApp: 0814-5914-5800 📱",
+        response: `Fitur analisis gambar belum tersedia. Silakan hubungi panitia via WhatsApp: ${WA_NUMBER} 📱`,
       })
     }
 
@@ -85,7 +87,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ response })
   } catch (error: any) {
     return NextResponse.json({
-      response: "Maaf, analisis gambar gagal. Coba kirim ulang atau ketik pertanyaan Anda secara manual.\n\nUntuk bantuan: **WA 0814-5914-5800** 📱",
+      response: `Maaf, analisis gambar gagal. Coba kirim ulang atau ketik pertanyaan Anda secara manual.\n\nUntuk bantuan: **WA ${WA_NUMBER}** 📱`,
     })
   }
 }

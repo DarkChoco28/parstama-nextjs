@@ -16,6 +16,9 @@ model User {
   rememberToken     String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+
+  @@index([isAdmin])
+  @@index([email])
 }
 
 model Registration {
@@ -49,39 +52,34 @@ model Registration {
   @@index([whatsapp])
   @@index([createdAt])
   @@index([status, createdAt])
-}
-
-model Setting {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  value     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime  @updatedAt
+  @@index([class])
+  @@index([major])
+  @@index([gender])
+  @@index([class, major])
+  @@index([status, class, major])
 }
 
 model OrganizationMember {
-  id           String   @id @default(cuid())
-  name         String
-  nickname     String?
-  position     String
-  division     String?
-  divisionDesc String?
-  bio          String?
-  photo        String?
-  level        Int      @default(0)
-  parentId     String?
-  sortOrder    Int      @default(0)
-  period       String   @default("2024/2025")
-  isVisible    Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  parent  OrganizationMember?  @relation("OrganizationTree", fields: [parentId], references: [id], onDelete: SetNull)
-  children OrganizationMember[] @relation("OrganizationTree")
+  id            String   @id @default(cuid())
+  name          String
+  nickname      String?
+  position      String
+  division      String?
+  divisionDesc  String?
+  bio           String?
+  photo         String?
+  level         Int      @default(0)
+  parentId      String?
+  sortOrder     Int      @default(0)
+  period        String?
+  isVisible     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@index([level])
-  @@index([parentId])
-  @@index([sortOrder])
+  @@index([isVisible])
+  @@index([division])
+  @@index([level, sortOrder])
 }
 
 model Article {
@@ -98,27 +96,57 @@ model Article {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@index([slug])
   @@index([isPublished])
   @@index([category])
   @@index([createdAt])
 }
 
 model Event {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   description String?
   location    String?
   startDate   DateTime
   endDate     DateTime?
-  allDay      Boolean  @default(false)
-  color       String   @default("#DC2626")
-  category    String   @default("Kegiatan")
-  isVisible   Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  allDay      Boolean   @default(false)
+  color       String    @default("#DC2626")
+  category    String    @default("Kegiatan")
+  isVisible   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-  @@index([startDate])
   @@index([isVisible])
+  @@index([startDate])
   @@index([category])
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  userId    String?
+  userEmail String?
+  details   String?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([action])
+  @@index([userId])
+}
+
+model RateLimit {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  count     Int      @default(1)
+  expiresAt DateTime
+
+  @@index([key, expiresAt])
 }

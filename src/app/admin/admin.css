@@ -9,7 +9,7 @@
 @keyframes shimmerSkeleton { 0%{background-position:-200% 0}100%{background-position:200% 0} }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-.admin-page{min-height:100vh;background:#0A0A0B;font-family:'Plus Jakarta Sans',system-ui,sans-serif;position:relative;overflow-x:hidden}
+.admin-page{min-height:100vh;background:#0A0A0B;font-family:var(--font-plus-jakarta),system-ui,sans-serif;position:relative;overflow-x:hidden}
 .admin-loading{min-height:100vh;background:#0A0A0B;display:flex;align-items:center;justify-content:center;gap:10px;color:rgba(255,255,255,.5);font-size:15px}
 .admin-loading-spinner{width:20px;height:20px;border:2px solid rgba(220,38,38,.3);border-top-color:#DC2626;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
 
@@ -35,7 +35,7 @@
 .admin-logo-wrap{position:relative;width:60px;height:60px}
 .admin-logo{width:60px;height:60px;border-radius:50%;object-fit:contain;filter:drop-shadow(0 0 6px rgba(232,122,26,.3))}
 .admin-nav-title{display:flex;flex-direction:column;min-width:0}
-.admin-brand{font-family:'Sansita',Georgia,serif;font-size:13px;font-weight:700;background:linear-gradient(90deg,#F97316,#E87A1A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+.admin-brand{font-family:var(--font-sansita),Georgia,serif;font-size:13px;font-weight:700;background:linear-gradient(90deg,#F97316,#E87A1A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
 .admin-time{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace;line-height:1}
 .admin-nav-links-desktop{display:flex;align-items:center;gap:6px}
 .admin-nav-link{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:8px;color:rgba(255,255,255,.6);font-size:12px;font-weight:500;text-decoration:none;border:1px solid transparent;transition:all .3s;background:none;cursor:pointer;font-family:inherit}
@@ -65,7 +65,7 @@
 /* SHARED MAIN */
 .admin-main{max-width:1200px;margin:0 auto;padding:16px;position:relative;z-index:1}
 .admin-header{margin-bottom:24px}
-.admin-title{font-family:'Sansita',Georgia,serif;font-size:22px;font-weight:700;background:linear-gradient(90deg,#F97316,#E87A1A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.admin-title{font-family:var(--font-sansita),Georgia,serif;font-size:22px;font-weight:700;background:linear-gradient(90deg,#F97316,#E87A1A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .admin-subtitle{color:rgba(255,255,255,.4);font-size:13px;margin-top:4px}
 
 /* STATS */
@@ -82,7 +82,7 @@
 .chart-container{margin-top:16px}
 .admin-card{background:rgba(20,20,22,.8);backdrop-filter:blur(20px);border-radius:16px;border:1px solid rgba(255,255,255,.08);padding:20px;animation:dashPulse 4s ease-in-out infinite;transition:border-color .3s,box-shadow .3s}
 .admin-card:hover{border-color:rgba(255,255,255,.12);box-shadow:0 4px 24px rgba(0,0,0,.2)}
-.admin-card-title{font-family:'Sansita',Georgia,serif;font-size:16px;font-weight:700;color:#fff}
+.admin-card-title{font-family:var(--font-sansita),Georgia,serif;font-size:16px;font-weight:700;color:#fff}
 .admin-card-desc{color:rgba(255,255,255,.4);font-size:12px;margin-top:2px}
 .admin-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .admin-toggle-btn{padding:10px 18px;border-radius:10px;border:none;font-weight:700;font-size:13px;cursor:pointer;transition:all .3s;flex-shrink:0;font-family:inherit}
@@ -129,7 +129,7 @@
 .form-alert-success{background:rgba(52,211,153,.1);color:#34D399;border:1px solid rgba(52,211,153,.2)}
 .form-alert-error{background:rgba(239,68,68,.1);color:#EF4444;border:1px solid rgba(239,68,68,.2)}
 .form-body{display:flex;flex-direction:column;gap:18px}
-.form-section-title{display:flex;align-items:center;gap:8px;font-family:'Sansita',Georgia,serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:12px}
+.form-section-title{display:flex;align-items:center;gap:8px;font-family:var(--font-sansita),Georgia,serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:12px}
 .form-section-desc{font-size:12px;color:rgba(255,255,255,.4);margin-top:-8px;margin-bottom:12px}
 .form-group{display:flex;flex-direction:column;gap:6px}
 .form-label{font-size:12px;color:rgba(255,255,255,.5);font-weight:600}
@@ -176,7 +176,7 @@
 .reg-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:flex-end;justify-content:center;padding:0;animation:modalIn .2s ease}
 .reg-modal{background:#141416;border:1px solid rgba(255,255,255,.1);border-radius:20px 20px 0 0;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;position:relative}
 .reg-modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06)}
-.reg-modal-title{font-family:'Sansita',Georgia,serif;font-size:16px;font-weight:700;color:#fff}
+.reg-modal-title{font-family:var(--font-sansita),Georgia,serif;font-size:16px;font-weight:700;color:#fff}
 .reg-modal-close{background:none;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px;color:rgba(255,255,255,.5);cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center}
 .reg-modal-close:hover{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.2)}
 .reg-modal-body{padding:16px 20px}

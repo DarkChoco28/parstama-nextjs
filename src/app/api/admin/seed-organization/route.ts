@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
+import { createAuditLog } from "@/lib/audit-log"
 
 const seedData = [
   // Level 0 — Pimpinan Utama
@@ -156,6 +157,12 @@ export async function POST() {
         ...d,
         isVisible: true,
       })),
+    })
+
+    createAuditLog({
+      action: "seed_organization",
+      userEmail: "admin",
+      details: `Menambahkan ${created.count} anggota organisasi`,
     })
 
     return NextResponse.json({

@@ -1,18 +1,31 @@
-const rateLimit = new Map<string, { count: number; resetAt: number }>()
+import { prisma } from "@/lib/prisma"
 
-export function checkRateLimit(ip: string, maxRequests = 10, windowMs = 60000): { allowed: boolean; remaining: number } {
-  const now = Date.now()
-  const entry = rateLimit.get(ip)
+export async function checkRateLimit(key: string, maxRequests = 10, windowMs = 60000): Promise<{ allowed: boolean; remaining: number }> {
+  try {
+    const now = new Date()
+    const record = await prisma.rateLimit.findUnique({ where: { key } })
 
-  if (!entry || now > entry.resetAt) {
-    rateLimit.set(ip, { count: 1, resetAt: now + windowMs })
-    return { allowed: true, remaining: maxRequests - 1 }
+    if (!record || now > record.expiresAt) {
+      await prisma.rateLimit.upsert({
+        where: { key },
+        update: { count: 1, expiresAt: new Date(now.getTime() + windowMs) },
+        create: { key, count: 1, expiresAt: new Date(now.getTime() + windowMs) },
+      })
+      return { allowed: true, remaining: maxRequests - 1 }
+    }
+
+    if (record.count >= maxRequests) {
+      return { allowed: false, remaining: 0 }
+    }
+
+    await prisma.rateLimit.update({
+      where: { key },
+      data: { count: { increment: 1 } },
+    })
+
+    return { allowed: true, remaining: maxRequests - record.count - 1 }
+  } catch {
+    // Fallback: allow request on DB error
+    return { allowed: true, remaining: maxRequests }
   }
-
-  if (entry.count >= maxRequests) {
-    return { allowed: false, remaining: 0 }
-  }
-
-  entry.count++
-  return { allowed: true, remaining: maxRequests - entry.count }
 }

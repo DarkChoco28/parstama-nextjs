@@ -63,13 +63,13 @@ export default function BlogDetailPage() {
         ) : article && (
           <>
             {article.coverImage && (
-              <img src={article.coverImage} alt={article.title} style={{ width: "100%", height: 280, objectFit: "cover", borderRadius: 16, marginBottom: 24 }} />
+              <img src={article.coverImage} alt={article.title} style={{ width: "100%", height: 280, objectFit: "cover", borderRadius: 16, marginBottom: 24 }} loading="lazy" />
             )}
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
               <span style={{ padding: "4px 12px", borderRadius: 12, fontSize: 11, fontWeight: 700, background: `${categoryColors[article.category] || "#8B5CF6"}15`, color: categoryColors[article.category] || "#8B5CF6", border: `1px solid ${categoryColors[article.category] || "#8B5CF6"}30` }}>{article.category}</span>
               <span style={{ fontSize: 11, color: "rgba(255,255,255,.3)" }}>{article.viewCount} views</span>
             </div>
-            <h1 style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "clamp(1.5rem, 4vw, 2.2rem)", fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.2 }}>{article.title}</h1>
+            <h1 style={{ fontFamily: "var(--font-sansita), Georgia, serif", fontSize: "clamp(1.5rem, 4vw, 2.2rem)", fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.2 }}>{article.title}</h1>
             <div style={{ display: "flex", gap: 16, fontSize: 12, color: "rgba(255,255,255,.35)", marginBottom: 32, flexWrap: "wrap" }}>
               <span>✍️ {article.author}</span>
               <span>{new Date(article.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}</span>
@@ -80,7 +80,7 @@ export default function BlogDetailPage() {
             {/* Artikel Terkait */}
             {related.length > 0 && (
               <div style={{ marginTop: 48, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,.06)" }}>
-                <h3 style={{ fontFamily: "Sansita, Georgia, serif", fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 16 }}>Artikel Terkait</h3>
+                <h3 style={{ fontFamily: "var(--font-sansita), Georgia, serif", fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 16 }}>Artikel Terkait</h3>
                 <div style={{ display: "grid", gap: 12 }}>
                   {related.map(r => (
                     <Link key={r.slug} href={`/blog/${r.slug}`} style={{ display: "block", padding: 16, background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.06)", borderRadius: 12, textDecoration: "none", transition: "border-color .2s" }}

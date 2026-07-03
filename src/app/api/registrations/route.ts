@@ -1,59 +1,28 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { registrationSchema } from "@/lib/validation"
 
 function normalizeWhatsapp(value: string) {
   return value.replace(/\D/g, "")
 }
 
-async function scoreMotivation(text: string): Promise<{ score: number; label: string }> {
-  const apiKey = process.env.GROQ_API_KEY
-  if (!apiKey) return { score: 5, label: "netral" }
-
-  try {
-    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
-        messages: [
-          {
-            role: "system",
-            content: `Analisis sentimen teks motivasi pendaftaran PMR. Berikan JSON: {"score": <1-10>, "label": "<positif|netral|negatif>}. Score berdasarkan: kesungguhan, kejelasan tujuan, antusiasme, panjang teks. Hanya jawab JSON tanpa penjelasan.`,
-          },
-          { role: "user", content: text },
-        ],
-        temperature: 0.3,
-        max_tokens: 50,
-      }),
-    })
-
-    if (!res.ok) return { score: 5, label: "netral" }
-    const data = await res.json()
-    const content = data.choices?.[0]?.message?.content?.trim() || ""
-    const match = content.match(/\{[^}]+\}/)
-    if (match) {
-      const parsed = JSON.parse(match[0])
-      const score = Math.max(1, Math.min(10, parseInt(parsed.score) || 5))
-      const label = ["positif", "netral", "negatif"].includes(parsed.label) ? parsed.label : "netral"
-      return { score, label }
-    }
-    return { score: 5, label: "netral" }
-  } catch {
-    return { score: 5, label: "netral" }
-  }
-}
-
 export async function POST(request: NextRequest) {
-  // Rate limit: 5 registrations per minute per IP
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
-  const { allowed } = checkRateLimit(`reg:${ip}`, 5, 60000)
+  const { allowed, remaining } = await checkRateLimit(`register:${ip}`, 5, 60000)
   if (!allowed) {
-    return NextResponse.json({ error: "Terlalu banyak percobaan. Coba lagi dalam 1 menit." }, { status: 429 })
+    return NextResponse.json({ error: "Terlalu banyak permintaan. Coba lagi nanti." }, { status: 429 })
   }
 
   try {
     const body = await request.json()
+    const parsed = registrationSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0].message },
+        { status: 400 }
+      )
+    }
 
     const {
       fullName,
@@ -74,65 +43,12 @@ export async function POST(request: NextRequest) {
       medicalHistory,
       organizationExperience,
       motivation,
-      parentConsent,
-    } = body
-
-    if (!fullName?.trim()) {
-      return NextResponse.json(
-        { error: "Nama lengkap wajib diisi" },
-        { status: 400 }
-      )
-    }
-
-    if (!gender || !["L", "P"].includes(gender)) {
-      return NextResponse.json(
-        { error: "Jenis kelamin wajib dipilih" },
-        { status: 400 }
-      )
-    }
-
-    if (!birthPlace?.trim() || !birthDate) {
-      return NextResponse.json(
-        { error: "Tempat dan tanggal lahir wajib diisi" },
-        { status: 400 }
-      )
-    }
-
-    if (!address?.trim()) {
-      return NextResponse.json(
-        { error: "Alamat wajib diisi" },
-        { status: 400 }
-      )
-    }
+    } = parsed.data
 
     const normalizedWhatsapp = normalizeWhatsapp(String(whatsapp || ""))
     if (normalizedWhatsapp.length < 10 || normalizedWhatsapp.length > 20) {
       return NextResponse.json(
         { error: "Nomor WhatsApp tidak valid" },
-        { status: 400 }
-      )
-    }
-
-    if (!className?.trim() || !major?.trim()) {
-      return NextResponse.json(
-        { error: "Kelas dan jurusan wajib diisi" },
-        { status: 400 }
-      )
-    }
-
-    if (!motivation?.trim() || motivation.trim().length < 20) {
-      return NextResponse.json(
-        { error: "Motivasi minimal 20 karakter" },
-        { status: 400 }
-      )
-    }
-
-    if (!parentConsent) {
-      return NextResponse.json(
-        {
-          error:
-            "Persetujuan orang tua / wali wajib disetujui sebelum mengirim pendaftaran",
-        },
         { status: 400 }
       )
     }
@@ -198,14 +114,6 @@ export async function POST(request: NextRequest) {
         motivation: motivation.trim(),
         status: "pending",
       },
-    })
-
-    // Auto-score motivation sentiment (non-blocking)
-    scoreMotivation(motivation.trim()).then(({ score, label }) => {
-      prisma.registration.update({
-        where: { id: registration.id },
-        data: { motivationScore: score, sentimentLabel: label },
-      }).catch(() => {})
     })
 
     return NextResponse.json(

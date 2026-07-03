@@ -131,10 +131,10 @@ export async function POST(request: NextRequest) {
       success: true,
       message: `WhatsApp notif terkirim ke ${reg.fullName} (${reg.whatsapp})`,
     })
-  } catch (error: any) {
-    console.error("Error sending WhatsApp:", error)
+  } catch {
+    console.error("Error sending WhatsApp")
     return NextResponse.json(
-      { error: error?.message || "Gagal mengirim WhatsApp" },
+      { error: "Gagal mengirim WhatsApp" },
       { status: 500 }
     )
   }

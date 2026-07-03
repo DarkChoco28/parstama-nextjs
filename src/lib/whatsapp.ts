@@ -1,3 +1,5 @@
+import { WA_NUMBER } from "@/lib/constants"
+
 interface SendWhatsAppOptions {
   target: string
   message: string
@@ -73,7 +75,7 @@ export function buildStatusWhatsApp(
 
   const footer =
     `Jika ada pertanyaan, silakan hubungi admin:\n` +
-    `📞 0814-5914-5800\n\n` +
+    `📞 ${WA_NUMBER}\n\n` +
     `Hormat kami,\n` +
     `Admin PARSTAMA 🏥`
 

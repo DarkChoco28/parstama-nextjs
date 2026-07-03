@@ -2,9 +2,11 @@
 
 import { useState } from "react"
 import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 
 export default function LoginPage() {
+  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -23,13 +25,14 @@ export default function LoginPage() {
       })
 
       if (result?.error) {
-        setError(result.error.includes("Terlalu banyak") ? result.error : "Email atau password salah")
-        setIsLoading(false)
+        setError("Email atau password salah")
       } else {
-        window.location.href = "/admin/dashboard"
+        router.push("/admin/dashboard")
+        router.refresh()
       }
-    } catch {
+    } catch (error) {
       setError("Terjadi kesalahan saat login")
+    } finally {
       setIsLoading(false)
     }
   }
@@ -56,7 +59,7 @@ export default function LoginPage() {
           width: "600px",
           height: "600px",
           transform: "translate(-50%, -50%)",
-          background: "radial-gradient(circle, rgba(232,122,26,0.08) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(220,38,38,0.08) 0%, transparent 70%)",
           animation: "loginPulseGlow 4s ease-in-out infinite",
           pointerEvents: "none",
         }}
@@ -84,8 +87,8 @@ export default function LoginPage() {
           50% { transform: translateY(-6px); }
         }
         @keyframes loginBorderGlow {
-          0%, 100% { border-color: rgba(232,122,26, 0.15); }
-          50% { border-color: rgba(232,122,26, 0.3); }
+          0%, 100% { border-color: rgba(220, 38, 38, 0.15); }
+          50% { border-color: rgba(220, 38, 38, 0.3); }
         }
         @keyframes spin {
           to { transform: rotate(360deg); }
@@ -105,6 +108,10 @@ export default function LoginPage() {
           33% { transform: translate3d(4px,6px,0) rotate(3deg); opacity: 0.22; }
           66% { transform: translate3d(-7px,-3px,0) rotate(-5deg); opacity: 0.13; }
         }
+        @media (max-width: 380px) {
+          .login-card-header { padding: 24px 20px 0 !important; }
+          .login-card-form { padding: 20px !important; }
+        }
       `}</style>
 
       {/* Floating 3D crosses */}
@@ -119,8 +126,8 @@ export default function LoginPage() {
           zIndex: 0,
         }}
       >
-        <div style={{ position: "absolute", width: "100%", height: "3px", background: "linear-gradient(90deg, transparent, #E87A1A, transparent)", top: "50%", transform: "translateY(-50%)", borderRadius: "2px" }} />
-        <div style={{ position: "absolute", height: "100%", width: "3px", background: "linear-gradient(180deg, transparent, #E87A1A, transparent)", left: "50%", transform: "translateX(-50%)", borderRadius: "2px" }} />
+        <div style={{ position: "absolute", width: "100%", height: "3px", background: "linear-gradient(90deg, transparent, #DC2626, transparent)", top: "50%", transform: "translateY(-50%)", borderRadius: "2px" }} />
+        <div style={{ position: "absolute", height: "100%", width: "3px", background: "linear-gradient(180deg, transparent, #DC2626, transparent)", left: "50%", transform: "translateX(-50%)", borderRadius: "2px" }} />
       </div>
       <div
         style={{
@@ -133,8 +140,8 @@ export default function LoginPage() {
           zIndex: 0,
         }}
       >
-        <div style={{ position: "absolute", width: "100%", height: "2px", background: "linear-gradient(90deg, transparent, #E87A1A, transparent)", top: "50%", transform: "translateY(-50%)", borderRadius: "2px" }} />
-        <div style={{ position: "absolute", height: "100%", width: "2px", background: "linear-gradient(180deg, transparent, #E87A1A, transparent)", left: "50%", transform: "translateX(-50%)", borderRadius: "2px" }} />
+        <div style={{ position: "absolute", width: "100%", height: "2px", background: "linear-gradient(90deg, transparent, #DC2626, transparent)", top: "50%", transform: "translateY(-50%)", borderRadius: "2px" }} />
+        <div style={{ position: "absolute", height: "100%", width: "2px", background: "linear-gradient(180deg, transparent, #DC2626, transparent)", left: "50%", transform: "translateX(-50%)", borderRadius: "2px" }} />
       </div>
       <div
         style={{
@@ -147,8 +154,8 @@ export default function LoginPage() {
           zIndex: 0,
         }}
       >
-        <div style={{ position: "absolute", width: "100%", height: "2px", background: "linear-gradient(90deg, transparent, #E87A1A, transparent)", top: "50%", transform: "translateY(-50%)", borderRadius: "2px" }} />
-        <div style={{ position: "absolute", height: "100%", width: "2px", background: "linear-gradient(180deg, transparent, #E87A1A, transparent)", left: "50%", transform: "translateX(-50%)", borderRadius: "2px" }} />
+        <div style={{ position: "absolute", width: "100%", height: "2px", background: "linear-gradient(90deg, transparent, #DC2626, transparent)", top: "50%", transform: "translateY(-50%)", borderRadius: "2px" }} />
+        <div style={{ position: "absolute", height: "100%", width: "2px", background: "linear-gradient(180deg, transparent, #DC2626, transparent)", left: "50%", transform: "translateX(-50%)", borderRadius: "2px" }} />
       </div>
       <div
         style={{
@@ -161,8 +168,8 @@ export default function LoginPage() {
           zIndex: 0,
         }}
       >
-        <div style={{ position: "absolute", width: "100%", height: "3px", background: "linear-gradient(90deg, transparent, #E87A1A, transparent)", top: "50%", transform: "translateY(-50%)", borderRadius: "2px" }} />
-        <div style={{ position: "absolute", height: "100%", width: "3px", background: "linear-gradient(180deg, transparent, #E87A1A, transparent)", left: "50%", transform: "translateX(-50%)", borderRadius: "2px" }} />
+        <div style={{ position: "absolute", width: "100%", height: "3px", background: "linear-gradient(90deg, transparent, #DC2626, transparent)", top: "50%", transform: "translateY(-50%)", borderRadius: "2px" }} />
+        <div style={{ position: "absolute", height: "100%", width: "3px", background: "linear-gradient(180deg, transparent, #DC2626, transparent)", left: "50%", transform: "translateX(-50%)", borderRadius: "2px" }} />
       </div>
 
       <div style={{ maxWidth: "420px", width: "100%", padding: "0 16px", position: "relative", zIndex: 10 }}>
@@ -171,9 +178,9 @@ export default function LoginPage() {
             background: "rgba(20, 20, 22, 0.9)",
             backdropFilter: "blur(24px)",
             borderRadius: "24px",
-            border: "1px solid rgba(232,122,26, 0.2)",
+            border: "1px solid rgba(220, 38, 38, 0.2)",
             overflow: "hidden",
-            boxShadow: "0 0 40px rgba(232,122,26,0.08), 0 25px 50px rgba(0,0,0,0.5)",
+            boxShadow: "0 0 40px rgba(220,38,38,0.08), 0 25px 50px rgba(0,0,0,0.5)",
             animation: "loginCardFloat 6s ease-in-out infinite, loginBorderGlow 3s ease-in-out infinite",
           }}
         >
@@ -181,12 +188,12 @@ export default function LoginPage() {
           <div
             style={{
               height: "3px",
-              background: "linear-gradient(90deg, transparent, #E87A1A, #F97316, #E87A1A, transparent)",
+              background: "linear-gradient(90deg, transparent, #DC2626, #EF4444, #DC2626, transparent)",
             }}
           />
 
           {/* Header */}
-          <div style={{ padding: "32px 32px 0", textAlign: "center" }}>
+          <div className="login-card-header" style={{ padding: "32px 32px 0", textAlign: "center" }}>
             {/* Logo */}
             <div
               style={{
@@ -197,45 +204,45 @@ export default function LoginPage() {
                 marginBottom: "20px",
               }}
             >
-              <div style={{ position: "relative", width: "60px", height: "60px" }}>
+              <div style={{ position: "relative", width: "48px", height: "48px" }}>
                 <div
                   style={{
                     position: "absolute",
                     inset: "-4px",
                     borderRadius: "50%",
-                    background: "radial-gradient(circle, rgba(232,122,26,0.2) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)",
                   }}
                 />
                 <img
                   src="/smkn_logo.png"
                   alt="SMKN"
                   style={{
-                    width: "60px",
-                    height: "60px",
+                    width: "48px",
+                    height: "48px",
                     borderRadius: "50%",
                     objectFit: "contain",
-                    boxShadow: "0 0 12px rgba(232,122,26,0.3)",
+                    boxShadow: "0 0 12px rgba(220,38,38,0.3)",
                   }}
                 />
               </div>
-              <div style={{ position: "relative", width: "60px", height: "60px" }}>
+              <div style={{ position: "relative", width: "48px", height: "48px" }}>
                 <div
                   style={{
                     position: "absolute",
                     inset: "-4px",
                     borderRadius: "50%",
-                    background: "radial-gradient(circle, rgba(232,122,26,0.2) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)",
                   }}
                 />
                 <img
                   src="/parstama_logo.png"
                   alt="PARSTAMA"
                   style={{
-                    width: "60px",
-                    height: "60px",
+                    width: "48px",
+                    height: "48px",
                     borderRadius: "50%",
                     objectFit: "contain",
-                    boxShadow: "0 0 12px rgba(232,122,26,0.3)",
+                    boxShadow: "0 0 12px rgba(220,38,38,0.3)",
                   }}
                 />
               </div>
@@ -243,10 +250,10 @@ export default function LoginPage() {
 
             <h1
               style={{
-                fontFamily: "Sansita, Georgia, serif",
+                fontFamily: "var(--font-sansita), Georgia, serif",
                 fontSize: "24px",
                 fontWeight: 700,
-                background: "linear-gradient(90deg, #F97316, #E87A1A)",
+                background: "linear-gradient(90deg, #EF4444, #DC2626)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -261,14 +268,14 @@ export default function LoginPage() {
           </div>
 
           {/* Form */}
-          <div style={{ padding: "28px 32px 32px" }}>
+          <div className="login-card-form" style={{ padding: "28px 32px 32px" }}>
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               {error && (
                 <div
                   style={{
-                    background: "rgba(232,122,26, 0.1)",
-                    border: "1px solid rgba(232,122,26, 0.3)",
-                    color: "#F97316",
+                    background: "rgba(220, 38, 38, 0.1)",
+                    border: "1px solid rgba(220, 38, 38, 0.3)",
+                    color: "#EF4444",
                     padding: "12px 16px",
                     borderRadius: "12px",
                     fontSize: "14px",
@@ -313,8 +320,8 @@ export default function LoginPage() {
                     boxSizing: "border-box",
                   }}
                   onFocus={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(232,122,26, 0.5)"
-                    e.currentTarget.style.boxShadow = "0 0 20px rgba(232,122,26,0.15)"
+                    e.currentTarget.style.borderColor = "rgba(220, 38, 38, 0.5)"
+                    e.currentTarget.style.boxShadow = "0 0 20px rgba(220,38,38,0.15)"
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"
@@ -357,8 +364,8 @@ export default function LoginPage() {
                     boxSizing: "border-box",
                   }}
                   onFocus={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(232,122,26, 0.5)"
-                    e.currentTarget.style.boxShadow = "0 0 20px rgba(232,122,26,0.15)"
+                    e.currentTarget.style.borderColor = "rgba(220, 38, 38, 0.5)"
+                    e.currentTarget.style.boxShadow = "0 0 20px rgba(220,38,38,0.15)"
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"
@@ -373,7 +380,7 @@ export default function LoginPage() {
                 style={{
                   width: "100%",
                   padding: "14px",
-                  background: isLoading ? "rgba(232,122,26,0.5)" : "linear-gradient(135deg, #E87A1A, #F97316)",
+                  background: isLoading ? "rgba(220,38,38,0.5)" : "linear-gradient(135deg, #DC2626, #EF4444)",
                   color: "#fff",
                   border: "none",
                   borderRadius: "12px",
@@ -387,7 +394,7 @@ export default function LoginPage() {
                 }}
                 onMouseEnter={(e) => {
                   if (!isLoading) {
-                    e.currentTarget.style.boxShadow = "0 0 30px rgba(232,122,26,0.4)"
+                    e.currentTarget.style.boxShadow = "0 0 30px rgba(220,38,38,0.4)"
                     e.currentTarget.style.transform = "translateY(-2px)"
                   }
                 }}

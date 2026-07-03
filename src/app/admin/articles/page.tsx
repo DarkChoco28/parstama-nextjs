@@ -86,15 +86,15 @@ export default function AdminArticles() {
         {/* Filters */}
         <div className="admin-card" style={{ padding: "14px 16px", marginBottom: 16 }}>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-            <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchArticles() } }} placeholder="Cari judul..." className="admin-input" style={{ flex: 1, minWidth: 150 }} />
-            <select value={categoryFilter} onChange={e => { setCategoryFilter(e.target.value); setPage(1) }} className="admin-select">
+            <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchArticles() } }} placeholder="Cari judul..." aria-label="Cari judul artikel" className="admin-input" style={{ flex: 1, minWidth: 150 }} />
+            <select value={categoryFilter} onChange={e => { setCategoryFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter kategori artikel">
               <option value="">Semua Kategori</option>
               <option value="Kesehatan">Kesehatan</option>
               <option value="P3K">P3K</option>
               <option value="Kegiatan">Kegiatan</option>
               <option value="Lainnya">Lainnya</option>
             </select>
-            <select value={statusFilter} onChange={e => { setStatusFilter(e.target.value); setPage(1) }} className="admin-select">
+            <select value={statusFilter} onChange={e => { setStatusFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter status artikel">
               <option value="">Semua Status</option>
               <option value="published">Published</option>
               <option value="draft">Draft</option>
@@ -153,31 +153,31 @@ export default function AdminArticles() {
           <div className="reg-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 640 }}>
             <div className="reg-modal-header">
               <h2 className="reg-modal-title">{editing ? "Edit Artikel" : "Artikel Baru"}</h2>
-              <button onClick={closeForm} className="reg-modal-close">
+              <button onClick={closeForm} className="reg-modal-close" aria-label="Tutup">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
               </button>
             </div>
             <div className="reg-modal-body" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               <div>
                 <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Judul *</label>
-                <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="admin-input" placeholder="Judul artikel" />
+                <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="admin-input" placeholder="Judul artikel" aria-label="Judul" />
               </div>
               <div>
                 <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Excerpt</label>
-                <input value={form.excerpt} onChange={e => setForm({ ...form, excerpt: e.target.value })} className="admin-input" placeholder="Ringkasan singkat" />
+                <input value={form.excerpt} onChange={e => setForm({ ...form, excerpt: e.target.value })} className="admin-input" placeholder="Ringkasan singkat" aria-label="Excerpt" />
               </div>
               <div>
                 <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Konten *</label>
-                <textarea value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} className="admin-input" rows={10} placeholder="Tulis konten artikel di sini..." style={{ resize: "vertical", lineHeight: 1.6 }} />
+                <textarea value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} className="admin-input" rows={10} placeholder="Tulis konten artikel di sini..." aria-label="Konten" style={{ resize: "vertical", lineHeight: 1.6 }} />
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 <div>
                   <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Penulis</label>
-                  <input value={form.author} onChange={e => setForm({ ...form, author: e.target.value })} className="admin-input" />
+                  <input value={form.author} onChange={e => setForm({ ...form, author: e.target.value })} className="admin-input" aria-label="Penulis" />
                 </div>
                 <div>
                   <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Kategori</label>
-                  <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="admin-select" style={{ width: "100%", padding: "10px 12px" }}>
+                  <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="admin-select" aria-label="Kategori" style={{ width: "100%", padding: "10px 12px" }}>
                     <option value="Kesehatan">Kesehatan</option>
                     <option value="P3K">P3K</option>
                     <option value="Kegiatan">Kegiatan</option>
@@ -187,10 +187,10 @@ export default function AdminArticles() {
               </div>
               <div>
                 <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Cover Image URL</label>
-                <input value={form.coverImage} onChange={e => setForm({ ...form, coverImage: e.target.value })} className="admin-input" placeholder="https://..." />
+                <input value={form.coverImage} onChange={e => setForm({ ...form, coverImage: e.target.value })} className="admin-input" placeholder="https://..." aria-label="Cover Image URL" />
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <input type="checkbox" checked={form.isPublished} onChange={e => setForm({ ...form, isPublished: e.target.checked })} className="admin-checkbox" />
+                <input type="checkbox" checked={form.isPublished} onChange={e => setForm({ ...form, isPublished: e.target.checked })} className="admin-checkbox" aria-label="Publish sekarang" />
                 <label style={{ fontSize: 13, color: "rgba(255,255,255,.6)" }}>Publish sekarang</label>
               </div>
               <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", paddingTop: 8, borderTop: "1px solid rgba(255,255,255,.06)" }}>

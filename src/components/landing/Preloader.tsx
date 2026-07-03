@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 
 export default function Preloader() {
   const [percent, setPercent] = useState(0)
@@ -46,11 +47,11 @@ export default function Preloader() {
         <div className="relative flex items-center justify-center gap-4">
           <div className="relative" style={{ opacity: 0, animation: "logoRevealLeft 1s cubic-bezier(0.16,1,0.3,1) 0.2s forwards" }}>
             <div className="absolute inset-[-8px] rounded-full" style={{ background: "radial-gradient(circle, rgba(232,122,26,0.2) 0%, transparent 70%)", animation: "glowPulse 2s ease-in-out infinite" }} />
-            <img src="/smkn_logo.png" alt="SMKN" className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px] rounded-full object-contain" style={{ filter: "drop-shadow(0 0 20px rgba(232,122,26,0.3))" }} />
+            <Image src="/smkn_logo.png" alt="SMKN" width={90} height={90} className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px] rounded-full object-contain" style={{ filter: "drop-shadow(0 0 20px rgba(232,122,26,0.3))" }} />
           </div>
           <div className="relative" style={{ opacity: 0, animation: "logoRevealRight 1s cubic-bezier(0.16,1,0.3,1) 0.4s forwards" }}>
             <div className="absolute inset-[-8px] rounded-full" style={{ background: "radial-gradient(circle, rgba(232,122,26,0.2) 0%, transparent 70%)", animation: "glowPulse 2s ease-in-out infinite 0.5s" }} />
-            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px] rounded-full object-contain" style={{ filter: "drop-shadow(0 0 20px rgba(232,122,26,0.3))" }} />
+            <Image src="/parstama_logo.png" alt="PARSTAMA" width={90} height={90} className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px] rounded-full object-contain" style={{ filter: "drop-shadow(0 0 20px rgba(232,122,26,0.3))" }} />
           </div>
         </div>
 
