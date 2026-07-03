@@ -424,7 +424,22 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div style={{ marginTop: "24px", textAlign: "center" }}>
+            <div style={{ marginTop: "24px", textAlign: "center", display: "flex", flexDirection: "column", gap: "12px", alignItems: "center" }}>
+              <a
+                href="https://wa.me/6285731663004"
+                target="_blank"
+                rel="noopener"
+                style={{
+                  color: "rgba(255,255,255,0.7)",
+                  fontSize: "14px",
+                  textDecoration: "none",
+                  transition: "color 0.3s",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "#fff" }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.7)" }}
+              >
+                Hubungi panitia: WA 0857-3166-3004
+              </a>
               <Link
                 href="/"
                 style={{
