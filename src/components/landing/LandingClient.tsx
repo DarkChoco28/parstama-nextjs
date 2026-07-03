@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback, type MouseEvent as ReactMouseEvent } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import LogoLoop from "../ui/LogoLoop"
 import ShapeGrid from "./ShapeGrid"
 import FluidMenu from "./FluidMenu"
 import Preloader from "./Preloader"
@@ -228,6 +229,9 @@ export default function LandingClient() {
           <Link href="/events" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             <SplitText text="Event" />
           </Link>
+          <Link href="/faq" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
+            <SplitText text="FAQ" />
+          </Link>
           <Link href="/cek-status" className="split-text text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-orange-400 after:to-orange-600 after:transition-all hover:after:w-full">
             Tanya AI
           </Link>
@@ -446,6 +450,7 @@ export default function LandingClient() {
                 { label: "Blog", href: "/blog" },
                 { label: "Event", href: "/events" },
                 { label: "Tanya AI", href: "/cek-status" },
+                { label: "FAQ", href: "/faq" },
                 { label: "Struktur Organisasi", href: "/struktur-organisasi" },
                 { label: "Login Admin", href: "/login" },
               ].map((l) => (
@@ -457,6 +462,28 @@ export default function LandingClient() {
         <div className="text-center text-xs text-zinc-600 pt-6 sm:pt-8 border-t border-white/6">
           &copy; {new Date().getFullYear()} <span className="text-orange-400 font-semibold">PARSTAMA</span> — SMKN 1 Singosari
           <p className="mt-2 text-zinc-500">Made with ❤️ by tim PARSTAMA</p>
+        </div>
+
+        {/* Supported By - Logo Marquee */}
+        <div className="mt-8 pt-6 border-t border-white/6">
+          <p className="text-center text-[10px] uppercase tracking-[0.25em] text-zinc-600 mb-4 font-medium">Supported by</p>
+          <LogoLoop
+            logos={[
+              { node: <Image src="/smkn_logo.png" alt="SMKN 1 Singosari" width={32} height={32} unoptimized className="rounded-full object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(232,122,26,0.3))" }} />, title: "SMKN 1 Singosari" },
+              { node: <Image src="/parstama_logo.png" alt="PARSTAMA" width={32} height={32} unoptimized className="rounded-full object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(232,122,26,0.3))" }} />, title: "PARSTAMA" },
+              { node: <span className="text-zinc-500 text-xs font-semibold tracking-wider">PMI</span>, title: "Palang Merah Indonesia" },
+              { node: <span className="text-zinc-500 text-xs font-semibold tracking-wider">SMKN 1 Singosari</span>, title: "SMKN 1 Singosari" },
+              { node: <span className="text-zinc-500 text-xs font-semibold tracking-wider">PARSTAMA</span>, title: "PARSTAMA" },
+              { node: <span className="text-zinc-500 text-xs font-semibold tracking-wider">PMR</span>, title: "Palang Merah Remaja" },
+            ]}
+            speed={40}
+            logoHeight={32}
+            gap={48}
+            pauseOnHover
+            fadeOut
+            fadeOutColor="#141415"
+            className="opacity-60 hover:opacity-100 transition-opacity duration-500"
+          />
         </div>
       </footer>
 
