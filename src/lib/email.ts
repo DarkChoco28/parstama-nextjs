@@ -1,4 +1,4 @@
-import { WA_LINK, WA_NUMBER } from "@/lib/constants"
+import { WA_LINK, WA_NUMBER, WA_GROUP_LINK } from "@/lib/constants"
 
 interface SendEmailOptions {
   to: string
@@ -53,7 +53,15 @@ export function buildStatusEmail(
   const extraMessage =
     status === "accepted"
       ? `<p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
-          Selamat! Anda telah <strong style="color:#34D399">DITERIMA</strong> sebagai anggota PARSTAMA. Silakan hubungi admin untuk informasi lebih lanjut.
+          Selamat! Anda telah <strong style="color:#34D399">DITERIMA</strong> sebagai anggota PARSTAMA.
+        </p>
+        <div style="text-align:center;margin:20px 0">
+          <a href="${WA_GROUP_LINK}" style="display:inline-block;padding:14px 32px;background:#25D366;color:#fff;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none">
+            Gabung Group WhatsApp
+          </a>
+        </div>
+        <p style="color:rgba(255,255,255,.5);font-size:12px;margin:0 0 20px">
+          Klik tombol di atas untuk bergabung ke group resmi PARSTAMA.
         </p>`
       : status === "rejected"
       ? `<p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
