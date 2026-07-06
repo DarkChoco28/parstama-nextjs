@@ -75,11 +75,12 @@ export default function AdminOrganization() {
   }
   if (!session) return null
 
-  const grouped = [0, 1, 2].map(lvl => ({ level: lvl, label: lvl === 0 ? "Pimpinan Utama" : lvl === 1 ? "Kepala Divisi" : "Staff", members: members.filter(m => m.level === lvl).sort((a, b) => a.sortOrder - b.sortOrder) }))
+  const grouped = [0, 1, 2, 3].map(lvl => ({ level: lvl, label: lvl === 0 ? "Ketua Umum" : lvl === 1 ? "Ketua Satu" : lvl === 2 ? "Pengurus Inti" : "Humas", members: members.filter(m => m.level === lvl).sort((a, b) => a.sortOrder - b.sortOrder) }))
   const levelOptions = [
-    { value: 0, label: "Pimpinan Utama" },
-    { value: 1, label: "Kepala Divisi" },
-    { value: 2, label: "Staff" },
+    { value: 0, label: "Ketua Umum" },
+    { value: 1, label: "Ketua Satu" },
+    { value: 2, label: "Pengurus Inti" },
+    { value: 3, label: "Humas" },
   ]
 
   return (
@@ -233,7 +234,7 @@ export default function AdminOrganization() {
         .admin-header-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
         .admin-btn-add{display:flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,#E87A1A,#F97316);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit;white-space:nowrap}
         .admin-btn-add:hover{box-shadow:0 0 20px rgba(232,122,26,.3);transform:translateY(-1px)}
-        .org-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+        .org-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
         .org-summary-card{background:rgba(20,20,22,.8);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;text-align:center;display:flex;flex-direction:column;gap:4px}
         .org-summary-count{font-size:24px;font-weight:800;color:#fff}
         .org-summary-label{font-size:11px;color:rgba(255,255,255,.4);font-weight:500}
@@ -243,6 +244,7 @@ export default function AdminOrganization() {
         .org-level-0{background:#EF4444}
         .org-level-1{background:#F59E0B}
         .org-level-2{background:#3B82F6}
+        .org-level-3{background:#8B5CF6}
         .org-empty{padding:24px;text-align:center;color:rgba(255,255,255,.3);font-size:13px;background:rgba(20,20,22,.5);border-radius:12px;border:1px dashed rgba(255,255,255,.1)}
         .org-member-grid{display:grid;grid-template-columns:1fr;gap:10px}
         .org-member-card{background:rgba(20,20,22,.8);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;transition:all .3s}
@@ -297,7 +299,7 @@ export default function AdminOrganization() {
         @media(max-width:767px){
           .admin-header-row{flex-direction:column}
           .admin-btn-add{width:100%;justify-content:center}
-          .org-summary{grid-template-columns:repeat(3,1fr);gap:8px}
+          .org-summary{grid-template-columns:repeat(2,1fr);gap:8px}
           .org-summary-card{padding:10px}
           .org-summary-count{font-size:20px}
           .org-summary-label{font-size:10px}
