@@ -44,8 +44,11 @@ export const visionSchema = z.object({
 })
 
 export const statusUpdateSchema = z.object({
+  status: StatusEnum,
+})
+
+export const notificationSchema = z.object({
   registrationId: z.string().min(1, "Registration ID wajib diisi"),
-  status: StatusEnum.optional(),
 })
 
 export const articleSchema = z.object({
