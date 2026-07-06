@@ -371,7 +371,6 @@ export default function AdminRegistrations() {
           </div>
         </div>
       )}
-    </main>
     </>
   )
 }
