@@ -455,80 +455,129 @@ export default function StrukturOrganisasiPage() {
             {/* Member Cards Section */}
             {!loading && !error && members.length > 0 && (
               <AnimatedSection delay={0.2}>
-                {/* Level 0 & 1 cards */}
-                <div className="mb-8">
-                  <h2 className="text-center text-zinc-300 text-sm font-semibold mb-6 uppercase tracking-wider">
-                    Ketua Umum & Ketua Satu
-                  </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {[...level0, ...level1].map((member) => (
-                      <div
-                        key={member.id}
-                        className="glass-card rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1"
-                        style={{ borderLeft: "3px solid #E87A1A" }}
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className={`w-14 h-14 rounded-full bg-linear-to-br ${getLevelColor(member.level)} flex items-center justify-center text-white font-bold text-lg shrink-0 shadow-lg`}>
-                            {member.photo ? (
-                              <Image src={member.photo} alt={member.name} width={56} height={56} className="w-full h-full rounded-full object-cover" unoptimized />
-                            ) : (
-                              getInitials(member.name)
-                            )}
-                          </div>
-                          <div className="min-w-0">
-                            <p className="text-white font-semibold text-sm leading-tight truncate">
-                              {member.name}
-                            </p>
-                            {member.nickname && (
-                              <p className="text-zinc-500 text-xs">({member.nickname})</p>
-                            )}
-                            <p className="text-orange-400 text-xs font-medium mt-0.5">
-                              {member.position}
-                            </p>
-                            <p className="text-zinc-600 text-[10px] mt-0.5">
-                              {getLevelLabel(member.level)}
-                            </p>
-                            {member.bio && (
-                              <p className="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-3">
-                                {member.bio}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Level 2: Sekretaris & Bendahara */}
-                {level2.length > 0 && (
-                  <div className="mb-8">
+                {/* Level 0: Ketua Umum */}
+                {level0.length > 0 && (
+                  <div className="mb-10">
                     <h2 className="text-center text-zinc-300 text-sm font-semibold mb-6 uppercase tracking-wider">
-                      Sekretaris & Bendahara
+                      Ketua Umum
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
-                      {level2.map((member) => (
+                    <div className="flex justify-center">
+                      {level0.map((member) => (
                         <div
                           key={member.id}
-                          className="glass-card rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1"
-                          style={{ borderLeft: "3px solid rgba(232,122,26,0.4)" }}
+                          className="glass-card rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 max-w-sm w-full"
+                          style={{ borderLeft: "3px solid #E87A1A" }}
                         >
-                          <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg">
+                          <div className="flex items-center gap-4">
+                            <div className={`w-16 h-16 rounded-full bg-linear-to-br ${getLevelColor(member.level)} flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-lg`}>
                               {member.photo ? (
-                              <Image src={member.photo} alt={member.name} width={56} height={56} className="w-full h-full rounded-full object-cover" unoptimized />
+                                <Image src={member.photo} alt={member.name} width={64} height={64} className="w-full h-full rounded-full object-cover" unoptimized />
                               ) : (
                                 getInitials(member.name)
                               )}
                             </div>
                             <div className="min-w-0">
-                              <p className="text-white font-semibold text-xs leading-tight truncate">
+                              <p className="text-white font-semibold text-base leading-tight truncate">
+                                {member.name}
+                              </p>
+                              {member.nickname && (
+                                <p className="text-zinc-500 text-xs">({member.nickname})</p>
+                              )}
+                              <p className="text-orange-400 text-xs font-medium mt-0.5">
+                                {member.position}
+                              </p>
+                              <p className="text-zinc-600 text-[10px] mt-0.5">
+                                {getLevelLabel(member.level)}
+                              </p>
+                              {member.bio && (
+                                <p className="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-3">
+                                  {member.bio}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Level 1: Ketua Satu */}
+                {level1.length > 0 && (
+                  <div className="mb-10">
+                    <h2 className="text-center text-zinc-300 text-sm font-semibold mb-6 uppercase tracking-wider">
+                      Ketua Satu
+                    </h2>
+                    <div className="flex justify-center">
+                      {level1.map((member) => (
+                        <div
+                          key={member.id}
+                          className="glass-card rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 max-w-sm w-full"
+                          style={{ borderLeft: "3px solid #E87A1A" }}
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className={`w-16 h-16 rounded-full bg-linear-to-br ${getLevelColor(member.level)} flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-lg`}>
+                              {member.photo ? (
+                                <Image src={member.photo} alt={member.name} width={64} height={64} className="w-full h-full rounded-full object-cover" unoptimized />
+                              ) : (
+                                getInitials(member.name)
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-white font-semibold text-base leading-tight truncate">
+                                {member.name}
+                              </p>
+                              {member.nickname && (
+                                <p className="text-zinc-500 text-xs">({member.nickname})</p>
+                              )}
+                              <p className="text-orange-400 text-xs font-medium mt-0.5">
+                                {member.position}
+                              </p>
+                              <p className="text-zinc-600 text-[10px] mt-0.5">
+                                {getLevelLabel(member.level)}
+                              </p>
+                              {member.bio && (
+                                <p className="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-3">
+                                  {member.bio}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Level 2: Sekretaris & Bendahara */}
+                {level2.length > 0 && (
+                  <div className="mb-10">
+                    <h2 className="text-center text-zinc-300 text-sm font-semibold mb-6 uppercase tracking-wider">
+                      Sekretaris & Bendahara
+                    </h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto">
+                      {level2.map((member) => (
+                        <div
+                          key={member.id}
+                          className="glass-card rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1"
+                          style={{ borderLeft: "3px solid rgba(232,122,26,0.4)" }}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg">
+                              {member.photo ? (
+                                <Image src={member.photo} alt={member.name} width={48} height={48} className="w-full h-full rounded-full object-cover" unoptimized />
+                              ) : (
+                                getInitials(member.name)
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-white font-semibold text-sm leading-tight truncate">
                                 {member.name}
                               </p>
                               {member.nickname && (
                                 <p className="text-zinc-500 text-[10px]">({member.nickname})</p>
                               )}
-                              <p className="text-orange-400 text-[10px] font-medium mt-0.5 truncate">
+                              <p className="text-orange-400 text-xs font-medium mt-0.5 truncate">
                                 {member.position}
                               </p>
                               {member.bio && (
@@ -544,35 +593,35 @@ export default function StrukturOrganisasiPage() {
                   </div>
                 )}
 
-                {/* Level 3: Humas Internal & Humas Eksternal */}
+                {/* Level 3: Humas */}
                 {level3.length > 0 && (
-                  <div className="mb-8">
+                  <div className="mb-10">
                     <h2 className="text-center text-zinc-300 text-sm font-semibold mb-6 uppercase tracking-wider">
                       Humas
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto">
                       {level3.map((member) => (
                         <div
                           key={member.id}
-                          className="glass-card rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1"
+                          className="glass-card rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1"
                           style={{ borderLeft: "3px solid rgba(232,122,26,0.4)" }}
                         >
                           <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg">
                               {member.photo ? (
-                              <Image src={member.photo} alt={member.name} width={56} height={56} className="w-full h-full rounded-full object-cover" unoptimized />
+                                <Image src={member.photo} alt={member.name} width={48} height={48} className="w-full h-full rounded-full object-cover" unoptimized />
                               ) : (
                                 getInitials(member.name)
                               )}
                             </div>
                             <div className="min-w-0">
-                              <p className="text-white font-semibold text-xs leading-tight truncate">
+                              <p className="text-white font-semibold text-sm leading-tight truncate">
                                 {member.name}
                               </p>
                               {member.nickname && (
                                 <p className="text-zinc-500 text-[10px]">({member.nickname})</p>
                               )}
-                              <p className="text-orange-400 text-[10px] font-medium mt-0.5 truncate">
+                              <p className="text-orange-400 text-xs font-medium mt-0.5 truncate">
                                 {member.position}
                               </p>
                               {member.bio && (
