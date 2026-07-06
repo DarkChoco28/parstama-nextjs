@@ -7,6 +7,7 @@ interface Message {
   id: string
   role: "user" | "assistant"
   content: string
+  image?: string
   timestamp: Date
 }
 
@@ -51,18 +52,19 @@ export default function ChatPage() {
 
   const sendMessage = async (text?: string) => {
     const msg = (text || input).trim()
-    if (!msg || isLoading) return
+    const imageToSend = selectedImage
+    if ((!msg && !imageToSend) || isLoading) return
 
     const userMsg: Message = {
       id: Date.now().toString(),
       role: "user",
-      content: msg || (selectedImage ? "📷 Gambar dikirim" : ""),
+      content: msg || (imageToSend ? "📷 Gambar dikirim" : ""),
+      image: imageToSend || undefined,
       timestamp: new Date(),
     }
 
     setMessages((prev) => [...prev, userMsg])
     setInput("")
-    const imageToSend = selectedImage
     setSelectedImage(null)
     setIsLoading(true)
 
@@ -177,8 +179,12 @@ export default function ChatPage() {
                       ? "bg-gradient-to-br from-red-600 to-red-800 text-white rounded-br-md"
                       : "bg-white/[0.05] border border-white/[0.08] text-zinc-200 rounded-bl-md"
                   }`}
-                  dangerouslySetInnerHTML={{ __html: parseMarkdown(msg.content) }}
-                />
+                >
+                  {msg.image && (
+                    <img src={msg.image} alt="Gambar user" className="rounded-lg mb-2 max-h-48 object-cover w-full" />
+                  )}
+                  <div dangerouslySetInnerHTML={{ __html: parseMarkdown(msg.content) }} />
+                </div>
 
                 <div className={`text-[10px] text-zinc-600 mt-1 ${msg.role === "user" ? "text-right mr-1" : "ml-1"}`}>
                   {msg.timestamp.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
@@ -276,7 +282,7 @@ export default function ChatPage() {
             />
             <button
               onClick={() => sendMessage()}
-              disabled={!input.trim() || isLoading}
+              disabled={(!input.trim() && !selectedImage) || isLoading}
               aria-label="Kirim pesan"
               className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white hover:from-red-400 hover:to-red-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
             >
