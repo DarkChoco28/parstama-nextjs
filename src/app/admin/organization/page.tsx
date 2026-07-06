@@ -213,7 +213,7 @@ export default function AdminOrganization() {
               </div>
               <div className="org-form-group">
                 <label className="org-label">Periode</label>
-                <input type="text" value={form.period} onChange={e => setForm({ ...form, period: e.target.value })} className="admin-input" placeholder="2025-2026" aria-label="Periode" />
+                <input type="text" value={form.period} onChange={e => setForm({ ...form, period: e.target.value })} className="admin-input" placeholder="2026-2027" aria-label="Periode" />
               </div>
               <div className="org-form-group">
                 <label className="org-check-label">
