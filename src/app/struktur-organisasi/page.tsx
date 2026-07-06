@@ -43,11 +43,13 @@ function getLevelColor(level: number): string {
 function getLevelLabel(level: number): string {
   switch (level) {
     case 0:
-      return "Pengurus Inti"
+      return "Ketua Umum"
     case 1:
-      return "Kepala Divisi"
+      return "Ketua Satu"
     case 2:
-      return "Staff"
+      return "Pengurus Inti"
+    case 3:
+      return "Humas"
     default:
       return "Anggota"
   }
@@ -356,10 +358,9 @@ export default function StrukturOrganisasiPage() {
                   Hierarki Organisasi
                 </h2>
 
-                {/* Tree Container */}
                 <div className="overflow-x-auto pb-4">
                   <div className="min-w-150 flex flex-col items-center gap-6">
-                    {/* Level 0: Ketua & Wakil */}
+                    {/* Level 0: Ketua Umum */}
                     {level0.length > 0 && (
                       <div className="relative">
                         <div className="flex items-end justify-center gap-8 sm:gap-12">
@@ -369,17 +370,15 @@ export default function StrukturOrganisasiPage() {
                             </div>
                           ))}
                         </div>
-                        {/* Vertical line down */}
                         {level1.length > 0 && (
                           <div className="tree-line-v" style={{ top: "100%", height: "30px" }} />
                         )}
                       </div>
                     )}
 
-                    {/* Level 1: Division Heads */}
+                    {/* Level 1: Ketua Satu */}
                     {level1.length > 0 && (
                       <div className="relative">
-                        {/* Horizontal line across all level 1 */}
                         {level1.length > 1 && (
                           <div
                             className="tree-line-h"
@@ -391,28 +390,48 @@ export default function StrukturOrganisasiPage() {
                           />
                         )}
                         <div className="flex flex-wrap justify-center gap-6 sm:gap-8">
-                          {level1.map((member) => {
-                            return (
-                              <div key={member.id} className="tree-node flex flex-col items-center">
-                                {/* Vertical line from horizontal */}
-                                <div className="tree-line-v" style={{ top: "-16px", height: "16px" }} />
-                                {renderMemberNode(member)}
-                                {/* Vertical line to children */}
-                                {level2.some((l2) => l2.parentId === member.id) && (
-                                  <div className="tree-line-v" style={{ top: "100%", height: "20px" }} />
-                                )}
-                              </div>
-                            )
-                          })}
+                          {level1.map((member) => (
+                            <div key={member.id} className="tree-node flex flex-col items-center">
+                              <div className="tree-line-v" style={{ top: "-16px", height: "16px" }} />
+                              {renderMemberNode(member)}
+                              {level2.some((l2) => l2.parentId === member.id) && (
+                                <div className="tree-line-v" style={{ top: "100%", height: "20px" }} />
+                              )}
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
 
-                    {/* Level 2: Staff grouped by parent */}
-                    {level1.length > 0 && (
+                    {/* Level 2: Sekretaris & Bendahara */}
+                    {level2.length > 0 && (
                       <div className="flex flex-wrap justify-center gap-8 sm:gap-12 w-full">
                         {level1.map((head) => {
                           const children = level2.filter((l2) => l2.parentId === head.id)
+                          if (children.length === 0) return null
+                          return (
+                            <div key={head.id} className="flex flex-col items-center">
+                              <div className="flex flex-wrap justify-center gap-3">
+                                {children.map((member) => (
+                                  <div key={member.id} className="tree-node flex flex-col items-center">
+                                    {renderMemberNode(member)}
+                                    {level3.some((l3) => l3.parentId === member.id) && (
+                                      <div className="tree-line-v" style={{ top: "100%", height: "20px" }} />
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+
+                    {/* Level 3: Humas */}
+                    {level3.length > 0 && (
+                      <div className="flex flex-wrap justify-center gap-8 sm:gap-12 w-full">
+                        {level2.map((head) => {
+                          const children = level3.filter((l3) => l3.parentId === head.id)
                           if (children.length === 0) return null
                           return (
                             <div key={head.id} className="flex flex-col items-center">
@@ -428,10 +447,10 @@ export default function StrukturOrganisasiPage() {
                         })}
                       </div>
                     )}
-                    </div>
                   </div>
-                </AnimatedSection>
-              )}
+                </div>
+              </AnimatedSection>
+            )}
 
             {/* Member Cards Section */}
             {!loading && !error && members.length > 0 && (
@@ -439,7 +458,7 @@ export default function StrukturOrganisasiPage() {
                 {/* Level 0 & 1 cards */}
                 <div className="mb-8">
                   <h2 className="text-center text-zinc-300 text-sm font-semibold mb-6 uppercase tracking-wider">
-                    Pengurus Inti & Kepala Divisi
+                    Ketua Umum & Ketua Satu
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {[...level0, ...level1].map((member) => (
@@ -485,7 +504,7 @@ export default function StrukturOrganisasiPage() {
                 {level2.length > 0 && (
                   <div className="mb-8">
                     <h2 className="text-center text-zinc-300 text-sm font-semibold mb-6 uppercase tracking-wider">
-                      Pengurus Inti
+                      Sekretaris & Bendahara
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
                       {level2.map((member) => (
