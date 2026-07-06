@@ -189,7 +189,7 @@ export async function POST(request: NextRequest) {
           "Authorization": `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
+          model: "qwen/qwen3.6-27b",
           messages: [
             { role: "system", content: SYSTEM_PROMPT },
             { role: "user", content: message },
