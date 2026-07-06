@@ -12,7 +12,7 @@ interface Article {
 const defaultForm = { title: "", excerpt: "", content: "", coverImage: "", author: "Admin PARSTAMA", category: "Kesehatan", isPublished: false }
 
 export default function AdminArticles() {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const router = useRouter()
   const [articles, setArticles] = useState<Article[]>([])
   const [loading, setLoading] = useState(true)
@@ -45,6 +45,7 @@ export default function AdminArticles() {
     } catch (e) { console.error(e) } finally { setLoading(false) }
   }, [page, searchQuery, categoryFilter, statusFilter])
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { if (status === "authenticated") fetchArticles() }, [status, fetchArticles])
 
   const openAdd = () => { setEditing(null); setForm(defaultForm); setShowForm(true) }
