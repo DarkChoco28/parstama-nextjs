@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
       medicalHistory,
       organizationExperience,
       motivation,
+      parentConsent,
     } = parsed.data
 
     const normalizedWhatsapp = normalizeWhatsapp(String(whatsapp || ""))
@@ -112,6 +113,7 @@ export async function POST(request: NextRequest) {
         medicalHistory: medicalHistory?.trim() || null,
         organizationExperience: organizationExperience?.trim() || null,
         motivation: motivation.trim(),
+        parentConsent: !!parentConsent,
         status: "pending",
       },
     })

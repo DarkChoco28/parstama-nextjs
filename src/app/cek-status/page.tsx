@@ -36,8 +36,10 @@ export default function ChatPage() {
   ])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -54,19 +56,25 @@ export default function ChatPage() {
     const userMsg: Message = {
       id: Date.now().toString(),
       role: "user",
-      content: msg,
+      content: msg || (selectedImage ? "📷 Gambar dikirim" : ""),
       timestamp: new Date(),
     }
 
     setMessages((prev) => [...prev, userMsg])
     setInput("")
+    const imageToSend = selectedImage
+    setSelectedImage(null)
     setIsLoading(true)
 
     try {
-      const res = await fetch("/api/chat", {
+      const endpoint = imageToSend ? "/api/chat/vision" : "/api/chat"
+      const body = imageToSend
+        ? { image: imageToSend, message: msg || undefined }
+        : { message: msg }
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg }),
+        body: JSON.stringify(body),
       })
       const data = await res.json()
 
@@ -99,6 +107,21 @@ export default function ChatPage() {
       sendMessage()
     }
   }
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith("image/")) return
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      setSelectedImage(reader.result as string)
+    }
+    reader.readAsDataURL(file)
+    e.target.value = ""
+  }
+
+  const removeImage = () => setSelectedImage(null)
 
   return (
     <div className="min-h-screen bg-[#0A0A0B] flex flex-col"
@@ -213,7 +236,26 @@ export default function ChatPage() {
       {/* Input Area */}
       <div className="sticky bottom-0 bg-[#0A0A0B]/95 backdrop-blur-xl border-t border-white/[0.06] px-4 py-3 sm:py-4">
         <div className="max-w-4xl mx-auto">
+          <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageSelect} />
+
+          {selectedImage && (
+            <div className="mb-2 relative inline-block">
+              <img src={selectedImage} alt="Preview" className="h-20 rounded-lg border border-white/10 object-cover" />
+              <button onClick={removeImage} className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center cursor-pointer" aria-label="Hapus gambar">×</button>
+            </div>
+          )}
+
           <div className="flex items-end gap-2 bg-white/[0.04] border border-white/[0.08] rounded-2xl px-3 py-2 focus-within:border-red-500/30 transition-colors">
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isLoading}
+              aria-label="Upload gambar"
+              className="w-9 h-9 rounded-xl bg-white/[0.06] border border-white/[0.1] flex items-center justify-center text-zinc-400 hover:text-orange-400 hover:border-orange-500/30 disabled:opacity-30 transition-all flex-shrink-0 cursor-pointer"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
+              </svg>
+            </button>
             <textarea
               ref={inputRef}
               value={input}

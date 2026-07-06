@@ -43,6 +43,7 @@ model Registration {
   motivation              String
   motivationScore         Int?
   sentimentLabel          String?
+  parentConsent           Boolean   @default(false)
   status                  String    @default("pending")
   createdAt               DateTime  @default(now())
   updatedAt               DateTime  @updatedAt
