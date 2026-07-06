@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
 import { createAuditLog } from "@/lib/audit-log"
-import { articleSchema } from "@/lib/validation"
 
 function toSlug(title: string) {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
@@ -44,11 +43,13 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const parsed = articleSchema.safeParse(body)
-    if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
+    if (!body.title?.trim()) {
+      return NextResponse.json({ error: "Judul wajib diisi" }, { status: 400 })
     }
-    const { title, excerpt, content, coverImage, author, category, isPublished } = parsed.data
+    if (!body.content?.trim()) {
+      return NextResponse.json({ error: "Konten wajib diisi" }, { status: 400 })
+    }
+    const { title, excerpt, content, coverImage, author, category, isPublished } = body
 
     let slug = toSlug(title)
     const existing = await prisma.article.findUnique({ where: { slug } })

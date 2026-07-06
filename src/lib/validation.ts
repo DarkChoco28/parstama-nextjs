@@ -49,10 +49,10 @@ export const statusUpdateSchema = z.object({
 })
 
 export const articleSchema = z.object({
-  title: z.string().min(1, "Judul wajib diisi").trim(),
-  slug: z.string().min(1, "Slug wajib diisi").trim(),
+  title: z.string().min(1, "Judul wajib diisi").trim().optional(),
+  slug: z.string().optional(),
   excerpt: z.string().optional(),
-  content: z.string().min(1, "Konten wajib diisi"),
+  content: z.string().min(1, "Konten wajib diisi").optional(),
   coverImage: z.string().optional(),
   author: z.string().optional(),
   category: z.string().optional(),
