@@ -34,10 +34,16 @@ export async function POST(request: NextRequest) {
     }
     const { image, message } = parsed.data
 
-    const base64Data = image.replace(/^data:image\/\w+;base64,/, "")
-    if (base64Data.length < 100) {
+    const match = image.match(/^data:(image\/\w+);base64,(.+)$/)
+    if (!match) {
       return NextResponse.json({ error: "Format gambar tidak valid" }, { status: 400 })
     }
+    const imageType = match[1]
+    const base64Data = match[2]
+    if (base64Data.length < 100) {
+      return NextResponse.json({ error: "Data gambar terlalu kecil" }, { status: 400 })
+    }
+    console.log("[vision] imageType:", imageType, "size:", base64Data.length)
 
     const apiKey = process.env.GROQ_API_KEY
     if (!apiKey) {
@@ -65,7 +71,7 @@ export async function POST(request: NextRequest) {
               { type: "text", text: prompt },
               {
                 type: "image_url",
-                image_url: { url: `data:image/jpeg;base64,${base64Data}` },
+                image_url: { url: `data:${imageType};base64,${base64Data}` },
               },
             ],
           },
@@ -86,6 +92,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ response })
   } catch (error: any) {
+    console.error("[vision] error:", error?.message || error)
     return NextResponse.json({
       response: `Maaf, analisis gambar gagal. Coba kirim ulang atau ketik pertanyaan Anda secara manual.\n\nUntuk bantuan: **WA ${WA_NUMBER}** 📱`,
     })

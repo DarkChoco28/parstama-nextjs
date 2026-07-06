@@ -110,14 +110,36 @@ export default function ChatPage() {
     }
   }
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const compressImage = (dataUrl: string): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image()
+      img.onload = () => {
+        const canvas = document.createElement("canvas")
+        const MAX = 1024
+        let { width, height } = img
+        if (width > MAX || height > MAX) {
+          if (width > height) { height = Math.round((height / width) * MAX); width = MAX }
+          else { width = Math.round((width / height) * MAX); height = MAX }
+        }
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext("2d")!
+        ctx.drawImage(img, 0, 0, width, height)
+        resolve(canvas.toDataURL("image/jpeg", 0.8))
+      }
+      img.src = dataUrl
+    })
+  }
+
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
     if (!file.type.startsWith("image/")) return
 
     const reader = new FileReader()
-    reader.onload = () => {
-      setSelectedImage(reader.result as string)
+    reader.onload = async () => {
+      const compressed = await compressImage(reader.result as string)
+      setSelectedImage(compressed)
     }
     reader.readAsDataURL(file)
     e.target.value = ""
