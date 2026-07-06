@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import ImageUpload from "@/components/admin/ImageUpload"
 
 interface Article {
   id: string; title: string; slug: string; excerpt?: string; content: string; coverImage?: string; author: string; category: string; isPublished: boolean; viewCount: number; createdAt: string; updatedAt: string
@@ -186,8 +187,8 @@ export default function AdminArticles() {
                 </div>
               </div>
               <div>
-                <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Cover Image URL</label>
-                <input value={form.coverImage} onChange={e => setForm({ ...form, coverImage: e.target.value })} className="admin-input" placeholder="https://..." aria-label="Cover Image URL" />
+                <label style={{ fontSize: 12, color: "rgba(255,255,255,.5)", marginBottom: 4, display: "block" }}>Cover Image</label>
+                <ImageUpload value={form.coverImage} onChange={url => setForm({ ...form, coverImage: url })} folder="articles" label="Cover" />
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <input type="checkbox" checked={form.isPublished} onChange={e => setForm({ ...form, isPublished: e.target.checked })} className="admin-checkbox" aria-label="Publish sekarang" />

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react"
 import { useSession } from "next-auth/react"
-import Image from "next/image"
+import ImageUpload from "@/components/admin/ImageUpload"
 
 interface OrgMember {
   id: string
@@ -31,7 +31,6 @@ export default function AdminOrganization() {
   const [form, setForm] = useState(defaultForm)
   const [saving, setSaving] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
-  const [uploading, setUploading] = useState(false)
 
   const fetchMembers = useCallback(async () => {
     setLoading(true)
@@ -71,19 +70,6 @@ export default function AdminOrganization() {
   const moveOrder = async (m: OrgMember, dir: -1 | 1) => {
     try { await fetch(`/api/admin/organization/${m.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sortOrder: m.sortOrder + dir }) }); fetchMembers() }
     catch (e) { console.error(e) }
-  }
-
-  const handleUpload = async (file: File) => {
-    setUploading(true)
-    try {
-      const fd = new FormData()
-      fd.append("file", file)
-      const r = await fetch("/api/admin/upload", { method: "POST", body: fd })
-      const d = await r.json()
-      if (r.ok) setForm({ ...form, photo: d.url })
-      else alert(d.error || "Gagal upload")
-    } catch { alert("Gagal upload") }
-    finally { setUploading(false) }
   }
 
   if (status === "loading" || loading) {
@@ -213,18 +199,7 @@ export default function AdminOrganization() {
               </div>
               <div className="org-form-group">
                 <label className="org-label">Foto</label>
-                <div className="org-photo-row">
-                  <input type="url" value={form.photo} onChange={e => setForm({ ...form, photo: e.target.value })} className="admin-input" placeholder="https://example.com/foto.jpg" aria-label="URL Foto" />
-                  <label className="org-upload-btn">
-                    {uploading ? "..." : "Upload"}
-                    <input type="file" accept="image/*" style={{ display: "none" }} onChange={e => { const f = e.target.files?.[0]; if (f) handleUpload(f) }} />
-                  </label>
-                </div>
-                {form.photo && (
-                  <div style={{ marginTop: 8, width: 64, height: 64, borderRadius: "50%", overflow: "hidden", border: "2px solid rgba(255,255,255,0.1)" }}>
-                    <Image src={form.photo} alt="preview" width={64} height={64} style={{ width: "100%", height: "100%", objectFit: "cover" }} unoptimized />
-                  </div>
-                )}
+                <ImageUpload value={form.photo} onChange={url => setForm({ ...form, photo: url })} folder="organizations" label="Foto" />
               </div>
               <div className="org-form-row">
                 <div className="org-form-group" style={{ flex: 1 }}>
