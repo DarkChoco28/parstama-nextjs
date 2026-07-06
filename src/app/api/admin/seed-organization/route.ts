@@ -78,8 +78,8 @@ export async function POST() {
 
     for (const d of seedData) {
       let parentId: string | null = null
-      if (d.parentId && placeholders[d.parentId]) {
-        parentId = placeholders[d.parentId]
+      if (d.parentId) {
+        parentId = placeholders[d.parentId] ?? null
       }
 
       const member = await prisma.organizationMember.create({
@@ -97,7 +97,7 @@ export async function POST() {
         },
       })
 
-      const key = d.position.toUpperCase().replace(/\s+/g, "_")
+      const key = `__${d.position.toUpperCase().replace(/\s+/g, "_")}__`
       placeholders[key] = member.id
       created.push(member)
     }
