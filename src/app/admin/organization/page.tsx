@@ -9,8 +9,6 @@ interface OrgMember {
   name: string
   nickname?: string
   position: string
-  division?: string
-  divisionDesc?: string
   bio?: string
   photo?: string
   level: number
@@ -20,7 +18,7 @@ interface OrgMember {
   isVisible: boolean
 }
 
-const defaultForm = { name: "", nickname: "", position: "", division: "", divisionDesc: "", bio: "", photo: "", level: 0, parentId: "", sortOrder: 0, period: "", isVisible: true }
+const defaultForm = { name: "", nickname: "", position: "", bio: "", photo: "", level: 0, parentId: "", sortOrder: 0, period: "", isVisible: true }
 
 export default function AdminOrganization() {
   const { data: session, status } = useSession()
@@ -42,7 +40,7 @@ export default function AdminOrganization() {
   useEffect(() => { if (status === "authenticated") fetchMembers() }, [status, fetchMembers])
 
   const openAdd = () => { setEditingMember(null); setForm(defaultForm); setShowForm(true) }
-  const openEdit = (m: OrgMember) => { setEditingMember(m); setForm({ name: m.name, nickname: m.nickname || "", position: m.position, division: m.division || "", divisionDesc: m.divisionDesc || "", bio: m.bio || "", photo: m.photo || "", level: m.level, parentId: m.parentId || "", sortOrder: m.sortOrder, period: m.period || "", isVisible: m.isVisible }); setShowForm(true) }
+  const openEdit = (m: OrgMember) => { setEditingMember(m); setForm({ name: m.name, nickname: m.nickname || "", position: m.position, bio: m.bio || "", photo: m.photo || "", level: m.level, parentId: m.parentId || "", sortOrder: m.sortOrder, period: m.period || "", isVisible: m.isVisible }); setShowForm(true) }
   const closeForm = () => { setShowForm(false); setEditingMember(null); setForm(defaultForm) }
 
   const handleSave = async () => {
@@ -136,7 +134,7 @@ export default function AdminOrganization() {
                         {m.isVisible ? "Tampil" : "Sembunyi"}
                       </div>
                     </div>
-                    {m.division && <div className="org-member-division">{m.division}</div>}
+
                     {m.period && <div className="org-member-period">{m.period}</div>}
                     <div className="org-member-actions">
                       <button onClick={() => moveOrder(m, -1)} className="org-action-btn" title="Naikkan" aria-label="Naikkan urutan"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 15l-6-6-6 6"/></svg></button>
@@ -184,14 +182,6 @@ export default function AdminOrganization() {
               <div className="org-form-group">
                 <label className="org-label">Posisi <span className="org-required">*</span></label>
                 <input type="text" value={form.position} onChange={e => setForm({ ...form, position: e.target.value })} className="admin-input" placeholder="Ketua, Sekretaris, dll." aria-label="Posisi" />
-              </div>
-              <div className="org-form-group">
-                <label className="org-label">Divisi</label>
-                <input type="text" value={form.division} onChange={e => setForm({ ...form, division: e.target.value })} className="admin-input" placeholder="Bidang Keorganisasian, dll." aria-label="Divisi" />
-              </div>
-              <div className="org-form-group">
-                <label className="org-label">Deskripsi Divisi</label>
-                <textarea value={form.divisionDesc} onChange={e => setForm({ ...form, divisionDesc: e.target.value })} className="admin-input" rows={2} placeholder="Penjelasan singkat tentang divisi ini..." aria-label="Deskripsi Divisi" style={{ resize: "vertical" }} />
               </div>
               <div className="org-form-group">
                 <label className="org-label">Bio / Deskripsi Diri</label>
@@ -262,7 +252,7 @@ export default function AdminOrganization() {
         .org-member-info{display:flex;flex-direction:column;gap:2px;min-width:0}
         .org-member-name{font-size:14px;font-weight:700;color:#fff;line-height:1.3}
         .org-member-position{font-size:12px;color:rgba(255,255,255,.5);font-weight:500}
-        .org-member-division{font-size:11px;color:rgba(255,255,255,.35);margin-bottom:4px;padding:4px 8px;background:rgba(255,255,255,.03);border-radius:6px;display:inline-block}
+
         .org-member-period{font-size:11px;color:rgba(255,255,255,.3);margin-bottom:8px;font-family:monospace}
         .org-vis-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;flex-shrink:0;white-space:nowrap}
         .org-vis-on{background:rgba(52,211,153,.15);color:#34D399;border:1px solid rgba(52,211,153,.3)}

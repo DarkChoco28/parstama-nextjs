@@ -40,17 +40,16 @@ export async function GET() {
     const level0 = members.filter((m) => m.level === 0)
     const level1 = members.filter((m) => m.level === 1)
     const level2 = members.filter((m) => m.level === 2)
-
-    const divisions = [...new Set(members.map((m) => m.division).filter(Boolean) as string[])]
+    const level3 = members.filter((m) => m.level === 3)
 
     let y = 42
 
-    // Level 0 — Pimpinan
+    // Level 0 — Ketua Umum
     if (level0.length > 0) {
       doc.setFont("helvetica", "bold")
       doc.setFontSize(12)
       doc.setTextColor(...red)
-      doc.text("PIMPINAN UTAMA", 20, y)
+      doc.text("KETUA UMUM", 20, y)
       y += 7
       level0.forEach((m) => {
         doc.setFont("helvetica", "bold")
@@ -75,12 +74,12 @@ export async function GET() {
       y += 4
     }
 
-    // Level 1 — Kepala Divisi
+    // Level 1 — Ketua Satu
     if (level1.length > 0) {
       doc.setFont("helvetica", "bold")
       doc.setFontSize(12)
       doc.setTextColor(...red)
-      doc.text("KEPALA DIVISI", 20, y)
+      doc.text("KETUA SATU", 20, y)
       y += 7
       level1.forEach((m) => {
         doc.setFont("helvetica", "bold")
@@ -91,13 +90,6 @@ export async function GET() {
         doc.setFont("helvetica", "normal")
         doc.text(name, 60, y)
         y += 5
-        if (m.division) {
-          doc.setFont("helvetica", "italic")
-          doc.setFontSize(8)
-          doc.setTextColor(...gray)
-          doc.text(`Divisi ${m.division}`, 30, y)
-          y += 4
-        }
         if (m.bio) {
           doc.setFont("helvetica", "normal")
           doc.setFontSize(8)
@@ -113,50 +105,66 @@ export async function GET() {
       y += 4
     }
 
-    // Level 2 — Staff by Division
+    // Level 2 — Sekretaris & Bendahara
     if (level2.length > 0) {
-      for (const div of divisions) {
-        const divMembers = level2.filter((m) => m.division === div)
-        if (divMembers.length === 0) continue
-
-        if (y > 250) {
-          doc.addPage()
-          y = 20
-        }
-
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(12)
+      doc.setTextColor(...red)
+      doc.text("PENGURUS INTI", 20, y)
+      y += 7
+      level2.forEach((m) => {
         doc.setFont("helvetica", "bold")
-        doc.setFontSize(12)
-        doc.setTextColor(...red)
-        doc.text(`DIVISI ${div.toUpperCase()}`, 20, y)
-        y += 7
-
-        divMembers.forEach((m, i) => {
-          if (y > 270) {
-            doc.addPage()
-            y = 20
-          }
+        doc.setFontSize(10)
+        doc.setTextColor(...dark)
+        doc.text(`${m.position}:`, 25, y)
+        const name = m.nickname ? `${m.name} (${m.nickname})` : m.name
+        doc.setFont("helvetica", "normal")
+        doc.text(name, 60, y)
+        y += 5
+        if (m.bio) {
           doc.setFont("helvetica", "normal")
-          doc.setFontSize(9)
-          doc.setTextColor(...dark)
-          const name = m.nickname ? `${m.name} (${m.nickname})` : m.name
-          doc.text(`${i + 1}. ${name}`, 25, y)
-          doc.setFont("helvetica", "bold")
-          doc.text(m.position, 90, y)
-          y += 5
-          if (m.bio) {
-            doc.setFont("helvetica", "normal")
-            doc.setFontSize(8)
-            doc.setTextColor(...gray)
-            const lines = doc.splitTextToSize(m.bio, 130)
-            lines.forEach((line: string) => {
-              doc.text(line, 30, y)
-              y += 4
-            })
-          }
+          doc.setFontSize(8)
+          doc.setTextColor(...gray)
+          const lines = doc.splitTextToSize(m.bio, 150)
+          lines.forEach((line: string) => {
+            doc.text(line, 30, y)
+            y += 4
+          })
           y += 2
-        })
-        y += 4
-      }
+        }
+      })
+      y += 4
+    }
+
+    // Level 3 — Humas
+    if (level3.length > 0) {
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(12)
+      doc.setTextColor(...red)
+      doc.text("HUMAS", 20, y)
+      y += 7
+      level3.forEach((m) => {
+        doc.setFont("helvetica", "bold")
+        doc.setFontSize(10)
+        doc.setTextColor(...dark)
+        doc.text(`${m.position}:`, 25, y)
+        const name = m.nickname ? `${m.name} (${m.nickname})` : m.name
+        doc.setFont("helvetica", "normal")
+        doc.text(name, 60, y)
+        y += 5
+        if (m.bio) {
+          doc.setFont("helvetica", "normal")
+          doc.setFontSize(8)
+          doc.setTextColor(...gray)
+          const lines = doc.splitTextToSize(m.bio, 150)
+          lines.forEach((line: string) => {
+            doc.text(line, 30, y)
+            y += 4
+          })
+          y += 2
+        }
+      })
+      y += 4
     }
 
     // Footer

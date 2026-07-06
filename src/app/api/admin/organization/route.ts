@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { name, nickname, position, division, photo, level, parentId, sortOrder, period, isVisible } = body
+    const { name, nickname, position, photo, level, parentId, sortOrder, period, isVisible } = body
 
     if (!name?.trim() || !position?.trim()) {
       return NextResponse.json(
@@ -41,7 +41,6 @@ export async function POST(request: NextRequest) {
         name: name.trim(),
         nickname: nickname?.trim() || null,
         position: position.trim(),
-        division: division?.trim() || null,
         photo: photo?.trim() || null,
         level: level ?? 0,
         parentId: parentId?.trim() || null,

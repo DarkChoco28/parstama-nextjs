@@ -75,8 +75,6 @@ export const organizationMemberSchema = z.object({
   name: z.string().min(1, "Nama wajib diisi").trim(),
   nickname: z.string().optional(),
   position: z.string().min(1, "Posisi wajib diisi").trim(),
-  division: z.string().optional(),
-  divisionDesc: z.string().optional(),
   bio: z.string().optional(),
   photo: z.string().optional(),
   level: z.number().int().optional(),

@@ -9,8 +9,6 @@ interface OrganizationMember {
   name: string
   nickname: string | null
   position: string
-  division: string | null
-  divisionDesc: string | null
   bio: string | null
   photo: string | null
   level: number
@@ -126,18 +124,7 @@ export default function StrukturOrganisasiPage() {
   const level0 = useMemo(() => members.filter((m) => m.level === 0), [members])
   const level1 = useMemo(() => members.filter((m) => m.level === 1), [members])
   const level2 = useMemo(() => members.filter((m) => m.level === 2), [members])
-
-  const groupedByDivision = useMemo(() => {
-    const groups: Record<string, OrganizationMember[]> = {}
-    members.forEach((m) => {
-      if (m.level === 2) {
-        const div = m.division || "Lainnya"
-        if (!groups[div]) groups[div] = []
-        groups[div].push(m)
-      }
-    })
-    return groups
-  }, [members])
+  const level3 = useMemo(() => members.filter((m) => m.level === 3), [members])
 
   const period = useMemo(() => {
     const periods = members.map((m) => m.period).filter(Boolean)
@@ -487,11 +474,6 @@ export default function StrukturOrganisasiPage() {
                                 {member.bio}
                               </p>
                             )}
-                            {member.divisionDesc && (
-                              <p className="text-zinc-600 text-[10px] mt-1 italic">
-                                {member.divisionDesc}
-                              </p>
-                            )}
                           </div>
                         </div>
                       </div>
@@ -499,14 +481,14 @@ export default function StrukturOrganisasiPage() {
                   </div>
                 </div>
 
-                {/* Level 2: Staff by Division */}
-                {Object.entries(groupedByDivision).map(([division, divMembers]) => (
-                  <div key={division} className="mb-8">
+                {/* Level 2: Sekretaris & Bendahara */}
+                {level2.length > 0 && (
+                  <div className="mb-8">
                     <h2 className="text-center text-zinc-300 text-sm font-semibold mb-6 uppercase tracking-wider">
-                      Divisi {division}
+                      Pengurus Inti
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                      {divMembers.map((member) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
+                      {level2.map((member) => (
                         <div
                           key={member.id}
                           className="glass-card rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1"
@@ -541,7 +523,51 @@ export default function StrukturOrganisasiPage() {
                       ))}
                     </div>
                   </div>
-                ))}
+                )}
+
+                {/* Level 3: Humas Internal & Humas Eksternal */}
+                {level3.length > 0 && (
+                  <div className="mb-8">
+                    <h2 className="text-center text-zinc-300 text-sm font-semibold mb-6 uppercase tracking-wider">
+                      Humas
+                    </h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
+                      {level3.map((member) => (
+                        <div
+                          key={member.id}
+                          className="glass-card rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1"
+                          style={{ borderLeft: "3px solid rgba(232,122,26,0.4)" }}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg">
+                              {member.photo ? (
+                              <Image src={member.photo} alt={member.name} width={56} height={56} className="w-full h-full rounded-full object-cover" unoptimized />
+                              ) : (
+                                getInitials(member.name)
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-white font-semibold text-xs leading-tight truncate">
+                                {member.name}
+                              </p>
+                              {member.nickname && (
+                                <p className="text-zinc-500 text-[10px]">({member.nickname})</p>
+                              )}
+                              <p className="text-orange-400 text-[10px] font-medium mt-0.5 truncate">
+                                {member.position}
+                              </p>
+                              {member.bio && (
+                                <p className="text-zinc-500 text-[10px] mt-1 line-clamp-2 leading-relaxed">
+                                  {member.bio}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </AnimatedSection>
             )}
 

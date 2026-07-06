@@ -12,7 +12,7 @@ export async function PUT(
   try {
     const { id } = await params
     const body = await request.json()
-    const { name, nickname, position, division, photo, level, parentId, sortOrder, period, isVisible } = body
+    const { name, nickname, position, photo, level, parentId, sortOrder, period, isVisible } = body
 
     const member = await prisma.organizationMember.update({
       where: { id },
@@ -20,7 +20,6 @@ export async function PUT(
         ...(name !== undefined && { name: name.trim() }),
         ...(nickname !== undefined && { nickname: nickname?.trim() || null }),
         ...(position !== undefined && { position: position.trim() }),
-        ...(division !== undefined && { division: division?.trim() || null }),
         ...(photo !== undefined && { photo: photo?.trim() || null }),
         ...(level !== undefined && { level }),
         ...(parentId !== undefined && { parentId: parentId?.trim() || null }),
