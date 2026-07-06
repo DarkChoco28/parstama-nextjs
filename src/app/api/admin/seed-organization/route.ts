@@ -12,7 +12,7 @@ const seedData = [
     level: 0,
     parentId: null,
     sortOrder: 0,
-    period: "2025-2026",
+    period: "2026-2027",
   },
   {
     name: "Ketua Satu",
@@ -22,7 +22,7 @@ const seedData = [
     level: 1,
     parentId: "__KETUA_UMUM__",
     sortOrder: 0,
-    period: "2025-2026",
+    period: "2026-2027",
   },
   {
     name: "Sekretaris",
@@ -32,7 +32,7 @@ const seedData = [
     level: 2,
     parentId: "__KETUA_SATU__",
     sortOrder: 0,
-    period: "2025-2026",
+    period: "2026-2027",
   },
   {
     name: "Bendahara",
@@ -42,7 +42,7 @@ const seedData = [
     level: 2,
     parentId: "__KETUA_SATU__",
     sortOrder: 1,
-    period: "2025-2026",
+    period: "2026-2027",
   },
   {
     name: "Humas Internal",
@@ -52,7 +52,7 @@ const seedData = [
     level: 3,
     parentId: "__SEKRETARIS__",
     sortOrder: 0,
-    period: "2025-2026",
+    period: "2026-2027",
   },
   {
     name: "Humas Eksternal",
@@ -62,7 +62,7 @@ const seedData = [
     level: 3,
     parentId: "__BENDAHARA__",
     sortOrder: 0,
-    period: "2025-2026",
+    period: "2026-2027",
   },
 ]
 
