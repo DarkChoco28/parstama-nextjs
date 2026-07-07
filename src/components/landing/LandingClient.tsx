@@ -66,9 +66,9 @@ export default function LandingClient() {
 
       {/* Aurora Background */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute w-[700px] h-[700px] -top-[200px] -left-[200px] rounded-full opacity-60" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.06) 0%, transparent 70%)", animation: "auroraFloat1 18s ease-in-out infinite" }} />
-        <div className="absolute w-[500px] h-[500px] bottom-[100px] -right-[100px] rounded-full opacity-50" style={{ background: "radial-gradient(circle, rgba(153,27,27,0.05) 0%, transparent 70%)", animation: "auroraFloat2 22s ease-in-out infinite 4s" }} />
-        <div className="absolute w-[400px] h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30" style={{ background: "radial-gradient(circle, rgba(239,68,68,0.04) 0%, transparent 70%)", animation: "auroraFloat3 15s ease-in-out infinite 2s" }} />
+        <div className="absolute w-175 h-175 -top-50 -left-50 rounded-full opacity-60" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.06) 0%, transparent 70%)", animation: "auroraFloat1 18s ease-in-out infinite" }} />
+        <div className="absolute w-125 h-125 bottom-25 -right-25 rounded-full opacity-50" style={{ background: "radial-gradient(circle, rgba(153,27,27,0.05) 0%, transparent 70%)", animation: "auroraFloat2 22s ease-in-out infinite 4s" }} />
+        <div className="absolute w-100 h-100 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30" style={{ background: "radial-gradient(circle, rgba(239,68,68,0.04) 0%, transparent 70%)", animation: "auroraFloat3 15s ease-in-out infinite 2s" }} />
       </div>
       <style>{`
         @keyframes auroraFloat1 { 0%,100% { transform: translate(0,0) scale(1); opacity: 0.6; } 33% { transform: translate(80px,60px) scale(1.2); opacity: 1; } 66% { transform: translate(-40px,100px) scale(0.9); opacity: 0.7; } }
@@ -77,50 +77,50 @@ export default function LandingClient() {
       `}</style>
 
       {/* Navbar */}
-      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/[0.06] h-[100px] px-6 flex items-center justify-between overflow-hidden" style={{ animation: "navbarSlideDown 0.6s ease-out" }}>
+      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-white/6 h-25 px-6 flex items-center justify-between overflow-hidden" style={{ animation: "navbarSlideDown 0.6s ease-out" }}>
         {/* 3D Floating Red Crosses */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none perspective-[600px] z-0">
-          <div className="absolute w-[14px] h-[14px] opacity-[0.15] top-1/2 left-[20%]" style={{ animation: "navCrossFloat1 8s ease-in-out infinite" }}>
+          <div className="absolute w-3.5 h-3.5 opacity-[0.15] top-1/2 left-[20%]" style={{ animation: "navCrossFloat1 8s ease-in-out infinite" }}>
             <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
           </div>
-          <div className="absolute w-[14px] h-[14px] opacity-[0.15] top-[30%] left-[45%]" style={{ animation: "navCrossFloat2 10s ease-in-out infinite 1s" }}>
+          <div className="absolute w-3.5 h-3.5 opacity-[0.15] top-[30%] left-[45%]" style={{ animation: "navCrossFloat2 10s ease-in-out infinite 1s" }}>
             <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
           </div>
-          <div className="absolute w-[14px] h-[14px] opacity-[0.15] top-[60%] left-[70%]" style={{ animation: "navCrossFloat1 9s ease-in-out infinite 2s" }}>
+          <div className="absolute w-3.5 h-3.5 opacity-[0.15] top-[60%] left-[70%]" style={{ animation: "navCrossFloat1 9s ease-in-out infinite 2s" }}>
             <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
           </div>
-          <div className="absolute w-[14px] h-[14px] opacity-[0.15] top-[40%] left-[85%]" style={{ animation: "navCrossFloat2 11s ease-in-out infinite 0.5s" }}>
+          <div className="absolute w-3.5 h-3.5 opacity-[0.15] top-[40%] left-[85%]" style={{ animation: "navCrossFloat2 11s ease-in-out infinite 0.5s" }}>
             <svg viewBox="0 0 24 24" fill="#DC2626" width="100%" height="100%"><rect x="9" y="2" width="6" height="20" rx="1"/><rect x="2" y="9" width="20" height="6" rx="1"/></svg>
           </div>
         </div>
 
-        <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-[1]">
-          <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
-            <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-1">
+          <div className="relative w-14 h-14 sm:w-20 sm:h-20" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
+            <div className="absolute -inset-1.5 rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
             <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
           </div>
-          <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
-            <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
+          <div className="relative w-14 h-14 sm:w-20 sm:h-20" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
+            <div className="absolute -inset-1.5 rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
             <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
           </div>
           <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             PARSTAMA
           </span>
         </Link>
-        <nav className="hidden sm:flex items-center gap-8 relative z-[1]">
-          <a href="#tentang" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.1s" }}>
+        <nav className="hidden sm:flex items-center gap-8 relative z-1">
+          <a href="#tentang" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.1s" }}>
             Tentang
           </a>
-          <a href="#syarat" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.2s" }}>
+          <a href="#syarat" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.2s" }}>
             Syarat
           </a>
-          <a href="#timeline" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.3s" }}>
+          <a href="#timeline" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.3s" }}>
             Timeline
           </a>
-          <Link href="/cek-status" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.4s" }}>
+          <Link href="/cek-status" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.4s" }}>
             💬 Tanya AI
           </Link>
-          <Link href="/login" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.5s" }}>
+          <Link href="/login" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-linear-to-r after:from-red-400 after:to-red-600 after:transition-all hover:after:w-full" style={{ animation: "navLinkFadeIn 0.6s ease-out backwards 0.5s" }}>
             Login
           </Link>
           <a href="https://wa.me/6281459145800?text=Halo%20PARSTAMA,%20saya%20ingin%20bertanya%20tentang%20pendaftaran." target="_blank" rel="noopener" className="text-zinc-400 hover:text-white text-sm font-medium transition-colors">
@@ -142,11 +142,11 @@ export default function LandingClient() {
       `}</style>
 
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center text-center px-6 pt-24 pb-16 sm:pt-[120px] sm:pb-20 overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center text-center px-6 pt-24 pb-16 sm:pt-30 sm:pb-20 overflow-hidden">
         <Hero3D />
 
         {/* 3D Grid */}
-        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(220,38,38,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(220,38,38,0.04) 1px, transparent 1px)", backgroundSize: "60px 60px", transform: "perspective(600px) rotateX(40deg) translateY(20%) scaleY(2)", transformOrigin: "center bottom", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, transparent 100%)", maskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, transparent 100%)", animation: "gridPulse 4s ease-in-out infinite" }} />
+        <div className="absolute inset-0 z-1 pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(220,38,38,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(220,38,38,0.04) 1px, transparent 1px)", backgroundSize: "60px 60px", transform: "perspective(600px) rotateX(40deg) translateY(20%) scaleY(2)", transformOrigin: "center bottom", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, transparent 100%)", maskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, transparent 100%)", animation: "gridPulse 4s ease-in-out infinite" }} />
 
         <style>{`
           @keyframes gridPulse {
@@ -156,13 +156,13 @@ export default function LandingClient() {
         `}</style>
 
         {/* Floating Orbs */}
-        <div className="absolute w-[300px] h-[300px] top-[10%] -right-[80px] rounded-full pointer-events-none z-[1]" style={{ background: "radial-gradient(circle at 40% 40%, rgba(220,38,38,0.15), transparent 70%)", border: "1px solid rgba(220,38,38,0.08)", animation: "orbFloat1 8s ease-in-out infinite" }} />
-        <div className="absolute w-[180px] h-[180px] bottom-[15%] -left-[50px] rounded-full pointer-events-none z-[1]" style={{ background: "radial-gradient(circle at 60% 60%, rgba(239,68,68,0.12), transparent 70%)", border: "1px solid rgba(239,68,68,0.06)", animation: "orbFloat2 6s ease-in-out infinite 1s" }} />
-        <div className="absolute w-[100px] h-[100px] top-[35%] left-[10%] rounded-full pointer-events-none z-[1]" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.1), transparent 70%)", border: "1px solid rgba(220,38,38,0.1)", animation: "orbFloat3 10s ease-in-out infinite 2s" }} />
+        <div className="absolute w-75 h-75 top-[10%] -right-20 rounded-full pointer-events-none z-1" style={{ background: "radial-gradient(circle at 40% 40%, rgba(220,38,38,0.15), transparent 70%)", border: "1px solid rgba(220,38,38,0.08)", animation: "orbFloat1 8s ease-in-out infinite" }} />
+        <div className="absolute w-45 h-45 bottom-[15%] -left-12.5 rounded-full pointer-events-none z-1" style={{ background: "radial-gradient(circle at 60% 60%, rgba(239,68,68,0.12), transparent 70%)", border: "1px solid rgba(239,68,68,0.06)", animation: "orbFloat2 6s ease-in-out infinite 1s" }} />
+        <div className="absolute w-25 h-25 top-[35%] left-[10%] rounded-full pointer-events-none z-1" style={{ background: "radial-gradient(circle, rgba(220,38,38,0.1), transparent 70%)", border: "1px solid rgba(220,38,38,0.1)", animation: "orbFloat3 10s ease-in-out infinite 2s" }} />
 
         {/* Expanding Rings */}
-        <div className="absolute w-[600px] h-[600px] rounded-full border border-red-500/10 top-1/2 left-1/2 pointer-events-none z-[1]" style={{ transform: "translate(-50%,-50%) rotateX(70deg)", animation: "heroRingExpand 6s ease-in-out infinite" }} />
-        <div className="absolute w-[400px] h-[400px] rounded-full border border-red-500/15 top-1/2 left-1/2 pointer-events-none z-[1]" style={{ transform: "translate(-50%,-50%) rotateX(70deg)", animation: "heroRingExpand 6s ease-in-out infinite 2s" }} />
+        <div className="absolute w-150 h-150 rounded-full border border-red-500/10 top-1/2 left-1/2 pointer-events-none z-1" style={{ transform: "translate(-50%,-50%) rotateX(70deg)", animation: "heroRingExpand 6s ease-in-out infinite" }} />
+        <div className="absolute w-100 h-100 rounded-full border border-red-500/15 top-1/2 left-1/2 pointer-events-none z-1" style={{ transform: "translate(-50%,-50%) rotateX(70deg)", animation: "heroRingExpand 6s ease-in-out infinite 2s" }} />
 
         <style>{`
           @keyframes orbFloat1 { 0%,100% { transform: perspective(800px) rotateX(10deg) rotateY(-15deg) translateY(0px); } 50% { transform: perspective(800px) rotateX(-10deg) rotateY(15deg) translateY(-30px); } }
@@ -177,7 +177,7 @@ export default function LandingClient() {
           </div>
           <h1 className="reveal text-[clamp(2rem,6vw,4.5rem)] font-display font-extrabold leading-[1.1] text-white mb-4 sm:mb-5 tracking-tight">
             Bergabunglah Bersama{" "}
-            <span className="bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent whitespace-nowrap">
+            <span className="bg-linear-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent whitespace-nowrap">
               PARSTAMA
             </span>
           </h1>
@@ -185,7 +185,7 @@ export default function LandingClient() {
             Jadilah bagian dari generasi penolong yang hebat. Pelajari keterampilan pertolongan pertama, kembangkan jiwa kepedulian, dan beri dampak nyata bagi masyarakat.
           </p>
           <div className="reveal flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <Link href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
+            <Link href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
               Isi Form Pendaftaran
             </Link>
             <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
@@ -196,7 +196,7 @@ export default function LandingClient() {
       </section>
 
       {/* Neon Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
+      <div className="h-px bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
 
       {/* Stats */}
       <section className="flex justify-center gap-8 sm:gap-16 px-6 py-10 sm:py-12 flex-wrap">
@@ -207,9 +207,9 @@ export default function LandingClient() {
           { value: "30+", label: "Penghargaan" },
         ].map((s, i) => (
           <div key={s.label} className="reveal-scale text-center group perspective-[1000px]" style={{ animationDelay: `${0.2 + i * 0.2}s`, transitionDelay: `${0.2 + i * 0.2}s` }}>
-            <div className="text-3xl sm:text-5xl font-display font-extrabold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent leading-none mb-1.5 sm:mb-2 relative overflow-hidden group-hover:animate-[statFlip_0.6s_ease-in-out_forwards]">
+            <div className="text-3xl sm:text-5xl font-display font-extrabold bg-linear-to-r from-red-400 to-red-600 bg-clip-text text-transparent leading-none mb-1.5 sm:mb-2 relative overflow-hidden group-hover:animate-[statFlip_0.6s_ease-in-out_forwards]">
               {s.value}
-              <span className="absolute top-0 left-[-100%] w-[60%] h-full bg-gradient-to-r from-transparent via-white/15 to-transparent" style={{ animation: "shimmerStat 3s ease-in-out infinite" }} />
+              <span className="absolute top-0 -left-full w-[60%] h-full bg-linear-to-r from-transparent via-white/15 to-transparent" style={{ animation: "shimmerStat 3s ease-in-out infinite" }} />
             </div>
             <div className="text-xs sm:text-sm text-zinc-500 font-medium">{s.label}</div>
           </div>
@@ -220,12 +220,12 @@ export default function LandingClient() {
       `}</style>
 
       {/* Neon Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
+      <div className="h-px bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
 
       {/* Features */}
       <section id="tentang" className="max-w-6xl mx-auto px-6 py-16 sm:py-24">
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="reveal text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-3 sm:mb-4">Mengapa <span className="bg-gradient-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent">PARSTAMA</span>?</h2>
+          <h2 className="reveal text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-3 sm:mb-4">Mengapa <span className="bg-linear-to-r from-orange-400 via-red-400 to-red-600 bg-clip-text text-transparent">PARSTAMA</span>?</h2>
           <p className="reveal text-sm sm:text-base text-zinc-400 max-w-lg mx-auto">Kami bukan sekadar organisasi — kami adalah keluarga yang saling mendukung.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -237,7 +237,7 @@ export default function LandingClient() {
             { icon: "📚", title: "Pengembangan Diri", desc: "Tingkatkan jiwa kepemimpinan, komunikasi, dan kerja tim melalui program pelatihan rutin dan seminar." },
             { icon: "🎖️", title: "Sertifikasi Resmi", desc: "Dapatkan sertifikat resmi dari PMI yang diakui secara nasional sebagai bukti kompetensi Anda." },
           ].map((f, i) => (
-            <div key={f.title} className="reveal-scale group bg-[#1A1A1C] border border-white/[0.06] rounded-2xl p-6 sm:p-8 transition-all duration-[400ms] perspective-[1000px]" style={{ transformStyle: "preserve-3d", transitionDelay: `${0.1 + i * 0.1}s` }}>
+            <div key={f.title} className="reveal-scale group bg-[#1A1A1C] border border-white/6 rounded-2xl p-6 sm:p-8 transition-all duration-400 perspective-[1000px]" style={{ transformStyle: "preserve-3d", transitionDelay: `${0.1 + i * 0.1}s` }}>
               <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-2xl mb-4 sm:mb-5 group-hover:animate-[emoji3DRotate_0.6s_ease-in-out_forwards]">
                 {f.icon}
               </div>
@@ -252,7 +252,7 @@ export default function LandingClient() {
       `}</style>
 
       {/* Neon Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
+      <div className="h-px bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
 
       {/* Requirements + Timeline */}
       <section id="syarat" className="bg-[#141415] px-6 py-16 sm:py-24">
@@ -269,19 +269,19 @@ export default function LandingClient() {
                 "Mengetahui dan memiliki minat serta tujuan",
               ].map((req) => (
                 <li key={req} className="reveal-left flex items-start gap-3 text-sm sm:text-base text-zinc-400 rounded-lg px-2 py-3 transition-all duration-300 hover:bg-red-500/5 hover:translate-x-2 hover:perspective-[400px] hover:rotateY-2">
-                  <span className="w-5 h-5 rounded-full bg-red-600 flex items-center justify-center text-white text-xs flex-shrink-0 mt-0.5">✓</span>
+                  <span className="w-5 h-5 rounded-full bg-red-600 flex items-center justify-center text-white text-xs shrink-0 mt-0.5">✓</span>
                   {req}
                 </li>
               ))}
             </ul>
-            <Link href="/daftar" className="reveal-left inline-flex items-center justify-center mt-6 sm:mt-8 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm font-bold text-white bg-gradient-to-r from-red-600 to-red-800 hover:shadow-lg hover:shadow-red-600/30 hover:-translate-y-0.5 transition-all">
+            <Link href="/daftar" className="reveal-left inline-flex items-center justify-center mt-6 sm:mt-8 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm font-bold text-white bg-linear-to-r from-red-600 to-red-800 hover:shadow-lg hover:shadow-red-600/30 hover:-translate-y-0.5 transition-all">
               Daftar Sekarang →
             </Link>
           </div>
           <div id="timeline">
             <h2 className="reveal-right text-[clamp(1.3rem,3vw,2rem)] font-display font-extrabold text-white mb-1">Timeline Seleksi</h2>
             <p className="reveal-right text-sm text-zinc-400 mb-6">Ikuti setiap tahapan seleksi dengan baik</p>
-            <div className="relative pl-7 sm:pl-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-gradient-to-b before:from-red-600 before:to-transparent">
+            <div className="relative pl-7 sm:pl-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-linear-to-b before:from-red-600 before:to-transparent">
               {[
                 { title: "Pendaftaran Online", desc: "Isi formulir pendaftaran melalui website ini." },
                 { title: "Seleksi Administrasi", desc: "Tim panitia memeriksa berkas pendaftar." },
@@ -289,7 +289,7 @@ export default function LandingClient() {
                 { title: "Pengumuman Hasil", desc: "Hasil seleksi diumumkan melalui website dan medsos PARSTAMA." },
               ].map((t, i) => (
                 <div key={i} className="reveal-right relative mb-6 sm:mb-8 last:mb-0 group" style={{ transitionDelay: `${0.1 + i * 0.15}s` }}>
-                  <div className="absolute left-[-2rem] sm:left-[-2.25rem] top-1 w-3.5 h-3.5 rounded-full bg-red-600 border-2 border-[#141415] transition-all duration-300 group-hover:scale-150 group-hover:shadow-[0_0_0_8px_rgba(220,38,38,0.3)]" style={{ animation: "timelineDotPulse 2s ease-in-out infinite", animationDelay: `${i * 0.5}s` }} />
+                  <div className="absolute -left-8 sm:-left-9 top-1 w-3.5 h-3.5 rounded-full bg-red-600 border-2 border-[#141415] transition-all duration-300 group-hover:scale-150 group-hover:shadow-[0_0_0_8px_rgba(220,38,38,0.3)]" style={{ animation: "timelineDotPulse 2s ease-in-out infinite", animationDelay: `${i * 0.5}s` }} />
                   <h3 className="text-sm sm:text-base font-bold text-white mb-0.5">{t.title}</h3>
                   <p className="text-xs sm:text-sm text-zinc-400">{t.desc}</p>
                 </div>
@@ -305,16 +305,16 @@ export default function LandingClient() {
       `}</style>
 
       {/* Neon Separator */}
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
+      <div className="h-px bg-linear-to-r from-transparent via-red-500/40 to-transparent mx-6" style={{ animation: "neonPulse 3s ease-in-out infinite" }} />
 
       {/* CTA */}
       <section className="px-6 py-16 sm:py-24 text-center">
-        <div className="reveal-scale max-w-2xl mx-auto bg-gradient-to-br from-red-600/10 to-red-800/5 border border-red-500/20 rounded-2xl sm:rounded-3xl p-8 sm:p-16 relative overflow-hidden perspective-[1000px] group">
-          <div className="absolute inset-[-2px] rounded-[inherit] z-[-1]" style={{ background: "conic-gradient(from 0deg, transparent 0%, rgba(220,38,38,0.3) 25%, transparent 50%, rgba(220,38,38,0.3) 75%, transparent 100%)", animation: "rotateBorder 4s linear infinite" }} />
+        <div className="reveal-scale max-w-2xl mx-auto bg-linear-to-br from-red-600/10 to-red-800/5 border border-red-500/20 rounded-2xl sm:rounded-3xl p-8 sm:p-16 relative overflow-hidden perspective-[1000px] group">
+          <div className="absolute -inset-0.5 rounded-[inherit] z-[-1]" style={{ background: "conic-gradient(from 0deg, transparent 0%, rgba(220,38,38,0.3) 25%, transparent 50%, rgba(220,38,38,0.3) 75%, transparent 100%)", animation: "rotateBorder 4s linear infinite" }} />
           <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-2 sm:mb-3">Siap Bergabung?</h2>
           <p className="text-sm sm:text-base text-zinc-400 mb-6 sm:mb-8 max-w-md mx-auto">Jangan lewatkan kesempatan menjadi bagian dari keluarga PARSTAMA. Pendaftaran dibuka terbatas!</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
+            <Link href="/daftar" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
               Daftar Sekarang — Gratis
             </Link>
             <Link href="/cek-status" className="inline-flex items-center justify-center px-7 sm:px-8 py-3 rounded-full text-sm sm:text-base font-semibold text-zinc-300 border border-white/20 hover:border-red-500 hover:text-red-400 hover:-translate-y-0.5 transition-all">
@@ -328,16 +328,16 @@ export default function LandingClient() {
       `}</style>
 
       {/* Footer */}
-      <footer id="kontak" className="bg-[#141415] border-t border-white/[0.06] px-6 py-12 sm:py-16">
+      <footer id="kontak" className="bg-[#141415] border-t border-white/6 px-6 py-12 sm:py-16">
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
           <div className="footer-col">
             <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4 no-underline">
-              <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
-                <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
+              <div className="relative w-14 h-14 sm:w-20 sm:h-20" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
+                <div className="absolute -inset-1.5 rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
                 <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
               </div>
-              <div className="relative w-[56px] h-[56px] sm:w-[80px] sm:h-[80px]" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
-                <div className="absolute inset-[-6px] rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
+              <div className="relative w-14 h-14 sm:w-20 sm:h-20" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
+                <div className="absolute -inset-1.5 rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
                 <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
               </div>
               <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
@@ -351,7 +351,7 @@ export default function LandingClient() {
                 { label: "TikTok", path: "M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1.84-.1z" },
                 { label: "YouTube", path: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" },
               ].map((s) => (
-                <a key={s.label} href="#" className="w-14 h-14 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center hover:bg-white/5 hover:border-red-500/30 transition-all" aria-label={s.label}>
+                <a key={s.label} href="#" className="w-14 h-14 rounded-xl bg-white/3 border border-white/6 flex items-center justify-center hover:bg-white/5 hover:border-red-500/30 transition-all" aria-label={s.label}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="#71717A">
                     <path d={s.path} />
                   </svg>
@@ -378,13 +378,13 @@ export default function LandingClient() {
             <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 sm:mb-4 font-display">Kontak</h4>
             <div className="space-y-3 text-xs sm:text-sm text-zinc-400">
               <p className="flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                 </svg>
                 SMKN 1 Singosari, Malang
               </p>
               <p className="flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
                 </svg>
                 pmr.parstama@gmail.com
@@ -398,7 +398,7 @@ export default function LandingClient() {
             </div>
           </div>
         </div>
-        <div className="text-center text-xs text-zinc-600 pt-6 sm:pt-8 border-t border-white/[0.06]">
+        <div className="text-center text-xs text-zinc-600 pt-6 sm:pt-8 border-t border-white/6">
           &copy; {new Date().getFullYear()} <span className="text-red-400 font-semibold">PARSTAMA</span> — SMKN 1 Singosari
           <p className="mt-2 text-zinc-500">Made with ❤️ by tim PARSTAMA</p>
         </div>
