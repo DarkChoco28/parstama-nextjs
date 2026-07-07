@@ -56,7 +56,7 @@ export default function ChatPage() {
     if ((!msg && !imageToSend) || isLoading) return
 
     const userMsg: Message = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       role: "user",
       content: msg || (imageToSend ? "📷 Gambar dikirim" : ""),
       image: imageToSend || undefined,
@@ -81,7 +81,7 @@ export default function ChatPage() {
       const data = await res.json()
 
       const assistantMsg: Message = {
-        id: (Date.now() + 1).toString(),
+        id: crypto.randomUUID(),
         role: "assistant",
         content: data.response || "Maaf, terjadi kesalahan. Coba lagi ya!",
         timestamp: new Date(),
@@ -91,7 +91,7 @@ export default function ChatPage() {
       setMessages((prev) => [
         ...prev,
         {
-          id: (Date.now() + 1).toString(),
+          id: crypto.randomUUID(),
           role: "assistant",
           content: "Gagal mengirim pesan. Coba lagi ya! 🔄",
           timestamp: new Date(),
@@ -157,10 +157,12 @@ export default function ChatPage() {
       }}
     >
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#0A0A0B]/95 backdrop-blur-xl border-b border-white/[0.06]">
+      <header className="sticky top-0 z-50 bg-[#0A0A0B]/95 backdrop-blur-xl border-b border-white/6">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 no-underline">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/parstama_logo.png" alt="PARSTAMA" className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/smkn_logo.png" alt="SMKN" className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
           </Link>
           <div className="flex-1 min-w-0">
@@ -185,7 +187,7 @@ export default function ChatPage() {
                 {/* Avatar */}
                 {msg.role === "assistant" && (
                   <div className="flex items-center gap-2 mb-1.5 ml-1">
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-full bg-linear-to-br from-red-500 to-red-700 flex items-center justify-center">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" />
                         <path d="M6 10h12l1 10H5L6 10z" />
@@ -198,11 +200,12 @@ export default function ChatPage() {
                 <div
                   className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-gradient-to-br from-red-600 to-red-800 text-white rounded-br-md"
-                      : "bg-white/[0.05] border border-white/[0.08] text-zinc-200 rounded-bl-md"
+                      ? "bg-linear-to-br from-red-600 to-red-800 text-white rounded-br-md"
+                      : "bg-white/5 border border-white/8 text-zinc-200 rounded-bl-md"
                   }`}
                 >
                   {msg.image && (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img src={msg.image} alt="Gambar user" className="rounded-lg mb-2 max-h-48 object-cover w-full" />
                   )}
                   <div dangerouslySetInnerHTML={{ __html: parseMarkdown(msg.content) }} />
@@ -220,7 +223,7 @@ export default function ChatPage() {
             <div className="flex justify-start">
               <div className="max-w-[75%]">
                 <div className="flex items-center gap-2 mb-1.5 ml-1">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
+                  <div className="w-6 h-6 rounded-full bg-linear-to-br from-red-500 to-red-700 flex items-center justify-center">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" />
                       <path d="M6 10h12l1 10H5L6 10z" />
@@ -228,7 +231,7 @@ export default function ChatPage() {
                   </div>
                   <span className="text-zinc-500 text-[11px] font-medium">AI Assistant</span>
                 </div>
-                <div className="bg-white/[0.05] border border-white/[0.08] rounded-2xl rounded-bl-md px-4 py-3">
+                <div className="bg-white/5 border border-white/8 rounded-2xl rounded-bl-md px-4 py-3">
                   <div className="flex gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-red-400 animate-bounce" style={{ animationDelay: "0ms" }} />
                     <div className="w-2 h-2 rounded-full bg-red-400 animate-bounce" style={{ animationDelay: "150ms" }} />
@@ -248,7 +251,7 @@ export default function ChatPage() {
                   <button
                     key={q.label}
                     onClick={() => sendMessage(q.message)}
-                    className="px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-zinc-300 text-xs font-medium hover:border-red-500/40 hover:text-red-300 hover:bg-red-500/[0.06] transition-all cursor-pointer min-h-[36px]"
+                    className="px-3 py-2 rounded-xl bg-white/4 border border-white/8 text-zinc-300 text-xs font-medium hover:border-red-500/40 hover:text-red-300 hover:bg-red-500/6 transition-all cursor-pointer min-h-9"
                   >
                     {q.label}
                   </button>
@@ -262,23 +265,24 @@ export default function ChatPage() {
       </div>
 
       {/* Input Area */}
-      <div className="sticky bottom-0 bg-[#0A0A0B]/95 backdrop-blur-xl border-t border-white/[0.06] px-4 py-3 sm:py-4">
+      <div className="sticky bottom-0 bg-[#0A0A0B]/95 backdrop-blur-xl border-t border-white/6 px-4 py-3 sm:py-4">
         <div className="max-w-4xl mx-auto">
           <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageSelect} />
 
           {selectedImage && (
             <div className="mb-2 relative inline-block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={selectedImage} alt="Preview" className="h-20 rounded-lg border border-white/10 object-cover" />
               <button onClick={removeImage} className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center cursor-pointer" aria-label="Hapus gambar">×</button>
             </div>
           )}
 
-          <div className="flex items-end gap-2 bg-white/[0.04] border border-white/[0.08] rounded-2xl px-3 py-2 focus-within:border-red-500/30 transition-colors">
+          <div className="flex items-end gap-2 bg-white/4 border border-white/8 rounded-2xl px-3 py-2 focus-within:border-red-500/30 transition-colors">
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={isLoading}
               aria-label="Upload gambar"
-              className="w-9 h-9 rounded-xl bg-white/[0.06] border border-white/[0.1] flex items-center justify-center text-zinc-400 hover:text-orange-400 hover:border-orange-500/30 disabled:opacity-30 transition-all flex-shrink-0 cursor-pointer"
+              className="w-9 h-9 rounded-xl bg-white/6 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-orange-400 hover:border-orange-500/30 disabled:opacity-30 transition-all shrink-0 cursor-pointer"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
@@ -291,7 +295,7 @@ export default function ChatPage() {
               onKeyDown={handleKeyDown}
               placeholder="Ketik pertanyaanmu..." aria-label="Ketik pertanyaan"
               rows={1}
-              className="flex-1 bg-transparent text-white text-sm placeholder-zinc-500 resize-none outline-none min-h-[36px] max-h-[120px] py-1.5"
+              className="flex-1 bg-transparent text-white text-sm placeholder-zinc-500 resize-none outline-none min-h-9 max-h-30 py-1.5"
               style={{
                 height: "auto",
                 overflow: input.split("\n").length > 4 ? "auto" : "hidden",
@@ -306,7 +310,7 @@ export default function ChatPage() {
               onClick={() => sendMessage()}
               disabled={(!input.trim() && !selectedImage) || isLoading}
               aria-label="Kirim pesan"
-              className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white hover:from-red-400 hover:to-red-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
+              className="w-9 h-9 rounded-xl bg-linear-to-br from-red-500 to-red-700 flex items-center justify-center text-white hover:from-red-400 hover:to-red-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all shrink-0"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="22" y1="2" x2="11" y2="13" />
