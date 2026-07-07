@@ -48,7 +48,6 @@ export default function AdminEvents() {
     } catch (e) { console.error(e) } finally { setLoading(false) }
   }, [page, searchQuery, categoryFilter])
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { if (status === "authenticated") fetchEvents() }, [status, fetchEvents])
 
   const openAdd = () => {
@@ -89,10 +88,11 @@ export default function AdminEvents() {
     try { await fetch(`/api/admin/events/${e.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ isVisible: !e.isVisible }) }); fetchEvents() } catch (err) { console.error(err) }
   }
 
+  const categoryColors: Record<string, string> = { Pelatihan: "#3B82F6", Rapat: "#F59E0B", Kegiatan: "#E87A1A", Lainnya: "#8B5CF6" }
+
   if (status === "loading" || (loading && events.length === 0)) {
     return <div className="admin-loading"><div className="admin-loading-spinner" /><span>Memuat event...</span></div>
   }
-  if (!session) return null
 
   return (
       <main className="admin-main">

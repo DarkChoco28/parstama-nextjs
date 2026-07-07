@@ -8,11 +8,11 @@ async function getInitialEvents() {
       ? `https://${process.env.VERCEL_URL}`
       : process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
     const res = await fetch(`${baseUrl}/api/events`, { cache: "no-store" })
-    if (!res.ok) return { events: [] as { id: string; title: string; description?: string; startDate: string; endDate?: string; location?: string; category: string; color: string; allDay: boolean }[] }
+    if (!res.ok) return { events: [] as any[] }
     const d = await res.json()
     return { events: d.events || [] }
   } catch {
-    return { events: [] as { id: string; title: string; description?: string; startDate: string; endDate?: string; location?: string; category: string; color: string; allDay: boolean }[] }
+    return { events: [] as any[] }
   }
 }
 

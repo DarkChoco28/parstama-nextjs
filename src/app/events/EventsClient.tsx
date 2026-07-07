@@ -17,6 +17,12 @@ export default function EventsClient({ initialEvents }: { initialEvents: Event[]
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
 
+  useEffect(() => {
+    if (initialEvents.length === 0) {
+      fetchEvents()
+    }
+  }, [initialEvents.length])
+
   const fetchEvents = useCallback(async () => {
     setLoading(true)
     try {
@@ -26,14 +32,6 @@ export default function EventsClient({ initialEvents }: { initialEvents: Event[]
     } catch (e) { console.error(e) }
     finally { setLoading(false) }
   }, [])
-
-  /* eslint-disable react-hooks/set-state-in-effect */
-  useEffect(() => {
-    if (initialEvents.length === 0) {
-      fetchEvents()
-    }
-  }, [initialEvents.length, fetchEvents])
-  /* eslint-enable react-hooks/set-state-in-effect */
 
   const prevMonth = () => { if (currentMonth === 0) { setCurrentMonth(11); setCurrentYear(y => y - 1) } else setCurrentMonth(m => m - 1) }
   const nextMonth = () => { if (currentMonth === 11) { setCurrentMonth(0); setCurrentYear(y => y + 1) } else setCurrentMonth(m => m + 1) }

@@ -1,13 +1,28 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { registrationSchema } from "@/lib/validation"
 
 function normalizeWhatsapp(value: string) {
   return value.replace(/\D/g, "")
 }
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
+  const { allowed, remaining } = await checkRateLimit(`register:${ip}`, 5, 60000)
+  if (!allowed) {
+    return NextResponse.json({ error: "Terlalu banyak permintaan. Coba lagi nanti." }, { status: 429 })
+  }
+
   try {
     const body = await request.json()
+    const parsed = registrationSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0].message },
+        { status: 400 }
+      )
+    }
 
     const {
       fullName,
@@ -29,64 +44,12 @@ export async function POST(request: NextRequest) {
       organizationExperience,
       motivation,
       parentConsent,
-    } = body
-
-    if (!fullName?.trim()) {
-      return NextResponse.json(
-        { error: "Nama lengkap wajib diisi" },
-        { status: 400 }
-      )
-    }
-
-    if (!gender || !["L", "P"].includes(gender)) {
-      return NextResponse.json(
-        { error: "Jenis kelamin wajib dipilih" },
-        { status: 400 }
-      )
-    }
-
-    if (!birthPlace?.trim() || !birthDate) {
-      return NextResponse.json(
-        { error: "Tempat dan tanggal lahir wajib diisi" },
-        { status: 400 }
-      )
-    }
-
-    if (!address?.trim()) {
-      return NextResponse.json(
-        { error: "Alamat wajib diisi" },
-        { status: 400 }
-      )
-    }
+    } = parsed.data
 
     const normalizedWhatsapp = normalizeWhatsapp(String(whatsapp || ""))
     if (normalizedWhatsapp.length < 10 || normalizedWhatsapp.length > 20) {
       return NextResponse.json(
         { error: "Nomor WhatsApp tidak valid" },
-        { status: 400 }
-      )
-    }
-
-    if (!className?.trim() || !major?.trim()) {
-      return NextResponse.json(
-        { error: "Kelas dan jurusan wajib diisi" },
-        { status: 400 }
-      )
-    }
-
-    if (!motivation?.trim() || motivation.trim().length < 20) {
-      return NextResponse.json(
-        { error: "Motivasi minimal 20 karakter" },
-        { status: 400 }
-      )
-    }
-
-    if (!parentConsent) {
-      return NextResponse.json(
-        {
-          error:
-            "Persetujuan orang tua / wali wajib disetujui sebelum mengirim pendaftaran",
-        },
         { status: 400 }
       )
     }
@@ -150,7 +113,7 @@ export async function POST(request: NextRequest) {
         medicalHistory: medicalHistory?.trim() || null,
         organizationExperience: organizationExperience?.trim() || null,
         motivation: motivation.trim(),
-        parentConsent: parentConsent === true,
+        parentConsent: !!parentConsent,
         status: "pending",
       },
     })

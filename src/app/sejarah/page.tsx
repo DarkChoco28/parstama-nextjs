@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import RocketButton from "@/components/landing/RocketButton"
 

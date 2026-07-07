@@ -129,11 +129,11 @@ Hanya jawab JSON tanpa penjelasan tambahan.`
     return NextResponse.json({
       suggestion: "pending",
       score: 5,
-      reasoning: "AI memberikan response yang tidak dapat diproses. Coba lagi.",
+      reasoning: "AI memberikan response yang tidak ter解析. Coba lagi.",
       strengths: [],
       concerns: [],
     })
-  } catch {
+  } catch (error) {
     return NextResponse.json(
       { suggestion: "pending", score: 5, reasoning: "Terjadi kesalahan server.", strengths: [], concerns: [] },
       { status: 500 }

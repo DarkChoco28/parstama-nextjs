@@ -12,7 +12,7 @@ interface Article {
 const defaultForm = { title: "", excerpt: "", content: "", coverImage: "", author: "Admin PARSTAMA", category: "Kesehatan", isPublished: false }
 
 export default function AdminArticles() {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const router = useRouter()
   const [articles, setArticles] = useState<Article[]>([])
   const [loading, setLoading] = useState(true)
@@ -74,7 +74,6 @@ export default function AdminArticles() {
   if (status === "loading" || (loading && articles.length === 0)) {
     return <div className="admin-loading"><div className="admin-loading-spinner" /><span>Memuat artikel...</span></div>
   }
-  if (!session) return null
 
   return (
       <main className="admin-main">

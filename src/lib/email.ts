@@ -1,4 +1,4 @@
-import { WA_LINK, WA_NUMBER } from "@/lib/constants"
+import { WA_LINK, WA_NUMBER, WA_GROUP_LINK } from "@/lib/constants"
 
 interface SendEmailOptions {
   to: string
@@ -7,33 +7,34 @@ interface SendEmailOptions {
 }
 
 export async function sendEmail({ to, subject, html }: SendEmailOptions) {
-  const apiKey = process.env.BREVO_API_KEY
-  const senderEmail = process.env.BREVO_SENDER_EMAIL
+  const apiKey = process.env.RESEND_API_KEY
+  const senderEmail = process.env.RESEND_SENDER_EMAIL || "admin@parstama.my.id"
 
-  if (!apiKey || !senderEmail) {
-    throw new Error("Brevo API credentials belum dikonfigurasi")
+  if (!apiKey) {
+    throw new Error("Resend API key belum dikonfigurasi")
   }
 
-  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+  const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "api-key": apiKey,
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      sender: { email: senderEmail, name: "PARSTAMA" },
-      to: [{ email: to }],
+      from: senderEmail,
+      to,
       subject,
-      htmlContent: html,
+      html,
     }),
   })
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))
-    throw new Error(err.message || `Brevo API error: ${res.status}`)
+    throw new Error(err.message || `Resend API error: ${res.status}`)
   }
 
-  return { messageId: `brevo-${Date.now()}` }
+  const data = await res.json()
+  return { messageId: data.id }
 }
 
 export function buildStatusEmail(
@@ -52,7 +53,15 @@ export function buildStatusEmail(
   const extraMessage =
     status === "accepted"
       ? `<p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
-          Selamat! Anda telah <strong style="color:#34D399">DITERIMA</strong> sebagai anggota PARSTAMA. Silakan hubungi admin untuk informasi lebih lanjut.
+          Selamat! Anda telah <strong style="color:#34D399">DITERIMA</strong> sebagai anggota PARSTAMA.
+        </p>
+        <div style="text-align:center;margin:20px 0">
+          <a href="${WA_GROUP_LINK}" style="display:inline-block;padding:14px 32px;background:#25D366;color:#fff;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none">
+            Gabung Group WhatsApp
+          </a>
+        </div>
+        <p style="color:rgba(255,255,255,.5);font-size:12px;margin:0 0 20px">
+          Klik tombol di atas untuk bergabung ke group resmi PARSTAMA.
         </p>`
       : status === "rejected"
       ? `<p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">

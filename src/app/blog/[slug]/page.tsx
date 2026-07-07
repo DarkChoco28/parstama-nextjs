@@ -63,7 +63,6 @@ export default function BlogDetailPage() {
         ) : article && (
           <>
             {article.coverImage && (
-              // eslint-disable-next-line @next/next/no-img-element
               <img src={article.coverImage} alt={article.title} style={{ width: "100%", height: 280, objectFit: "cover", borderRadius: 16, marginBottom: 24 }} loading="lazy" />
             )}
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>

@@ -29,7 +29,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     const existing = await prisma.article.findUnique({ where: { id } })
     if (!existing) return NextResponse.json({ error: "Artikel tidak ditemukan" }, { status: 404 })
 
-    const data: Record<string, unknown> = {}
+    const data: any = {}
     if (body.title !== undefined) {
       if (!body.title.trim()) return NextResponse.json({ error: "Judul wajib diisi" }, { status: 400 })
       data.title = body.title.trim()

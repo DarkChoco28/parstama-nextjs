@@ -18,14 +18,13 @@ export default function AdminProfile() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
+  useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
+  useEffect(() => { if (status === "authenticated") fetchProfile() }, [status])
+
   const fetchProfile = async () => {
     try { const r = await fetch("/api/admin/profile"); const d = await r.json(); setName(d.name || ""); setEmail(d.email || "") }
     catch { setError("Gagal memuat data profile") } finally { setLoading(false) }
   }
-
-  useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { if (status === "authenticated") fetchProfile() }, [status])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setMessage(""); setError("")
@@ -45,9 +44,12 @@ export default function AdminProfile() {
   if (!session) return null
 
   return (
-    <main className="form-main">
+    <>
       <style>{adminCss}</style>
-      <div className="form-card">
+
+      {/* MAIN */}
+      <main className="form-main">
+        <div className="form-card">
           <div className="form-accent" />
           {message && <div className="form-alert form-alert-success">{message}</div>}
           {error && <div className="form-alert form-alert-error">{error}</div>}
@@ -61,11 +63,11 @@ export default function AdminProfile() {
               </h2>
               <div className="form-group">
                 <label className="form-label">Nama Lengkap</label>
-                <input type="text" value={name} onChange={e => setName(e.target.value)} className="admin-input" required />
+                <input type="text" value={name} onChange={e => setName(e.target.value)} className="admin-input" required aria-label="Nama Lengkap" />
               </div>
               <div className="form-group">
                 <label className="form-label">Email</label>
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="admin-input" required />
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="admin-input" required aria-label="Email" />
               </div>
             </div>
 
@@ -80,16 +82,16 @@ export default function AdminProfile() {
               <p className="form-section-desc">Kosongkan jika tidak ingin mengganti password</p>
               <div className="form-group">
                 <label className="form-label">Password Saat Ini</label>
-                <input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} className="admin-input" placeholder="Masukkan password saat ini" />
+                <input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} className="admin-input" placeholder="Masukkan password saat ini" aria-label="Password Saat Ini" />
               </div>
               <div className="form-row-2">
                 <div className="form-group">
                   <label className="form-label">Password Baru</label>
-                  <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="admin-input" placeholder="Minimal 6 karakter" />
+                  <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="admin-input" placeholder="Minimal 6 karakter" aria-label="Password Baru" />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Konfirmasi Password Baru</label>
-                  <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="admin-input" placeholder="Ulangi password baru" />
+                  <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="admin-input" placeholder="Ulangi password baru" aria-label="Konfirmasi Password Baru" />
                 </div>
               </div>
             </div>
@@ -100,16 +102,49 @@ export default function AdminProfile() {
             </div>
           </form>
         </div>
-    </main>
+      </main>
+    </>
   )
 }
 
 const adminCss = `
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes dashCross1 { 0%,100%{transform:translate3d(0,0,0) rotate(0deg);opacity:.08}33%{transform:translate3d(8px,-5px,0) rotate(5deg);opacity:.15}66%{transform:translate3d(-3px,8px,0) rotate(-3deg);opacity:.1} }
+@keyframes menuSlideDown { from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)} }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+.admin-page{min-height:100vh;background:#0A0A0B;font-family:var(--font-plus-jakarta),system-ui,sans-serif;position:relative;overflow-x:hidden}
 .admin-loading{min-height:100vh;background:#0A0A0B;display:flex;align-items:center;justify-content:center;gap:10px;color:rgba(255,255,255,.5);font-size:15px}
 .admin-loading-spinner{width:20px;height:20px;border:2px solid rgba(220,38,38,.3);border-top-color:#DC2626;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+.admin-cross{position:absolute;z-index:0}
+.cross-h{position:absolute;width:100%;height:2px;background:linear-gradient(90deg,transparent,#DC2626,transparent);top:50%;transform:translateY(-50%);border-radius:2px}
+.cross-v{position:absolute;height:100%;width:2px;background:linear-gradient(180deg,transparent,#DC2626,transparent);left:50%;transform:translateX(-50%);border-radius:2px}
+
+.admin-nav{background:rgba(10,10,11,.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:50}
+.admin-nav-inner{max-width:800px;margin:0 auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;height:60px}
+.admin-nav-left{display:flex;align-items:center;gap:8px;min-width:0}
+.admin-back-link{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.5);font-size:12px;text-decoration:none;padding:5px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.08);transition:all .3s;flex-shrink:0}
+.admin-back-link:hover{background:rgba(255,255,255,.06);color:#fff}
+.admin-back-text{display:none}
+.admin-divider{width:1px;height:20px;background:rgba(255,255,255,.08);flex-shrink:0}
+.admin-logos{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.admin-logo-wrap{position:relative;width:28px;height:28px}
+.admin-logo{width:28px;height:28px;border-radius:50%;object-fit:contain;filter:drop-shadow(0 0 6px rgba(220,38,38,.3))}
+.admin-nav-title{display:flex;flex-direction:column;min-width:0}
+.admin-brand{font-family:var(--font-sansita),Georgia,serif;font-size:13px;font-weight:700;background:linear-gradient(90deg,#EF4444,#DC2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+.admin-time{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace;line-height:1}
+.admin-nav-links-desktop{display:flex;align-items:center;gap:6px}
+.admin-nav-link{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:8px;color:rgba(255,255,255,.6);font-size:12px;font-weight:500;text-decoration:none;border:1px solid transparent;transition:all .3s;background:none;cursor:pointer;font-family:inherit}
+.admin-nav-link:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:#fff}
+.admin-logout-btn:hover{background:rgba(220,38,38,.1)!important;border-color:rgba(220,38,38,.3)!important;color:#EF4444!important}
+.admin-home-link{color:rgba(255,255,255,.5)!important;border-color:rgba(255,255,255,.08)!important}
+.admin-home-link:hover{background:rgba(52,211,153,.1)!important;border-color:rgba(52,211,153,.3)!important;color:#34D399!important}
+.admin-hamburger{display:none;background:none;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px;color:rgba(255,255,255,.7);cursor:pointer;transition:all .3s}
+.admin-hamburger:hover{background:rgba(255,255,255,.06);color:#fff}
+.admin-mobile-menu{display:none;flex-direction:column;padding:8px 16px 16px;gap:4px;animation:menuSlideDown .2s ease}
+.admin-mobile-link{display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:10px;color:rgba(255,255,255,.7);font-size:14px;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.06);transition:all .3s;background:rgba(255,255,255,.03);cursor:pointer;font-family:inherit}
+.admin-mobile-link:active{background:rgba(255,255,255,.08)}
+.admin-mobile-link.admin-logout-btn{color:#EF4444;border-color:rgba(220,38,38,.15);background:rgba(220,38,38,.05)}
 
 .admin-input{padding:12px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#fff;font-size:14px;outline:none;font-family:inherit;transition:border-color .3s,box-shadow .3s;width:100%}
 .admin-input:focus{border-color:rgba(220,38,38,.5);box-shadow:0 0 15px rgba(220,38,38,.15)}
@@ -122,7 +157,7 @@ const adminCss = `
 .form-alert-success{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:#34D399;font-weight:600}
 .form-alert-error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#EF4444}
 .form-body{display:flex;flex-direction:column;gap:20px}
-.form-section-title{font-family:'Sansita',Georgia,serif;font-size:16px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.form-section-title{font-family:var(--font-sansita),Georgia,serif;font-size:16px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .form-section-desc{color:rgba(255,255,255,.35);font-size:12px;margin:-8px 0 14px}
 .form-divider{border-top:1px solid rgba(255,255,255,.06)}
 .form-group{display:flex;flex-direction:column;gap:6px}
@@ -136,15 +171,33 @@ const adminCss = `
 .form-btn-submit:disabled{opacity:.5;cursor:not-allowed}
 
 @media(min-width:640px){
+  .admin-nav-inner{padding:0 24px;height:68px}
+  .admin-back-text{display:inline}
+  .admin-logo-wrap{width:32px;height:32px}
+  .admin-logo{width:32px;height:32px}
+  .admin-brand{font-size:15px}
+  .admin-time{font-size:11px}
   .form-main{padding:40px 24px}
   .form-card{padding:32px}
 }
+@media(min-width:768px){
+  .admin-hamburger{display:none!important}
+  .admin-mobile-menu{display:none!important}
+  .admin-nav-links-desktop{display:flex!important}
+}
 @media(max-width:767px){
+  .admin-nav-links-desktop{display:none}
+  .admin-hamburger{display:flex}
+  .admin-mobile-menu{display:flex}
   .form-row-2{grid-template-columns:1fr;gap:14px}
   .form-actions{flex-direction:column}
   .form-btn-cancel,.form-btn-submit{width:100%;text-align:center}
 }
 @media(max-width:380px){
+  .admin-nav-inner{height:56px;padding:0 12px}
+  .admin-logo-wrap{width:24px;height:24px}
+  .admin-logo{width:24px;height:24px}
+  .admin-brand{font-size:12px}
   .form-main{padding:16px 12px}
   .form-card{padding:16px}
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
 import { sendEmail, buildStatusEmail } from "@/lib/email"
+import { notificationSchema } from "@/lib/validation"
 
 export async function POST(request: NextRequest) {
   const auth = await requireAdmin()
@@ -9,11 +10,11 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { registrationId } = body
-
-    if (!registrationId) {
-      return NextResponse.json({ error: "Registration ID wajib diisi" }, { status: 400 })
+    const parsed = notificationSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
     }
+    const { registrationId } = parsed.data
 
     const reg = await prisma.registration.findUnique({
       where: { id: registrationId },
@@ -40,10 +41,10 @@ export async function POST(request: NextRequest) {
     await sendEmail({ to: reg.email, subject, html })
 
     return NextResponse.json({ message: "Email berhasil dikirim" })
-  } catch (error) {
-    console.error("Error sending email:", error)
+  } catch {
+    console.error("Error sending email")
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Terjadi kesalahan saat mengirim email" },
+      { error: "Terjadi kesalahan saat mengirim email" },
       { status: 500 }
     )
   }

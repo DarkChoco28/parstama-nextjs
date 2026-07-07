@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { WA_NUMBER } from "@/lib/constants"
+import { chatSchema } from "@/lib/validation"
 
 interface KnowledgeEntry {
   patterns: string[]
@@ -20,11 +23,11 @@ const knowledgeBase: KnowledgeEntry[] = [
   },
   {
     patterns: ["cek status", "status daftar", "status pendaftaran", "hasil daftar", "sudah daftar", "uda daftar", "sudah mendaftar", "uda mendaftar"],
-    response: "Untuk cek status pendaftaran:\n\n1️⃣ Hubungi panitia via **WhatsApp: 0857-3166-3004**\n2️⃣ Sebutkan **nama lengkap** & **nomor WhatsApp** yang dipakai daftar\n\nStatus:\n🟡 **Pending** — masih diproses\n🟢 **Diterima** — selamat! 🎉\n🔴 **Ditolak** — coba lagi tahun depan",
+    response: "Untuk cek status pendaftaran:\n\n1️⃣ Hubungi admin: **WA 0857-3166-3004** atau panitia: **WA 0814-5914-5800**\n2️⃣ Sebutkan **nama lengkap** & **nomor WhatsApp** yang dipakai daftar\n\nStatus:\n🟡 **Pending** — masih diproses\n🟢 **Diterima** — selamat! 🎉\n🔴 **Ditolak** — coba lagi tahun depan",
   },
   {
     patterns: ["diterima", "ditolak", "pending", "status pending", "status diterima", "status ditolak"],
-    response: "Penjelasan status pendaftaran:\n\n🟡 **Pending** — pendaftaranmu sedang diverifikasi oleh panitia. Sabar ya!\n🟢 **Diterima** — kamu diterima di PARSTAMA! 🎉\n🔴 **Ditolak** — belum beruntung, bisa coba lagi tahun depan\n\nUntuk info lebih lanjut, hubungi panitia: **WA 0857-3166-3004**",
+    response: "Penjelasan status pendaftaran:\n\n🟡 **Pending** — pendaftaranmu sedang diverifikasi oleh panitia. Sabar ya!\n🟢 **Diterima** — kamu diterima di PARSTAMA! 🎉\n🔴 **Ditolak** — belum beruntung, bisa coba lagi tahun depan\n\nUntuk info lebih lanjut, hubungi admin: **WA 0857-3166-3004** atau panitia: **WA 0814-5914-5800**",
   },
   {
     patterns: ["timeline", "jadwal daftar", "kapan daftar", "kapan dibuka", "waktu pendaftaran", "seleksi", "pengumuman", "jadwal seleksi"],
@@ -32,7 +35,7 @@ const knowledgeBase: KnowledgeEntry[] = [
   },
   {
     patterns: ["kontak panitia", "hubungi panitia", "nomor wa panitia", "no hp panitia", "whatsapp panitia", "nomor telepon panitia", "kontak pmr"],
-    response: "Kontak panitia PARSTAMA:\n\n📱 **WhatsApp**: 0857-3166-3004\n🏫 **Sekolah**: SMKN 1 Singosari\n\nJam aktif: **Senin–Jumat, 08.00–16.00 WIB**\n\nLangsung chat aja, fast respon! 😊",
+    response: "Kontak panitia PARSTAMA:\n\n📱 **WhatsApp**: Admin (0857-3166-3004) / Panitia (0814-5914-5800)\n🏫 **Sekolah**: SMKN 1 Singosari\n\nJam aktif: **Senin–Jumat, 08.00–16.00 WIB**\n\nLangsung chat aja, fast respon! 😊",
   },
   {
     patterns: ["tentang pmr", "apa itu pmr", "parstama", "pmr itu apa", "tentang parstama", "parstama itu apa", "kegiatan parstama"],
@@ -44,7 +47,7 @@ const knowledgeBase: KnowledgeEntry[] = [
   },
   {
     patterns: ["lokasi", "alamat sekolah", "dimana smkn", "alamat smkn", "lokasi pmr", "lokasi parstama", "alamat parstama"],
-    response: "Lokasi PARSTAMA:\n\n🏫 **SMKN 1 Singosari**\n📍 Singosari, Malang, Jawa Timur\n\nDatang langsung aja, atau hubungi panitia: **WA 0857-3166-3004** 📱",
+    response: "Lokasi PARSTAMA:\n\n🏫 **SMKN 1 Singosari**\n📍 Singosari, Malang, Jawa Timur\n\nDatang langsung aja, atau hubungi admin: **WA 0857-3166-3004** atau panitia: **WA 0814-5914-5800** 📱",
   },
   {
     patterns: ["ppgd", "pertolongan pertama gawat darurat", "pertolongan pertama", "first aid", "penanganan darurat", "gawat darurat"],
@@ -84,7 +87,7 @@ const knowledgeBase: KnowledgeEntry[] = [
   },
   {
     patterns: ["donor darah", "donor", "donor plasma"],
-    response: "**Donor Darah** di PARSTAMA:\n\nKegiatan rutin bekerja sama dengan **PMI**.\n\n**Syarat donor:**\n✅ Usia 17–65 tahun\n✅ Berat badan ≥ 45 kg\n✅ Tekanan darah normal\n\nInfo jadwal: **WA 0857-3166-3004** 📱",
+    response: "**Donor Darah** di PARSTAMA:\n\nKegiatan rutin bekerja sama dengan **PMI**.\n\n**Syarat donor:**\n✅ Usia 17–65 tahun\n✅ Berat badan ≥ 45 kg\n✅ Tekanan darah normal\n\nInfo jadwal: **WA 0857-3166-3004** atau **WA 0814-5914-5800** 📱",
   },
   {
     patterns: ["darurat", "nomor darurat", "emergency", "nomor telepon darurat", "nomor penting"],
@@ -131,7 +134,7 @@ function findFallbackResponse(input: string): string {
 
   if (bestMatch && bestScore > 5) return bestMatch.response
 
-  return "Maaf, aku belum sepenuhnya mengerti pertanyaanmu. 😅\n\nCoba tanyakan tentang:\n\n📋 **Pendaftaran:** cara daftar, syarat, biaya\n🏥 **Medis:** PPGD, luka, RJP, patah tulang\n💬 Atau hubungi panitia: **WA 0857-3166-3004** 📱"
+  return "Maaf, aku belum sepenuhnya mengerti pertanyaanmu. 😅\n\nCoba tanyakan tentang:\n\n📋 **Pendaftaran:** cara daftar, syarat, biaya\n🏥 **Medis:** PPGD, luka, RJP, patah tulang\n💬 Atau hubungi admin: **WA 0857-3166-3004** atau panitia: **WA 0814-5914-5800** 📱"
 }
 
 const SYSTEM_PROMPT = `Kamu adalah AI Assistant PARSTAMA di SMKN 1 Singosari. Nama kamu PARSTAMA AI.
@@ -142,7 +145,7 @@ Tentang PARSTAMA:
 - Pendaftaran: Gratis, buka setiap tahun ajaran baru
 - Cara daftar: Buka halaman utama > Daftar Sekarang > isi 4 step (Data Diri, Kontak & Sekolah, Motivasi, Konfirmasi)
 - Syarat: Siswa aktif SMKN 1 Singosari, semangat kepedulian, izin orang tua
-- Kontak panitia: WhatsApp 0857-3166-3004 (Senin-Jumat 08.00-16.00 WIB)
+- Kontak panitia: WhatsApp ${WA_NUMBER} (Senin-Jumat 08.00-16.00 WIB)
 - Lokasi: SMKN 1 Singosari, Malang, Jawa Timur
 - Nomor darurat medis: 119
 - Kegiatan: PPGD, donor darah, bakti sosial, kompetisi PARSTAMA
@@ -159,13 +162,19 @@ ATURAN:
 - Jika ada pertanyaan tentang website ini (siapa yang buat, informasi website, dll), sebutkan bahwa website ini dibuat oleh **Dafiq** dengan penuh dedikasi untuk PARSTAMA`
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
+  const { allowed } = await checkRateLimit(`chat:${ip}`, 20, 60000)
+  if (!allowed) {
+    return NextResponse.json({ response: "Terlalu banyak permintaan. Silakan coba lagi nanti." }, { status: 429 })
+  }
+
   try {
     const body = await request.json()
-    const { message } = body as { message: string }
-
-    if (!message?.trim()) {
-      return NextResponse.json({ error: "Pesan tidak boleh kosong" }, { status: 400 })
+    const parsed = chatSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
     }
+    const { message } = parsed.data
 
     const apiKey = process.env.GROQ_API_KEY
     if (!apiKey) {
@@ -180,7 +189,7 @@ export async function POST(request: NextRequest) {
           "Authorization": `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
+          model: "qwen/qwen3.6-27b",
           messages: [
             { role: "system", content: SYSTEM_PROMPT },
             { role: "user", content: message },
@@ -200,12 +209,11 @@ export async function POST(request: NextRequest) {
       if (!response) throw new Error("Empty response from Groq")
 
       return NextResponse.json({ response })
-    } catch (groqError) {
-      const msg = groqError instanceof Error ? groqError.message : "Unknown error"
-      console.error("Groq error, using fallback:", msg)
-      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GROQ_ERROR", _error: msg })
+    } catch (groqError: any) {
+      console.error("Groq error, using fallback:", groqError?.message)
+      return NextResponse.json({ response: findFallbackResponse(message) })
     }
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error("Chat error:", error)
     return NextResponse.json(
       { response: findFallbackResponse("") },

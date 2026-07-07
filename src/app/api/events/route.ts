@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
     const month = searchParams.get("month")
     const year = searchParams.get("year")
 
-    const where: Record<string, unknown> = { isVisible: true }
+    const where: any = { isVisible: true }
     if (month && year) {
       const start = new Date(parseInt(year), parseInt(month) - 1, 1)
       const end = new Date(parseInt(year), parseInt(month), 0, 23, 59, 59)

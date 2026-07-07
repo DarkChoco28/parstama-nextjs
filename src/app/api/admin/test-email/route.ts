@@ -3,15 +3,14 @@ import { sendEmail } from "@/lib/email"
 import { requireAdmin } from "@/lib/admin-auth"
 
 export async function GET(request: NextRequest) {
-  const auth = await requireAdmin()
-  if (auth.error) return auth.error
-
   try {
-    if (!process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
+    const { error } = await requireAdmin()
+    if (error) return error
+
+    if (!process.env.RESEND_API_KEY) {
       return NextResponse.json({
-        error: "Brevo API belum dikonfigurasi",
-        hasApiKey: !!process.env.BREVO_API_KEY,
-        hasSender: !!process.env.BREVO_SENDER_EMAIL,
+        error: "Resend API belum dikonfigurasi",
+        hasApiKey: !!process.env.RESEND_API_KEY,
       })
     }
 
@@ -23,7 +22,7 @@ export async function GET(request: NextRequest) {
       html: `
         <div style="font-family:sans-serif;padding:20px">
           <h2 style="color:#DC2626">PARSTAMA</h2>
-          <p>Email test berhasil dari Vercel via Brevo API!</p>
+          <p>Email test berhasil dari Vercel via Resend!</p>
           <p style="color:#666;font-size:12px">Waktu: ${new Date().toLocaleString("id-ID")}</p>
         </div>
       `,
@@ -34,10 +33,7 @@ export async function GET(request: NextRequest) {
       message: `Email terkirim ke ${to}`,
       timestamp: new Date().toISOString(),
     })
-  } catch (error) {
-    return NextResponse.json({
-      error: error instanceof Error ? error.message : "Gagal mengirim",
-      stack: error instanceof Error ? error.stack : undefined,
-    }, { status: 500 })
+  } catch {
+    return NextResponse.json({ error: "Gagal mengirim email" }, { status: 500 })
   }
 }

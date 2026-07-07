@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search") || ""
     const category = searchParams.get("category") || ""
 
-    const where: Record<string, unknown> = { isVisible: true }
+    const where: any = { isVisible: true }
     if (search) where.OR = [{ title: { contains: search, mode: "insensitive" } }, { description: { contains: search, mode: "insensitive" } }]
     if (category) where.category = category
 

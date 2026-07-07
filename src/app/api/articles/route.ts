@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "12")
     const category = searchParams.get("category") || ""
 
-    const where: Record<string, unknown> = { isPublished: true }
+    const where: any = { isPublished: true }
     if (category) where.category = category
 
     const [articles, total] = await Promise.all([
