@@ -34,8 +34,21 @@ export default function BlogClient({ initialArticles, initialTotalPages, initial
   }, [])
 
   useEffect(() => {
-    if (page !== 1 || category !== "") fetchArticles(page, category)
-  }, [page, category, fetchArticles])
+    if (page === 1 && category === "") return
+    let cancelled = false
+    ;(async () => {
+      setLoading(true)
+      const params = new URLSearchParams({ page: page.toString(), limit: "12" })
+      if (category) params.append("category", category)
+      try {
+        const r = await fetch(`/api/articles?${params}`)
+        const d = await r.json()
+        if (!cancelled) { setArticles(d.articles || []); setTotalPages(d.pagination?.totalPages || 1); setTotalResults(d.pagination?.total || 0) }
+      } catch (e) { console.error(e) }
+      finally { if (!cancelled) setLoading(false) }
+    })()
+    return () => { cancelled = true }
+  }, [page, category])
 
   const handleCategory = (c: string) => { setCategory(c); setPage(1); fetchArticles(1, c) }
 
