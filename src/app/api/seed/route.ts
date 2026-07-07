@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { requireAdmin } from "@/lib/admin-auth"
 import bcrypt from "bcryptjs"
 
-export async function POST(request: Request) {
-  if (process.env.NODE_ENV === "production") {
-    const { searchParams } = new URL(request.url)
-    const secret = searchParams.get("secret")
-    if (secret !== process.env.SEED_SECRET) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 })
-    }
+export async function POST() {
+  // Allow if no users exist (first-time setup), otherwise require admin
+  const userCount = await prisma.user.count()
+  if (userCount > 0) {
+    const auth = await requireAdmin()
+    if (auth.error) return auth.error
   }
 
   try {
@@ -106,7 +106,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Seed error:", error)
     return NextResponse.json(
-      { error: "Gagal seed database" },
+      { error: String(error) },
       { status: 500 }
     )
   }

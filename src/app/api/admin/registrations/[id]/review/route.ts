@@ -129,7 +129,7 @@ Hanya jawab JSON tanpa penjelasan tambahan.`
     return NextResponse.json({
       suggestion: "pending",
       score: 5,
-      reasoning: "AI memberikan response yang tidak ter解析. Coba lagi.",
+      reasoning: "AI memberikan response yang tidak dapat diproses. Coba lagi.",
       strengths: [],
       concerns: [],
     })

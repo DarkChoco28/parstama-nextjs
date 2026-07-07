@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
@@ -39,12 +39,9 @@ export default function AdminRegister() {
   if (!session) return null
 
   return (
-    <>
+    <main className="form-main">
       <style>{adminCss}</style>
-
-      {/* MAIN */}
-      <main className="form-main">
-        <div className="form-card">
+      <div className="form-card">
           <div className="form-accent" />
           {message && <div className="form-alert form-alert-success">{message}</div>}
           {error && <div className="form-alert form-alert-error">{error}</div>}
@@ -52,20 +49,20 @@ export default function AdminRegister() {
           <form onSubmit={handleSubmit} className="form-body">
             <div className="form-group">
               <label className="form-label">Nama Lengkap</label>
-              <input type="text" value={name} onChange={e => setName(e.target.value)} className="admin-input" required aria-label="Nama Lengkap" />
+              <input type="text" value={name} onChange={e => setName(e.target.value)} className="admin-input" required />
             </div>
             <div className="form-group">
               <label className="form-label">Email</label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="admin-input" required aria-label="Email" />
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="admin-input" required />
             </div>
             <div className="form-row-2">
               <div className="form-group">
                 <label className="form-label">Password</label>
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="admin-input" placeholder="Minimal 6 karakter" required aria-label="Password" />
+                <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="admin-input" placeholder="Minimal 6 karakter" required />
               </div>
               <div className="form-group">
                 <label className="form-label">Konfirmasi Password</label>
-                <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="admin-input" placeholder="Ulangi password" required aria-label="Konfirmasi Password" />
+                <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="admin-input" placeholder="Ulangi password" required />
               </div>
             </div>
             <div className="form-actions">
@@ -74,12 +71,21 @@ export default function AdminRegister() {
             </div>
           </form>
         </div>
-      </main>
-    </>
+    </main>
   )
 }
 
 const adminCss = `
+@keyframes spin { to { transform: rotate(360deg); } }
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+.admin-loading{min-height:100vh;background:#0A0A0B;display:flex;align-items:center;justify-content:center;gap:10px;color:rgba(255,255,255,.5);font-size:15px}
+.admin-loading-spinner{width:20px;height:20px;border:2px solid rgba(220,38,38,.3);border-top-color:#DC2626;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+
+.admin-input{padding:12px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#fff;font-size:14px;outline:none;font-family:inherit;transition:border-color .3s,box-shadow .3s;width:100%}
+.admin-input:focus{border-color:rgba(220,38,38,.5);box-shadow:0 0 15px rgba(220,38,38,.15)}
+.admin-input::placeholder{color:rgba(255,255,255,.3)}
+
 .form-main{max-width:520px;margin:0 auto;padding:20px 16px;position:relative;z-index:1}
 .form-card{background:rgba(20,20,22,.8);backdrop-filter:blur(20px);border-radius:16px;border:1px solid rgba(255,255,255,.08);padding:20px;position:relative;overflow:hidden}
 .form-accent{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#DC2626,#EF4444,#DC2626,transparent)}

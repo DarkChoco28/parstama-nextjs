@@ -7,34 +7,33 @@ interface SendEmailOptions {
 }
 
 export async function sendEmail({ to, subject, html }: SendEmailOptions) {
-  const apiKey = process.env.RESEND_API_KEY
-  const senderEmail = process.env.RESEND_SENDER_EMAIL || "admin@parstama.my.id"
+  const apiKey = process.env.BREVO_API_KEY
+  const senderEmail = process.env.BREVO_SENDER_EMAIL
 
-  if (!apiKey) {
-    throw new Error("Resend API key belum dikonfigurasi")
+  if (!apiKey || !senderEmail) {
+    throw new Error("Brevo API credentials belum dikonfigurasi")
   }
 
-  const res = await fetch("https://api.resend.com/emails", {
+  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
+      "api-key": apiKey,
     },
     body: JSON.stringify({
-      from: senderEmail,
-      to,
+      sender: { email: senderEmail, name: "PARSTAMA" },
+      to: [{ email: to }],
       subject,
-      html,
+      htmlContent: html,
     }),
   })
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))
-    throw new Error(err.message || `Resend API error: ${res.status}`)
+    throw new Error(err.message || `Brevo API error: ${res.status}`)
   }
 
-  const data = await res.json()
-  return { messageId: data.id }
+  return { messageId: `brevo-${Date.now()}` }
 }
 
 export function buildStatusEmail(
@@ -53,15 +52,7 @@ export function buildStatusEmail(
   const extraMessage =
     status === "accepted"
       ? `<p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
-          Selamat! Anda telah <strong style="color:#34D399">DITERIMA</strong> sebagai anggota PARSTAMA.
-        </p>
-        <div style="text-align:center;margin:20px 0">
-          <a href="${WA_GROUP_LINK}" style="display:inline-block;padding:14px 32px;background:#25D366;color:#fff;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none">
-            Gabung Group WhatsApp
-          </a>
-        </div>
-        <p style="color:rgba(255,255,255,.5);font-size:12px;margin:0 0 20px">
-          Klik tombol di atas untuk bergabung ke group resmi PARSTAMA.
+          Selamat! Anda telah <strong style="color:#34D399">DITERIMA</strong> sebagai anggota PARSTAMA. Silakan hubungi admin untuk informasi lebih lanjut.
         </p>`
       : status === "rejected"
       ? `<p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">

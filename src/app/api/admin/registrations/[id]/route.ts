@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
 import { sendEmail, buildStatusEmail } from "@/lib/email"
 import { sendWhatsApp, buildStatusWhatsApp } from "@/lib/whatsapp"
-import { createAuditLog } from "@/lib/audit-log"
 import { statusUpdateSchema } from "@/lib/validation"
 
 export async function GET(
@@ -60,13 +59,6 @@ export async function PUT(
     const registration = await prisma.registration.update({
       where: { id },
       data: { status },
-    })
-
-    createAuditLog({
-      action: `update_registration_status:${status}`,
-      userEmail: auth.session?.user?.email || "unknown",
-      details: `Mengubah status ${oldReg.fullName} (${oldReg.class} ${oldReg.major}) dari ${oldReg.status} ke ${status}`,
-      ip: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined,
     })
 
     // Auto-send email when status changes to accepted or rejected
@@ -148,16 +140,8 @@ export async function DELETE(
 
   try {
     const { id } = await params
-    const reg = await prisma.registration.findUnique({ where: { id } })
     await prisma.registration.delete({
       where: { id },
-    })
-
-    createAuditLog({
-      action: "delete_registration",
-      userEmail: auth.session?.user?.email || "unknown",
-      details: `Menghapus pendaftaran ${reg?.fullName || id}`,
-      ip: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined,
     })
 
     return NextResponse.json({ message: "Pendaftaran berhasil dihapus" })

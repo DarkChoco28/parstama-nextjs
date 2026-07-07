@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link"
 import { FaqAccordion } from "@/components/ui/FaqAccordion"
 

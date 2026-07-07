@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useCallback } from "react"
-import { useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
@@ -144,15 +144,14 @@ export default function AdminRegistrations() {
 
   return (
     <>
-      <style>{adminCss}</style>
-
       {/* MAIN */}
       <main className="admin-main">
+        <style>{adminCss}</style>
         <div className="admin-card" style={{ padding: 0, overflow: "hidden" }}>
           {/* Filters */}
           <div className="reg-filters">
             <div className="reg-search-row">
-              <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchRegistrations() } }} placeholder="Cari nama, email, atau WhatsApp..." aria-label="Cari nama, email, atau WhatsApp" className="admin-input" style={{ flex: 1 }} />
+              <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchRegistrations() } }} placeholder="Cari nama, email, atau WhatsApp..." className="admin-input" style={{ flex: 1 }} />
               <button onClick={() => { setPage(1); fetchRegistrations() }} className="admin-btn-primary">Cari</button>
               <button onClick={() => setShowFilters(!showFilters)} className={`admin-btn-filter ${showFilters ? "admin-btn-filter-active" : ""}`}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"/></svg>
@@ -162,17 +161,17 @@ export default function AdminRegistrations() {
 
             {/* Quick filters */}
             <div className="reg-filter-row">
-              <select value={statusFilter} onChange={e => { setStatusFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter status">
+              <select value={statusFilter} onChange={e => { setStatusFilter(e.target.value); setPage(1) }} className="admin-select">
                 <option value="">Semua Status</option>
                 <option value="pending">Pending</option>
                 <option value="accepted">Diterima</option>
                 <option value="rejected">Ditolak</option>
               </select>
-              <select value={classFilter} onChange={e => { setClassFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter kelas">
+              <select value={classFilter} onChange={e => { setClassFilter(e.target.value); setPage(1) }} className="admin-select">
                 <option value="">Semua Kelas</option>
                 {filterOptions.classes.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <select value={majorFilter} onChange={e => { setMajorFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter jurusan">
+              <select value={majorFilter} onChange={e => { setMajorFilter(e.target.value); setPage(1) }} className="admin-select">
                 <option value="">Semua Jurusan</option>
                 {filterOptions.majors.map(m => <option key={m} value={m}>{m}</option>)}
               </select>
@@ -182,15 +181,15 @@ export default function AdminRegistrations() {
             {showFilters && (
               <div className="reg-advanced-filters">
                 <div className="reg-advanced-row">
-                  <select value={genderFilter} onChange={e => { setGenderFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter jenis kelamin">
+                  <select value={genderFilter} onChange={e => { setGenderFilter(e.target.value); setPage(1) }} className="admin-select">
                     <option value="">Semua Jenis Kelamin</option>
                     <option value="L">Laki-laki</option>
                     <option value="P">Perempuan</option>
                   </select>
                   <div className="reg-date-range">
-                    <input type="date" value={startDate} onChange={e => { setStartDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Dari tanggal" aria-label="Filter dari tanggal" />
+                    <input type="date" value={startDate} onChange={e => { setStartDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Dari tanggal" />
                     <span className="reg-date-separator">s/d</span>
-                    <input type="date" value={endDate} onChange={e => { setEndDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Sampai tanggal" aria-label="Filter sampai tanggal" />
+                    <input type="date" value={endDate} onChange={e => { setEndDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Sampai tanggal" />
                   </div>
                 </div>
                 {hasActiveFilters && (
@@ -234,7 +233,7 @@ export default function AdminRegistrations() {
                   <div className="reg-mobile-field"><span>JK</span><span>{r.gender === "L" ? "Laki-laki" : "Perempuan"}</span></div>
                 </div>
                 <div className="reg-mobile-actions">
-                  <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm" aria-label="Ubah status pendaftaran">
+                  <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm">
                     <option value="pending">Pending</option>
                     <option value="accepted">Diterima</option>
                     <option value="rejected">Ditolak</option>
@@ -283,7 +282,7 @@ export default function AdminRegistrations() {
                     <td className="admin-td"><span className={`reg-badge reg-badge-${r.status}`}>{r.status === "pending" ? "Pending" : r.status === "accepted" ? "Diterima" : "Ditolak"}</span></td>
                     <td className="admin-td">
                       <div className="reg-action-btns">
-                        <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm" aria-label="Ubah status pendaftaran"><option value="pending">Pending</option><option value="accepted">Diterima</option><option value="rejected">Ditolak</option></select>
+                        <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm"><option value="pending">Pending</option><option value="accepted">Diterima</option><option value="rejected">Ditolak</option></select>
                         <button onClick={() => viewDetail(r.id)} className="admin-btn-blue-sm">Lihat</button>
                         {r.email && (
                           <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
@@ -330,7 +329,7 @@ export default function AdminRegistrations() {
                 <button onClick={() => sendWaNotif(detailData.id)} disabled={waSending === detailData.id} className="admin-btn-wa-sm">
                   {waSending === detailData.id ? "..." : "Kirim WA"}
                 </button>
-                <button onClick={() => setDetailData(null)} className="reg-modal-close" aria-label="Tutup">
+                <button onClick={() => setDetailData(null)} className="reg-modal-close">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
                 </button>
               </div>
@@ -393,7 +392,52 @@ function ModalField({ label, value }: { label: string; value: string }) {
 }
 
 const adminCss = `
+@keyframes spin { to { transform: rotate(360deg); } }
 @keyframes modalIn { from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)} }
+@keyframes dashPulse { 0%,100%{box-shadow:0 0 20px rgba(220,38,38,.08)}50%{box-shadow:0 0 30px rgba(220,38,38,.15)} }
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+.admin-loading{min-height:100vh;background:#0A0A0B;display:flex;align-items:center;justify-content:center;gap:10px;color:rgba(255,255,255,.5);font-size:15px}
+.admin-loading-spinner{width:20px;height:20px;border:2px solid rgba(220,38,38,.3);border-top-color:#DC2626;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+
+/* MAIN */
+.admin-main{max-width:1200px;margin:0 auto;padding:16px;position:relative;z-index:1}
+.admin-card{background:rgba(20,20,22,.8);backdrop-filter:blur(20px);border-radius:16px;border:1px solid rgba(255,255,255,.08);animation:dashPulse 4s ease-in-out infinite}
+
+/* INPUTS */
+.admin-input{padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:13px;outline:none;font-family:inherit;transition:border-color .3s,box-shadow .3s;width:100%}
+.admin-input:focus{border-color:rgba(220,38,38,.5);box-shadow:0 0 15px rgba(220,38,38,.15)}
+.admin-input::placeholder{color:rgba(255,255,255,.3)}
+.admin-select{padding:10px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:12px;outline:none;font-family:inherit;cursor:pointer;appearance:auto;min-width:0}
+.admin-select:focus{border-color:rgba(220,38,38,.5)}
+.admin-select option{background:#1a1a1c;color:#fff}
+.admin-select-sm{padding:6px 10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#fff;font-size:11px;outline:none;font-family:inherit;cursor:pointer;appearance:auto}
+.admin-select-sm option{background:#1a1a1c;color:#fff}
+.admin-checkbox{accent-color:#DC2626;width:16px;height:16px}
+
+/* BUTTONS */
+.admin-btn-primary{padding:10px 18px;background:linear-gradient(135deg,#DC2626,#EF4444);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit;flex-shrink:0}
+.admin-btn-primary:hover{box-shadow:0 0 20px rgba(220,38,38,.3);transform:translateY(-1px)}
+.admin-btn-filter{display:flex;align-items:center;gap:5px;padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.6);font-size:12px;font-weight:500;cursor:pointer;transition:all .3s;font-family:inherit;flex-shrink:0}
+.admin-btn-filter:hover{background:rgba(255,255,255,.08);color:#fff}
+.admin-btn-filter-active{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.3);color:#EF4444}
+.admin-btn-clear{display:flex;align-items:center;gap:5px;padding:6px 12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;color:rgba(239,68,68,.7);font-size:11px;cursor:pointer;transition:all .2s;font-family:inherit;margin-top:8px}
+.admin-btn-clear:hover{background:rgba(239,68,68,.15);color:#EF4444}
+.admin-btn-danger-sm{padding:6px 12px;background:rgba(239,68,68,.15);color:#EF4444;border:1px solid rgba(239,68,68,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-btn-danger-sm:active{transform:scale(.95)}
+.admin-btn-success-sm{padding:6px 12px;background:rgba(52,211,153,.15);color:#34D399;border:1px solid rgba(52,211,153,.3);border-radius:8px;font-size:11px;font-weight:600;text-decoration:none;display:inline-block;transition:all .2s}
+.admin-btn-success-sm:active{transform:scale(.95)}
+.admin-btn-blue-sm{padding:6px 12px;background:rgba(96,165,250,.15);color:#60A5FA;border:1px solid rgba(96,165,250,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s;font-family:inherit}
+.admin-btn-blue-sm:active{transform:scale(.95)}
+.admin-btn-email-sm{padding:6px 12px;background:rgba(168,85,247,.15);color:#A855F7;border:1px solid rgba(168,85,247,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-btn-email-sm:disabled{opacity:.5;cursor:not-allowed}
+.admin-btn-email-sm:active{transform:scale(.95)}
+.admin-btn-wa-sm{padding:6px 12px;background:rgba(37,211,102,.15);color:#25D366;border:1px solid rgba(37,211,102,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-btn-wa-sm:disabled{opacity:.5;cursor:not-allowed}
+.admin-btn-wa-sm:active{transform:scale(.95)}
+.admin-page-btn{padding:8px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.6);font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-page-btn:disabled{opacity:.3;cursor:not-allowed}
+.admin-page-btn:not(:disabled):active{background:rgba(255,255,255,.1)}
 
 /* REG FILTERS */
 .reg-filters{padding:16px;border-bottom:1px solid rgba(255,255,255,.06)}
@@ -438,7 +482,7 @@ const adminCss = `
 .reg-modal-draghandle{display:none}
 .reg-modal-header{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .reg-modal-header-actions{display:flex;align-items:center;gap:8px}
-.reg-modal-title{font-family:var(--font-sansita),Georgia,serif;font-size:17px;font-weight:700;color:#fff}
+.reg-modal-title{font-family:'Sansita',Georgia,serif;font-size:17px;font-weight:700;color:#fff}
 .reg-modal-close{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px;cursor:pointer;color:rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;width:32px;height:32px;transition:all .2s}
 .reg-modal-close:hover{background:rgba(239,68,68,.15);color:#EF4444}
 .reg-modal-body{padding:20px;overflow-y:auto;flex:1}
@@ -454,12 +498,6 @@ const adminCss = `
 .reg-modal-text{color:rgba(255,255,255,.6);font-size:12px;line-height:1.7;white-space:pre-wrap;margin:0}
 
 @media(min-width:640px){
-  .admin-nav-inner{padding:0 24px;height:68px}
-  .admin-back-text{display:inline}
-  .admin-logo-wrap{width:32px;height:32px}
-  .admin-logo{width:32px;height:32px}
-  .admin-brand{font-size:15px}
-  .admin-time{font-size:11px}
   .admin-main{padding:24px}
   .reg-filters{padding:20px 24px}
   .admin-th,.admin-td{padding:14px 20px}
@@ -473,16 +511,7 @@ const adminCss = `
   .reg-date-range .admin-input{width:auto;flex:1}
 }
 
-@media(min-width:768px){
-  .admin-hamburger{display:none!important}
-  .admin-mobile-menu{display:none!important}
-  .admin-nav-links-desktop{display:flex!important}
-}
-
 @media(max-width:767px){
-  .admin-nav-links-desktop{display:none}
-  .admin-hamburger{display:flex}
-  .admin-mobile-menu{display:flex}
   .reg-desktop-table{display:none}
   .reg-mobile-list{display:flex;flex-direction:column;gap:0}
   .reg-mobile-card{padding:16px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);transition:background .2s}
@@ -530,10 +559,6 @@ const adminCss = `
 }
 
 @media(max-width:380px){
-  .admin-nav-inner{height:56px;padding:0 12px}
-  .admin-logo-wrap{width:24px;height:24px}
-  .admin-logo{width:24px;height:24px}
-  .admin-brand{font-size:12px}
   .admin-main{padding:12px}
   .reg-filters{padding:12px}
   .admin-input{padding:10px 12px;font-size:13px}

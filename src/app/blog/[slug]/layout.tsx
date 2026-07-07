@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       return {
         title: `${article.title} - PARSTAMA`,
         description: article.excerpt || article.content?.slice(0, 160) || "Artikel PARSTAMA",
-        openGraph: article.image ? { images: [{ url: article.image }] } : undefined,
+        openGraph: article.coverImage ? { images: [{ url: article.coverImage }] } : undefined,
       }
     }
   } catch {}

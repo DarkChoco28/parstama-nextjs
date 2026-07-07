@@ -1,23 +1,24 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { checkRateLimit } from "@/lib/rate-limit"
-import { statusCheckSchema } from "@/lib/validation"
 
 export async function POST(request: NextRequest) {
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
-  const { allowed } = await checkRateLimit(`status:${ip}`, 10, 60000)
-  if (!allowed) {
-    return NextResponse.json({ error: "Terlalu banyak permintaan. Coba lagi nanti." }, { status: 429 })
-  }
-
   try {
-    const body = await request.json()
-    const parsed = statusCheckSchema.safeParse(body)
-    if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
+    const { whatsapp, birthDate } = await request.json()
+
+    if (!whatsapp || typeof whatsapp !== "string" || whatsapp.trim().length < 10) {
+      return NextResponse.json(
+        { error: "Nomor WhatsApp tidak valid (minimal 10 digit)" },
+        { status: 400 }
+      )
     }
 
-    const { whatsapp, birthDate } = parsed.data
+    if (!birthDate || typeof birthDate !== "string") {
+      return NextResponse.json(
+        { error: "Tanggal lahir wajib diisi" },
+        { status: 400 }
+      )
+    }
+
     const normalizedWhatsapp = whatsapp.replace(/\D/g, "")
     const searchDate = new Date(birthDate)
 

@@ -97,7 +97,7 @@ export default function DaftarPage() {
   const classMajorLabel = () => formData.class && formData.major ? `${formData.class} / ${formData.major}` : (formData.class || formData.major || "-")
 
   return (
-    <div style={{ background: "#0A0A0A", minHeight: "100vh", fontFamily: "var(--font-sansita), Georgia, serif, -apple-system, sans-serif", fontSize: "16.2px", lineHeight: 1.5, color: "#E0E0E0" }}>
+    <div style={{ background: "#0A0A0A", minHeight: "100vh", fontFamily: "Sansita, Georgia, serif, -apple-system, sans-serif", fontSize: "16.2px", lineHeight: 1.5, color: "#E0E0E0" }}>
       {/* Floating Emoji Medis */}
       <div className="fixed pointer-events-none z-0 select-none" style={{ top: "18%", left: "88%", fontSize: "22px", animation: "emojiFloat1 9s ease-in-out infinite 0s" }}>🩺</div>
       <div className="fixed pointer-events-none z-0 select-none" style={{ top: "35%", left: "6%", fontSize: "18px", animation: "emojiFloat2 12s ease-in-out infinite 1s" }}>🩹</div>
@@ -162,7 +162,7 @@ export default function DaftarPage() {
       {/* Page Content */}
       <div className="daftar-page-wrap">
         <div className="daftar-page-header">
-          <div className="page-badge">Pendaftaran Anggota 2026/2027</div>
+          <div className="page-badge">Pendaftaran Anggota 2025/2026</div>
           <h1 className="page-title">Formulir <span>Pendaftaran</span></h1>
           <p className="page-sub">Isi data diri Anda dengan lengkap dan benar. Proses pendaftaran hanya memerlukan beberapa menit.</p>
         </div>
@@ -200,12 +200,12 @@ export default function DaftarPage() {
               <div className="form-row two-col">
                 <div className="form-group">
                   <label>Nama Lengkap <span className="req">*</span></label>
-                  <input type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Sesuai kartu identitas" aria-label="Nama Lengkap" className={fieldErrors.fullName ? "error" : ""} />
+                  <input type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Sesuai kartu identitas" className={fieldErrors.fullName ? "error" : ""} />
                   <span className={`error-msg${fieldErrors.fullName ? " show" : ""}`}>Nama lengkap wajib diisi.</span>
                 </div>
                 <div className="form-group">
                   <label>Nama Panggilan</label>
-                  <input type="text" name="nickname" value={formData.nickname} onChange={handleInputChange} placeholder="Opsional" aria-label="Nama Panggilan" />
+                  <input type="text" name="nickname" value={formData.nickname} onChange={handleInputChange} placeholder="Opsional" />
                 </div>
               </div>
               <div className="form-row">
@@ -227,12 +227,12 @@ export default function DaftarPage() {
               <div className="form-row two-col">
                 <div className="form-group">
                   <label>Tempat Lahir <span className="req">*</span></label>
-                  <input type="text" name="birthPlace" value={formData.birthPlace} onChange={handleInputChange} placeholder="Kota tempat lahir" aria-label="Tempat Lahir" className={fieldErrors.birthPlace ? "error" : ""} />
+                  <input type="text" name="birthPlace" value={formData.birthPlace} onChange={handleInputChange} placeholder="Kota tempat lahir" className={fieldErrors.birthPlace ? "error" : ""} />
                   <span className={`error-msg${fieldErrors.birthPlace ? " show" : ""}`}>Tempat lahir wajib diisi.</span>
                 </div>
                 <div className="form-group">
                   <label>Tanggal Lahir <span className="req">*</span></label>
-                  <input type="date" name="birthDate" value={formData.birthDate} onChange={handleInputChange} aria-label="Tanggal Lahir" className={fieldErrors.birthDate ? "error" : ""} />
+                  <input type="date" name="birthDate" value={formData.birthDate} onChange={handleInputChange} className={fieldErrors.birthDate ? "error" : ""} />
                   <span className={`error-msg${fieldErrors.birthDate ? " show" : ""}`}>Tanggal lahir wajib diisi.</span>
                 </div>
               </div>
@@ -248,33 +248,33 @@ export default function DaftarPage() {
               <div className="form-row">
                 <div className="form-group">
                   <label>Nomor WhatsApp <span className="req">*</span></label>
-                  <input type="tel" name="whatsapp" value={formData.whatsapp} onChange={handleInputChange} placeholder="08xxxxxxxxxx" aria-label="Nomor WhatsApp" className={fieldErrors.whatsapp ? "error" : ""} />
+                  <input type="tel" name="whatsapp" value={formData.whatsapp} onChange={handleInputChange} placeholder="08xxxxxxxxxx" className={fieldErrors.whatsapp ? "error" : ""} />
                   <span className={`error-msg${fieldErrors.whatsapp ? " show" : ""}`}>Nomor WhatsApp wajib diisi.</span>
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
                   <label>Alamat Email</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="contoh@email.com" aria-label="Alamat Email" />
+                  <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="contoh@email.com" />
                   <span className="char-hint">Opsional — untuk menerima informasi seleksi</span>
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
                   <label>Alamat Lengkap <span className="req">*</span></label>
-                  <textarea name="address" value={formData.address} onChange={handleInputChange} placeholder="Jl. Nama Jalan No. XX, RT/RW, Kelurahan, Kecamatan, Kota" aria-label="Alamat Lengkap" className={fieldErrors.address ? "error" : ""} />
+                  <textarea name="address" value={formData.address} onChange={handleInputChange} placeholder="Jl. Nama Jalan No. XX, RT/RW, Kelurahan, Kecamatan, Kota" className={fieldErrors.address ? "error" : ""} />
                   <span className={`error-msg${fieldErrors.address ? " show" : ""}`}>Alamat wajib diisi.</span>
                 </div>
               </div>
               <div className="form-row two-col">
                 <div className="form-group">
                   <label>Kelas <span className="req">*</span></label>
-                  <input type="text" name="class" value={formData.class} onChange={handleInputChange} placeholder="Contoh: X / 10" aria-label="Kelas" className={fieldErrors.class ? "error" : ""} />
+                  <input type="text" name="class" value={formData.class} onChange={handleInputChange} placeholder="Contoh: X / 10" className={fieldErrors.class ? "error" : ""} />
                   <span className={`error-msg${fieldErrors.class ? " show" : ""}`}>Kelas wajib diisi.</span>
                 </div>
                 <div className="form-group">
                   <label>Jurusan <span className="req">*</span></label>
-                  <input type="text" name="major" value={formData.major} onChange={handleInputChange} placeholder="Contoh: TAB 1 / TAB 2 / TAB 3" aria-label="Jurusan" className={fieldErrors.major ? "error" : ""} />
+                  <input type="text" name="major" value={formData.major} onChange={handleInputChange} placeholder="Contoh: TAB 1 / TAB 2 / TAB 3" className={fieldErrors.major ? "error" : ""} />
                   <span className={`error-msg${fieldErrors.major ? " show" : ""}`}>Jurusan wajib dipilih.</span>
                 </div>
               </div>
@@ -291,7 +291,7 @@ export default function DaftarPage() {
               <div className="form-row">
                 <div className="form-group">
                   <label>Alasan Bergabung dengan PARSTAMA <span className="req">*</span></label>
-                  <textarea name="motivation" value={formData.motivation} onChange={handleInputChange} placeholder="Ceritakan alasan Anda ingin bergabung, pengalaman yang diharapkan, dan kontribusi yang ingin diberikan..." aria-label="Alasan Bergabung dengan PARSTAMA" style={{ minHeight: 180 }} className={fieldErrors.motivation ? "error" : ""} />
+                  <textarea name="motivation" value={formData.motivation} onChange={handleInputChange} placeholder="Ceritakan alasan Anda ingin bergabung, pengalaman yang diharapkan, dan kontribusi yang ingin diberikan..." style={{ minHeight: 180 }} className={fieldErrors.motivation ? "error" : ""} />
                   <span className={`error-msg${fieldErrors.motivation ? " show" : ""}`}>Kolom motivasi wajib diisi (minimal 20 karakter).</span>
                   <span className="char-hint" style={{ color: formData.motivation.length >= 20 ? "#EF4444" : "#555" }}>{formData.motivation.length} karakter{formData.motivation.length < 20 ? " (min. 20)" : " ok"}</span>
                 </div>
@@ -299,7 +299,7 @@ export default function DaftarPage() {
               <div className="form-row">
                 <div className="form-group">
                   <label>Pengalaman Organisasi Sebelumnya</label>
-                  <textarea name="organizationExperience" value={formData.organizationExperience} onChange={handleInputChange} placeholder="Tuliskan pengalaman organisasi Anda sebelumnya. Kosongkan jika tidak ada." aria-label="Pengalaman Organisasi Sebelumnya" style={{ minHeight: 110 }} />
+                  <textarea name="organizationExperience" value={formData.organizationExperience} onChange={handleInputChange} placeholder="Tuliskan pengalaman organisasi Anda sebelumnya. Kosongkan jika tidak ada." style={{ minHeight: 110 }} />
                   <span className="char-hint">Opsional — pengalaman tidak wajib</span>
                 </div>
               </div>
