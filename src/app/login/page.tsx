@@ -4,7 +4,6 @@ import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import Image from "next/image"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -210,12 +209,13 @@ export default function LoginPage() {
                     background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)",
                   }}
                 />
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src="/smkn_logo.png"
                   alt="SMKN"
-                  width={48}
-                  height={48}
                   style={{
+                    width: "48px",
+                    height: "48px",
                     borderRadius: "50%",
                     objectFit: "contain",
                     boxShadow: "0 0 12px rgba(220,38,38,0.3)",
@@ -231,12 +231,13 @@ export default function LoginPage() {
                     background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)",
                   }}
                 />
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src="/parstama_logo.png"
                   alt="PARSTAMA"
-                  width={48}
-                  height={48}
                   style={{
+                    width: "48px",
+                    height: "48px",
                     borderRadius: "50%",
                     objectFit: "contain",
                     boxShadow: "0 0 12px rgba(220,38,38,0.3)",

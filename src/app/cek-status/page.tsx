@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import Image from "next/image"
 
 interface Message {
   id: string
@@ -119,8 +118,10 @@ export default function ChatPage() {
       <header className="sticky top-0 z-50 bg-[#0A0A0B]/95 backdrop-blur-xl border-b border-white/6">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 no-underline">
-            <Image src="/parstama_logo.png" alt="PARSTAMA" width={40} height={40} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
-            <Image src="/smkn_logo.png" alt="SMKN" width={40} height={40} className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/smkn_logo.png" alt="SMKN" className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(220,38,38,.4))" }} />
           </Link>
           <div className="flex-1 min-w-0">
             <h1 className="text-white font-bold text-sm sm:text-base leading-tight" style={{ fontFamily: "Sansita, Georgia, serif" }}>
