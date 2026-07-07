@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
+import Image from "next/image"
 import FluidMenu from "./FluidMenu"
 import Preloader from "./Preloader"
 
@@ -97,11 +98,11 @@ export default function LandingClient() {
         <Link href="/" className="flex items-center gap-2 sm:gap-3 no-underline text-white relative z-1">
           <div className="relative w-14 h-14 sm:w-20 sm:h-20" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
             <div className="absolute -inset-1.5 rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
-            <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+                <Image src="/smkn_logo.png" alt="SMKN" width={80} height={80} className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
           </div>
           <div className="relative w-14 h-14 sm:w-20 sm:h-20" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
             <div className="absolute -inset-1.5 rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
-            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+                <Image src="/parstama_logo.png" alt="PARSTAMA" width={80} height={80} className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
           </div>
           <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
             PARSTAMA
@@ -334,11 +335,11 @@ export default function LandingClient() {
             <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4 no-underline">
               <div className="relative w-14 h-14 sm:w-20 sm:h-20" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
                 <div className="absolute -inset-1.5 rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite" }} />
-                <img src="/smkn_logo.png" alt="SMKN" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+            <Image src="/smkn_logo.png" alt="SMKN" width={80} height={80} className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
               </div>
               <div className="relative w-14 h-14 sm:w-20 sm:h-20" style={{ transformStyle: "preserve-3d", perspective: "400px" }}>
                 <div className="absolute -inset-1.5 rounded-full" style={{ background: "radial-gradient(circle, rgba(220,38,38,.15) 0%, transparent 70%)", animation: "navGlowPulse 3s ease-in-out infinite 0.5s" }} />
-                <img src="/parstama_logo.png" alt="PARSTAMA" className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
+            <Image src="/parstama_logo.png" alt="PARSTAMA" width={80} height={80} className="w-full h-full object-contain rounded-lg" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite 0.5s", filter: "drop-shadow(0 0 8px rgba(220,38,38,.4))" }} />
               </div>
               <span style={{ fontFamily: "Sansita, Georgia, serif", fontSize: "18px", fontWeight: 700, background: "linear-gradient(90deg,#EF4444,#DC2626)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 PARSTAMA

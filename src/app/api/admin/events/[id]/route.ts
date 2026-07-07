@@ -32,7 +32,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     }
     const { title, description, location, startDate, endDate, allDay, color, category, isVisible } = parsed.data
 
-    const data: any = {}
+    const data: Record<string, unknown> = {}
     if (title !== undefined) data.title = title.trim()
     if (description !== undefined) data.description = description?.trim() || null
     if (location !== undefined) data.location = location?.trim() || null

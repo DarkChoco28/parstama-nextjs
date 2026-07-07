@@ -91,8 +91,8 @@ export async function POST(request: NextRequest) {
     if (!response) throw new Error("Empty response from Groq vision")
 
     return NextResponse.json({ response })
-  } catch (error: any) {
-    console.error("[vision] error:", error?.message || error)
+  } catch (error) {
+    console.error("[vision] error:", error instanceof Error ? error.message : error)
     return NextResponse.json({
       response: `Maaf, analisis gambar gagal. Coba kirim ulang atau ketik pertanyaan Anda secara manual.\n\nUntuk bantuan: **WA ${WA_NUMBER}** 📱`,
     })

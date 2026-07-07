@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useSession, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
@@ -18,13 +18,14 @@ export default function AdminProfile() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
-  useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
-  useEffect(() => { if (status === "authenticated") fetchProfile() }, [status])
-
   const fetchProfile = async () => {
     try { const r = await fetch("/api/admin/profile"); const d = await r.json(); setName(d.name || ""); setEmail(d.email || "") }
     catch { setError("Gagal memuat data profile") } finally { setLoading(false) }
   }
+
+  useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { if (status === "authenticated") fetchProfile() }, [status])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setMessage(""); setError("")

@@ -18,6 +18,10 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "PARSTAMA – PMR SMKN 1 Singosari",
   description: "Sistem Pendaftaran Palang Merah Remaja PARSTAMA - SMKN 1 Singosari",
+  icons: {
+    icon: "/parstama_logo.png",
+    apple: "/parstama_logo.png",
+  },
 };
 
 export default function RootLayout({

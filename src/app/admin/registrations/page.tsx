@@ -1,14 +1,20 @@
 "use client"
 
 import { useEffect, useState, useCallback } from "react"
-import { useSession, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
+
+interface Registration {
+  id: string; fullName: string; nickname: string | null; email: string | null; whatsapp: string; class: string; major: string; gender: string; status: string;
+  birthPlace: string; birthDate: string; religion: string | null; address: string; city: string | null; province: string | null; postalCode: string | null;
+  bloodType: string | null; medicalHistory: string | null; organizationExperience: string | null; motivation: string; parentConsent: boolean;
+  createdAt: string; motivationScore: number | null; sentimentLabel: string | null;
+}
 
 export default function AdminRegistrations() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [registrations, setRegistrations] = useState<any[]>([])
+  const [registrations, setRegistrations] = useState<Registration[]>([])
   const [loading, setLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
@@ -22,7 +28,7 @@ export default function AdminRegistrations() {
   const [totalPages, setTotalPages] = useState(1)
   const [totalResults, setTotalResults] = useState(0)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
-  const [detailData, setDetailData] = useState<any>(null)
+  const [detailData, setDetailData] = useState<Registration | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
   const [emailSending, setEmailSending] = useState<string | null>(null)
@@ -53,6 +59,7 @@ export default function AdminRegistrations() {
     } catch (e) { console.error(e) } finally { setLoading(false) }
   }, [buildFilterParams])
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { if (status === "authenticated") fetchRegistrations() }, [status, fetchRegistrations])
 
   const updateStatus = async (id: string, s: string) => {
@@ -80,7 +87,7 @@ export default function AdminRegistrations() {
     try { await Promise.all(selectedIds.map(id => fetch(`/api/admin/registrations/${id}`, { method: "DELETE" }))); setSelectedIds([]); fetchRegistrations() } catch (e) { console.error(e) }
   }
   const toggleSelect = (id: string) => setSelectedIds(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id])
-  const toggleSelectAll = () => setSelectedIds(p => p.length === registrations.length ? [] : registrations.map((r: any) => r.id))
+  const toggleSelectAll = () => setSelectedIds(p => p.length === registrations.length ? [] : registrations.map(r => r.id))
   const viewDetail = async (id: string) => {
     setDetailLoading(true)
     try { const r = await fetch(`/api/admin/registrations/${id}`); const d = await r.json(); setDetailData(d) }
@@ -217,7 +224,7 @@ export default function AdminRegistrations() {
           {/* Mobile cards */}
           <div className="reg-mobile-list">
             {registrations.length === 0 && <div className="reg-empty"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{margin:"0 auto 12px",opacity:.3,display:"block"}}><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Tidak ada data pendaftaran</div>}
-            {registrations.map((r: any, idx: number) => (
+            {registrations.map((r, idx) => (
               <div key={r.id} className="reg-mobile-card">
                 <div className="reg-mobile-header">
                   <input type="checkbox" checked={selectedIds.includes(r.id)} onChange={() => toggleSelect(r.id)} className="admin-checkbox" />
@@ -270,7 +277,7 @@ export default function AdminRegistrations() {
                 </tr>
               </thead>
               <tbody>
-                {registrations.map((r: any) => (
+                {registrations.map((r) => (
                   <tr key={r.id} className="admin-tr">
                     <td className="admin-td"><input type="checkbox" checked={selectedIds.includes(r.id)} onChange={() => toggleSelect(r.id)} className="admin-checkbox" /></td>
                     <td className="admin-td admin-td-bold">{r.fullName}</td>

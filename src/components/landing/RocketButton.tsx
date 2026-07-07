@@ -121,7 +121,8 @@ export default function RocketButton({
   }, [])
 
   const handleClick = useCallback(
-    (e: ReactMouseEvent<HTMLButtonElement>) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (_e: ReactMouseEvent<HTMLButtonElement>) => {
       if (launchingRef.current) return
       launchingRef.current = true
 

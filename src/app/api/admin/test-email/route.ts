@@ -34,10 +34,10 @@ export async function GET(request: NextRequest) {
       message: `Email terkirim ke ${to}`,
       timestamp: new Date().toISOString(),
     })
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json({
-      error: error?.message || "Gagal mengirim",
-      stack: error?.stack,
+      error: error instanceof Error ? error.message : "Gagal mengirim",
+      stack: error instanceof Error ? error.stack : undefined,
     }, { status: 500 })
   }
 }

@@ -33,9 +33,11 @@ export default function BlogClient({ initialArticles, initialTotalPages, initial
     finally { setLoading(false) }
   }, [])
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (page !== 1 || category !== "") fetchArticles(page, category)
   }, [page, category, fetchArticles])
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleCategory = (c: string) => { setCategory(c); setPage(1); fetchArticles(1, c) }
 

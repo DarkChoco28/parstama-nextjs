@@ -200,11 +200,12 @@ export async function POST(request: NextRequest) {
       if (!response) throw new Error("Empty response from Groq")
 
       return NextResponse.json({ response })
-    } catch (groqError: any) {
-      console.error("Groq error, using fallback:", groqError?.message)
-      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GROQ_ERROR", _error: groqError?.message })
+    } catch (groqError) {
+      const msg = groqError instanceof Error ? groqError.message : "Unknown error"
+      console.error("Groq error, using fallback:", msg)
+      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GROQ_ERROR", _error: msg })
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Chat error:", error)
     return NextResponse.json(
       { response: findFallbackResponse("") },

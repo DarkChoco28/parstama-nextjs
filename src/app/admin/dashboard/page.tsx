@@ -30,6 +30,7 @@ export default function AdminDashboard() {
   }
 
   useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { if (status === "authenticated") { fetchStats(); fetchAnalytics(); fetchRegistrationStatus() } }, [status])
   const toggleRegistration = async () => {
     setIsToggling(true)

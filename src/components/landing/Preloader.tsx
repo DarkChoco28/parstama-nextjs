@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 
 export default function Preloader() {
   const [visible, setVisible] = useState(true)
@@ -15,12 +16,12 @@ export default function Preloader() {
   if (!visible) return null
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-[#0A0A0B] flex items-center justify-center" style={{ animation: "preloaderFadeOut 0.8s ease-out 2.2s forwards" }}>
+    <div className="fixed inset-0 z-9999 bg-[#0A0A0B] flex items-center justify-center" style={{ animation: "preloaderFadeOut 0.8s ease-out 2.2s forwards" }}>
       <div className="flex flex-col items-center gap-6" style={{ animation: "preloaderSpin 2s ease-in-out forwards" }}>
-        <div className="relative w-[220px] h-[220px] flex items-center justify-center">
+        <div className="relative w-55 h-55 flex items-center justify-center">
           <div className="absolute inset-0 rounded-full border border-red-500/25" style={{ animation: "orbitRing 3s linear infinite reverse" }} />
           <div className="relative flex items-center justify-center" style={{ animation: "preloaderLogoFloat 2s ease-in-out infinite" }}>
-            <img src="/parstama_logo.png" alt="PARSTAMA" className="w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] rounded-full object-contain shadow-[0_0_60px_rgba(220,38,38,0.4)]" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite" }} />
+            <Image src="/parstama_logo.png" alt="PARSTAMA" width={160} height={160} className="w-30 h-30 sm:w-40 sm:h-40 rounded-full object-contain shadow-[0_0_60px_rgba(220,38,38,0.4)]" style={{ animation: "navLogoFloat3D 6s ease-in-out infinite" }} />
           </div>
         </div>
         <div className="font-display text-xs sm:text-sm tracking-[0.4em] text-red-500/70 uppercase" style={{ animation: "textBlink 1.5s ease-in-out infinite" }}>

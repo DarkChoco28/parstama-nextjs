@@ -48,6 +48,7 @@ export default function AdminEvents() {
     } catch (e) { console.error(e) } finally { setLoading(false) }
   }, [page, searchQuery, categoryFilter])
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { if (status === "authenticated") fetchEvents() }, [status, fetchEvents])
 
   const openAdd = () => {

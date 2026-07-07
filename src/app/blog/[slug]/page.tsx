@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 
 interface Article {
   id: string; title: string; slug: string; excerpt?: string; content: string; coverImage?: string; author: string; category: string; viewCount: number; createdAt: string; updatedAt: string
@@ -63,7 +64,7 @@ export default function BlogDetailPage() {
         ) : article && (
           <>
             {article.coverImage && (
-              <img src={article.coverImage} alt={article.title} style={{ width: "100%", height: 280, objectFit: "cover", borderRadius: 16, marginBottom: 24 }} loading="lazy" />
+              <Image src={article.coverImage} alt={article.title} width={720} height={280} unoptimized style={{ width: "100%", height: 280, objectFit: "cover", borderRadius: 16, marginBottom: 24 }} />
             )}
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
               <span style={{ padding: "4px 12px", borderRadius: 12, fontSize: 11, fontWeight: 700, background: `${categoryColors[article.category] || "#8B5CF6"}15`, color: categoryColors[article.category] || "#8B5CF6", border: `1px solid ${categoryColors[article.category] || "#8B5CF6"}30` }}>{article.category}</span>

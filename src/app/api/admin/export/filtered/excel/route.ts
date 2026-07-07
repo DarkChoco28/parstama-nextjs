@@ -89,6 +89,7 @@ export async function GET(request: NextRequest) {
     const titleText = "DATA PENDAFTARAN PARSTAMA"
     const subtitleText = `Export: ${new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })} | Total: ${registrations.length} pendaftar | ${filterText}`
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rows: any[][] = []
     rows.push([titleText])
     rows.push([subtitleText])
@@ -130,6 +131,7 @@ export async function GET(request: NextRequest) {
     ws["!cols"] = columns.map((col) => ({ wch: col.width }))
 
     const totalRows = 3 + registrations.length
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rowHeights: any[] = []
     rowHeights[0] = { hpt: 36 }
     rowHeights[1] = { hpt: 22 }
@@ -183,8 +185,11 @@ export async function GET(request: NextRequest) {
         const ref = XLSX.utils.encode_cell({ r: rowNum, c })
         if (!ws[ref]) continue
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let font: any = { sz: 10, name: "Calibri", color: { rgb: "333333" } }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let fill: any = isAlt ? { fgColor: { rgb: "F9FAFB" } } : { fgColor: { rgb: "FFFFFF" } }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let alignment: any = { horizontal: "left", vertical: "center", wrapText: c >= 7 && c <= 8 || c >= 16 && c <= 18 }
 
         if (c === 0) {

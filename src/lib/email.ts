@@ -1,4 +1,4 @@
-import { WA_LINK, WA_NUMBER, WA_GROUP_LINK } from "@/lib/constants"
+import { WA_LINK, WA_NUMBER } from "@/lib/constants"
 
 interface SendEmailOptions {
   to: string

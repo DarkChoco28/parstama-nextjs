@@ -197,6 +197,7 @@ export default function Hero3D() {
       last = now
       t += dt
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const speed = reduced ? 0.2 : 1.0
 
       // Smooth pointer

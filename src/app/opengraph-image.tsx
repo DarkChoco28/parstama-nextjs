@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from "next/og"
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
@@ -26,6 +27,7 @@ export default async function Image() {
       >
         <img
           src={logoDataUrl}
+          alt="PARSTAMA"
           width={180}
           height={180}
           style={{ marginBottom: "32px", borderRadius: "20px" }}
