@@ -24,6 +24,7 @@ export default async function Image() {
           fontFamily: "sans-serif",
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
         <img
           src={logoDataUrl}
           width={180}

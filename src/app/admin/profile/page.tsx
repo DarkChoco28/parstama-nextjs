@@ -19,12 +19,16 @@ export default function AdminProfile() {
   const [saving, setSaving] = useState(false)
 
   useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
-  useEffect(() => { if (status === "authenticated") fetchProfile() }, [status])
 
-  const fetchProfile = async () => {
-    try { const r = await fetch("/api/admin/profile"); const d = await r.json(); setName(d.name || ""); setEmail(d.email || "") }
-    catch { setError("Gagal memuat data profile") } finally { setLoading(false) }
-  }
+  useEffect(() => {
+    if (status !== "authenticated") return
+    let cancelled = false
+    ;(async () => {
+      try { const r = await fetch("/api/admin/profile"); const d = await r.json(); if (!cancelled) { setName(d.name || ""); setEmail(d.email || "") } }
+      catch { if (!cancelled) setError("Gagal memuat data profile") } finally { if (!cancelled) setLoading(false) }
+    })()
+    return () => { cancelled = true }
+  }, [status])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setMessage(""); setError("")
