@@ -74,7 +74,7 @@ export async function POST() {
     await prisma.organizationMember.deleteMany()
 
     const placeholders: Record<string, string> = {}
-    const created: any[] = []
+    const created: Record<string, unknown>[] = []
 
     for (const d of seedData) {
       let parentId: string | null = null

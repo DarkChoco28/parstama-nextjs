@@ -5,7 +5,7 @@ import { checkRateLimit } from "@/lib/rate-limit"
 
 const handler = NextAuth(authOptions)
 
-async function rateLimitedHandler(request: NextRequest, ...args: any[]) {
+async function rateLimitedHandler(request: NextRequest, ...args: unknown[]) {
   if (request.method === "POST") {
     const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
     const { allowed } = await checkRateLimit(`auth:${ip}`, 5, 60000)

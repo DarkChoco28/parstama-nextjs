@@ -133,7 +133,7 @@ Hanya jawab JSON tanpa penjelasan tambahan.`
       strengths: [],
       concerns: [],
     })
-  } catch (_error) {
+  } catch {
     return NextResponse.json(
       { suggestion: "pending", score: 5, reasoning: "Terjadi kesalahan server.", strengths: [], concerns: [] },
       { status: 500 }

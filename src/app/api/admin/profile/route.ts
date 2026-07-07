@@ -36,7 +36,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "User tidak ditemukan" }, { status: 404 })
     }
 
-    const updates: any = {}
+    const updates: Record<string, unknown> = {}
 
     if (name?.trim()) {
       updates.name = name.trim()

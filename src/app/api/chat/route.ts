@@ -209,11 +209,11 @@ export async function POST(request: NextRequest) {
       if (!response) throw new Error("Empty response from Groq")
 
       return NextResponse.json({ response })
-    } catch (groqError: any) {
-      console.error("Groq error, using fallback:", groqError?.message)
+    } catch (groqError) {
+      console.error("Groq error, using fallback:", groqError instanceof Error ? groqError.message : groqError)
       return NextResponse.json({ response: findFallbackResponse(message) })
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error("Chat error:", error)
     return NextResponse.json(
       { response: findFallbackResponse("") },

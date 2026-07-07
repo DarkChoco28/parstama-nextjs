@@ -9,7 +9,7 @@ function normalizeWhatsapp(value: string) {
 
 export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
-  const { allowed, remaining } = await checkRateLimit(`register:${ip}`, 5, 60000)
+  const { allowed } = await checkRateLimit(`register:${ip}`, 5, 60000)
   if (!allowed) {
     return NextResponse.json({ error: "Terlalu banyak permintaan. Coba lagi nanti." }, { status: 429 })
   }

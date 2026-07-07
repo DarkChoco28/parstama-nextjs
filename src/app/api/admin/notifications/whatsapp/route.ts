@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
 
     if (type === "broadcast") {
       const status = searchParams.get("status")
-      const where: any = {}
+      const where: Record<string, unknown> = {}
       if (status) where.status = status
 
       const registrations = await prisma.registration.findMany({
