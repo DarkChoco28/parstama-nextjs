@@ -119,7 +119,7 @@ const knowledgeBase: KnowledgeEntry[] = [
   },
   {
     patterns: ["timeline", "jadwal daftar", "kapan daftar", "kapan dibuka", "waktu pendaftaran", "seleksi", "pengumuman", "jadwal seleksi"],
-    response: "Timeline PARSTAMA:\n\n📅 **Pendaftaran** — dibuka setiap tahun ajaran baru\n📅 **Seleksi** — tes tertulis + wawancara\n📅 **Pengumuman** — via WhatsApp & website\n📅 **Pelatihan** — dimulai setelah pengumuman\n\nPantau terus website ini untuk info terbaru! 📢",
+    response: "Timeline PARSTAMA:\n\n📅 **Pendaftaran** — dibuka setiap tahun ajaran baru\n📅 **Seleksi** — proses seleksi oleh tim panitia\n📅 **Pengumuman** — via WhatsApp & website\n📅 **Pelatihan** — dimulai setelah pengumuman\n\nPantau terus website ini untuk info terbaru! 📢",
   },
   {
     patterns: ["kontak panitia", "hubungi panitia", "nomor wa panitia", "no hp panitia", "whatsapp panitia", "nomor telepon panitia", "kontak pmr"],
@@ -242,26 +242,26 @@ function findFallbackResponse(input: string): string {
 
   if (bestMatch && bestScore > 5) return bestMatch.response
 
-  return "Maaf, aku belum sepenuhnya mengerti pertanyaanmu. 😅\n\nCoba tanyakan tentang:\n\n📋 **Pendaftaran:** cara daftar, syarat, biaya\n🏥 **Medis:** PPGD, luka, RJP, patah tulang\n💬 Atau hubungi panitia: **WA 0814-5914-5800** 📱"
+  return "Maaf, AI sedang tidak bisa memproses pertanyaanmu saat ini. 😅\n\nCoba lagi dalam beberapa saat, atau tanyakan langsung ke panitia:\n📱 **WA: 0814-5914-5800**"
 }
 
 const BASE_SYSTEM_PROMPT = `Kamu adalah AI Assistant PARSTAMA di SMKN 1 Singosari. Nama kamu PARSTAMA AI.
 
-Kamu bisa menjawab SEMUA pertanyaan dengan bebas — tidak ada batasan topik. Kamu adalah AI yang open, informatif, dan serbaguna.
+Kamu adalah AI yang serbaguna dan bisa menjawab SEMUA pertanyaan dengan bebas — tanpa batasan topik.
 
 ATURAN:
 - Jawab dalam Bahasa Indonesia yang ramah, natural, dan informatif
-- Boleh menjawab pertanyaan apapun — teknologi, sains, sejarah, budaya, saran, curhat, coding, dll
+- Kamu BOLEH dan HARUS menjawab pertanyaan apapun: teknologi, sains, sejarah, budaya, geografi, olahraga, entertainment, saran, curhat, coding, dll
 - Jika ditanya tentang penanganan medis darurat, selalu tekankan hubungi 119
 - Format pesan pakai **bold** untuk penekanan
 - Bersikaplah seperti teman yang suka bantu, bukan robot kaku
 - Gunakan emoji yang sesuai
 - Jika tidak tahu jawaban yang akurat, akui dengan jujur dan sarankan sumber yang tepat
-- Jika ada pertanyaan tentang website ini, gunakan KONTEN WEBSITE di bawah sebagai sumber utama
-- Jika informasi tidak ada di konten website, jawab berdasarkan pengetahuan umummu
-- Jika ditanya tentang siapa ketua, anggota, pengurus, atau struktur organisasi, gunakan DATA STRUKTUR ORGANISASI di bawah
-- Jika ditanya tentang seseorang yang ada di data organisasi, sebutkan nama dan jabatannya
-- Selalu sebutkan bahwa untuk info resmi, hubungi panitia via WA 0814-5914-5800`
+- Untuk pertanyaan umum (bukan tentang PARSTAMA), jawab dari pengetahuan umummu seakurat mungkin
+- Jika ada pertanyaan tentang website/organisasi ini, gunakan KONTEN WEBSITE dan DATA ORGANISASI di bawah sebagai sumber utama
+- Selalu sebutkan bahwa untuk info resmi PARSTAMA, hubungi panitia via WA 0814-5914-5800
+
+PENTING: Kamu adalah AI general-purpose. Jangan pernah menolak menjawab pertanyaan yang bukan tentang PARSTAMA. Jawab semua pertanyaan dengan pengetahuan luas yang kamu miliki.`
 
 interface KnowledgeEntry {
   patterns: string[]
@@ -325,11 +325,12 @@ export async function POST(request: NextRequest) {
       if (!response) throw new Error("Empty response from Groq")
 
       return NextResponse.json({ response })
-    } catch (groqError: any) {
-      console.error("Groq error, using fallback:", groqError?.message)
-      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GROQ_ERROR", _error: groqError?.message })
+    } catch (groqError: unknown) {
+      const groqMsg = groqError instanceof Error ? groqError.message : String(groqError)
+      console.error("Groq error, using fallback:", groqMsg)
+      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GROQ_ERROR", _error: groqMsg })
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Chat error:", error)
     return NextResponse.json(
       { response: findFallbackResponse("") },

@@ -381,8 +381,7 @@ export default function LandingClient() {
             <div className="relative pl-7 sm:pl-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-linear-to-b before:from-orange-600 before:to-transparent">
               {[
                 { title: "Pendaftaran Online", desc: "Isi formulir pendaftaran melalui website ini." },
-                { title: "Seleksi Administrasi", desc: "Tim panitia memeriksa berkas pendaftar." },
-                { title: "Wawancara & Tes", desc: "Tes tertulis, fisik, dan wawancara motivasi." },
+                { title: "Seleksi", desc: "Proses seleksi oleh tim panitia PARSTAMA." },
                 { title: "Pengumuman Hasil", desc: "Hasil seleksi diumumkan melalui website dan medsos PARSTAMA." },
               ].map((t, i) => (
                 <div key={i} className="reveal-right relative mb-6 sm:mb-8 last:mb-0">
