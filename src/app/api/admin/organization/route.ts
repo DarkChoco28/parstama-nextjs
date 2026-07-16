@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
+import { reindexMembers } from "@/lib/rag-indexer"
 
 export async function GET() {
   const auth = await requireAdmin()
@@ -49,6 +50,8 @@ export async function POST(request: NextRequest) {
         isVisible: isVisible ?? true,
       },
     })
+
+    reindexMembers().catch(console.error)
 
     return NextResponse.json(member, { status: 201 })
   } catch (error) {

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
 import { createAuditLog } from "@/lib/audit-log"
+import { reindexWebsite } from "@/lib/rag-indexer"
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const auth = await requireAdmin()
@@ -56,6 +57,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       details: `Mengupdate artikel: "${existing.title}" → "${article.title}"`,
       ip: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined,
     })
+    reindexWebsite().catch(console.error)
     return NextResponse.json(article)
   } catch (error) {
     console.error("Error updating article:", error)
@@ -79,6 +81,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       details: `Menghapus artikel: "${existing.title}"`,
       ip: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined,
     })
+    reindexWebsite().catch(console.error)
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Error deleting article:", error)

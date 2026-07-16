@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
+import { reindexMembers } from "@/lib/rag-indexer"
 
 export async function PUT(
   request: NextRequest,
@@ -29,6 +30,8 @@ export async function PUT(
       },
     })
 
+    reindexMembers().catch(console.error)
+
     return NextResponse.json(member)
   } catch (error) {
     console.error("Error updating member:", error)
@@ -49,6 +52,7 @@ export async function DELETE(
   try {
     const { id } = await params
     await prisma.organizationMember.delete({ where: { id } })
+    reindexMembers().catch(console.error)
     return NextResponse.json({ message: "Berhasil dihapus" })
   } catch (error) {
     console.error("Error deleting member:", error)

@@ -2,5 +2,11 @@
   "buildCommand": "npx prisma generate && npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "crons": [
+    {
+      "path": "/api/cron/reindex",
+      "schedule": "0 3 * * *"
+    }
+  ]
 }

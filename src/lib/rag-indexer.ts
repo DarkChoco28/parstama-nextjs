@@ -118,6 +118,16 @@ async function indexOrganizationMembers(): Promise<number> {
   }
 }
 
+export async function reindexMembers(): Promise<number> {
+  await prisma.$executeRawUnsafe(`DELETE FROM "KnowledgeEmbedding" WHERE category = 'member'`)
+  return indexOrganizationMembers()
+}
+
+export async function reindexWebsite(): Promise<number> {
+  await prisma.$executeRawUnsafe(`DELETE FROM "KnowledgeEmbedding" WHERE category = 'website'`)
+  return indexWebsiteContent()
+}
+
 const KNOWLEDGE_ENTRIES = [
   { text: "Cara mendaftar PARSTAMA: Buka halaman utama, klik Daftar Sekarang, isi data diri (nama, jenis kelamin, tempat/tanggal lahir, agama), isi kontak & sekolah (alamat, WhatsApp, email, kelas, jurusan), isi motivasi (riwayat organisasi & motivasi bergabung), konfirmasi (centang persetujuan orang tua, kirim). Semua online, gratis.", source: "pendaftaran" },
   { text: "Syarat daftar PARSTAMA: Siswa aktif SMKN 1 Singosari, punya semangat kepedulian & jiwa sukarela, bersedia ikut seluruh rangkaian seleksi, mendapat izin orang tua/wali, punya minat dan tujuan yang jelas.", source: "pendaftaran" },

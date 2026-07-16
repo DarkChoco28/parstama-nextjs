@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
 import { createAuditLog } from "@/lib/audit-log"
+import { reindexWebsite } from "@/lib/rag-indexer"
 
 function toSlug(title: string) {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
@@ -74,6 +75,8 @@ export async function POST(request: NextRequest) {
       details: `Membuat artikel baru: "${title.trim()}"`,
       ip: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined,
     })
+
+    reindexWebsite().catch(console.error)
 
     return NextResponse.json(article, { status: 201 })
   } catch (error) {
