@@ -138,3 +138,15 @@ model RateLimit {
 
   @@index([key])
 }
+
+model KnowledgeEmbedding {
+  id        String   @id @default(cuid())
+  content   String
+  category  String
+  source    String?
+  embedding Unsupported("vector(768)")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+}

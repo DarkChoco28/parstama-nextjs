@@ -25,6 +25,7 @@
     "@vercel/blob": "^2.6.1",
     "bcryptjs": "^3.0.3",
     "jspdf": "^4.2.1",
+    "motion": "^12.42.2",
     "next": "16.2.9",
     "next-auth": "^4.24.14",
     "nodemailer": "^7.0.13",

@@ -15,6 +15,8 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const [isToggling, setIsToggling] = useState(false)
   const [notifLoading, setNotifLoading] = useState(false)
+  const [reindexLoading, setReindexLoading] = useState(false)
+  const [reindexResult, setReindexResult] = useState<string | null>(null)
 
   useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
   useEffect(() => { if (status === "authenticated") { fetchStats(); fetchAnalytics(); fetchRegistrationStatus() } }, [status])
@@ -58,6 +60,18 @@ export default function AdminDashboard() {
       }
     } catch (e) { console.error(e) }
     finally { setNotifLoading(false) }
+  }
+
+  const handleReindex = async () => {
+    setReindexLoading(true)
+    setReindexResult(null)
+    try {
+      const r = await fetch("/api/admin/rag/reindex", { method: "POST" })
+      const d = await r.json()
+      if (d.success) setReindexResult(d.message)
+      else setReindexResult("Error: " + (d.error || "Unknown"))
+    } catch (e) { setReindexResult("Gagal: " + String(e)) }
+    finally { setReindexLoading(false) }
   }
 
   if (status === "loading" || isLoading) {
@@ -122,6 +136,16 @@ export default function AdminDashboard() {
               <span className="admin-time-value" style={{ color: t.color }}>{t.value}</span>
             </div>
           ))}
+        </div>
+
+        {/* RAG Reindex */}
+        <div className="admin-card" style={{ marginBottom: 16 }}>
+          <h3 className="admin-card-title">AI Knowledge Base (RAG)</h3>
+          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 10 }}>Reindex semua konten website, anggota, dan knowledge base untuk AI Assistant</p>
+          <button onClick={handleReindex} disabled={reindexLoading} style={{ padding: "8px 16px", borderRadius: 8, border: "1px solid rgba(59,130,246,0.3)", background: "rgba(59,130,246,0.1)", color: reindexLoading ? "rgba(255,255,255,0.3)" : "#60a5fa", cursor: reindexLoading ? "not-allowed" : "pointer", fontSize: 13, fontWeight: 600 }}>
+            {reindexLoading ? "Reindexing..." : "Reindex Knowledge Base"}
+          </button>
+          {reindexResult && <p style={{ fontSize: 12, color: reindexResult.startsWith("Error") || reindexResult.startsWith("Gagal") ? "#EF4444" : "#34D399", marginTop: 8 }}>{reindexResult}</p>}
         </div>
 
         {/* Bar Chart */}

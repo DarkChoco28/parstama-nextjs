@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { findRelevantChunks } from "@/lib/embedding"
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
 
@@ -258,7 +259,7 @@ ATURAN:
 - Gunakan emoji yang sesuai
 - Jika tidak tahu jawaban yang akurat, akui dengan jujur dan sarankan sumber yang tepat
 - Untuk pertanyaan umum (bukan tentang PARSTAMA), jawab dari pengetahuan umummu seakurat mungkin
-- Jika ada pertanyaan tentang website/organisasi ini, gunakan KONTEN WEBSITE dan DATA ORGANISASI di bawah sebagai sumber utama
+- Jika ada pertanyaan tentang website/organisasi ini, gunakan KONTeks YANG DIBERIKAN sebagai sumber utama
 - Selalu sebutkan bahwa untuk info resmi PARSTAMA, hubungi panitia via WA 0814-5914-5800
 
 PENTING: Kamu adalah AI general-purpose. Jangan pernah menolak menjawab pertanyaan yang bukan tentang PARSTAMA. Jawab semua pertanyaan dengan pengetahuan luas yang kamu miliki.`
@@ -283,20 +284,29 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-      const [websiteContent, orgMembers] = await Promise.all([
-        fetchWebsiteContent(),
-        fetchOrganizationMembers(),
-      ])
+      let contextBlock = ""
 
-      let systemPrompt = BASE_SYSTEM_PROMPT
+      const ragChunks = await findRelevantChunks(message, 10, prisma).catch(() => [])
 
-      if (orgMembers) {
-        systemPrompt += `\n\n--- DATA STRUKTUR ORGANISASI PARSTAMA ---\n${orgMembers}\n--- AKHIR DATA ORGANISASI ---`
+      if (ragChunks.length > 0) {
+        const contextParts = ragChunks.map((c, i) => `[${i + 1}] (${c.category}/${c.source || "umum"}, relevance: ${(c.similarity * 100).toFixed(0)}%)\n${c.content}`)
+        contextBlock = `\n\n--- KONTEKS RELEVAN (berdasarkan pencarian semantik) ---\n${contextParts.join("\n\n")}\n--- AKHIR KONTEKS ---`
+      } else {
+        const [websiteContent, orgMembers] = await Promise.all([
+          fetchWebsiteContent(),
+          fetchOrganizationMembers(),
+        ])
+
+        if (orgMembers) {
+          contextBlock += `\n\n--- DATA STRUKTUR ORGANISASI PARSTAMA ---\n${orgMembers}\n--- AKHIR DATA ORGANISASI ---`
+        }
+
+        if (websiteContent) {
+          contextBlock += `\n\n--- KONTEN WEBSITE PARSTAMA ---\n${websiteContent}\n--- AKHIR KONTEN WEBSITE ---`
+        }
       }
 
-      if (websiteContent) {
-        systemPrompt += `\n\n--- KONTEN WEBSITE PARSTAMA (auto-fetched) ---\n${websiteContent}\n--- AKHIR KONTEN WEBSITE ---`
-      }
+      const systemPrompt = BASE_SYSTEM_PROMPT + contextBlock
 
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
@@ -324,7 +334,7 @@ export async function POST(request: NextRequest) {
       const response = data.choices?.[0]?.message?.content
       if (!response) throw new Error("Empty response from Groq")
 
-      return NextResponse.json({ response })
+      return NextResponse.json({ response, _rag: ragChunks.length > 0, _chunks: ragChunks.length })
     } catch (groqError: unknown) {
       const groqMsg = groqError instanceof Error ? groqError.message : String(groqError)
       console.error("Groq error, using fallback:", groqMsg)

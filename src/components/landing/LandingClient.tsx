@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, useCallback, type MouseEvent as ReactMouseEvent } from "react"
+import { useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import LogoLoop from "../ui/LogoLoop"
@@ -8,6 +8,8 @@ import ShapeGrid from "./ShapeGrid"
 import FluidMenu from "./FluidMenu"
 import Preloader from "./Preloader"
 import RocketButton from "./RocketButton"
+import GlowingButton from "../ui/GlowingButton"
+import Carousel from "../ui/Carousel"
 
 function useScrollReveal() {
   useEffect(() => {
@@ -34,53 +36,6 @@ function SplitText({ text, className = "", as: Tag = "span" }: { text: string; c
         </span>
       ))}
     </Tag>
-  )
-}
-
-function BentoCard({ f }: { f: { icon: string; title: string; desc: string } }) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
-  const [isHovered, setIsHovered] = useState(false)
-
-  const onMove = useCallback((e: ReactMouseEvent<HTMLDivElement>) => {
-    const el = cardRef.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width
-    const y = (e.clientY - rect.top) / rect.height
-    setTilt({ x: (0.5 - y) * 12, y: (x - 0.5) * 12 })
-  }, [])
-
-  return (
-    <div
-      ref={cardRef}
-      className="reveal-scale bento-card group relative bg-[#1A1A1C] border border-white/6 rounded-2xl p-6 sm:p-8 overflow-hidden cursor-default"
-      onMouseMove={onMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => { setIsHovered(false); setTilt({ x: 0, y: 0 }) }}
-      style={{
-        transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) ${isHovered ? "scale(1.02)" : "scale(1)"}`,
-        transition: "transform 0.4s cubic-bezier(0.33,1,0.68,1), border-color 0.3s, box-shadow 0.3s",
-        borderColor: isHovered ? "rgba(232,122,26,0.3)" : undefined,
-        boxShadow: isHovered ? "0 0 40px rgba(232,122,26,0.08), 0 20px 60px rgba(0,0,0,0.4)" : undefined,
-      }}
-    >
-      <div
-        className="bento-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{
-          background: "radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(232,122,26,0.06), transparent 40%)",
-          ["--mx" as string]: `${(tilt.y / 12 + 0.5) * 100}%`,
-          ["--my" as string]: `${(0.5 - tilt.x / 12) * 100}%`,
-        }}
-      />
-      <div className="relative z-10">
-        <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-2xl mb-4 sm:mb-5 group-hover:bg-orange-500/20 group-hover:border-orange-500/30 transition-all duration-300 group-hover:scale-110">
-          {f.icon}
-        </div>
-        <h3 className="text-base sm:text-lg font-bold text-white mb-1.5 sm:mb-2 group-hover:text-orange-300 transition-colors duration-300">{f.title}</h3>
-        <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors duration-300">{f.desc}</p>
-      </div>
-    </div>
   )
 }
 
@@ -287,16 +242,18 @@ export default function LandingClient() {
           <p className="text-sm sm:text-lg text-zinc-400 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
             Jadilah bagian dari generasi penolong yang hebat. Pelajari keterampilan pertolongan pertama, kembangkan jiwa kepedulian, dan beri dampak nyata bagi masyarakat.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <RocketButton href="/daftar" className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all min-h-11">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center">
+            <RocketButton href="/daftar" className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white bg-linear-to-r from-red-600 to-red-800 shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:-translate-y-0.5 transition-all">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
               Isi Form Pendaftaran
             </RocketButton>
-            <Link href="/cek-status" className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/30 hover:-translate-y-0.5 transition-all min-h-11">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-              Tanya AI Assistant
+            <Link href="/cek-status" className="inline-flex justify-center">
+              <GlowingButton preset="ember" speed="normal" glowIntensity="medium" shape="pill">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                Tanya AI Assistant
+              </GlowingButton>
             </Link>
-            <Link href="/struktur-organisasi" className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-semibold text-white bg-orange-600 hover:bg-orange-500 shadow-lg shadow-orange-600/30 hover:-translate-y-0.5 transition-all min-h-11">
+            <Link href="/struktur-organisasi" className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full text-sm font-semibold text-white bg-orange-600 hover:bg-orange-500 shadow-lg shadow-orange-600/30 hover:-translate-y-0.5 transition-all">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
               Struktur Organisasi
             </Link>
@@ -333,17 +290,22 @@ export default function LandingClient() {
           <h2 className="reveal text-[clamp(1.5rem,4vw,2.5rem)] font-display font-extrabold text-white mb-3 sm:mb-4">Mengapa <span className="bg-linear-to-r from-orange-400 via-orange-400 to-orange-600 bg-clip-text text-transparent">PARSTAMA</span>?</h2>
           <p className="reveal text-sm sm:text-base text-zinc-400 max-w-lg mx-auto">Kami bukan sekadar organisasi — kami adalah keluarga yang saling mendukung.</p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {[
-            { icon: "🎯", title: "Pelatihan Profesional", desc: "Program latihan terstruktur mencakup PPGD, triage, evakuasi, dan manajemen bencana dari pelatih bersertifikat PMI." },
-            { icon: "🤝", title: "Komunitas yang Solid", desc: "100+ anggota aktif yang berdedikasi, saling mendukung, dan tumbuh bersama dalam kegiatan kemanusiaan." },
-            { icon: "🏆", title: "Prestasi Membanggakan", desc: "Raih pengalaman dan sertifikat bergengsi lewat kompetisi PMR tingkat kecamatan, kota, hingga nasional." },
-            { icon: "🌍", title: "Dampak Nyata", desc: "Terlibat langsung dalam kegiatan donor darah, posko kesehatan, dan misi kemanusiaan di lapangan." },
-            { icon: "📚", title: "Pengembangan Diri", desc: "Tingkatkan jiwa kepemimpinan, komunikasi, dan kerja tim melalui program pelatihan rutin dan seminar." },
-            { icon: "🎖️", title: "Sertifikasi Resmi", desc: "Dapatkan sertifikat resmi dari PMI yang diakui secara nasional sebagai bukti kompetensi Anda." },
-          ].map((f) => (
-            <BentoCard key={f.title} f={f} />
-          ))}
+        <div className="reveal-scale flex justify-center">
+          <Carousel
+            items={[
+              { id: 1, icon: <span className="text-sm">🎯</span>, title: "Pelatihan Profesional", description: "Program latihan terstruktur mencakup PPGD, triage, evakuasi, dan manajemen bencana dari pelatih bersertifikat PMI." },
+              { id: 2, icon: <span className="text-sm">🤝</span>, title: "Komunitas yang Solid", description: "100+ anggota aktif yang berdedikasi, saling mendukung, dan tumbuh bersama dalam kegiatan kemanusiaan." },
+              { id: 3, icon: <span className="text-sm">🏆</span>, title: "Prestasi Membanggakan", description: "Raih pengalaman dan sertifikat bergengsi lewat kompetisi PMR tingkat kecamatan, kota, hingga nasional." },
+              { id: 4, icon: <span className="text-sm">🌍</span>, title: "Dampak Nyata", description: "Terlibat langsung dalam kegiatan donor darah, posko kesehatan, dan misi kemanusiaan di lapangan." },
+              { id: 5, icon: <span className="text-sm">📚</span>, title: "Pengembangan Diri", description: "Tingkatkan jiwa kepemimpinan, komunikasi, dan kerja tim melalui program pelatihan rutin dan seminar." },
+              { id: 6, icon: <span className="text-sm">🎖️</span>, title: "Sertifikasi Resmi", description: "Dapatkan sertifikat resmi dari PMI yang diakui secara nasional sebagai bukti kompetensi Anda." },
+            ]}
+            baseWidth={320}
+            autoplay
+            autoplayDelay={3000}
+            pauseOnHover
+            loop
+          />
         </div>
       </section>
 
@@ -480,17 +442,20 @@ export default function LandingClient() {
           <p className="mt-2 text-zinc-500">Made with ❤️ by tim PARSTAMA</p>
         </div>
 
-        {/* Supported By - Logo Marquee */}
+        {/* Built With - Tech Stack Marquee */}
         <div className="mt-8 pt-6 border-t border-white/6">
-          <p className="text-center text-[10px] uppercase tracking-[0.25em] text-zinc-600 mb-4 font-medium">Supported by</p>
+          <p className="text-center text-[10px] uppercase tracking-[0.25em] text-zinc-600 mb-4 font-medium">Built with</p>
           <LogoLoop
             logos={[
-              { node: <Image src="/smkn_logo.png" alt="SMKN 1 Singosari" width={32} height={32} unoptimized className="rounded-full object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(232,122,26,0.3))" }} />, title: "SMKN 1 Singosari" },
-              { node: <Image src="/parstama_logo.png" alt="PARSTAMA" width={32} height={32} unoptimized className="rounded-full object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(232,122,26,0.3))" }} />, title: "PARSTAMA" },
-              { node: <span className="text-zinc-500 text-xs font-semibold tracking-wider">PMI</span>, title: "Palang Merah Indonesia" },
-              { node: <span className="text-zinc-500 text-xs font-semibold tracking-wider">SMKN 1 Singosari</span>, title: "SMKN 1 Singosari" },
-              { node: <span className="text-zinc-500 text-xs font-semibold tracking-wider">PARSTAMA</span>, title: "PARSTAMA" },
-              { node: <span className="text-zinc-500 text-xs font-semibold tracking-wider">PMR</span>, title: "Palang Merah Remaja" },
+              { src: "https://cdn.simpleicons.org/nextdotjs/ffffff", alt: "Next.js", title: "Next.js", width: 32, height: 32 },
+              { src: "https://cdn.simpleicons.org/react/61dafb", alt: "React", title: "React", width: 32, height: 32 },
+              { src: "https://cdn.simpleicons.org/typescript/3178c6", alt: "TypeScript", title: "TypeScript", width: 32, height: 32 },
+              { src: "https://cdn.simpleicons.org/vercel/ffffff", alt: "Vercel", title: "Vercel", width: 32, height: 32 },
+              { src: "https://cdn.simpleicons.org/postgresql/4169e1", alt: "PostgreSQL", title: "PostgreSQL", width: 32, height: 32 },
+              { src: "https://cdn.simpleicons.org/prisma/5a67d8", alt: "Prisma", title: "Prisma", width: 32, height: 32 },
+              { src: "https://cdn.simpleicons.org/tailwindcss/06b6d4", alt: "Tailwind CSS", title: "Tailwind CSS", width: 32, height: 32 },
+              { src: "https://cdn.simpleicons.org/resend/ffffff", alt: "Resend", title: "Resend", width: 32, height: 32 },
+              { src: "https://cdn.simpleicons.org/nodedotjs/339933", alt: "Node.js", title: "Node.js", width: 32, height: 32 },
             ]}
             speed={40}
             logoHeight={32}
