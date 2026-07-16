@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
       })
 
       const broadcastMessage = encodeURIComponent(
-        `Assalamu'alaikum Wr. Wb. 🙏\n\n` +
+        `Halo Anggota PARSTAMA 👋\n\n` +
         `Kepada Yth. Anggota PARSTAMA\n\n` +
         `Dengan ini kami informasikan bahwa:\n` +
         `Total pendaftar: *${registrations.length} orang*\n` +

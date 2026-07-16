@@ -9,8 +9,7 @@ export function buildStatusWhatsApp(
   const statusText = status === "accepted" ? "DITERIMA" : status === "rejected" ? "DITOLAK" : "MENUNGGU"
 
   const baseMessage =
-    `Assalamu'alaikum Wr. Wb.\n\n` +
-    `Halo *${fullName}*\n\n` +
+    `Halo ${fullName}\n\n` +
     `Kami dari PMR PARSTAMA SMKN ingin memberitahukan bahwa pendaftaran Anda telah :\n\n` +
     `*Status: ${statusText}*\n\n`
 

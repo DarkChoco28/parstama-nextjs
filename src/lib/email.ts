@@ -86,9 +86,6 @@ export function buildStatusEmail(
             <p style="color:rgba(255,255,255,.8);margin:8px 0 0;font-size:13px">SMKN - Status Pendaftaran</p>
           </div>
           <div style="padding:24px">
-            <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 16px">
-              Assalamu'alaikum Wr. Wb.
-            </p>
             <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
               Halo <strong style="color:#fff">${fullName}</strong>,
             </p>
@@ -148,9 +145,6 @@ export function buildRegistrationConfirmationEmail(
             <p style="color:rgba(255,255,255,.8);margin:8px 0 0;font-size:13px">SMKN 1 Singosari</p>
           </div>
           <div style="padding:24px">
-            <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 16px">
-              Assalamu'alaikum Wr. Wb.
-            </p>
             <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">
               Halo <strong style="color:#fff">${fullName}</strong>,
             </p>
