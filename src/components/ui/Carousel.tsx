@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { motion, PanInfo, useMotionValue, useTransform } from 'motion/react';
+import { motion, PanInfo, useMotionValue, useTransform, type MotionValue } from 'motion/react';
 import React from 'react';
 
 export interface CarouselItem {
@@ -32,7 +32,7 @@ interface CarouselItemProps {
   itemWidth: number;
   round: boolean;
   trackItemOffset: number;
-  x: ReturnType<typeof useMotionValue>;
+  x: MotionValue<number>;
   transition: typeof SPRING_OPTIONS | { duration: number };
 }
 
@@ -89,7 +89,7 @@ export default function Carousel({
   }, [items, loop]);
 
   const [position, setPosition] = useState<number>(loop ? 1 : 0);
-  const x = useMotionValue(0);
+  const x: MotionValue<number> = useMotionValue(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isJumping, setIsJumping] = useState<boolean>(false);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
