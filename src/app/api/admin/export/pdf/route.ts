@@ -7,7 +7,6 @@ function roundedRect(doc: jsPDF, x: number, y: number, w: number, h: number, r: 
   doc.roundedRect(x, y, w, h, r, r, style)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function drawCard(doc: jsPDF, reg: any, x: number, y: number) {
   const cardW = 86
   const cardH = 54

@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
 import { sendEmail, buildStatusEmail } from "@/lib/email"
-import { sendWhatsApp, buildStatusWhatsApp } from "@/lib/whatsapp"
-import { createAuditLog } from "@/lib/audit-log"
-import { statusUpdateSchema } from "@/lib/validation"
+import { buildStatusWhatsApp } from "@/lib/whatsapp"
 
 export async function GET(
   request: NextRequest,
@@ -46,11 +44,7 @@ export async function PUT(
   try {
     const { id } = await params
     const body = await request.json()
-    const parsed = statusUpdateSchema.safeParse(body)
-    if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
-    }
-    const { status } = parsed.data
+    const { status } = body
 
     const oldReg = await prisma.registration.findUnique({ where: { id } })
     if (!oldReg) {
@@ -60,13 +54,6 @@ export async function PUT(
     const registration = await prisma.registration.update({
       where: { id },
       data: { status },
-    })
-
-    createAuditLog({
-      action: `update_registration_status:${status}`,
-      userEmail: auth.session?.user?.email || "unknown",
-      details: `Mengubah status ${oldReg.fullName} (${oldReg.class} ${oldReg.major}) dari ${oldReg.status} ke ${status}`,
-      ip: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined,
     })
 
     // Auto-send email when status changes to accepted or rejected
@@ -89,46 +76,42 @@ export async function PUT(
         await sendEmail({ to: registration.email, subject, html })
         emailStatus = "sent"
         console.log(`Email notif terkirim ke ${registration.email} (${status})`)
-      } catch (err: unknown) {
+      } catch (err: any) {
         emailStatus = "failed"
-        emailError = err instanceof Error ? err.message : "Gagal mengirim email"
+        emailError = err?.message || "Gagal mengirim email"
         console.error("Gagal kirim email notif:", emailError)
       }
     }
 
-    // Auto-send WhatsApp when status changes to accepted or rejected
+    // Generate WhatsApp URL when status changes to accepted or rejected
+    let waUrl = null
     let waStatus = "skip"
-    let waError = null
     if (
       registration.whatsapp &&
       oldReg.status !== status &&
       (status === "accepted" || status === "rejected")
     ) {
-      try {
-        const message = buildStatusWhatsApp(
-          registration.fullName,
-          registration.class,
-          registration.major,
-          registration.whatsapp,
-          registration.email || "",
-          status as "accepted" | "rejected"
-        )
-        await sendWhatsApp({ target: registration.whatsapp, message })
-        waStatus = "sent"
-        console.log(`WA notif terkirim ke ${registration.fullName} (${status})`)
-      } catch (err: unknown) {
-        waStatus = "failed"
-        waError = err instanceof Error ? err.message : "Gagal mengirim WhatsApp"
-        console.error("Gagal kirim WA notif:", waError)
-      }
+      const message = buildStatusWhatsApp(
+        registration.fullName,
+        registration.class,
+        registration.major,
+        registration.whatsapp,
+        registration.email || "",
+        status as "accepted" | "rejected"
+      )
+      let cleanNumber = registration.whatsapp.replace(/[^0-9]/g, "")
+      if (cleanNumber.startsWith("0")) cleanNumber = "62" + cleanNumber.slice(1)
+      if (!cleanNumber.startsWith("62")) cleanNumber = "62" + cleanNumber
+      waUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`
+      waStatus = "ready"
     }
 
     return NextResponse.json({
       ...registration,
       _emailStatus: emailStatus,
       _emailError: emailError,
+      _waUrl: waUrl,
       _waStatus: waStatus,
-      _waError: waError,
     })
   } catch (error) {
     console.error("Error updating registration:", error)
@@ -148,16 +131,8 @@ export async function DELETE(
 
   try {
     const { id } = await params
-    const reg = await prisma.registration.findUnique({ where: { id } })
     await prisma.registration.delete({
       where: { id },
-    })
-
-    createAuditLog({
-      action: "delete_registration",
-      userEmail: auth.session?.user?.email || "unknown",
-      details: `Menghapus pendaftaran ${reg?.fullName || id}`,
-      ip: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined,
     })
 
     return NextResponse.json({ message: "Pendaftaran berhasil dihapus" })

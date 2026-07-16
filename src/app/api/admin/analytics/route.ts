@@ -29,30 +29,21 @@ export async function GET() {
       where: { createdAt: { gte: startOfMonth } },
     })
 
-    // Pendaftar per hari (7 hari terakhir) — single query
-    const weekAgo = new Date(now)
-    weekAgo.setDate(weekAgo.getDate() - 6)
-    weekAgo.setHours(0, 0, 0, 0)
-    const dailyRaw: { date: Date; count: bigint }[] = await prisma.$queryRaw`
-      SELECT DATE("createdAt") as date, COUNT(*)::bigint as count
-      FROM "Registration"
-      WHERE "createdAt" >= ${weekAgo}
-      GROUP BY DATE("createdAt")
-      ORDER BY DATE("createdAt") ASC
-    `
-    const countMap = new Map(dailyRaw.map((r) => {
-      const d = r.date instanceof Date ? r.date : new Date(r.date)
-      return [d.toDateString(), Number(r.count)]
-    }))
+    // Pendaftar per hari (7 hari terakhir)
     const dailyData: { date: string; count: number }[] = []
     for (let i = 6; i >= 0; i--) {
       const date = new Date(now)
       date.setDate(date.getDate() - i)
       const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate())
-      const key = dayStart.toDateString()
+      const dayEnd = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
+      const count = await prisma.registration.count({
+        where: {
+          createdAt: { gte: dayStart, lt: dayEnd },
+        },
+      })
       dailyData.push({
         date: dayStart.toLocaleDateString("id-ID", { weekday: "short", day: "numeric", month: "short" }),
-        count: countMap.get(key) || 0,
+        count,
       })
     }
 

@@ -42,7 +42,7 @@ const faqItems = [
   },
   {
     question: "Bagaimana cara menghubungi admin PARSTAMA?",
-    answer: "Kamu bisa menghubungi admin PARSTAMA melalui WhatsApp di +62 819-3278-1179 atau email ke pmr.parstama@gmail.com. Untuk pertanyaan seputar pendaftaran, kamu juga bisa gunakan fitur Tanya AI yang tersedia di website.",
+    answer: "Kamu bisa menghubungi admin PARSTAMA melalui WhatsApp di +62 814-5914-5800 atau email ke pmr.parstama@gmail.com. Untuk pertanyaan seputar pendaftaran, kamu juga bisa gunakan fitur Tanya AI yang tersedia di website.",
   },
 ]
 

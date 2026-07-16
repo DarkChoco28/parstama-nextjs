@@ -150,13 +150,6 @@ export default function BerhasilPage() {
               <span className="text-zinc-400 text-sm">Pendaftaran Anda akan diperiksa oleh panitia sesuai jadwal seleksi yang sedang berjalan.</span>
             </div>
           </div>
-          <div className="flex items-start gap-3 py-3">
-            <span className="text-lg flex-shrink-0">📢</span>
-            <div>
-              <strong className="text-zinc-200 text-xs block mb-0.5">Cek Status</strong>
-              <span className="text-zinc-400 text-sm">Gunakan fitur cek status untuk melihat perkembangan pendaftaran Anda kapan saja.</span>
-            </div>
-          </div>
         </div>
 
         {/* Buttons */}

@@ -47,7 +47,15 @@ export default function AdminDashboard() {
         : "/api/admin/notifications/whatsapp?type=single"
       const r = await fetch(url)
       const d = await r.json()
-      if (d.url) window.open(d.url, "_blank")
+      if (d.url) {
+        const a = document.createElement("a")
+        a.href = d.url
+        a.target = "_blank"
+        a.rel = "noopener noreferrer"
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+      }
     } catch (e) { console.error(e) }
     finally { setNotifLoading(false) }
   }
@@ -79,8 +87,15 @@ export default function AdminDashboard() {
   const chartColors = ["#DC2626", "#EF4444", "#F59E0B", "#10B981", "#3B82F6", "#8B5CF6", "#EC4899"]
 
   return (
-    <>
+    <div className="admin-page">
       <style>{adminCss}</style>
+
+      <div className="admin-cross" style={{ top: "10%", right: "5%", width: 20, height: 20, animation: "dashCross1 9s ease-in-out infinite" }}>
+        <div className="cross-h" /><div className="cross-v" />
+      </div>
+      <div className="admin-cross" style={{ bottom: "15%", left: "8%", width: 16, height: 16, animation: "dashCross2 11s ease-in-out infinite 2s" }}>
+        <div className="cross-h" /><div className="cross-v" />
+      </div>
 
       {/* Main */}
       <main className="admin-main">
@@ -198,13 +213,57 @@ export default function AdminDashboard() {
           </div>
         </div>
       </main>
-    </>
+    </div>
   )
 }
 
 const adminCss = `
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes dashCross1 { 0%,100%{transform:translate3d(0,0,0) rotate(0deg);opacity:.08}33%{transform:translate3d(8px,-5px,0) rotate(5deg);opacity:.15}66%{transform:translate3d(-3px,8px,0) rotate(-3deg);opacity:.1} }
+@keyframes dashCross2 { 0%,100%{transform:translate3d(0,0,0) rotate(0deg);opacity:.06}33%{transform:translate3d(-6px,7px,0) rotate(-4deg);opacity:.12}66%{transform:translate3d(5px,-4px,0) rotate(6deg);opacity:.08} }
+@keyframes navGlowPulse { 0%,100%{opacity:.5}50%{opacity:1} }
+@keyframes navLogoFloat3D { 0%,100%{transform:translateZ(0) rotateY(0) rotateX(0)}25%{transform:translateZ(5px) rotateY(5deg) rotateX(2deg)}50%{transform:translateZ(0) rotateY(0) rotateX(0)}75%{transform:translateZ(-5px) rotateY(-5deg) rotateX(-2deg)} }
 @keyframes cardFloat { 0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)} }
-@keyframes borderGlow { 0%,100%{border-color:rgba(232,122,26,.2)}50%{border-color:rgba(232,122,26,.4)} }
+@keyframes borderGlow { 0%,100%{border-color:rgba(220,38,38,.2)}50%{border-color:rgba(220,38,38,.4)} }
+@keyframes dashPulse { 0%,100%{box-shadow:0 0 20px rgba(220,38,38,.08)}50%{box-shadow:0 0 30px rgba(220,38,38,.15)} }
+@keyframes menuSlideDown { from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)} }
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+.admin-page{min-height:100vh;background:#0A0A0B;font-family:'Plus Jakarta Sans',system-ui,sans-serif;position:relative;overflow-x:hidden}
+.admin-loading{min-height:100vh;background:#0A0A0B;display:flex;align-items:center;justify-content:center;gap:10px;color:rgba(255,255,255,.5);font-size:15px}
+.admin-loading-spinner{width:20px;height:20px;border:2px solid rgba(220,38,38,.3);border-top-color:#DC2626;border-radius:50%;animation:spin .8s linear infinite}
+.admin-cross{position:absolute;z-index:0}
+.cross-h{position:absolute;width:100%;height:2px;background:linear-gradient(90deg,transparent,#DC2626,transparent);top:50%;transform:translateY(-50%);border-radius:2px}
+.cross-v{position:absolute;height:100%;width:2px;background:linear-gradient(180deg,transparent,#DC2626,transparent);left:50%;transform:translateX(-50%);border-radius:2px}
+
+/* NAV */
+.admin-nav{background:rgba(10,10,11,.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:50}
+.admin-nav-inner{max-width:1200px;margin:0 auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;height:60px}
+.admin-nav-left{display:flex;align-items:center;gap:10px;min-width:0}
+.admin-logos{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.admin-logo-wrap{position:relative;width:30px;height:30px}
+.admin-logo{width:30px;height:30px;border-radius:50%;object-fit:contain;filter:drop-shadow(0 0 6px rgba(220,38,38,.3))}
+.admin-nav-title{display:flex;flex-direction:column;min-width:0}
+.admin-brand{font-family:'Sansita',Georgia,serif;font-size:14px;font-weight:700;background:linear-gradient(90deg,#EF4444,#DC2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+.admin-time{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace;line-height:1}
+.admin-nav-links-desktop{display:flex;align-items:center;gap:6px}
+.admin-nav-link{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:8px;color:rgba(255,255,255,.6);font-size:12px;font-weight:500;text-decoration:none;border:1px solid transparent;transition:all .3s;background:none;cursor:pointer;font-family:inherit}
+.admin-nav-link:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:#fff}
+.admin-logout-btn:hover{background:rgba(220,38,38,.1)!important;border-color:rgba(220,38,38,.3)!important;color:#EF4444!important}
+.admin-home-link{color:rgba(255,255,255,.5)!important;border-color:rgba(255,255,255,.08)!important}
+.admin-home-link:hover{background:rgba(52,211,153,.1)!important;border-color:rgba(52,211,153,.3)!important;color:#34D399!important}
+.admin-hamburger{display:none;background:none;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px;color:rgba(255,255,255,.7);cursor:pointer;transition:all .3s}
+.admin-hamburger:hover{background:rgba(255,255,255,.06);color:#fff}
+.admin-mobile-menu{display:none;flex-direction:column;padding:8px 16px 16px;gap:4px;animation:menuSlideDown .2s ease}
+.admin-mobile-link{display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:10px;color:rgba(255,255,255,.7);font-size:14px;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.06);transition:all .3s;background:rgba(255,255,255,.03);cursor:pointer;font-family:inherit}
+.admin-mobile-link:active{background:rgba(255,255,255,.08)}
+.admin-mobile-link.admin-logout-btn{color:#EF4444;border-color:rgba(220,38,38,.15);background:rgba(220,38,38,.05)}
+
+/* MAIN */
+.admin-main{max-width:1200px;margin:0 auto;padding:20px 16px;position:relative;z-index:1}
+.admin-header{margin-bottom:24px}
+.admin-title{font-family:'Sansita',Georgia,serif;font-size:22px;font-weight:700;background:linear-gradient(90deg,#EF4444,#DC2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.admin-subtitle{color:rgba(255,255,255,.4);font-size:13px;margin-top:4px}
 
 /* STATS */
 .admin-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
@@ -222,9 +281,9 @@ const adminCss = `
 .chart-container{margin-top:16px}
 
 /* CARD */
-.admin-card{background:rgba(20,20,22,.8);backdrop-filter:blur(20px);border-radius:16px;border:1px solid rgba(255,255,255,.08);padding:20px}
+.admin-card{background:rgba(20,20,22,.8);backdrop-filter:blur(20px);border-radius:16px;border:1px solid rgba(255,255,255,.08);padding:20px;animation:dashPulse 4s ease-in-out infinite}
 .admin-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.admin-card-title{font-family:var(--font-sansita),Georgia,serif;font-size:16px;font-weight:700;color:#fff}
+.admin-card-title{font-family:'Sansita',Georgia,serif;font-size:16px;font-weight:700;color:#fff}
 .admin-card-desc{color:rgba(255,255,255,.4);font-size:12px;margin-top:2px}
 .admin-toggle-btn{padding:10px 18px;border-radius:10px;border:none;font-weight:700;font-size:13px;cursor:pointer;transition:all .3s;flex-shrink:0;font-family:inherit}
 .admin-toggle-close{background:rgba(239,68,68,.15);color:#EF4444;border:1px solid rgba(239,68,68,.3)}
@@ -247,6 +306,13 @@ const adminCss = `
 .admin-notif-broadcast:not(:disabled):hover{background:rgba(59,130,246,.2)}
 
 @media(min-width:640px){
+  .admin-nav-inner{padding:0 24px;height:68px}
+  .admin-logo-wrap{width:36px;height:36px}
+  .admin-logo{width:36px;height:36px}
+  .admin-brand{font-size:15px}
+  .admin-time{font-size:11px}
+  .admin-main{padding:32px 24px}
+  .admin-title{font-size:28px}
   .admin-stat-card{padding:24px}
   .admin-stat-value{font-size:36px}
   .admin-card{padding:28px 32px}
@@ -258,7 +324,16 @@ const adminCss = `
   .admin-notif-grid{grid-template-columns:repeat(2,1fr)}
 }
 
+@media(min-width:768px){
+  .admin-hamburger{display:none!important}
+  .admin-mobile-menu{display:none!important}
+  .admin-nav-links-desktop{display:flex!important}
+}
+
 @media(max-width:767px){
+  .admin-nav-links-desktop{display:none}
+  .admin-hamburger{display:flex}
+  .admin-mobile-menu{display:flex}
   .admin-stats-grid{grid-template-columns:repeat(2,1fr);gap:10px}
   .admin-stat-card{padding:16px}
   .admin-stat-value{font-size:24px}
@@ -274,6 +349,12 @@ const adminCss = `
 }
 
 @media(max-width:380px){
+  .admin-nav-inner{height:56px;padding:0 12px}
+  .admin-logo-wrap{width:26px;height:26px}
+  .admin-logo{width:26px;height:26px}
+  .admin-brand{font-size:13px}
+  .admin-main{padding:16px 12px}
+  .admin-title{font-size:20px}
   .admin-stats-grid{gap:8px}
   .admin-stat-card{padding:14px 12px;border-radius:12px}
   .admin-stat-value{font-size:22px}

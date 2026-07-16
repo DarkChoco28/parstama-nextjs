@@ -3,6 +3,14 @@ import { checkRateLimit } from "@/lib/rate-limit"
 import { WA_NUMBER } from "@/lib/constants"
 import { visionSchema } from "@/lib/validation"
 
+function stripThinking(text: string): string {
+  let result = text
+  result = result.replace(/<think>[\s\S]*?<\/think>/gi, "")
+  result = result.replace(/<thinking>[\s\S]*?<\/thinking>/gi, "")
+  result = result.replace(/<\|thinking\|>[\s\S]*?<\|\/thinking\|>/gi, "")
+  return result.trim() || text
+}
+
 const VISION_PROMPT = `Kamu adalah AI ahli P3K (Pertolongan Pertama Gawat Darurat) PARSTAMA.
 
 Analisis gambar yang dikirim pengguna dan berikan panduan pertolongan pertama.
@@ -87,8 +95,9 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await res.json()
-    const response = data.choices?.[0]?.message?.content
-    if (!response) throw new Error("Empty response from Groq vision")
+    const raw = data.choices?.[0]?.message?.content
+    if (!raw) throw new Error("Empty response from Groq vision")
+    const response = stripThinking(raw)
 
     return NextResponse.json({ response })
   } catch (error) {

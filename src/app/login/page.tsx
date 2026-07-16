@@ -30,7 +30,7 @@ export default function LoginPage() {
         router.push("/admin/dashboard")
         router.refresh()
       }
-    } catch (error) {
+    } catch {
       setError("Terjadi kesalahan saat login")
     } finally {
       setIsLoading(false)
@@ -107,10 +107,6 @@ export default function LoginPage() {
           0%, 100% { transform: translate3d(0,0,0) rotate(0deg); opacity: 0.15; }
           33% { transform: translate3d(4px,6px,0) rotate(3deg); opacity: 0.22; }
           66% { transform: translate3d(-7px,-3px,0) rotate(-5deg); opacity: 0.13; }
-        }
-        @media (max-width: 380px) {
-          .login-card-header { padding: 24px 20px 0 !important; }
-          .login-card-form { padding: 20px !important; }
         }
       `}</style>
 
@@ -193,7 +189,7 @@ export default function LoginPage() {
           />
 
           {/* Header */}
-          <div className="login-card-header" style={{ padding: "32px 32px 0", textAlign: "center" }}>
+          <div style={{ padding: "32px 32px 0", textAlign: "center" }}>
             {/* Logo */}
             <div
               style={{
@@ -250,7 +246,7 @@ export default function LoginPage() {
 
             <h1
               style={{
-                fontFamily: "var(--font-sansita), Georgia, serif",
+                fontFamily: "Sansita, Georgia, serif",
                 fontSize: "24px",
                 fontWeight: 700,
                 background: "linear-gradient(90deg, #EF4444, #DC2626)",
@@ -268,7 +264,7 @@ export default function LoginPage() {
           </div>
 
           {/* Form */}
-          <div className="login-card-form" style={{ padding: "28px 32px 32px" }}>
+          <div style={{ padding: "28px 32px 32px" }}>
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               {error && (
                 <div
@@ -424,22 +420,7 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div style={{ marginTop: "24px", textAlign: "center", display: "flex", flexDirection: "column", gap: "12px", alignItems: "center" }}>
-              <a
-                href="https://wa.me/6285731663004"
-                target="_blank"
-                rel="noopener"
-                style={{
-                  color: "rgba(255,255,255,0.7)",
-                  fontSize: "14px",
-                  textDecoration: "none",
-                  transition: "color 0.3s",
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "#fff" }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.7)" }}
-              >
-                Hubungi panitia: WA 0857-3166-3004
-              </a>
+            <div style={{ marginTop: "24px", textAlign: "center" }}>
               <Link
                 href="/"
                 style={{

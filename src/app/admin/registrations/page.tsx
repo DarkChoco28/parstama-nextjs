@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 
 export default function AdminRegistrations() {
   const { data: session, status } = useSession()
@@ -64,8 +63,7 @@ export default function AdminRegistrations() {
         let msg = `Status diubah ke "${statusLabel}"\n`
         if (d._emailStatus === "sent") msg += `\nEmail notif dikirim ke ${d.email}`
         else if (d._emailStatus === "failed") msg += `\nGagal kirim email: ${d._emailError}`
-        if (d._waStatus === "sent") msg += `\nWA notif dikirim ke ${d.whatsapp}`
-        else if (d._waStatus === "failed") msg += `\nGagal kirim WA: ${d._waError}`
+        if (d._waUrl) window.open(d._waUrl, "_blank")
         alert(msg)
         fetchRegistrations()
       }
@@ -105,15 +103,18 @@ export default function AdminRegistrations() {
   const sendWaNotif = async (registrationId: string) => {
     setWaSending(registrationId)
     try {
-      const r = await fetch("/api/admin/notifications/whatsapp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ registrationId }),
-      })
+      const r = await fetch(`/api/admin/notifications/whatsapp?type=single&id=${registrationId}`)
       const d = await r.json()
-      if (r.ok) alert("WhatsApp berhasil dikirim!")
-      else alert(d.error || "Gagal mengirim WhatsApp")
-    } catch (e) { console.error(e); alert("Gagal mengirim WhatsApp") }
+      if (d.url) {
+        const a = document.createElement("a")
+        a.href = d.url
+        a.target = "_blank"
+        a.rel = "noopener noreferrer"
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+      } else alert(d.error || "Gagal generate link WhatsApp")
+    } catch (e) { console.error(e); alert("Gagal generate link WhatsApp") }
     finally { setWaSending(null) }
   }
 
@@ -143,8 +144,12 @@ export default function AdminRegistrations() {
   if (!session) return null
 
   return (
-    <>
+    <div className="admin-page">
       <style>{adminCss}</style>
+
+      <div className="admin-cross" style={{ top: "8%", right: "4%", width: 18, height: 18, animation: "dashCross1 10s ease-in-out infinite" }}>
+        <div className="cross-h" /><div className="cross-v" />
+      </div>
 
       {/* MAIN */}
       <main className="admin-main">
@@ -152,7 +157,7 @@ export default function AdminRegistrations() {
           {/* Filters */}
           <div className="reg-filters">
             <div className="reg-search-row">
-              <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchRegistrations() } }} placeholder="Cari nama, email, atau WhatsApp..." aria-label="Cari nama, email, atau WhatsApp" className="admin-input" style={{ flex: 1 }} />
+              <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { setPage(1); fetchRegistrations() } }} placeholder="Cari nama, email, atau WhatsApp..." className="admin-input" style={{ flex: 1 }} />
               <button onClick={() => { setPage(1); fetchRegistrations() }} className="admin-btn-primary">Cari</button>
               <button onClick={() => setShowFilters(!showFilters)} className={`admin-btn-filter ${showFilters ? "admin-btn-filter-active" : ""}`}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"/></svg>
@@ -162,17 +167,17 @@ export default function AdminRegistrations() {
 
             {/* Quick filters */}
             <div className="reg-filter-row">
-              <select value={statusFilter} onChange={e => { setStatusFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter status">
+              <select value={statusFilter} onChange={e => { setStatusFilter(e.target.value); setPage(1) }} className="admin-select">
                 <option value="">Semua Status</option>
                 <option value="pending">Pending</option>
                 <option value="accepted">Diterima</option>
                 <option value="rejected">Ditolak</option>
               </select>
-              <select value={classFilter} onChange={e => { setClassFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter kelas">
+              <select value={classFilter} onChange={e => { setClassFilter(e.target.value); setPage(1) }} className="admin-select">
                 <option value="">Semua Kelas</option>
                 {filterOptions.classes.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <select value={majorFilter} onChange={e => { setMajorFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter jurusan">
+              <select value={majorFilter} onChange={e => { setMajorFilter(e.target.value); setPage(1) }} className="admin-select">
                 <option value="">Semua Jurusan</option>
                 {filterOptions.majors.map(m => <option key={m} value={m}>{m}</option>)}
               </select>
@@ -182,15 +187,15 @@ export default function AdminRegistrations() {
             {showFilters && (
               <div className="reg-advanced-filters">
                 <div className="reg-advanced-row">
-                  <select value={genderFilter} onChange={e => { setGenderFilter(e.target.value); setPage(1) }} className="admin-select" aria-label="Filter jenis kelamin">
+                  <select value={genderFilter} onChange={e => { setGenderFilter(e.target.value); setPage(1) }} className="admin-select">
                     <option value="">Semua Jenis Kelamin</option>
                     <option value="L">Laki-laki</option>
                     <option value="P">Perempuan</option>
                   </select>
                   <div className="reg-date-range">
-                    <input type="date" value={startDate} onChange={e => { setStartDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Dari tanggal" aria-label="Filter dari tanggal" />
+                    <input type="date" value={startDate} onChange={e => { setStartDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Dari tanggal" />
                     <span className="reg-date-separator">s/d</span>
-                    <input type="date" value={endDate} onChange={e => { setEndDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Sampai tanggal" aria-label="Filter sampai tanggal" />
+                    <input type="date" value={endDate} onChange={e => { setEndDate(e.target.value); setPage(1) }} className="admin-input" placeholder="Sampai tanggal" />
                   </div>
                 </div>
                 {hasActiveFilters && (
@@ -234,7 +239,7 @@ export default function AdminRegistrations() {
                   <div className="reg-mobile-field"><span>JK</span><span>{r.gender === "L" ? "Laki-laki" : "Perempuan"}</span></div>
                 </div>
                 <div className="reg-mobile-actions">
-                  <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm" aria-label="Ubah status pendaftaran">
+                  <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm">
                     <option value="pending">Pending</option>
                     <option value="accepted">Diterima</option>
                     <option value="rejected">Ditolak</option>
@@ -283,7 +288,7 @@ export default function AdminRegistrations() {
                     <td className="admin-td"><span className={`reg-badge reg-badge-${r.status}`}>{r.status === "pending" ? "Pending" : r.status === "accepted" ? "Diterima" : "Ditolak"}</span></td>
                     <td className="admin-td">
                       <div className="reg-action-btns">
-                        <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm" aria-label="Ubah status pendaftaran"><option value="pending">Pending</option><option value="accepted">Diterima</option><option value="rejected">Ditolak</option></select>
+                        <select value={r.status} onChange={e => updateStatus(r.id, e.target.value)} className="admin-select-sm"><option value="pending">Pending</option><option value="accepted">Diterima</option><option value="rejected">Ditolak</option></select>
                         <button onClick={() => viewDetail(r.id)} className="admin-btn-blue-sm">Lihat</button>
                         {r.email && (
                           <button onClick={() => sendEmailNotif(r.id)} disabled={emailSending === r.id} className="admin-btn-email-sm">
@@ -330,7 +335,7 @@ export default function AdminRegistrations() {
                 <button onClick={() => sendWaNotif(detailData.id)} disabled={waSending === detailData.id} className="admin-btn-wa-sm">
                   {waSending === detailData.id ? "..." : "Kirim WA"}
                 </button>
-                <button onClick={() => setDetailData(null)} className="reg-modal-close" aria-label="Tutup">
+                <button onClick={() => setDetailData(null)} className="reg-modal-close">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
                 </button>
               </div>
@@ -371,7 +376,7 @@ export default function AdminRegistrations() {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 
@@ -393,7 +398,87 @@ function ModalField({ label, value }: { label: string; value: string }) {
 }
 
 const adminCss = `
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes dashCross1 { 0%,100%{transform:translate3d(0,0,0) rotate(0deg);opacity:.08}33%{transform:translate3d(8px,-5px,0) rotate(5deg);opacity:.15}66%{transform:translate3d(-3px,8px,0) rotate(-3deg);opacity:.1} }
+@keyframes navGlowPulse { 0%,100%{opacity:.5}50%{opacity:1} }
+@keyframes navLogoFloat3D { 0%,100%{transform:translateZ(0) rotateY(0) rotateX(0)}25%{transform:translateZ(5px) rotateY(5deg) rotateX(2deg)}50%{transform:translateZ(0) rotateY(0) rotateX(0)}75%{transform:translateZ(-5px) rotateY(-5deg) rotateX(-2deg)} }
+@keyframes menuSlideDown { from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)} }
 @keyframes modalIn { from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)} }
+@keyframes dashPulse { 0%,100%{box-shadow:0 0 20px rgba(220,38,38,.08)}50%{box-shadow:0 0 30px rgba(220,38,38,.15)} }
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+.admin-page{min-height:100vh;background:#0A0A0B;font-family:'Plus Jakarta Sans',system-ui,sans-serif;position:relative;overflow-x:hidden}
+.admin-loading{min-height:100vh;background:#0A0A0B;display:flex;align-items:center;justify-content:center;gap:10px;color:rgba(255,255,255,.5);font-size:15px}
+.admin-loading-spinner{width:20px;height:20px;border:2px solid rgba(220,38,38,.3);border-top-color:#DC2626;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+.admin-cross{position:absolute;z-index:0}
+.cross-h{position:absolute;width:100%;height:2px;background:linear-gradient(90deg,transparent,#DC2626,transparent);top:50%;transform:translateY(-50%);border-radius:2px}
+.cross-v{position:absolute;height:100%;width:2px;background:linear-gradient(180deg,transparent,#DC2626,transparent);left:50%;transform:translateX(-50%);border-radius:2px}
+
+/* NAV */
+.admin-nav{background:rgba(10,10,11,.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:50}
+.admin-nav-inner{max-width:1200px;margin:0 auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;height:60px}
+.admin-nav-left{display:flex;align-items:center;gap:8px;min-width:0}
+.admin-back-link{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.5);font-size:12px;text-decoration:none;padding:5px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.08);transition:all .3s;flex-shrink:0}
+.admin-back-link:hover{background:rgba(255,255,255,.06);color:#fff}
+.admin-back-text{display:none}
+.admin-divider{width:1px;height:20px;background:rgba(255,255,255,.08);flex-shrink:0}
+.admin-logos{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.admin-logo-wrap{position:relative;width:28px;height:28px}
+.admin-logo{width:28px;height:28px;border-radius:50%;object-fit:contain;filter:drop-shadow(0 0 6px rgba(220,38,38,.3))}
+.admin-nav-title{display:flex;flex-direction:column;min-width:0}
+.admin-brand{font-family:'Sansita',Georgia,serif;font-size:13px;font-weight:700;background:linear-gradient(90deg,#EF4444,#DC2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+.admin-time{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace;line-height:1}
+.admin-nav-links-desktop{display:flex;align-items:center;gap:6px}
+.admin-nav-link{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:8px;color:rgba(255,255,255,.6);font-size:12px;font-weight:500;text-decoration:none;border:1px solid transparent;transition:all .3s;background:none;cursor:pointer;font-family:inherit}
+.admin-nav-link:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:#fff}
+.admin-logout-btn:hover{background:rgba(220,38,38,.1)!important;border-color:rgba(220,38,38,.3)!important;color:#EF4444!important}
+.admin-home-link{color:rgba(255,255,255,.5)!important;border-color:rgba(255,255,255,.08)!important}
+.admin-home-link:hover{background:rgba(52,211,153,.1)!important;border-color:rgba(52,211,153,.3)!important;color:#34D399!important}
+.admin-hamburger{display:none;background:none;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px;color:rgba(255,255,255,.7);cursor:pointer;transition:all .3s}
+.admin-hamburger:hover{background:rgba(255,255,255,.06);color:#fff}
+.admin-mobile-menu{display:none;flex-direction:column;padding:8px 16px 16px;gap:4px;animation:menuSlideDown .2s ease}
+.admin-mobile-link{display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:10px;color:rgba(255,255,255,.7);font-size:14px;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.06);transition:all .3s;background:rgba(255,255,255,.03);cursor:pointer;font-family:inherit}
+.admin-mobile-link:active{background:rgba(255,255,255,.08)}
+.admin-mobile-link.admin-logout-btn{color:#EF4444;border-color:rgba(220,38,38,.15);background:rgba(220,38,38,.05)}
+
+/* MAIN */
+.admin-main{max-width:1200px;margin:0 auto;padding:16px;position:relative;z-index:1}
+.admin-card{background:rgba(20,20,22,.8);backdrop-filter:blur(20px);border-radius:16px;border:1px solid rgba(255,255,255,.08);animation:dashPulse 4s ease-in-out infinite}
+
+/* INPUTS */
+.admin-input{padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:13px;outline:none;font-family:inherit;transition:border-color .3s,box-shadow .3s;width:100%}
+.admin-input:focus{border-color:rgba(220,38,38,.5);box-shadow:0 0 15px rgba(220,38,38,.15)}
+.admin-input::placeholder{color:rgba(255,255,255,.3)}
+.admin-select{padding:10px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:12px;outline:none;font-family:inherit;cursor:pointer;appearance:auto;min-width:0}
+.admin-select:focus{border-color:rgba(220,38,38,.5)}
+.admin-select option{background:#1a1a1c;color:#fff}
+.admin-select-sm{padding:6px 10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#fff;font-size:11px;outline:none;font-family:inherit;cursor:pointer;appearance:auto}
+.admin-select-sm option{background:#1a1a1c;color:#fff}
+.admin-checkbox{accent-color:#DC2626;width:16px;height:16px}
+
+/* BUTTONS */
+.admin-btn-primary{padding:10px 18px;background:linear-gradient(135deg,#DC2626,#EF4444);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit;flex-shrink:0}
+.admin-btn-primary:hover{box-shadow:0 0 20px rgba(220,38,38,.3);transform:translateY(-1px)}
+.admin-btn-filter{display:flex;align-items:center;gap:5px;padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.6);font-size:12px;font-weight:500;cursor:pointer;transition:all .3s;font-family:inherit;flex-shrink:0}
+.admin-btn-filter:hover{background:rgba(255,255,255,.08);color:#fff}
+.admin-btn-filter-active{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.3);color:#EF4444}
+.admin-btn-clear{display:flex;align-items:center;gap:5px;padding:6px 12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;color:rgba(239,68,68,.7);font-size:11px;cursor:pointer;transition:all .2s;font-family:inherit;margin-top:8px}
+.admin-btn-clear:hover{background:rgba(239,68,68,.15);color:#EF4444}
+.admin-btn-danger-sm{padding:6px 12px;background:rgba(239,68,68,.15);color:#EF4444;border:1px solid rgba(239,68,68,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-btn-danger-sm:active{transform:scale(.95)}
+.admin-btn-success-sm{padding:6px 12px;background:rgba(52,211,153,.15);color:#34D399;border:1px solid rgba(52,211,153,.3);border-radius:8px;font-size:11px;font-weight:600;text-decoration:none;display:inline-block;transition:all .2s}
+.admin-btn-success-sm:active{transform:scale(.95)}
+.admin-btn-blue-sm{padding:6px 12px;background:rgba(96,165,250,.15);color:#60A5FA;border:1px solid rgba(96,165,250,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s;font-family:inherit}
+.admin-btn-blue-sm:active{transform:scale(.95)}
+.admin-btn-email-sm{padding:6px 12px;background:rgba(168,85,247,.15);color:#A855F7;border:1px solid rgba(168,85,247,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-btn-email-sm:disabled{opacity:.5;cursor:not-allowed}
+.admin-btn-email-sm:active{transform:scale(.95)}
+.admin-btn-wa-sm{padding:6px 12px;background:rgba(37,211,102,.15);color:#25D366;border:1px solid rgba(37,211,102,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-btn-wa-sm:disabled{opacity:.5;cursor:not-allowed}
+.admin-btn-wa-sm:active{transform:scale(.95)}
+.admin-page-btn{padding:8px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.6);font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-page-btn:disabled{opacity:.3;cursor:not-allowed}
+.admin-page-btn:not(:disabled):active{background:rgba(255,255,255,.1)}
 
 /* REG FILTERS */
 .reg-filters{padding:16px;border-bottom:1px solid rgba(255,255,255,.06)}
@@ -438,7 +523,7 @@ const adminCss = `
 .reg-modal-draghandle{display:none}
 .reg-modal-header{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .reg-modal-header-actions{display:flex;align-items:center;gap:8px}
-.reg-modal-title{font-family:var(--font-sansita),Georgia,serif;font-size:17px;font-weight:700;color:#fff}
+.reg-modal-title{font-family:'Sansita',Georgia,serif;font-size:17px;font-weight:700;color:#fff}
 .reg-modal-close{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px;cursor:pointer;color:rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;width:32px;height:32px;transition:all .2s}
 .reg-modal-close:hover{background:rgba(239,68,68,.15);color:#EF4444}
 .reg-modal-body{padding:20px;overflow-y:auto;flex:1}

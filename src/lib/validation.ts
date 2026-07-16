@@ -3,7 +3,6 @@ import { z } from "zod"
 export const GenderEnum = z.enum(["L", "P"])
 export const StatusEnum = z.enum(["pending", "accepted", "rejected"])
 export const BloodTypeEnum = z.enum(["A", "B", "AB", "O"]).or(z.string()).optional()
-export const ReligionEnum = z.string().optional()
 
 export const registrationSchema = z.object({
   fullName: z.string().min(1, "Nama lengkap wajib diisi").trim(),
@@ -29,37 +28,9 @@ export const registrationSchema = z.object({
   }),
 })
 
-export const statusCheckSchema = z.object({
-  whatsapp: z.string().min(10, "Nomor WhatsApp tidak valid"),
-  birthDate: z.string().min(1, "Tanggal lahir wajib diisi"),
-})
-
-export const chatSchema = z.object({
-  message: z.string().min(1, "Pesan tidak boleh kosong").trim(),
-})
-
 export const visionSchema = z.object({
   image: z.string().min(100, "Gambar tidak valid"),
   message: z.string().optional(),
-})
-
-export const statusUpdateSchema = z.object({
-  status: StatusEnum,
-})
-
-export const notificationSchema = z.object({
-  registrationId: z.string().min(1, "Registration ID wajib diisi"),
-})
-
-export const articleSchema = z.object({
-  title: z.string().min(1, "Judul wajib diisi").trim().optional(),
-  slug: z.string().optional(),
-  excerpt: z.string().optional(),
-  content: z.string().min(1, "Konten wajib diisi").optional(),
-  coverImage: z.string().optional(),
-  author: z.string().optional(),
-  category: z.string().optional(),
-  isPublished: z.boolean().optional(),
 })
 
 export const eventSchema = z.object({
@@ -72,20 +43,4 @@ export const eventSchema = z.object({
   color: z.string().optional(),
   category: z.string().optional(),
   isVisible: z.boolean().optional(),
-})
-
-export const organizationMemberSchema = z.object({
-  name: z.string().min(1, "Nama wajib diisi").trim(),
-  nickname: z.string().optional(),
-  position: z.string().min(1, "Posisi wajib diisi").trim(),
-  bio: z.string().optional(),
-  photo: z.string().optional(),
-  level: z.number().int().optional(),
-  sortOrder: z.number().int().optional(),
-  period: z.string().optional(),
-  isVisible: z.boolean().optional(),
-})
-
-export const settingsSchema = z.object({
-  value: z.string().min(1),
 })
