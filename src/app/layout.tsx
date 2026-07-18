@@ -16,8 +16,23 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "PARSTAMA – PMR SMKN 1 Singosari",
-  description: "Sistem Pendaftaran Palang Merah Remaja PARSTAMA - SMKN 1 Singosari",
+  title: {
+    default: "PARSTAMA – PMR SMKN 1 Singosari",
+    template: "%s | PARSTAMA SMKN 1 Singosari",
+  },
+  description: "Palang Merah Remaja PARSTAMA - SMKN 1 Singosari. Pendaftaran online, blog kesehatan, kalender kegiatan, dan AI Assistant.",
+  metadataBase: new URL("https://parstama.my.id"),
+  openGraph: {
+    siteName: "PARSTAMA SMKN 1 Singosari",
+    locale: "id_ID",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  icons: {
+    icon: "/parstama_logo.png",
+  },
 };
 
 export default function RootLayout({

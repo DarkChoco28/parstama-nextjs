@@ -1,6 +1,20 @@
 import Link from "next/link"
 import Image from "next/image"
+import type { Metadata } from "next"
 import BlogClient from "./BlogClient"
+
+export const metadata: Metadata = {
+  title: "Blog | PARSTAMA SMKN 1 Singosari",
+  description: "Artikel terbaru seputar kesehatan, kegiatan, dan informasi Palang Merah Remaja (PMR) PARSTAMA SMKN 1 Singosari.",
+  openGraph: {
+    title: "Blog | PARSTAMA SMKN 1 Singosari",
+    description: "Artikel terbaru seputar kesehatan, kegiatan, dan informasi PMR PARSTAMA.",
+    url: "https://parstama.my.id/blog",
+    siteName: "PARSTAMA SMKN 1 Singosari",
+    type: "website",
+  },
+  alternates: { canonical: "https://parstama.my.id/blog" },
+}
 
 async function getInitialArticles() {
   try {

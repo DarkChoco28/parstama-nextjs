@@ -13,18 +13,24 @@ const PAGES_TO_CRAWL = [
   { path: "/cek-status", label: "Cek Status / Tanya AI" },
 ]
 
-let cachedContent: string | null = null
-let cacheTime = 0
-const CACHE_TTL = 5 * 60 * 1000
+interface CacheEntry<T> { data: T; expiresAt: number }
+const cache = new Map<string, CacheEntry<unknown>>()
+function getCached<T>(key: string): T | null {
+  const entry = cache.get(key)
+  if (entry && Date.now() < entry.expiresAt) return entry.data as T
+  cache.delete(key)
+  return null
+}
+function setCache<T>(key: string, data: T, ttlMs: number) {
+  cache.set(key, { data, expiresAt: Date.now() + ttlMs })
+}
 
-let cachedMembers: string | null = null
-let membersCacheTime = 0
+const CACHE_TTL = 5 * 60 * 1000
 const MEMBERS_CACHE_TTL = 5 * 60 * 1000
 
 async function fetchOrganizationMembers(): Promise<string> {
-  if (cachedMembers && Date.now() - membersCacheTime < MEMBERS_CACHE_TTL) {
-    return cachedMembers
-  }
+  const cached = getCached<string>("members")
+  if (cached !== null) return cached
 
   try {
     const members = await prisma.organizationMember.findMany({
@@ -34,8 +40,7 @@ async function fetchOrganizationMembers(): Promise<string> {
     })
 
     if (members.length === 0) {
-      cachedMembers = ""
-      membersCacheTime = Date.now()
+      setCache("members", "", MEMBERS_CACHE_TTL)
       return ""
     }
 
@@ -49,12 +54,11 @@ async function fetchOrganizationMembers(): Promise<string> {
     })
 
     const period = members[0]?.period || "2026/2027"
-    cachedMembers = `Struktur Organisasi PARSTAMA Periode ${period}:\n${lines.join("\n")}`
-    membersCacheTime = Date.now()
-    return cachedMembers
+    const result = `Struktur Organisasi PARSTAMA Periode ${period}:\n${lines.join("\n")}`
+    setCache("members", result, MEMBERS_CACHE_TTL)
+    return result
   } catch {
-    cachedMembers = ""
-    membersCacheTime = Date.now()
+    setCache("members", "", MEMBERS_CACHE_TTL)
     return ""
   }
 }
@@ -73,9 +77,8 @@ function stripHtml(html: string): string {
 }
 
 async function fetchWebsiteContent(): Promise<string> {
-  if (cachedContent && Date.now() - cacheTime < CACHE_TTL) {
-    return cachedContent
-  }
+  const cached = getCached<string>("website")
+  if (cached !== null) return cached
 
   const chunks: string[] = []
 
@@ -93,9 +96,9 @@ async function fetchWebsiteContent(): Promise<string> {
     }
   }
 
-  cachedContent = chunks.join("\n\n---\n\n")
-  cacheTime = Date.now()
-  return cachedContent
+  const result = chunks.join("\n\n---\n\n")
+  setCache("website", result, CACHE_TTL)
+  return result
 }
 
 const knowledgeBase: KnowledgeEntry[] = [
