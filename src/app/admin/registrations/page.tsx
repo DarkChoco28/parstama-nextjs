@@ -89,6 +89,20 @@ export default function AdminRegistrations() {
     if (!confirm(`Yakin hapus ${selectedIds.length} pendaftaran?`)) return
     try { await Promise.all(selectedIds.map(id => fetch(`/api/admin/registrations/${id}`, { method: "DELETE" }))); setSelectedIds([]); fetchRegistrations() } catch (e) { console.error(e) }
   }
+  const bulkUpdateStatus = async (s: string) => {
+    const label = s === "accepted" ? "Diterima" : "Ditolak"
+    if (!confirm(`Yakin ubah ${selectedIds.length} pendaftaran ke "${label}"?`)) return
+    try {
+      const results = await Promise.all(selectedIds.map(id =>
+        fetch(`/api/admin/registrations/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: s }) }).then(r => r.json())
+      ))
+      let waCount = 0
+      for (const d of results) { if (d._waUrl) { window.open(d._waUrl, "_blank"); waCount++ } }
+      alert(`${selectedIds.length} pendaftaran diubah ke "${label}"${waCount > 0 ? `\n${waCount} link WA dibuka` : ""}`)
+      setSelectedIds([])
+      fetchRegistrations()
+    } catch (e) { console.error(e) }
+  }
   const toggleSelect = (id: string) => setSelectedIds(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id])
   const toggleSelectAll = () => setSelectedIds(p => p.length === registrations.length ? [] : registrations.map((r: RegItem) => r.id))
   const viewDetail = async (id: string) => {
@@ -224,7 +238,11 @@ export default function AdminRegistrations() {
               <span className="reg-result-count">{totalResults} data ditemukan</span>
               <div className="reg-filter-actions">
                 {selectedIds.length > 0 && (
-                  <button onClick={bulkDelete} className="admin-btn-danger-sm">Hapus ({selectedIds.length})</button>
+                  <>
+                    <button onClick={() => bulkUpdateStatus("accepted")} className="admin-btn-success-sm">Terima ({selectedIds.length})</button>
+                    <button onClick={() => bulkUpdateStatus("rejected")} className="admin-btn-warning-sm">Tolak ({selectedIds.length})</button>
+                    <button onClick={bulkDelete} className="admin-btn-danger-sm">Hapus ({selectedIds.length})</button>
+                  </>
                 )}
                 <a href={getFilteredExportUrl("excel")} className="admin-btn-success-sm">Export Excel</a>
                 <a href={getFilteredExportUrl("pdf")} className="admin-btn-blue-sm">Export PDF</a>

@@ -134,6 +134,9 @@
 .admin-btn-success-sm{padding:6px 12px;background:rgba(52,211,153,.15);color:#34D399;border:1px solid rgba(52,211,153,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
 .admin-btn-success-sm:disabled{opacity:.5;cursor:not-allowed}
 .admin-btn-success-sm:active{transform:scale(.95)}
+.admin-btn-warning-sm{padding:6px 12px;background:rgba(251,191,36,.15);color:#FBBF24;border:1px solid rgba(251,191,36,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.admin-btn-warning-sm:disabled{opacity:.5;cursor:not-allowed}
+.admin-btn-warning-sm:active{transform:scale(.95)}
 .admin-btn-wa-sm{padding:6px 12px;background:rgba(37,211,102,.15);color:#25D366;border:1px solid rgba(37,211,102,.3);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
 .admin-btn-wa-sm:disabled{opacity:.5;cursor:not-allowed}
 .admin-btn-wa-sm:active{transform:scale(.95)}
