@@ -47,7 +47,7 @@ function CarouselItem({ item, index, itemWidth, round, trackItemOffset, x, trans
       className={`relative shrink-0 flex flex-col ${
         round
           ? 'items-center justify-center text-center bg-[#141415] border-0'
-          : 'items-start justify-between bg-[#1A1A1C] border border-white/6 rounded-[12px]'
+          : 'items-start justify-between bg-[#1A1A1C] border border-white/6 rounded-xl'
       } overflow-hidden cursor-grab active:cursor-grabbing`}
       style={{
         width: itemWidth,
@@ -58,7 +58,7 @@ function CarouselItem({ item, index, itemWidth, round, trackItemOffset, x, trans
       transition={transition}
     >
       <div className={`${round ? 'p-0 m-0' : 'mb-4 p-5'}`}>
-        <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-orange-500/10 border border-orange-500/20">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-orange-500/10 border border-orange-500/20">
           {item.icon}
         </span>
       </div>
@@ -208,7 +208,7 @@ export default function Carousel({
     <div
       ref={containerRef}
       className={`relative overflow-hidden p-4 ${
-        round ? 'rounded-full border border-white/6' : 'rounded-[24px] border border-white/6'
+        round ? 'rounded-full border border-white/6' : 'rounded-3xl border border-white/6'
       }`}
       style={{
         width: `${baseWidth}px`,
@@ -246,7 +246,7 @@ export default function Carousel({
         ))}
       </motion.div>
       <div className={`flex w-full justify-center ${round ? 'absolute z-20 bottom-12 left-1/2 -translate-x-1/2' : ''}`}>
-        <div className="mt-4 flex w-[150px] justify-between px-8">
+        <div className="mt-4 flex w-37.5 justify-between px-8">
           {items.map((_, index) => (
             <motion.button
               type="button"

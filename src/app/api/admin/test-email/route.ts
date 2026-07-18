@@ -30,10 +30,12 @@ export async function GET(request: NextRequest) {
       message: `Email terkirim ke ${to}`,
       timestamp: new Date().toISOString(),
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : "Gagal mengirim"
+    const stack = error instanceof Error ? error.stack : undefined
     return NextResponse.json({
-      error: error?.message || "Gagal mengirim",
-      stack: error?.stack,
+      error: msg,
+      stack,
     }, { status: 500 })
   }
 }

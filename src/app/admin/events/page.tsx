@@ -17,7 +17,7 @@ function formatDateLocal(d: Date) {
 }
 
 export default function AdminEvents() {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const router = useRouter()
   const [events, setEvents] = useState<Event[]>([])
   const [loading, setLoading] = useState(true)
@@ -35,7 +35,6 @@ export default function AdminEvents() {
   useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
 
   const fetchEvents = useCallback(async () => {
-    setLoading(true)
     try {
       const params = new URLSearchParams({ page: page.toString(), limit: "20" })
       if (searchQuery.trim()) params.append("search", searchQuery.trim())
@@ -45,10 +44,17 @@ export default function AdminEvents() {
       setEvents(d.events || [])
       setTotalPages(d.pagination?.totalPages || 1)
       setTotalResults(d.pagination?.total || 0)
-    } catch (e) { console.error(e) } finally { setLoading(false) }
+    } catch (e) { console.error(e) }
   }, [page, searchQuery, categoryFilter])
 
-  useEffect(() => { if (status === "authenticated") fetchEvents() }, [status, fetchEvents])
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    if (status === "authenticated") {
+      setLoading(true)
+      fetchEvents().finally(() => setLoading(false))
+    }
+  }, [status, fetchEvents])
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const openAdd = () => {
     setEditing(null)
@@ -87,8 +93,6 @@ export default function AdminEvents() {
   const toggleVisibility = async (e: Event) => {
     try { await fetch(`/api/admin/events/${e.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ isVisible: !e.isVisible }) }); fetchEvents() } catch (err) { console.error(err) }
   }
-
-  const categoryColors: Record<string, string> = { Pelatihan: "#3B82F6", Rapat: "#F59E0B", Kegiatan: "#E87A1A", Lainnya: "#8B5CF6" }
 
   if (status === "loading" || (loading && events.length === 0)) {
     return <div className="admin-loading"><div className="admin-loading-spinner" /><span>Memuat event...</span></div>

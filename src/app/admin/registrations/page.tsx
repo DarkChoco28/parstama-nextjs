@@ -4,10 +4,16 @@ import { useEffect, useState, useCallback } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 
+interface RegItem {
+  id: string; fullName: string; nickname?: string; email?: string; whatsapp: string; class: string; major: string; gender: string; status: string;
+  birthPlace?: string; birthDate?: string; religion?: string; address?: string; city?: string; province?: string; postalCode?: string; bloodType?: string;
+  medicalHistory?: string; motivation?: string; organizationExperience?: string; createdAt?: string;
+}
+
 export default function AdminRegistrations() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [registrations, setRegistrations] = useState<any[]>([])
+  const [registrations, setRegistrations] = useState<RegItem[]>([])
   const [loading, setLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
@@ -21,7 +27,7 @@ export default function AdminRegistrations() {
   const [totalPages, setTotalPages] = useState(1)
   const [totalResults, setTotalResults] = useState(0)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
-  const [detailData, setDetailData] = useState<any>(null)
+  const [detailData, setDetailData] = useState<RegItem | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
   const [emailSending, setEmailSending] = useState<string | null>(null)
@@ -42,17 +48,23 @@ export default function AdminRegistrations() {
   }, [page, statusFilter, searchQuery, classFilter, majorFilter, genderFilter, startDate, endDate])
 
   const fetchRegistrations = useCallback(async () => {
-    setLoading(true)
     try {
       const params = buildFilterParams()
       const r = await fetch(`/api/admin/registrations?${params}`)
       const d = await r.json()
       setRegistrations(d.registrations); setTotalPages(d.pagination.totalPages); setTotalResults(d.pagination.total)
       if (d.filters) setFilterOptions(d.filters)
-    } catch (e) { console.error(e) } finally { setLoading(false) }
+    } catch (e) { console.error(e) }
   }, [buildFilterParams])
 
-  useEffect(() => { if (status === "authenticated") fetchRegistrations() }, [status, fetchRegistrations])
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    if (status === "authenticated") {
+      setLoading(true)
+      fetchRegistrations().finally(() => setLoading(false))
+    }
+  }, [status, fetchRegistrations])
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const updateStatus = async (id: string, s: string) => {
     try {
@@ -78,7 +90,7 @@ export default function AdminRegistrations() {
     try { await Promise.all(selectedIds.map(id => fetch(`/api/admin/registrations/${id}`, { method: "DELETE" }))); setSelectedIds([]); fetchRegistrations() } catch (e) { console.error(e) }
   }
   const toggleSelect = (id: string) => setSelectedIds(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id])
-  const toggleSelectAll = () => setSelectedIds(p => p.length === registrations.length ? [] : registrations.map((r: any) => r.id))
+  const toggleSelectAll = () => setSelectedIds(p => p.length === registrations.length ? [] : registrations.map((r: RegItem) => r.id))
   const viewDetail = async (id: string) => {
     setDetailLoading(true)
     try { const r = await fetch(`/api/admin/registrations/${id}`); const d = await r.json(); setDetailData(d) }
@@ -223,7 +235,7 @@ export default function AdminRegistrations() {
           {/* Mobile cards */}
           <div className="reg-mobile-list">
             {registrations.length === 0 && <div className="reg-empty"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{margin:"0 auto 12px",opacity:.3,display:"block"}}><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Tidak ada data pendaftaran</div>}
-            {registrations.map((r: any, idx: number) => (
+            {registrations.map((r: RegItem, idx: number) => (
               <div key={r.id} className="reg-mobile-card">
                 <div className="reg-mobile-header">
                   <input type="checkbox" checked={selectedIds.includes(r.id)} onChange={() => toggleSelect(r.id)} className="admin-checkbox" />
@@ -276,7 +288,7 @@ export default function AdminRegistrations() {
                 </tr>
               </thead>
               <tbody>
-                {registrations.map((r: any) => (
+                {registrations.map((r: RegItem) => (
                   <tr key={r.id} className="admin-tr">
                     <td className="admin-td"><input type="checkbox" checked={selectedIds.includes(r.id)} onChange={() => toggleSelect(r.id)} className="admin-checkbox" /></td>
                     <td className="admin-td admin-td-bold">{r.fullName}</td>
@@ -347,19 +359,19 @@ export default function AdminRegistrations() {
                 <>
                   <div className="reg-modal-status">
                     <span className={`reg-badge reg-badge-${detailData.status}`}>{detailData.status === "pending" ? "Pending" : detailData.status === "accepted" ? "Diterima" : "Ditolak"}</span>
-                    <span className="reg-modal-date">Terdaftar: {new Date(detailData.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}</span>
+                    <span className="reg-modal-date">Terdaftar: {detailData.createdAt ? new Date(detailData.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "-"}</span>
                   </div>
                   <ModalSection title="Data Pribadi">
                     <ModalField label="Nama Lengkap" value={detailData.fullName} />
                     <ModalField label="Nama Panggilan" value={detailData.nickname || "-"} />
                     <ModalField label="Jenis Kelamin" value={detailData.gender === "L" ? "Laki-laki" : "Perempuan"} />
-                    <ModalField label="Tempat, Tanggal Lahir" value={`${detailData.birthPlace}, ${new Date(detailData.birthDate).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}`} />
+                    <ModalField label="Tempat, Tanggal Lahir" value={`${detailData.birthPlace || "-"}, ${detailData.birthDate ? new Date(detailData.birthDate).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }) : "-"}`} />
                     <ModalField label="Agama" value={detailData.religion || "-"} />
                   </ModalSection>
                   <ModalSection title="Kontak & Sekolah">
                     <ModalField label="WhatsApp" value={detailData.whatsapp} />
                     <ModalField label="Email" value={detailData.email || "-"} />
-                    <ModalField label="Alamat" value={detailData.address} />
+                    <ModalField label="Alamat" value={detailData.address || "-"} />
                     <ModalField label="Kota" value={detailData.city || "-"} />
                     <ModalField label="Provinsi" value={detailData.province || "-"} />
                     <ModalField label="Kode Pos" value={detailData.postalCode || "-"} />

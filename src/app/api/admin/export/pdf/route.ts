@@ -7,7 +7,9 @@ function roundedRect(doc: jsPDF, x: number, y: number, w: number, h: number, r: 
   doc.roundedRect(x, y, w, h, r, r, style)
 }
 
-function drawCard(doc: jsPDF, reg: any, x: number, y: number) {
+interface PdfReg { fullName: string; nickname?: string | null; gender: string; class: string; major: string; birthDate?: string | Date | null; whatsapp: string; email?: string | null; status: string; createdAt?: string | Date | null }
+
+function drawCard(doc: jsPDF, reg: PdfReg, x: number, y: number) {
   const cardW = 86
   const cardH = 54
 
@@ -44,7 +46,7 @@ function drawCard(doc: jsPDF, reg: any, x: number, y: number) {
   doc.text("PARSTAMA", x + cardW / 2, y + 5.5, { align: "center" })
   doc.setFontSize(4.5)
   doc.setFont("helvetica", "normal")
-  doc.text("SMA NEGERI", x + cardW / 2, y + 9.5, { align: "center" })
+  doc.text("SMKN 1 NEGERI SINGOSARI", x + cardW / 2, y + 9.5, { align: "center" })
 
   // Photo placeholder
   const photoX = x + 5

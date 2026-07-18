@@ -4,13 +4,16 @@ import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import type { CSSProperties } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts"
+
+interface Analytics { today: number; thisWeek: number; thisMonth: number; dailyData: { date: string; count: number }[] }
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [stats, setStats] = useState({ total: 0, pending: 0, accepted: 0, rejected: 0 })
-  const [analytics, setAnalytics] = useState<any>(null)
+  const [analytics, setAnalytics] = useState<Analytics | null>(null)
   const [registrationOpen, setRegistrationOpen] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const [isToggling, setIsToggling] = useState(false)
@@ -19,7 +22,6 @@ export default function AdminDashboard() {
   const [reindexResult, setReindexResult] = useState<string | null>(null)
 
   useEffect(() => { if (status === "unauthenticated") router.push("/login") }, [status, router])
-  useEffect(() => { if (status === "authenticated") { fetchStats(); fetchAnalytics(); fetchRegistrationStatus() } }, [status])
 
   const fetchStats = async () => {
     try { const r = await fetch("/api/admin/stats"); const d = await r.json(); setStats(d) }
@@ -33,6 +35,14 @@ export default function AdminDashboard() {
     try { const r = await fetch("/api/admin/settings/registration-open"); const d = await r.json(); setRegistrationOpen(d.value === "1") }
     catch (e) { console.error(e) }
   }
+
+  useEffect(() => {
+    if (status !== "authenticated") return
+    const run = async () => {
+      await Promise.all([fetchStats(), fetchAnalytics(), fetchRegistrationStatus()])
+    }
+    void run()
+  }, [status])
   const toggleRegistration = async () => {
     setIsToggling(true)
     try {
@@ -181,7 +191,7 @@ export default function AdminDashboard() {
                     cursor={{ fill: "rgba(220,38,38,0.05)" }}
                   />
                   <Bar dataKey="count" radius={[6, 6, 0, 0]}>
-                    {analytics.dailyData.map((_: any, index: number) => (
+                    {analytics.dailyData.map((_, index) => (
                       <Cell key={index} fill={chartColors[index % chartColors.length]} />
                     ))}
                   </Bar>
@@ -214,7 +224,7 @@ export default function AdminDashboard() {
               { href: "/admin/register", label: "Tambah Admin", icon: "M12 6v6m0 0v6m0-6h6m-6 0H6", color: "#3B82F6" },
               { href: "/admin/profile", label: "Edit Profile", icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z", color: "#8B5CF6" },
             ].map(a => (
-              <Link key={a.href} href={a.href} className="admin-action-card" style={{ "--accent": a.color } as any}>
+              <Link key={a.href} href={a.href} className="admin-action-card" style={{ "--accent": a.color } as CSSProperties}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={a.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={a.icon}/></svg>
                 <span>{a.label}</span>
               </Link>

@@ -38,7 +38,7 @@ export default function DaftarPage() {
     setFieldErrors(prev => ({ ...prev, [name]: false }))
   }
 
-  const markError = (id: string, errId: string) => {
+  const markError = (id: string, _errId: string) => { // eslint-disable-line @typescript-eslint/no-unused-vars
     setFieldErrors(prev => ({ ...prev, [id]: true }))
   }
 
@@ -124,7 +124,9 @@ export default function DaftarPage() {
       <nav className="daftar-nav">
         <div className="daftar-nav-inner">
           <Link href="/" className="daftar-nav-logo">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <div className="daftar-nav-logo-wrap"><img src="/smkn_logo.png" alt="SMKN" className="daftar-nav-logo-img" /></div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <div className="daftar-nav-logo-wrap"><img src="/parstama_logo.png" alt="PARSTAMA" className="daftar-nav-logo-img" /></div>
             <span className="daftar-nav-brand">PARSTAMA</span>
           </Link>

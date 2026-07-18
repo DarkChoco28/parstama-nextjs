@@ -63,6 +63,7 @@ export default function BlogDetailPage() {
         ) : article && (
           <>
             {article.coverImage && (
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={article.coverImage} alt={article.title} style={{ width: "100%", height: 280, objectFit: "cover", borderRadius: 16, marginBottom: 24 }} loading="lazy" />
             )}
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
@@ -75,7 +76,7 @@ export default function BlogDetailPage() {
               <span>{new Date(article.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}</span>
             </div>
             {article.excerpt && <p style={{ fontSize: 16, color: "rgba(255,255,255,.5)", marginBottom: 24, fontStyle: "italic", lineHeight: 1.6 }}>{article.excerpt}</p>}
-            <div className="article-content">{article.content}</div>
+            <div className="article-content" dangerouslySetInnerHTML={{ __html: article.content }} />
 
             {/* Artikel Terkait */}
             {related.length > 0 && (

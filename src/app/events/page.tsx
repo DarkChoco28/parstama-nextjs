@@ -2,17 +2,19 @@ import Link from "next/link"
 import Image from "next/image"
 import EventsClient from "./EventsClient"
 
+interface EventData { id: string; title: string }
+
 async function getInitialEvents() {
   try {
     const baseUrl = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
       : process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
     const res = await fetch(`${baseUrl}/api/events`, { cache: "no-store" })
-    if (!res.ok) return { events: [] as any[] }
+    if (!res.ok) return { events: [] as EventData[] }
     const d = await res.json()
     return { events: d.events || [] }
   } catch {
-    return { events: [] as any[] }
+    return { events: [] as EventData[] }
   }
 }
 

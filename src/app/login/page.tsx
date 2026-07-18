@@ -209,6 +209,7 @@ export default function LoginPage() {
                     background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)",
                   }}
                 />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/smkn_logo.png"
                   alt="SMKN"
@@ -230,6 +231,7 @@ export default function LoginPage() {
                     background: "radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%)",
                   }}
                 />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/parstama_logo.png"
                   alt="PARSTAMA"
@@ -259,7 +261,7 @@ export default function LoginPage() {
               Login Admin
             </h1>
             <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px", marginTop: "8px", marginBottom: 0 }}>
-              PARSTAMA &mdash; SMA Negeri
+              PARSTAMA &mdash; SMKN 1 NEGERI SINGOSARI
             </p>
           </div>
 

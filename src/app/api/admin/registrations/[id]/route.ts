@@ -76,9 +76,9 @@ export async function PUT(
         await sendEmail({ to: registration.email, subject, html })
         emailStatus = "sent"
         console.log(`Email notif terkirim ke ${registration.email} (${status})`)
-      } catch (err: any) {
+      } catch (err: unknown) {
         emailStatus = "failed"
-        emailError = err?.message || "Gagal mengirim email"
+        emailError = err instanceof Error ? err.message : "Gagal mengirim email"
         console.error("Gagal kirim email notif:", emailError)
       }
     }
