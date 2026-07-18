@@ -3,9 +3,11 @@ node_modules
 .git
 .env
 .env.*
-!.env.production
-*.md
+!.env.example
 Dockerfile
-docker-compose.yml
+docker-compose*.yml
+README.md
+.gitignore
 .vercel
 coverage
+*.log

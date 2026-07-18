@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { put } from "@vercel/blob"
 import { requireAdmin } from "@/lib/admin-auth"
+import { createAuditLog } from "@/lib/audit-log"
 
 const ALLOWED_FOLDERS = ["organizations", "articles", "events", "general"]
 const MAX_SIZE = 5 * 1024 * 1024
@@ -31,6 +32,12 @@ export async function POST(request: NextRequest) {
     const filename = `${safeFolder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
 
     const blob = await put(filename, file, { access: "public" })
+
+    createAuditLog({
+      action: "upload_file",
+      userEmail: auth.session?.user?.email || "admin",
+      details: `Uploaded ${file.name} (${(file.size / 1024).toFixed(1)}KB) to ${safeFolder}/`,
+    })
 
     return NextResponse.json({ url: blob.url })
   } catch (e) {

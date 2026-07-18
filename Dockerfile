@@ -37,8 +37,5 @@ USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-ENV DATABASE_URL="file:./data/prod.db"
-
-RUN mkdir -p /app/data
 
 CMD ["sh", "-c", "npx prisma db push --skip-generate && node server.js"]

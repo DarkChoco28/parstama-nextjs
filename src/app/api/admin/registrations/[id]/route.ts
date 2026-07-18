@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
 import { sendEmail, buildStatusEmail } from "@/lib/email"
 import { buildStatusWhatsApp } from "@/lib/whatsapp"
+import { createAuditLog } from "@/lib/audit-log"
 
 export async function GET(
   request: NextRequest,
@@ -54,6 +55,12 @@ export async function PUT(
     const registration = await prisma.registration.update({
       where: { id },
       data: { status },
+    })
+
+    createAuditLog({
+      action: "update_registration_status",
+      userEmail: auth.session?.user?.email || "admin",
+      details: `${registration.fullName}: ${oldReg.status} → ${status}`,
     })
 
     // Auto-send email when status changes to accepted or rejected
@@ -131,8 +138,15 @@ export async function DELETE(
 
   try {
     const { id } = await params
+    const reg = await prisma.registration.findUnique({ where: { id }, select: { fullName: true } })
     await prisma.registration.delete({
       where: { id },
+    })
+
+    createAuditLog({
+      action: "delete_registration",
+      userEmail: auth.session?.user?.email || "admin",
+      details: `Deleted registration: ${reg?.fullName || id}`,
     })
 
     return NextResponse.json({ message: "Pendaftaran berhasil dihapus" })

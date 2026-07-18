@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
 import { sendEmail, buildStatusEmail } from "@/lib/email"
+import { createAuditLog } from "@/lib/audit-log"
 
 export async function POST(request: NextRequest) {
   const auth = await requireAdmin()
@@ -38,6 +39,12 @@ export async function POST(request: NextRequest) {
     )
 
     await sendEmail({ to: reg.email, subject, html })
+
+    createAuditLog({
+      action: "send_email",
+      userEmail: auth.session?.user?.email || "admin",
+      details: `Sent ${status} email to ${reg.fullName} (${reg.email})`,
+    })
 
     return NextResponse.json({ message: "Email berhasil dikirim" })
   } catch (error: unknown) {

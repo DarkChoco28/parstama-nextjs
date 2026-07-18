@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
+import { createAuditLog } from "@/lib/audit-log"
 
 export async function GET() {
   try {
@@ -30,6 +31,12 @@ export async function PUT(request: NextRequest) {
       where: { key: "registration_open" },
       update: { value },
       create: { key: "registration_open", value },
+    })
+
+    createAuditLog({
+      action: "toggle_registration",
+      userEmail: auth.session?.user?.email || "admin",
+      details: `Registration ${value === "1" ? "opened" : "closed"}`,
     })
 
     return NextResponse.json({ value: setting.value })

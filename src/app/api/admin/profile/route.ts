@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
+import { createAuditLog } from "@/lib/audit-log"
 import bcrypt from "bcryptjs"
 
 export async function GET() {
@@ -72,6 +73,12 @@ export async function PUT(request: NextRequest) {
       where: { id: user.id },
       data: updates,
       select: { id: true, name: true, email: true },
+    })
+
+    createAuditLog({
+      action: "update_profile",
+      userEmail: auth.session?.user?.email || "admin",
+      details: `Updated fields: ${Object.keys(updates).join(", ")}`,
     })
 
     return NextResponse.json({ message: "Profile berhasil diupdate", user: updated })

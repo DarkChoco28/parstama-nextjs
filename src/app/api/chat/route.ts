@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { findRelevantChunks } from "@/lib/embedding"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
 
@@ -270,6 +271,15 @@ interface KnowledgeEntry {
 }
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown"
+  const rl = await checkRateLimit(`chat:${ip}`, 20, 60 * 1000)
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: "Terlalu banyak permintaan. Coba lagi dalam 1 menit." },
+      { status: 429 }
+    )
+  }
+
   try {
     const body = await request.json()
     const { message } = body as { message: string }
@@ -280,7 +290,7 @@ export async function POST(request: NextRequest) {
 
     const apiKey = process.env.GROQ_API_KEY
     if (!apiKey) {
-      return NextResponse.json({ response: findFallbackResponse(message), _debug: "NO_API_KEY" })
+      return NextResponse.json({ response: findFallbackResponse(message) })
     }
 
     try {
@@ -334,11 +344,11 @@ export async function POST(request: NextRequest) {
       const response = data.choices?.[0]?.message?.content
       if (!response) throw new Error("Empty response from Groq")
 
-      return NextResponse.json({ response, _rag: ragChunks.length > 0, _chunks: ragChunks.length })
+      return NextResponse.json({ response })
     } catch (groqError: unknown) {
       const groqMsg = groqError instanceof Error ? groqError.message : String(groqError)
       console.error("Groq error, using fallback:", groqMsg)
-      return NextResponse.json({ response: findFallbackResponse(message), _debug: "GROQ_ERROR", _error: groqMsg })
+      return NextResponse.json({ response: findFallbackResponse(message) })
     }
   } catch (error: unknown) {
     console.error("Chat error:", error)

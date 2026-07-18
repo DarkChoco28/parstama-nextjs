@@ -1,95 +1,36 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { registrationSchema } from "@/lib/validation"
 
 function normalizeWhatsapp(value: string) {
   return value.replace(/\D/g, "")
 }
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown"
+  const rl = await checkRateLimit(`registration:${ip}`, 5, 60 * 60 * 1000)
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: "Terlalu banyak percobaan. Coba lagi dalam 1 jam." },
+      { status: 429 }
+    )
+  }
+
   try {
     const body = await request.json()
+    const parsed = registrationSchema.safeParse(body)
 
-    const {
-      fullName,
-      nickname,
-      gender,
-      birthPlace,
-      birthDate,
-      religion,
-      address,
-      city,
-      province,
-      postalCode,
-      whatsapp,
-      email,
-      class: className,
-      major,
-      bloodType,
-      medicalHistory,
-      organizationExperience,
-      motivation,
-      parentConsent,
-    } = body
-
-    if (!fullName?.trim()) {
+    if (!parsed.success) {
+      const firstError = parsed.error.issues[0]
       return NextResponse.json(
-        { error: "Nama lengkap wajib diisi" },
+        { error: firstError.message },
         { status: 400 }
       )
     }
 
-    if (!gender || !["L", "P"].includes(gender)) {
-      return NextResponse.json(
-        { error: "Jenis kelamin wajib dipilih" },
-        { status: 400 }
-      )
-    }
-
-    if (!birthPlace?.trim() || !birthDate) {
-      return NextResponse.json(
-        { error: "Tempat dan tanggal lahir wajib diisi" },
-        { status: 400 }
-      )
-    }
-
-    if (!address?.trim()) {
-      return NextResponse.json(
-        { error: "Alamat wajib diisi" },
-        { status: 400 }
-      )
-    }
-
-    const normalizedWhatsapp = normalizeWhatsapp(String(whatsapp || ""))
-    if (normalizedWhatsapp.length < 10 || normalizedWhatsapp.length > 20) {
-      return NextResponse.json(
-        { error: "Nomor WhatsApp tidak valid" },
-        { status: 400 }
-      )
-    }
-
-    if (!className?.trim() || !major?.trim()) {
-      return NextResponse.json(
-        { error: "Kelas dan jurusan wajib diisi" },
-        { status: 400 }
-      )
-    }
-
-    if (!motivation?.trim() || motivation.trim().length < 20) {
-      return NextResponse.json(
-        { error: "Motivasi minimal 20 karakter" },
-        { status: 400 }
-      )
-    }
-
-    if (!parentConsent) {
-      return NextResponse.json(
-        {
-          error:
-            "Persetujuan orang tua / wali wajib disetujui sebelum mengirim pendaftaran",
-        },
-        { status: 400 }
-      )
-    }
+    const data = parsed.data
+    const normalizedWhatsapp = normalizeWhatsapp(data.whatsapp)
 
     const setting = await prisma.setting.findUnique({
       where: { key: "registration_open" },
@@ -108,15 +49,12 @@ export async function POST(request: NextRequest) {
 
     if (existingWhatsapp) {
       return NextResponse.json(
-        {
-          error:
-            "Nomor WhatsApp ini sudah pernah digunakan untuk mendaftar",
-        },
+        { error: "Nomor WhatsApp ini sudah pernah digunakan untuk mendaftar" },
         { status: 400 }
       )
     }
 
-    const normalizedEmail = email?.trim() || null
+    const normalizedEmail = data.email?.trim() || null
     if (normalizedEmail) {
       const existingEmail = await prisma.registration.findUnique({
         where: { email: normalizedEmail },
@@ -132,24 +70,24 @@ export async function POST(request: NextRequest) {
 
     const registration = await prisma.registration.create({
       data: {
-        fullName: fullName.trim(),
-        nickname: nickname?.trim() || null,
-        gender,
-        birthPlace: birthPlace.trim(),
-        birthDate: new Date(birthDate),
-        religion: religion?.trim() || null,
-        address: address.trim(),
-        city: city?.trim() || null,
-        province: province?.trim() || null,
-        postalCode: postalCode?.trim() || null,
+        fullName: data.fullName.trim(),
+        nickname: data.nickname?.trim() || null,
+        gender: data.gender,
+        birthPlace: data.birthPlace.trim(),
+        birthDate: new Date(data.birthDate),
+        religion: data.religion?.trim() || null,
+        address: data.address.trim(),
+        city: data.city?.trim() || null,
+        province: data.province?.trim() || null,
+        postalCode: data.postalCode?.trim() || null,
         whatsapp: normalizedWhatsapp,
         email: normalizedEmail,
-        class: className.trim(),
-        major: major.trim(),
-        bloodType: bloodType?.trim() || null,
-        medicalHistory: medicalHistory?.trim() || null,
-        organizationExperience: organizationExperience?.trim() || null,
-        motivation: motivation.trim(),
+        class: data.class.trim(),
+        major: data.major.trim(),
+        bloodType: data.bloodType || null,
+        medicalHistory: data.medicalHistory?.trim() || null,
+        organizationExperience: data.organizationExperience?.trim() || null,
+        motivation: data.motivation.trim(),
         status: "pending",
       },
     })

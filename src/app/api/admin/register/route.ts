@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-auth"
+import { createAuditLog } from "@/lib/audit-log"
 import bcrypt from "bcryptjs"
 
 export async function POST(request: NextRequest) {
@@ -36,6 +37,12 @@ export async function POST(request: NextRequest) {
         emailVerifiedAt: new Date(),
       },
       select: { id: true, name: true, email: true, createdAt: true },
+    })
+
+    createAuditLog({
+      action: "create_admin",
+      userEmail: auth.session?.user?.email || "admin",
+      details: `Created new admin: ${user.email}`,
     })
 
     return NextResponse.json({ message: "Admin baru berhasil dibuat", user }, { status: 201 })
