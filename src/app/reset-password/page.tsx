@@ -1,10 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const searchParams = useSearchParams()
   const token = searchParams.get("token")
   const [password, setPassword] = useState("")
@@ -99,5 +99,13 @@ export default function ResetPasswordPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: "100vh", background: "#0A0A0B", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,.3)" }}>Memuat...</div>}>
+      <ResetPasswordForm />
+    </Suspense>
   )
 }
