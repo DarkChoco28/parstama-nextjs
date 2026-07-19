@@ -16,6 +16,13 @@ export default function EventsClient({ initialEvents }: { initialEvents: Event[]
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [rsvpEventId, setRsvpEventId] = useState<string | null>(null)
+  const [rsvpName, setRsvpName] = useState("")
+  const [rsvpWa, setRsvpWa] = useState("")
+  const [rsvpEmail, setRsvpEmail] = useState("")
+  const [rsvpSubmitting, setRsvpSubmitting] = useState(false)
+  const [rsvpMessage, setRsvpMessage] = useState("")
+  const [rsvpCounts, setRsvpCounts] = useState<Record<string, number>>({})
 
   const fetchEvents = useCallback(async () => {
     setLoading(true)
@@ -53,6 +60,32 @@ export default function EventsClient({ initialEvents }: { initialEvents: Event[]
   const formatDate = (d: string) => {
     const dt = new Date(d)
     return dt.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })
+  }
+
+  const handleRsvp = async (eventId: string) => {
+    if (!rsvpName.trim() || !rsvpWa.trim()) return
+    setRsvpSubmitting(true)
+    setRsvpMessage("")
+    try {
+      const r = await fetch(`/api/events/${eventId}/rsvp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: rsvpName.trim(), whatsapp: rsvpWa.trim(), email: rsvpEmail.trim() || undefined }),
+      })
+      const d = await r.json()
+      if (r.ok) {
+        setRsvpMessage("RSVP berhasil!")
+        setRsvpEventId(null)
+        setRsvpName(""); setRsvpWa(""); setRsvpEmail("")
+        setRsvpCounts(prev => ({ ...prev, [eventId]: (prev[eventId] || 0) + 1 }))
+      } else {
+        setRsvpMessage(d.error || "Gagal RSVP")
+      }
+    } catch {
+      setRsvpMessage("Gagal RSVP")
+    } finally {
+      setRsvpSubmitting(false)
+    }
   }
 
   return (
@@ -106,6 +139,28 @@ export default function EventsClient({ initialEvents }: { initialEvents: Event[]
                   </div>
                   <span style={{ flexShrink: 0, padding: "3px 10px", borderRadius: 10, fontSize: 10, fontWeight: 700, background: `${eventColors.includes(e.color) ? e.color : "#E87A1A"}15`, color: eventColors.includes(e.color) ? e.color : "#E87A1A", border: `1px solid ${eventColors.includes(e.color) ? e.color : "#E87A1A"}30` }}>{e.category}</span>
                 </div>
+                <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8 }}>
+                  <button
+                    onClick={() => setRsvpEventId(rsvpEventId === e.id ? null : e.id)}
+                    style={{ padding: "6px 14px", borderRadius: 8, fontSize: 11, fontWeight: 600, background: rsvpEventId === e.id ? "rgba(232,122,26,.15)" : "rgba(255,255,255,.05)", color: rsvpEventId === e.id ? "#F59E0B" : "rgba(255,255,255,.5)", border: `1px solid ${rsvpEventId === e.id ? "rgba(232,122,26,.3)" : "rgba(255,255,255,.1)"}`, cursor: "pointer" }}
+                  >
+                    {rsvpEventId === e.id ? "Batal" : "RSVP"}
+                  </button>
+                  {rsvpCounts[e.id] !== undefined && (
+                    <span style={{ fontSize: 11, color: "rgba(255,255,255,.3)" }}>{rsvpCounts[e.id]} orang hadir</span>
+                  )}
+                </div>
+                {rsvpEventId === e.id && (
+                  <div style={{ marginTop: 10, padding: 12, background: "rgba(255,255,255,.03)", borderRadius: 8, border: "1px solid rgba(255,255,255,.06)" }}>
+                    <input type="text" value={rsvpName} onChange={ev => setRsvpName(ev.target.value)} placeholder="Nama" style={{ width: "100%", padding: "8px 10px", borderRadius: 6, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", color: "#fff", fontSize: 12, outline: "none", marginBottom: 6 }} />
+                    <input type="text" value={rsvpWa} onChange={ev => setRsvpWa(ev.target.value)} placeholder="WhatsApp" style={{ width: "100%", padding: "8px 10px", borderRadius: 6, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", color: "#fff", fontSize: 12, outline: "none", marginBottom: 6 }} />
+                    <input type="email" value={rsvpEmail} onChange={ev => setRsvpEmail(ev.target.value)} placeholder="Email (opsional)" style={{ width: "100%", padding: "8px 10px", borderRadius: 6, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", color: "#fff", fontSize: 12, outline: "none", marginBottom: 6 }} />
+                    <button onClick={() => handleRsvp(e.id)} disabled={rsvpSubmitting || !rsvpName.trim() || !rsvpWa.trim()} style={{ padding: "6px 16px", borderRadius: 6, background: "linear-gradient(135deg,#E87A1A,#F59E0B)", color: "#fff", fontSize: 11, fontWeight: 700, border: "none", cursor: "pointer", opacity: rsvpSubmitting || !rsvpName.trim() || !rsvpWa.trim() ? 0.5 : 1 }}>
+                      {rsvpSubmitting ? "Mengirim..." : "Kirim RSVP"}
+                    </button>
+                    {rsvpMessage && <p style={{ fontSize: 11, color: rsvpMessage.includes("berhasil") ? "#34D399" : "#F87171", marginTop: 6 }}>{rsvpMessage}</p>}
+                  </div>
+                )}
               </div>
             ))}
           </div>

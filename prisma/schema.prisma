@@ -150,3 +150,28 @@ model KnowledgeEmbedding {
 
   @@index([category])
 }
+
+model BlogComment {
+  id        String   @id @default(cuid())
+  articleId String
+  name      String
+  content   String
+  isApproved Boolean @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([articleId])
+  @@index([isApproved])
+}
+
+model EventRsvp {
+  id        String   @id @default(cuid())
+  eventId   String
+  name      String
+  whatsapp  String
+  email     String?
+  status    String   @default("going")
+  createdAt DateTime @default(now())
+
+  @@unique([eventId, whatsapp])
+  @@index([eventId])
+}

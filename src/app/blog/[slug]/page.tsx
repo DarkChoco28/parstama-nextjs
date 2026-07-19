@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import type { Metadata } from "next"
 import { prisma } from "@/lib/prisma"
+import BlogComments from "@/components/blog/BlogComments"
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -110,6 +111,8 @@ export default async function BlogDetailPage({ params }: PageProps) {
         </div>
         {article.excerpt && <p style={{ fontSize: 16, color: "rgba(255,255,255,.5)", marginBottom: 24, fontStyle: "italic", lineHeight: 1.6 }}>{article.excerpt}</p>}
         <div className="article-content" dangerouslySetInnerHTML={{ __html: article.content }} />
+
+        <BlogComments articleSlug={article.slug} />
 
         {related.length > 0 && (
           <div style={{ marginTop: 48, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,.06)" }}>
