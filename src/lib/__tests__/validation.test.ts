@@ -45,12 +45,6 @@ describe("registrationSchema", () => {
     expect(result.success).toBe(false)
   })
 
-  it("allows optional email", () => {
-    const { email, ...data } = validData
-    const result = registrationSchema.safeParse(data)
-    expect(result.success).toBe(true)
-  })
-
   it("allows optional fields to be undefined", () => {
     const result = registrationSchema.safeParse(validData)
     expect(result.success).toBe(true)

@@ -18,11 +18,19 @@ export default function BlogClient({ initialArticles, initialTotalPages, initial
   const [totalPages, setTotalPages] = useState(initialTotalPages)
   const [totalResults, setTotalResults] = useState(initialTotal)
   const [category, setCategory] = useState("")
+  const [search, setSearch] = useState("")
+  const [debouncedSearch, setDebouncedSearch] = useState("")
 
-  const fetchArticles = useCallback(async (p: number, c: string) => {
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search), 400)
+    return () => clearTimeout(t)
+  }, [search])
+
+  const fetchArticles = useCallback(async (p: number, c: string, s: string) => {
     setLoading(true)
     const params = new URLSearchParams({ page: p.toString(), limit: "12" })
     if (c) params.append("category", c)
+    if (s.trim()) params.append("search", s.trim())
     try {
       const r = await fetch(`/api/articles?${params}`)
       const d = await r.json()
@@ -34,12 +42,13 @@ export default function BlogClient({ initialArticles, initialTotalPages, initial
   }, [])
 
   useEffect(() => {
-    if (page === 1 && category === "") return
+    if (page === 1 && category === "" && debouncedSearch === "") return
     let cancelled = false
     ;(async () => {
       setLoading(true)
       const params = new URLSearchParams({ page: page.toString(), limit: "12" })
       if (category) params.append("category", category)
+      if (debouncedSearch.trim()) params.append("search", debouncedSearch.trim())
       try {
         const r = await fetch(`/api/articles?${params}`)
         const d = await r.json()
@@ -48,9 +57,9 @@ export default function BlogClient({ initialArticles, initialTotalPages, initial
       finally { if (!cancelled) setLoading(false) }
     })()
     return () => { cancelled = true }
-  }, [page, category])
+  }, [page, category, debouncedSearch])
 
-  const handleCategory = (c: string) => { setCategory(c); setPage(1); fetchArticles(1, c) }
+  const handleCategory = (c: string) => { setCategory(c); setPage(1); fetchArticles(1, c, debouncedSearch) }
 
   return (
     <>
@@ -59,6 +68,21 @@ export default function BlogClient({ initialArticles, initialTotalPages, initial
           Blog & <span style={{ background: "linear-gradient(90deg,#F59E0B,#E87A1A)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Artikel</span>
         </h1>
         <p style={{ color: "rgba(255,255,255,.4)", fontSize: 14 }}>{totalResults} artikel tentang kesehatan dan kegiatan PMR</p>
+      </div>
+
+      <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+        <div style={{ position: "relative", flex: "1 1 200px", minWidth: 200 }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)" }}>
+            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+          </svg>
+          <input
+            type="text"
+            value={search}
+            onChange={e => { setSearch(e.target.value); setPage(1) }}
+            placeholder="Cari artikel..."
+            style={{ width: "100%", padding: "8px 12px 8px 34px", borderRadius: 20, fontSize: 12, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.08)", color: "#fff", outline: "none" }}
+          />
+        </div>
       </div>
 
       <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>

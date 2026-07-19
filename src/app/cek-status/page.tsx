@@ -50,6 +50,17 @@ export default function ChatPage() {
     scrollToBottom()
   }, [messages])
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.visualViewport) {
+        document.documentElement.style.setProperty("--vh", `${window.visualViewport.height}px`)
+      }
+    }
+    window.visualViewport?.addEventListener("resize", handleResize)
+    handleResize()
+    return () => window.visualViewport?.removeEventListener("resize", handleResize)
+  }, [])
+
   const sendMessage = async (text?: string) => {
     const msg = (text || input).trim()
     const imageToSend = selectedImage
@@ -150,6 +161,7 @@ export default function ChatPage() {
   return (
     <div className="min-h-screen bg-[#0A0A0B] flex flex-col"
       style={{
+        minHeight: "calc(var(--vh, 100vh))",
         backgroundImage: `
           radial-gradient(circle at top left, rgba(220,38,38,0.1), transparent 30%),
           radial-gradient(circle at bottom right, rgba(220,38,38,0.08), transparent 35%)

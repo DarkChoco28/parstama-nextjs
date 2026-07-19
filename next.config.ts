@@ -23,6 +23,13 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "*.vercel-storage.com" },
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "*.unsplash.com" },
+    ],
+  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }]
   },

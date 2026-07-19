@@ -33,6 +33,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/parstama_logo.png",
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
