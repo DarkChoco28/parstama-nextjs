@@ -289,16 +289,17 @@ export default function LandingClient() {
         </div>
       </section>
 
-      {/* Latest Articles Marquee */}
+      {/* Latest Articles */}
       {latestArticles.length > 0 && (
-        <div className="mt-10 sm:mt-14 pb-6 sm:pb-8">
-          <div className="overflow-hidden">
-            <div className="article-marquee flex gap-4 px-4" style={{ width: "max-content" }}>
+        <div className="mt-10 sm:mt-14 pb-6 sm:pb-8 px-4 sm:px-6">
+          {/* Mobile: marquee */}
+          <div className="sm:hidden overflow-hidden">
+            <div className="article-marquee flex gap-4" style={{ width: "max-content" }}>
               {[...latestArticles, ...latestArticles].map((article, i) => (
                 <Link
                   key={`${article.id}-${i}`}
                   href={`/blog/${article.slug}`}
-                  className="group relative flex-none w-65 sm:w-75 bg-[#141415] border border-white/6 rounded-xl p-4 hover:border-orange-500/30 transition-all duration-300 hover:shadow-[0_0_20px_rgba(232,122,26,0.06)] z-10"
+                  className="group relative flex-none w-65 bg-[#141415] border border-white/6 rounded-xl p-4 hover:border-orange-500/30 transition-all duration-300 hover:shadow-[0_0_20px_rgba(232,122,26,0.06)] z-10"
                 >
                   {article.coverImage && (
                     <div className="w-full h-28 rounded-lg overflow-hidden mb-3">
@@ -322,10 +323,46 @@ export default function LandingClient() {
               ))}
             </div>
           </div>
+
+          {/* Desktop: grid */}
+          <div className="hidden sm:grid sm:grid-cols-3 gap-5 max-w-5xl mx-auto">
+            {latestArticles.slice(0, 3).map((article) => (
+              <Link
+                key={article.id}
+                href={`/blog/${article.slug}`}
+                className="group relative bg-[#141415] border border-white/6 rounded-xl overflow-hidden hover:border-orange-500/30 transition-all duration-300 hover:shadow-[0_0_20px_rgba(232,122,26,0.06)] hover:-translate-y-1"
+              >
+                {article.coverImage && (
+                  <div className="w-full h-40 overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={article.coverImage} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                )}
+                <div className="p-5">
+                  <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-orange-500/10 text-orange-400 border border-orange-500/20 mb-2">
+                    {article.category}
+                  </span>
+                  <h3 className="text-base font-bold text-white mb-2 line-clamp-2 group-hover:text-orange-300 transition-colors leading-snug">
+                    {article.title}
+                  </h3>
+                  {article.excerpt && (
+                    <p className="text-sm text-zinc-500 leading-relaxed line-clamp-2 mb-3">
+                      {article.excerpt}
+                    </p>
+                  )}
+                  <span className="text-sm text-orange-400 font-medium">Selengkapnya &rarr;</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="hidden sm:flex justify-center mt-8">
+            <Link href="/blog" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-orange-400 border border-orange-500/30 hover:bg-orange-500/10 transition-all">
+              Lihat Semua Artikel
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </Link>
+          </div>
         </div>
       )}
-
-      {/* Separator */}
       <div className="h-px bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
 
       {/* Stats */}
