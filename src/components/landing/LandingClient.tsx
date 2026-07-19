@@ -291,7 +291,7 @@ export default function LandingClient() {
 
       {/* Latest Articles Marquee */}
       {latestArticles.length > 0 && (
-        <div className="pb-6 sm:pb-8">
+        <div className="mt-10 sm:mt-14 pb-6 sm:pb-8">
           <div className="overflow-hidden">
             <div className="article-marquee flex gap-4 px-4" style={{ width: "max-content" }}>
               {[...latestArticles, ...latestArticles].map((article, i) => (
