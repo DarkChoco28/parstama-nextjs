@@ -9,27 +9,18 @@ export async function GET() {
   try {
     const now = new Date()
 
-    // Hari ini
     const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    const today = await prisma.registration.count({
-      where: { createdAt: { gte: startOfDay } },
-    })
-
-    // Minggu ini (7 hari terakhir)
     const startOfWeek = new Date(now)
     startOfWeek.setDate(startOfWeek.getDate() - 6)
     startOfWeek.setHours(0, 0, 0, 0)
-    const thisWeek = await prisma.registration.count({
-      where: { createdAt: { gte: startOfWeek } },
-    })
-
-    // Bulan ini
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
-    const thisMonth = await prisma.registration.count({
-      where: { createdAt: { gte: startOfMonth } },
-    })
 
-    // Pendaftar per hari (7 hari terakhir)
+    const [today, thisWeek, thisMonth] = await Promise.all([
+      prisma.registration.count({ where: { createdAt: { gte: startOfDay } } }),
+      prisma.registration.count({ where: { createdAt: { gte: startOfWeek } } }),
+      prisma.registration.count({ where: { createdAt: { gte: startOfMonth } } }),
+    ])
+
     const dailyData: { date: string; count: number }[] = []
     for (let i = 6; i >= 0; i--) {
       const date = new Date(now)
@@ -37,9 +28,7 @@ export async function GET() {
       const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate())
       const dayEnd = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
       const count = await prisma.registration.count({
-        where: {
-          createdAt: { gte: dayStart, lt: dayEnd },
-        },
+        where: { createdAt: { gte: dayStart, lt: dayEnd } },
       })
       dailyData.push({
         date: dayStart.toLocaleDateString("id-ID", { weekday: "short", day: "numeric", month: "short" }),
@@ -47,26 +36,28 @@ export async function GET() {
       })
     }
 
-    // Distribusi jurusan
     const majorDistribution = await prisma.registration.groupBy({
       by: ["major"],
       _count: { major: true },
       orderBy: { _count: { major: "desc" } },
     })
 
-    // Distribusi status per jurusan
-    const statusByMajor = await prisma.registration.groupBy({
-      by: ["major", "status"],
-      _count: { major: true },
-      orderBy: { major: "asc" },
-    })
-
-    // Status counts
     const [pending, accepted, rejected] = await Promise.all([
       prisma.registration.count({ where: { status: "pending" } }),
       prisma.registration.count({ where: { status: "accepted" } }),
       prisma.registration.count({ where: { status: "rejected" } }),
     ])
+
+    const [totalArticles, publishedArticles, totalViews] = await Promise.all([
+      prisma.article.count(),
+      prisma.article.count({ where: { isPublished: true } }),
+      prisma.article.aggregate({ _sum: { viewCount: true }, where: { isPublished: true } }),
+    ])
+
+    const totalEvents = await prisma.event.count()
+    const totalMembers = await prisma.organizationMember.count({ where: { isVisible: true } })
+    const totalComments = await prisma.blogComment.count()
+    const pendingComments = await prisma.blogComment.count({ where: { isApproved: false } })
 
     return NextResponse.json({
       today,
@@ -77,8 +68,19 @@ export async function GET() {
         name: m.major,
         value: m._count.major,
       })),
-      statusByMajor,
       statusSummary: { pending, accepted, rejected },
+      blog: {
+        totalArticles,
+        publishedArticles,
+        totalViews: totalViews._sum.viewCount || 0,
+        totalComments,
+        pendingComments,
+      },
+      overview: {
+        totalRegistrations: pending + accepted + rejected,
+        totalEvents,
+        totalMembers,
+      },
     })
   } catch (error) {
     console.error("Error fetching analytics:", error)
