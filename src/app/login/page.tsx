@@ -372,6 +372,19 @@ export default function LoginPage() {
                 />
               </div>
 
+              <div style={{ textAlign: "right", marginBottom: 16 }}>
+                <button type="button" onClick={async () => {
+                  const email = prompt("Masukkan email admin Anda:")
+                  if (email) {
+                    const r = await fetch("/api/auth/password-reset", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) })
+                    const d = await r.json()
+                    alert(d.message || "Link reset telah dikirim")
+                  }
+                }} style={{ color: "rgba(255,255,255,.4)", fontSize: 12, textDecoration: "none", background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}>
+                  Lupa password?
+                </button>
+              </div>
+
               <button
                 type="submit"
                 disabled={isLoading}

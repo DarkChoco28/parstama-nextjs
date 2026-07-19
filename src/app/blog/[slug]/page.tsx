@@ -4,6 +4,8 @@ import type { Metadata } from "next"
 import { prisma } from "@/lib/prisma"
 import BlogComments from "@/components/blog/BlogComments"
 
+export const revalidate = 60
+
 interface PageProps {
   params: Promise<{ slug: string }>
 }

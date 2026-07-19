@@ -175,3 +175,15 @@ model EventRsvp {
   @@unique([eventId, whatsapp])
   @@index([eventId])
 }
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+}
