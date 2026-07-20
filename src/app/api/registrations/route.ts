@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { registrationSchema } from "@/lib/validation"
+import { sendTelegramMessage, buildRegistrationTelegram } from "@/lib/telegram"
 
 function normalizeWhatsapp(value: string) {
   return value.replace(/\D/g, "")
@@ -91,6 +92,12 @@ export async function POST(request: NextRequest) {
         status: "pending",
       },
     })
+
+    sendTelegramMessage(
+      (await prisma.setting.findUnique({ where: { key: "telegram_bot_token" } }))?.value || "",
+      (await prisma.setting.findUnique({ where: { key: "telegram_chat_id" } }))?.value || "",
+      buildRegistrationTelegram(data.fullName, data.class, data.major, normalizedWhatsapp, normalizedEmail)
+    ).catch(() => {})
 
     return NextResponse.json(
       { message: "Pendaftaran berhasil", registration },

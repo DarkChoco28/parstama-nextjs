@@ -57,7 +57,7 @@ export async function GET() {
     const totalEvents = await prisma.event.count()
     const totalMembers = await prisma.organizationMember.count({ where: { isVisible: true } })
     const totalComments = await prisma.blogComment.count()
-    const pendingComments = await prisma.blogComment.count({ where: { isApproved: false } })
+    const totalReplies = await prisma.blogComment.count({ where: { parentId: { not: null } } })
 
     return NextResponse.json({
       today,
@@ -74,7 +74,7 @@ export async function GET() {
         publishedArticles,
         totalViews: totalViews._sum.viewCount || 0,
         totalComments,
-        pendingComments,
+        totalReplies,
       },
       overview: {
         totalRegistrations: pending + accepted + rejected,

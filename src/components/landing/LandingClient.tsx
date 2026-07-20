@@ -292,6 +292,11 @@ export default function LandingClient() {
       {/* Latest Articles */}
       {latestArticles.length > 0 && (
         <div className="mt-10 sm:mt-14 pb-6 sm:pb-8 px-4 sm:px-6">
+          <div className="flex items-center gap-3 mb-4 px-1">
+            <div className="h-px flex-1 bg-linear-to-r from-transparent to-orange-500/40" />
+            <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider bg-linear-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent whitespace-nowrap">Artikel Terbaru</h3>
+            <div className="h-px flex-1 bg-linear-to-l from-transparent to-orange-500/40" />
+          </div>
           {/* Mobile: marquee */}
           <div className="sm:hidden overflow-hidden">
             <div className="article-marquee flex gap-4" style={{ width: "max-content" }}>

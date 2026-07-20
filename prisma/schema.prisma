@@ -152,15 +152,37 @@ model KnowledgeEmbedding {
 }
 
 model BlogComment {
-  id        String   @id @default(cuid())
-  articleId String
-  name      String
-  content   String
-  isApproved Boolean @default(false)
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  articleId  String
+  parentId   String?
+  name       String
+  content    String
+  userToken  String?
+  likesCount Int      @default(0)
+  isPinned   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  parent  BlogComment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies  BlogComment[] @relation("CommentReplies")
+  likes    CommentLike[]
 
   @@index([articleId])
-  @@index([isApproved])
+  @@index([parentId])
+  @@index([userToken])
+  @@index([isPinned])
+}
+
+model CommentLike {
+  id        String   @id @default(cuid())
+  commentId String
+  userToken String
+  createdAt DateTime @default(now())
+
+  comment BlogComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userToken])
+  @@index([commentId])
 }
 
 model EventRsvp {
@@ -186,4 +208,23 @@ model PasswordResetToken {
 
   @@index([token])
   @@index([userId])
+}
+
+model QuizQuestion {
+  id            String   @id @default(cuid())
+  question      String
+  optionA       String
+  optionB       String
+  optionC       String
+  optionD       String
+  correctAnswer String
+  explanation   String?
+  category      String   @default("P3K")
+  difficulty    String   @default("sedang")
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([category])
+  @@index([isActive])
 }

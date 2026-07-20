@@ -31,7 +31,7 @@
 .admin-nav-title{display:flex;flex-direction:column;min-width:0}
 .admin-brand{font-family:var(--font-sansita),Georgia,serif;font-size:13px;font-weight:700;background:linear-gradient(90deg,#F97316,#E87A1A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
 .admin-time{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace;line-height:1}
-.admin-nav-links-desktop{display:flex;align-items:center;gap:4px;flex-shrink:1;min-width:0;overflow:hidden}
+.admin-nav-links-desktop{display:flex;align-items:center;gap:4px;flex-shrink:1;min-width:0;overflow:visible}
 .admin-nav-link{display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;color:rgba(255,255,255,.6);font-size:11px;font-weight:500;text-decoration:none;border:1px solid transparent;transition:all .3s;background:none;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0}
 .admin-nav-link:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:#fff}
 .admin-logout-btn:hover{background:rgba(232,122,26,.1)!important;border-color:rgba(232,122,26,.3)!important;color:#F97316!important}
@@ -317,6 +317,13 @@
   .reg-empty{padding:60px 20px;font-size:14px}
 }
 
+.admin-nav-dropdown{position:relative}
+.admin-nav-dropdown-trigger svg{flex-shrink:0}
+.admin-nav-dropdown-trigger.active,.admin-nav-dropdown-trigger:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:#fff}
+.admin-nav-dropdown-menu{position:absolute;top:100%;left:0;margin-top:4px;background:#1a1a1c;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:4px;min-width:160px;z-index:100;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.admin-nav-dropdown-item{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;color:rgba(255,255,255,.6);font-size:12px;font-weight:500;text-decoration:none;transition:all .2s;white-space:nowrap}
+.admin-nav-dropdown-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.admin-nav-dropdown-item.active{background:rgba(232,122,26,.1);color:#e87a1a;border:1px solid rgba(232,122,26,.2)}
 @media(max-width:380px){
   .admin-nav-inner{height:56px;padding:0 12px}
   .admin-logo-wrap{width:28px;height:28px}

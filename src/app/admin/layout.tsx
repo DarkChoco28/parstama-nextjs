@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useSession, signOut } from "next-auth/react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
@@ -13,6 +13,9 @@ const pageConfig: Record<string, { title: string }> = {
   "/admin/organization": { title: "Organisasi" },
   "/admin/articles": { title: "Artikel" },
   "/admin/events": { title: "Event" },
+  "/admin/comments": { title: "Komentar" },
+  "/admin/telegram": { title: "Telegram Bot" },
+  "/admin/quiz": { title: "Quiz P3K" },
   "/admin/profile": { title: "Profile Admin" },
   "/admin/register": { title: "Tambah Admin" },
 }
@@ -88,6 +91,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       dashboard: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>,
       artikel: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>,
       event: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
+      komentar: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>,
+      telegram: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>,
+      quiz: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
     }
     return icons[name] || null
   }
@@ -95,11 +101,38 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const navLinks = [
     { href: "/admin/registrations", label: "Pendaftaran", icon: "pendaftaran" },
     { href: "/admin/organization", label: "Organisasi", icon: "organisasi" },
+  ]
+
+  const contentLinks = [
     { href: "/admin/articles", label: "Artikel", icon: "artikel" },
     { href: "/admin/events", label: "Event", icon: "event" },
+    { href: "/admin/comments", label: "Komentar", icon: "komentar" },
+  ]
+
+  const toolLinks = [
+    { href: "/admin/telegram", label: "Telegram", icon: "telegram" },
+    { href: "/admin/quiz", label: "Quiz", icon: "quiz" },
+  ]
+
+  const accountLinks = [
     { href: "/admin/profile", label: "Profile", icon: "profile" },
     { href: "/admin/register", label: "+ Admin", icon: "plus-admin" },
   ]
+
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  const allNavLinks = [...navLinks, ...contentLinks, ...toolLinks, ...accountLinks]
 
   return (
     <div className="admin-page">
@@ -136,9 +169,53 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
           </div>
 
-          <div className="admin-nav-links-desktop">
+          <div className="admin-nav-links-desktop" ref={dropdownRef}>
             <Link href="/" className="admin-nav-link admin-home-link">{navIcon("website")}Website</Link>
             {navLinks.filter(l => l.href !== pathname).map(l => (
+              <Link key={l.href} href={l.href} className="admin-nav-link">{navIcon(l.icon)}{l.label}</Link>
+            ))}
+
+            {/* Konten dropdown */}
+            <div className="admin-nav-dropdown">
+              <button
+                onClick={() => setOpenDropdown(openDropdown === "konten" ? null : "konten")}
+                className={`admin-nav-link admin-nav-dropdown-trigger ${contentLinks.some(l => l.href === pathname) ? "active" : ""}`}
+              >
+                {navIcon("artikel")}Konten
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 2, transition: "transform .2s", transform: openDropdown === "konten" ? "rotate(180deg)" : undefined }}><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              {openDropdown === "konten" && (
+                <div className="admin-nav-dropdown-menu">
+                  {contentLinks.map(l => (
+                    <Link key={l.href} href={l.href} className={`admin-nav-dropdown-item ${l.href === pathname ? "active" : ""}`} onClick={() => setOpenDropdown(null)}>
+                      {navIcon(l.icon)}{l.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Tools dropdown */}
+            <div className="admin-nav-dropdown">
+              <button
+                onClick={() => setOpenDropdown(openDropdown === "tools" ? null : "tools")}
+                className={`admin-nav-link admin-nav-dropdown-trigger ${toolLinks.some(l => l.href === pathname) ? "active" : ""}`}
+              >
+                {navIcon("telegram")}Tools
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 2, transition: "transform .2s", transform: openDropdown === "tools" ? "rotate(180deg)" : undefined }}><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              {openDropdown === "tools" && (
+                <div className="admin-nav-dropdown-menu">
+                  {toolLinks.map(l => (
+                    <Link key={l.href} href={l.href} className={`admin-nav-dropdown-item ${l.href === pathname ? "active" : ""}`} onClick={() => setOpenDropdown(null)}>
+                      {navIcon(l.icon)}{l.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {accountLinks.filter(l => l.href !== pathname).map(l => (
               <Link key={l.href} href={l.href} className="admin-nav-link">{navIcon(l.icon)}{l.label}</Link>
             ))}
             <button onClick={() => signOut({ callbackUrl: "/" })} className="admin-nav-link admin-logout-btn">{navIcon("logout")}Logout</button>
@@ -159,7 +236,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {!isDashboard && (
               <Link href="/admin/dashboard" className="admin-mobile-link" onClick={() => setMenuOpen(false)}>{navIcon("dashboard")}Dashboard</Link>
             )}
-            {navLinks.filter(l => l.href !== pathname).map(l => (
+            {allNavLinks.filter(l => l.href !== pathname).map(l => (
               <Link key={l.href} href={l.href} className="admin-mobile-link" onClick={() => setMenuOpen(false)}>{navIcon(l.icon)}{l.label}</Link>
             ))}
             <button onClick={() => { signOut({ callbackUrl: "/" }); setMenuOpen(false) }} className="admin-mobile-link admin-logout-btn">{navIcon("logout")}Logout</button>

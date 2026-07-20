@@ -14,17 +14,9 @@ export async function GET() {
       prisma.registration.count({ where: { status: "rejected" } }),
     ])
 
-    return NextResponse.json({
-      total,
-      pending,
-      accepted,
-      rejected,
-    })
+    return NextResponse.json({ total, pending, accepted, rejected })
   } catch (error) {
     console.error("Error fetching stats:", error)
-    return NextResponse.json(
-      { error: "Terjadi kesalahan saat mengambil statistik" },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: "Gagal mengambil statistik" }, { status: 500 })
   }
 }
