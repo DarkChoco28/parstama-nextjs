@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sansita, Plus_Jakarta_Sans } from "next/font/google";
 import SessionProvider from "@/components/providers/SessionProvider";
+import JsonLd from "@/components/JsonLd";
 import "./globals.css";
 
 const sansita = Sansita({
@@ -23,12 +24,19 @@ export const metadata: Metadata = {
   description: "Palang Merah Remaja PARSTAMA - SMKN 1 Singosari. Pendaftaran online, blog kesehatan, kalender kegiatan, dan AI Assistant.",
   metadataBase: new URL("https://parstama.my.id"),
   openGraph: {
+    title: "PARSTAMA – PMR SMKN 1 Singosari",
+    description: "Palang Merah Remaja PARSTAMA - SMKN 1 Singosari. Pendaftaran online, blog kesehatan, kalender kegiatan, dan AI Assistant.",
     siteName: "PARSTAMA SMKN 1 Singosari",
     locale: "id_ID",
     type: "website",
+    url: "https://parstama.my.id",
+    images: [{ url: "/parstama_logo.png", width: 512, height: 512, alt: "PARSTAMA Logo" }],
   },
   twitter: {
     card: "summary_large_image",
+    title: "PARSTAMA – PMR SMKN 1 Singosari",
+    description: "Palang Merah Remaja PARSTAMA - SMKN 1 Singosari. Pendaftaran online, blog kesehatan, kalender kegiatan, dan AI Assistant.",
+    images: ["/parstama_logo.png"],
   },
   icons: {
     icon: [
@@ -55,6 +63,7 @@ export default function RootLayout({
       className={`${sansita.variable} ${plusJakartaSans.variable}`}
     >
       <body className="font-body antialiased">
+        <JsonLd />
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
