@@ -5,10 +5,10 @@ import EventsClient from "./EventsClient"
 
 export const metadata: Metadata = {
   title: "Event & Kegiatan",
-  description: "Kalender event dan kegiatan Palang Merah Remaja PARSTAMA SMKN 1 Singosari.",
+  description: "Kalender event dan kegiatan Palang Merah Remaja SMKN 1 Singosari.",
   openGraph: {
     title: "Event & Kegiatan | PARSTAMA",
-    description: "Kalender event dan kegiatan PMR PARSTAMA SMKN 1 Singosari.",
+    description: "Kalender event dan kegiatan PARSTAMA SMKN 1 Singosari.",
     url: "https://parstama.my.id/events",
     type: "website",
   },

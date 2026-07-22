@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import LandingClient from "@/components/landing/LandingClient"
 
 export const metadata: Metadata = {
-  title: "PARSTAMA – PMR SMKN 1 Singosari",
+  title: "PARSTAMA – SMKN 1 Singosari",
   description: "Sistem Pendaftaran Palang Merah Remaja PARSTAMA - SMKN 1 Singosari",
 }
 
