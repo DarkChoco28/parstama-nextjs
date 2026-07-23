@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Sansita, Plus_Jakarta_Sans } from "next/font/google";
 import SessionProvider from "@/components/providers/SessionProvider";
-import JsonLd from "@/components/JsonLd";
+import JsonLd from "@/components/seo/JsonLd";
 import "./globals.css";
 
 const sansita = Sansita({
