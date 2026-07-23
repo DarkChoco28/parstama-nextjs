@@ -51,6 +51,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname()
   const [currentTime, setCurrentTime] = useState("")
   const [menuOpen, setMenuOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/login")
@@ -63,6 +65,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     update()
     const i = setInterval(update, 1000)
     return () => clearInterval(i)
+  }, [])
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
   const config = pageConfig[pathname] || { title: "Admin" }
@@ -118,19 +130,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin/profile", label: "Profile", icon: "profile" },
     { href: "/admin/register", label: "+ Admin", icon: "plus-admin" },
   ]
-
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  const dropdownRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setOpenDropdown(null)
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [])
 
   const allNavLinks = [...navLinks, ...contentLinks, ...toolLinks, ...accountLinks]
 
