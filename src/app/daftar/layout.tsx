@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Pendaftaran - PARSTAMA",
-  description: "Daftar menjadi calon anggota PMR SMKN 1 Singosari. Isi formulir pendaftaran online.",
+  description: "Daftar menjadi calon anggota PMR WIRA SMKN 1 Singosari. Isi formulir pendaftaran online.",
   robots: { index: true, follow: true },
 }
 

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Artikel terbaru seputar kesehatan, kegiatan, dan informasi Palang Merah Remaja (PMR) PARSTAMA SMKN 1 Singosari.",
   openGraph: {
     title: "Blog | PARSTAMA SMKN 1 Singosari",
-    description: "Artikel terbaru seputar kesehatan, kegiatan, dan informasi PMR PARSTAMA.",
+    description: "Artikel terbaru seputar kesehatan, kegiatan, dan informasi PARSTAMA.",
     url: "https://parstama.my.id/blog",
     siteName: "PARSTAMA SMKN 1 Singosari",
     type: "website",

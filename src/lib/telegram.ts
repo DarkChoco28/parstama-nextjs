@@ -35,7 +35,7 @@ export function buildRegistrationTelegram(
   email?: string | null
 ): string {
   return (
-    `📋 *Pendaftar Baru PMR PARSTAMA*\n\n` +
+    `📋 *Pendaftar Baru PARSTAMA*\n\n` +
     `👤 Nama: ${fullName}\n` +
     `🏫 Kelas: ${className} - ${major}\n` +
     `📱 WhatsApp: ${whatsapp}\n` +

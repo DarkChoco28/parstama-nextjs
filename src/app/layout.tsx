@@ -18,14 +18,14 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "PARSTAMA – PMR SMKN 1 Singosari",
+    default: "PARSTAMA – SMKN 1 Singosari",
     template: "%s | PARSTAMA SMKN 1 Singosari",
   },
-  description: "Palang Merah Remaja PARSTAMA - SMKN 1 Singosari. Pendaftaran online, blog kesehatan, kalender kegiatan, dan AI Assistant.",
+  description: "Palang Merah Remaja - SMKN 1 Singosari. Pendaftaran online, blog kesehatan, kalender kegiatan, dan AI Assistant.",
   metadataBase: new URL("https://parstama.my.id"),
   openGraph: {
-    title: "PARSTAMA – PMR SMKN 1 Singosari",
-    description: "Palang Merah Remaja PARSTAMA - SMKN 1 Singosari. Pendaftaran online, blog kesehatan, kalender kegiatan, dan AI Assistant.",
+    title: "PARSTAMA – SMKN 1 Singosari",
+    description: "Palang Merah Remaja - SMKN 1 Singosari. Pendaftaran online, blog kesehatan, kalender kegiatan, dan AI Assistant.",
     siteName: "PARSTAMA SMKN 1 Singosari",
     locale: "id_ID",
     type: "website",
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PARSTAMA – PMR SMKN 1 Singosari",
-    description: "Palang Merah Remaja PARSTAMA - SMKN 1 Singosari. Pendaftaran online, blog kesehatan, kalender kegiatan, dan AI Assistant.",
+    title: "PARSTAMA – SMKN 1 Singosari",
+    description: "Palang Merah Remaja - SMKN 1 Singosari. Pendaftaran online, blog kesehatan, kalender kegiatan, dan AI Assistant.",
     images: ["/parstama_logo.png"],
   },
   icons: {

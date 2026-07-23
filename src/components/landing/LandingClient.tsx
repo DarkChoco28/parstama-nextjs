@@ -258,7 +258,7 @@ export default function LandingClient() {
       <section className="relative min-h-auto sm:min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-28 pb-10 sm:pt-30 sm:pb-20">
         <div className="relative z-10 max-w-3xl mx-auto">
           <div className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-semibold uppercase tracking-wider mb-5 sm:mb-6">
-            PMR SMKN 1 Singosari
+            PMR WIRA SMKN 1 Singosari
           </div>
           <h1 className="text-[clamp(1.8rem,5vw,4rem)] sm:text-[clamp(2rem,6vw,4.5rem)] font-display font-extrabold leading-[1.1] text-white mb-4 sm:mb-5 tracking-tight">
             <span className="split-text inline-block cursor-default"><SplitText text="Bergabunglah" /></span>{" "}

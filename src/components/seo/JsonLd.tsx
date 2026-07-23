@@ -2,7 +2,7 @@ export default function JsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "PARSTAMA - PMR SMKN 1 Singosari",
+    name: "PARSTAMA - PMR WIRA SMKN 1 Singosari",
     alternateName: "PARSTAMA",
     url: "https://parstama.my.id",
     logo: "https://parstama.my.id/parstama_logo.png",

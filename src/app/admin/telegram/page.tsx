@@ -62,7 +62,7 @@ export default function AdminTelegram() {
   }
 
   const sendTest = async () => {
-    const msg = testMessage.trim() || "Halo! Ini pesan test dari PMR PARSTAMA."
+    const msg = testMessage.trim() || "Halo! Ini pesan test dari PARSTAMA."
     setTesting(true)
     setResult(null)
     try {

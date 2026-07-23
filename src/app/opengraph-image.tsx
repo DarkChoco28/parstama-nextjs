@@ -49,7 +49,7 @@ export default async function Image() {
             letterSpacing: "2px",
           }}
         >
-          PMR SMKN 1 Singosari
+         SMKN 1 Singosari
         </div>
       </div>
     ),

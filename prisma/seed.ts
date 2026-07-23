@@ -18,7 +18,7 @@ async function main() {
     },
     create: {
       email: "admin@parstama.id",
-      name: "Admin PMR PARSTAMA",
+      name: "Admin PARSTAMA",
       password: hashedPassword,
       isAdmin: true,
       emailVerifiedAt: new Date(),
