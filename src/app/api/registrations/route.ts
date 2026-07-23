@@ -93,11 +93,26 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    sendTelegramMessage(
-      (await prisma.setting.findUnique({ where: { key: "telegram_bot_token" } }))?.value || "",
-      (await prisma.setting.findUnique({ where: { key: "telegram_chat_id" } }))?.value || "",
-      buildRegistrationTelegram(data.fullName, data.class, data.major, normalizedWhatsapp, normalizedEmail)
-    ).catch(() => {})
+    const [tokenSetting, chatIdSetting] = await Promise.all([
+      prisma.setting.findUnique({ where: { key: "telegram_bot_token" } }),
+      prisma.setting.findUnique({ where: { key: "telegram_chat_id" } }),
+    ])
+
+    const botToken = tokenSetting?.value || ""
+    const chatId = chatIdSetting?.value || ""
+
+    if (botToken && chatId) {
+      const telegramResult = await sendTelegramMessage(
+        botToken,
+        chatId,
+        buildRegistrationTelegram(data.fullName, data.class, data.major, normalizedWhatsapp, normalizedEmail)
+      )
+      if (!telegramResult.ok) {
+        console.error("Telegram notification failed:", telegramResult.error)
+      }
+    } else {
+      console.warn("Telegram settings not configured, skipping notification")
+    }
 
     return NextResponse.json(
       { message: "Pendaftaran berhasil", registration },

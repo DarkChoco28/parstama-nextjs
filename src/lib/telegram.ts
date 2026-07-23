@@ -11,7 +11,6 @@ export async function sendTelegramMessage(
       body: JSON.stringify({
         chat_id: chatId,
         text: message,
-        parse_mode: "Markdown",
       }),
     })
 
@@ -36,12 +35,12 @@ export function buildRegistrationTelegram(
   email?: string | null
 ): string {
   return (
-    `*Pendaftar Baru PMR PARSTAMA*\n\n` +
-    `*Nama:* ${fullName}\n` +
-    `*Kelas:* ${className} - ${major}\n` +
-    `*WhatsApp:* ${whatsapp}\n` +
-    `*Email:* ${email || "-"}\n` +
-    `*Status:* Pending\n\n` +
+    `📋 *Pendaftar Baru PMR PARSTAMA*\n\n` +
+    `👤 Nama: ${fullName}\n` +
+    `🏫 Kelas: ${className} - ${major}\n` +
+    `📱 WhatsApp: ${whatsapp}\n` +
+    `📧 Email: ${email || "-"}\n` +
+    `⏳ Status: Pending\n\n` +
     `Silakan cek dashboard admin untuk detail.`
   )
 }
