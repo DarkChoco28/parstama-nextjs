@@ -415,6 +415,22 @@ export default function LandingClient() {
         </div>
       </section>
 
+      {/* Quiz CTA */}
+      <section className="max-w-6xl mx-auto px-6 py-12 sm:py-16">
+        <div className="reveal-scale relative overflow-hidden rounded-2xl border border-orange-500/20 bg-gradient-to-br from-[#1a1208] to-[#141415] p-8 sm:p-12 text-center">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(232,122,26,0.08),transparent_70%)]" />
+          <div className="relative z-10">
+            <span className="inline-block text-4xl sm:text-5xl mb-4">🩺</span>
+            <h2 className="text-[clamp(1.3rem,3vw,2rem)] font-display font-extrabold text-white mb-2">Coba Quiz P3K</h2>
+            <p className="text-sm sm:text-base text-zinc-400 max-w-md mx-auto mb-6">Uji pengetahuanmu tentang pertolongan pertama! Gratis dan langsung dapat penjelasannya.</p>
+            <Link href="/quiz" className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-bold text-white bg-orange-600 hover:bg-orange-500 shadow-lg shadow-orange-600/30 hover:-translate-y-0.5 transition-all">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+              Mulai Quiz
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Separator */}
       <div className="h-px bg-linear-to-r from-transparent via-orange-500/40 to-transparent mx-6" />
 
@@ -533,6 +549,7 @@ export default function LandingClient() {
                 { label: "Timeline", href: "#timeline" },
                 { label: "Daftar", href: "/daftar" },
                 { label: "Blog", href: "/blog" },
+                { label: "Quiz P3K", href: "/quiz" },
                 { label: "Event", href: "/events" },
                 { label: "Tanya AI", href: "/cek-status" },
                 { label: "FAQ", href: "/faq" },
